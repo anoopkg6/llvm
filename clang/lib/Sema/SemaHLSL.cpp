@@ -2018,11 +2018,6 @@ bool SemaHLSL::CheckBuiltinFunctionCall(unsigned BuiltinID, CallExpr *TheCall) {
       return true;
     break;
   }
-  case Builtin::BI__builtin_hlsl_group_memory_barrier_with_group_sync: {
-    if (SemaRef.checkArgCountAtMost(TheCall, 0))
-      return true;
-    break;
-  }
   }
   return false;
 }
