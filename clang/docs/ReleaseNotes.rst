@@ -694,6 +694,8 @@ clang-format
 - Adds ``AlignFunctionDeclarations`` option to ``AlignConsecutiveDeclarations``.
 - Adds ``IndentOnly`` suboption to ``ReflowComments`` to fix the indentation of multi-line comments
   without touching their contents, renames ``false`` to ``Never``, and ``true`` to ``Always``.
+- Adds ``MaxSingleLinesInBracedList`` option to control the limit on how many 
+  single lines to use when avoiding bin packing with braced list initializers.
 
 libclang
 --------

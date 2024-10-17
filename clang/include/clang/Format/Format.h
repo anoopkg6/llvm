@@ -2515,6 +2515,9 @@ struct FormatStyle {
   /// (e.g. a type or variable name), clang-format formats as if the ``{}`` were
   /// the parentheses of a function call with that name. If there is no name,
   /// a zero-length name is assumed.
+  ///
+  /// ``BinPackArguments`` may be ignored for initializer lists with more than
+  /// ``MaxSingleLinesInBracedList`` items.
   /// \code
   ///    true:                                  false:
   ///    vector<int> x{1, 2, 3, 4};     vs.     vector<int> x{ 1, 2, 3, 4 };
@@ -3390,6 +3393,21 @@ struct FormatStyle {
   /// \endcode
   /// \version 3.7
   unsigned MaxEmptyLinesToKeep;
+
+  /// The maximum number of single item lines to keep in a braced list when
+  /// ``BinPackArguments`` is ``false`` before formatting items in columns.
+  /// Defaults to 20.
+  /// \code
+  ///    MaxSingleLinesInBracedList: 5  vs.     MaxSingleLinesInBracedList: 4
+  ///    vector<int> x{                         vector<int> x{1, 2, 3, 4, 5};
+  ///                1,
+  ///                2,
+  ///                3,
+  ///                4,
+  ///                5};
+  /// \endcode
+  /// \version 20
+  unsigned MaxSingleLinesInBracedList;
 
   /// Different ways to indent namespace contents.
   enum NamespaceIndentationKind : int8_t {
@@ -5204,6 +5222,7 @@ struct FormatStyle {
            LineEnding == R.LineEnding && MacroBlockBegin == R.MacroBlockBegin &&
            MacroBlockEnd == R.MacroBlockEnd && Macros == R.Macros &&
            MaxEmptyLinesToKeep == R.MaxEmptyLinesToKeep &&
+           MaxSingleLinesInBracedList == R.MaxSingleLinesInBracedList &&
            NamespaceIndentation == R.NamespaceIndentation &&
            NamespaceMacros == R.NamespaceMacros &&
            ObjCBinPackProtocolList == R.ObjCBinPackProtocolList &&

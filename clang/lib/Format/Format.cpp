@@ -1059,6 +1059,8 @@ template <> struct MappingTraits<FormatStyle> {
     IO.mapOptional("Macros", Style.Macros);
     IO.mapOptional("MainIncludeChar", Style.IncludeStyle.MainIncludeChar);
     IO.mapOptional("MaxEmptyLinesToKeep", Style.MaxEmptyLinesToKeep);
+    IO.mapOptional("MaxSingleLinesInBracedList",
+                   Style.MaxSingleLinesInBracedList);
     IO.mapOptional("NamespaceIndentation", Style.NamespaceIndentation);
     IO.mapOptional("NamespaceMacros", Style.NamespaceMacros);
     IO.mapOptional("ObjCBinPackProtocolList", Style.ObjCBinPackProtocolList);
@@ -1569,6 +1571,7 @@ FormatStyle getLLVMStyle(FormatStyle::LanguageKind Language) {
   LLVMStyle.Language = Language;
   LLVMStyle.LineEnding = FormatStyle::LE_DeriveLF;
   LLVMStyle.MaxEmptyLinesToKeep = 1;
+  LLVMStyle.MaxSingleLinesInBracedList = 20;
   LLVMStyle.NamespaceIndentation = FormatStyle::NI_None;
   LLVMStyle.ObjCBinPackProtocolList = FormatStyle::BPS_Auto;
   LLVMStyle.ObjCBlockIndentWidth = 2;

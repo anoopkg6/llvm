@@ -3769,6 +3769,9 @@ the configuration (without a prefix: ``Auto``).
   the parentheses of a function call with that name. If there is no name,
   a zero-length name is assumed.
 
+  ``BinPackArguments`` may be ignored for initializer lists with more than
+  ``MaxSingleLinesInBracedList`` items.
+
   .. code-block:: c++
 
      true:                                  false:
@@ -4882,6 +4885,23 @@ the configuration (without a prefix: ``Auto``).
                                             }
        return i;
      }
+
+.. _MaxSingleLinesInBracedList:
+
+**MaxSingleLinesInBracedList** (``Unsigned``) :versionbadge:`clang-format 20` :ref:`¶ <MaxSingleLinesInBracedList>`
+  The maximum number of single item lines to keep in a braced list when
+  ``BinPackArguments`` is ``false`` before formatting items in columns.
+  Defaults to 20.
+
+  .. code-block:: c++
+
+     MaxSingleLinesInBracedList: 5  vs.     MaxSingleLinesInBracedList: 4
+     vector<int> x{                         vector<int> x{1, 2, 3, 4, 5};
+                 1,
+                 2,
+                 3,
+                 4,
+                 5};
 
 .. _NamespaceIndentation:
 
