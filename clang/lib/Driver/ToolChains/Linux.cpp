@@ -529,8 +529,12 @@ void Linux::addClangTargetOptions(const llvm::opt::ArgList &DriverArgs,
                                   llvm::opt::ArgStringList &CC1Args,
                                   Action::OffloadKind DeviceOffloadKind) const {
   llvm::Triple Triple(ComputeEffectiveClangTriple(DriverArgs));
-  if (Triple.isAArch64() && Triple.getEnvironment() == llvm::Triple::PAuthTest)
-    handlePAuthABI(getDriver(), DriverArgs, CC1Args);
+  if (Triple.isAArch64()) {
+    addPointerAuthFlags(DriverArgs, CC1Args);
+    if (Triple.getEnvironment() == llvm::Triple::PAuthTest)
+      handlePAuthABI(getDriver(), DriverArgs, CC1Args);
+  }
+
   Generic_ELF::addClangTargetOptions(DriverArgs, CC1Args, DeviceOffloadKind);
 }
 

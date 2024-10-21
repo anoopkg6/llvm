@@ -3137,6 +3137,9 @@ void Darwin::addClangTargetOptions(
     if (!RequiresSubdirectorySearch)
       CC1Args.push_back("-fno-modulemap-allow-subdirectory-search");
   }
+
+  if (getTriple().isAArch64())
+    addPointerAuthFlags(DriverArgs, CC1Args);
 }
 
 void Darwin::addClangCC1ASTargetOptions(

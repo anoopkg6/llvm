@@ -240,6 +240,9 @@ protected:
                                 llvm::opt::ArgStringList &CC1Args,
                                 ArrayRef<StringRef> Paths);
 
+  static void addPointerAuthFlags(const llvm::opt::ArgList &DriverArgs,
+                                  llvm::opt::ArgStringList &CC1Args);
+
   static std::string concat(StringRef Path, const Twine &A, const Twine &B = "",
                             const Twine &C = "", const Twine &D = "");
   ///@}
