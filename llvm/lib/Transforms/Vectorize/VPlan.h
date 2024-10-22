@@ -3007,15 +3007,16 @@ struct VPWidenStoreEVLRecipe final : public VPWidenMemoryRecipe {
 class VPAliasLaneMaskRecipe : public VPSingleDefRecipe {
 
 public:
-  VPAliasLaneMaskRecipe(VPValue *Src, VPValue *Sink, unsigned ElementSize)
+  VPAliasLaneMaskRecipe(VPValue *Src, VPValue *Sink, unsigned ElementSize,
+                        bool WriteAfterRead)
       : VPSingleDefRecipe(VPDef::VPAliasLaneMaskSC, {Src, Sink}),
-        ElementSize(ElementSize) {}
+        ElementSize(ElementSize), WriteAfterRead(WriteAfterRead) {}
 
   ~VPAliasLaneMaskRecipe() override = default;
 
   VPAliasLaneMaskRecipe *clone() override {
     return new VPAliasLaneMaskRecipe(getSourceValue(), getSinkValue(),
-                                     ElementSize);
+                                     ElementSize, WriteAfterRead);
   }
 
   VP_CLASSOF_IMPL(VPDef::VPAliasLaneMaskSC);
@@ -3031,8 +3032,11 @@ public:
   /// Get the VPValue* for the pointer being stored to
   VPValue *getSinkValue() const { return getOperand(1); }
 
+  bool isWriteAfterRead() const { return WriteAfterRead; }
+
 private:
   unsigned ElementSize;
+  bool WriteAfterRead;
 
 #if !defined(NDEBUG) || defined(LLVM_ENABLE_DUMP)
   /// Print the recipe.

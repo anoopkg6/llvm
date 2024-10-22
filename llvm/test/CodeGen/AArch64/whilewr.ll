@@ -30,6 +30,31 @@ entry:
   ret <vscale x 16 x i1> %active.lane.mask.alias
 }
 
+define <vscale x 16 x i1> @whilerw_8(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
+; CHECK-LABEL: whilerw_8:
+; CHECK:       // %bb.0: // %entry
+; CHECK-NEXT:    subs x8, x2, x1
+; CHECK-NEXT:    cneg x8, x8, mi
+; CHECK-NEXT:    cmp x8, #1
+; CHECK-NEXT:    cset w9, lt
+; CHECK-NEXT:    whilelo p0.b, xzr, x8
+; CHECK-NEXT:    sbfx x8, x9, #0, #1
+; CHECK-NEXT:    whilelo p1.b, xzr, x8
+; CHECK-NEXT:    sel p0.b, p0, p0.b, p1.b
+; CHECK-NEXT:    ret
+entry:
+  %b24 = ptrtoint ptr %b to i64
+  %c25 = ptrtoint ptr %c to i64
+  %sub.diff = sub i64 %c25, %b24
+  %0 = tail call i64 @llvm.abs.i64(i64 %sub.diff, i1 false)
+  %neg.compare = icmp slt i64 %0, 1
+  %.splatinsert = insertelement <vscale x 16 x i1> poison, i1 %neg.compare, i64 0
+  %.splat = shufflevector <vscale x 16 x i1> %.splatinsert, <vscale x 16 x i1> poison, <vscale x 16 x i32> zeroinitializer
+  %ptr.diff.lane.mask = tail call <vscale x 16 x i1> @llvm.get.active.lane.mask.nxv16i1.i64(i64 0, i64 %0)
+  %active.lane.mask.alias = or <vscale x 16 x i1> %ptr.diff.lane.mask, %.splat
+  ret <vscale x 16 x i1> %active.lane.mask.alias
+}
+
 define <vscale x 16 x i1> @whilewr_commutative(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-LABEL: whilewr_commutative:
 ; CHECK-SVE2:       // %bb.0: // %entry
@@ -89,6 +114,31 @@ entry:
   ret <vscale x 8 x i1> %active.lane.mask.alias
 }
 
+define <vscale x 8 x i1> @whilerw_16(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
+; CHECK-LABEL: whilerw_16:
+; CHECK:       // %bb.0: // %entry
+; CHECK-NEXT:    subs x8, x2, x1
+; CHECK-NEXT:    cneg x8, x8, mi
+; CHECK-NEXT:    cmp x8, #2
+; CHECK-NEXT:    cset w9, lt
+; CHECK-NEXT:    whilelo p0.h, xzr, x8
+; CHECK-NEXT:    sbfx x8, x9, #0, #1
+; CHECK-NEXT:    whilelo p1.h, xzr, x8
+; CHECK-NEXT:    sel p0.b, p0, p0.b, p1.b
+; CHECK-NEXT:    ret
+entry:
+  %b24 = ptrtoint ptr %b to i64
+  %c25 = ptrtoint ptr %c to i64
+  %sub.diff = sub i64 %c25, %b24
+  %0 = tail call i64 @llvm.abs.i64(i64 %sub.diff, i1 false)
+  %neg.compare = icmp slt i64 %0, 2
+  %.splatinsert = insertelement <vscale x 8 x i1> poison, i1 %neg.compare, i64 0
+  %.splat = shufflevector <vscale x 8 x i1> %.splatinsert, <vscale x 8 x i1> poison, <vscale x 8 x i32> zeroinitializer
+  %ptr.diff.lane.mask = tail call <vscale x 8 x i1> @llvm.get.active.lane.mask.nxv8i1.i64(i64 0, i64 %0)
+  %active.lane.mask.alias = or <vscale x 8 x i1> %ptr.diff.lane.mask, %.splat
+  ret <vscale x 8 x i1> %active.lane.mask.alias
+}
+
 define <vscale x 4 x i1> @whilewr_32(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-LABEL: whilewr_32:
 ; CHECK-SVE2:       // %bb.0: // %entry
@@ -122,6 +172,31 @@ entry:
   ret <vscale x 4 x i1> %active.lane.mask.alias
 }
 
+define <vscale x 4 x i1> @whilerw_32(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
+; CHECK-LABEL: whilerw_32:
+; CHECK:       // %bb.0: // %entry
+; CHECK-NEXT:    subs x8, x2, x1
+; CHECK-NEXT:    cneg x8, x8, mi
+; CHECK-NEXT:    cmp x8, #4
+; CHECK-NEXT:    cset w9, lt
+; CHECK-NEXT:    whilelo p0.s, xzr, x8
+; CHECK-NEXT:    sbfx x8, x9, #0, #1
+; CHECK-NEXT:    whilelo p1.s, xzr, x8
+; CHECK-NEXT:    sel p0.b, p0, p0.b, p1.b
+; CHECK-NEXT:    ret
+entry:
+  %b24 = ptrtoint ptr %b to i64
+  %c25 = ptrtoint ptr %c to i64
+  %sub.diff = sub i64 %c25, %b24
+  %0 = tail call i64 @llvm.abs.i64(i64 %sub.diff, i1 false)
+  %neg.compare = icmp slt i64 %0, 4
+  %.splatinsert = insertelement <vscale x 4 x i1> poison, i1 %neg.compare, i64 0
+  %.splat = shufflevector <vscale x 4 x i1> %.splatinsert, <vscale x 4 x i1> poison, <vscale x 4 x i32> zeroinitializer
+  %ptr.diff.lane.mask = tail call <vscale x 4 x i1> @llvm.get.active.lane.mask.nxv4i1.i64(i64 0, i64 %0)
+  %active.lane.mask.alias = or <vscale x 4 x i1> %ptr.diff.lane.mask, %.splat
+  ret <vscale x 4 x i1> %active.lane.mask.alias
+}
+
 define <vscale x 2 x i1> @whilewr_64(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-LABEL: whilewr_64:
 ; CHECK-SVE2:       // %bb.0: // %entry
@@ -151,6 +226,31 @@ entry:
   %.splatinsert = insertelement <vscale x 2 x i1> poison, i1 %neg.compare, i64 0
   %.splat = shufflevector <vscale x 2 x i1> %.splatinsert, <vscale x 2 x i1> poison, <vscale x 2 x i32> zeroinitializer
   %ptr.diff.lane.mask = tail call <vscale x 2 x i1> @llvm.get.active.lane.mask.nxv2i1.i64(i64 0, i64 %diff)
+  %active.lane.mask.alias = or <vscale x 2 x i1> %ptr.diff.lane.mask, %.splat
+  ret <vscale x 2 x i1> %active.lane.mask.alias
+}
+
+define <vscale x 2 x i1> @whilerw_64(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
+; CHECK-LABEL: whilerw_64:
+; CHECK:       // %bb.0: // %entry
+; CHECK-NEXT:    subs x8, x2, x1
+; CHECK-NEXT:    cneg x8, x8, mi
+; CHECK-NEXT:    cmp x8, #8
+; CHECK-NEXT:    cset w9, lt
+; CHECK-NEXT:    whilelo p0.d, xzr, x8
+; CHECK-NEXT:    sbfx x8, x9, #0, #1
+; CHECK-NEXT:    whilelo p1.d, xzr, x8
+; CHECK-NEXT:    sel p0.b, p0, p0.b, p1.b
+; CHECK-NEXT:    ret
+entry:
+  %b24 = ptrtoint ptr %b to i64
+  %c25 = ptrtoint ptr %c to i64
+  %sub.diff = sub i64 %c25, %b24
+  %0 = tail call i64 @llvm.abs.i64(i64 %sub.diff, i1 false)
+  %neg.compare = icmp slt i64 %0, 8
+  %.splatinsert = insertelement <vscale x 2 x i1> poison, i1 %neg.compare, i64 0
+  %.splat = shufflevector <vscale x 2 x i1> %.splatinsert, <vscale x 2 x i1> poison, <vscale x 2 x i32> zeroinitializer
+  %ptr.diff.lane.mask = tail call <vscale x 2 x i1> @llvm.get.active.lane.mask.nxv2i1.i64(i64 0, i64 %0)
   %active.lane.mask.alias = or <vscale x 2 x i1> %ptr.diff.lane.mask, %.splat
   ret <vscale x 2 x i1> %active.lane.mask.alias
 }
@@ -192,7 +292,7 @@ define void @whilewr_loop_8(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-LABEL: whilewr_loop_8:
 ; CHECK-SVE2:       // %bb.0: // %entry
 ; CHECK-SVE2-NEXT:    cmp w3, #1
-; CHECK-SVE2-NEXT:    b.lt .LBB6_3
+; CHECK-SVE2-NEXT:    b.lt .LBB10_3
 ; CHECK-SVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-SVE2-NEXT:    whilewr p0.b, x1, x2
 ; CHECK-SVE2-NEXT:    mov w9, w3
@@ -200,7 +300,7 @@ define void @whilewr_loop_8(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    whilelo p1.b, xzr, x9
 ; CHECK-SVE2-NEXT:    cntp x10, p0, p0.b
 ; CHECK-SVE2-NEXT:    and x10, x10, #0xff
-; CHECK-SVE2-NEXT:  .LBB6_2: // %vector.body
+; CHECK-SVE2-NEXT:  .LBB10_2: // %vector.body
 ; CHECK-SVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-SVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-SVE2-NEXT:    ld1b { z0.b }, p1/z, [x0, x8]
@@ -209,14 +309,14 @@ define void @whilewr_loop_8(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    st1b { z0.b }, p1, [x2, x8]
 ; CHECK-SVE2-NEXT:    add x8, x8, x10
 ; CHECK-SVE2-NEXT:    whilelo p1.b, x8, x9
-; CHECK-SVE2-NEXT:    b.mi .LBB6_2
-; CHECK-SVE2-NEXT:  .LBB6_3: // %for.cond.cleanup
+; CHECK-SVE2-NEXT:    b.mi .LBB10_2
+; CHECK-SVE2-NEXT:  .LBB10_3: // %for.cond.cleanup
 ; CHECK-SVE2-NEXT:    ret
 ;
 ; CHECK-NOSVE2-LABEL: whilewr_loop_8:
 ; CHECK-NOSVE2:       // %bb.0: // %entry
 ; CHECK-NOSVE2-NEXT:    cmp w3, #1
-; CHECK-NOSVE2-NEXT:    b.lt .LBB6_3
+; CHECK-NOSVE2-NEXT:    b.lt .LBB10_3
 ; CHECK-NOSVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-NOSVE2-NEXT:    sub x9, x1, x2
 ; CHECK-NOSVE2-NEXT:    mov x8, xzr
@@ -230,7 +330,7 @@ define void @whilewr_loop_8(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    whilelo p1.b, xzr, x9
 ; CHECK-NOSVE2-NEXT:    cntp x10, p0, p0.b
 ; CHECK-NOSVE2-NEXT:    and x10, x10, #0xff
-; CHECK-NOSVE2-NEXT:  .LBB6_2: // %vector.body
+; CHECK-NOSVE2-NEXT:  .LBB10_2: // %vector.body
 ; CHECK-NOSVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-NOSVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-NOSVE2-NEXT:    ld1b { z0.b }, p1/z, [x0, x8]
@@ -239,8 +339,8 @@ define void @whilewr_loop_8(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    st1b { z0.b }, p1, [x2, x8]
 ; CHECK-NOSVE2-NEXT:    add x8, x8, x10
 ; CHECK-NOSVE2-NEXT:    whilelo p1.b, x8, x9
-; CHECK-NOSVE2-NEXT:    b.mi .LBB6_2
-; CHECK-NOSVE2-NEXT:  .LBB6_3: // %for.cond.cleanup
+; CHECK-NOSVE2-NEXT:    b.mi .LBB10_2
+; CHECK-NOSVE2-NEXT:  .LBB10_3: // %for.cond.cleanup
 ; CHECK-NOSVE2-NEXT:    ret
 entry:
   %cmp11 = icmp sgt i32 %n, 0
@@ -286,7 +386,7 @@ define void @whilewr_loop_16(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-LABEL: whilewr_loop_16:
 ; CHECK-SVE2:       // %bb.0: // %entry
 ; CHECK-SVE2-NEXT:    cmp w3, #1
-; CHECK-SVE2-NEXT:    b.lt .LBB7_3
+; CHECK-SVE2-NEXT:    b.lt .LBB11_3
 ; CHECK-SVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-SVE2-NEXT:    whilewr p0.h, x1, x2
 ; CHECK-SVE2-NEXT:    mov w9, w3
@@ -294,7 +394,7 @@ define void @whilewr_loop_16(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    whilelo p1.h, xzr, x9
 ; CHECK-SVE2-NEXT:    cntp x10, p0, p0.h
 ; CHECK-SVE2-NEXT:    and x10, x10, #0xff
-; CHECK-SVE2-NEXT:  .LBB7_2: // %vector.body
+; CHECK-SVE2-NEXT:  .LBB11_2: // %vector.body
 ; CHECK-SVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-SVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-SVE2-NEXT:    ld1h { z0.h }, p1/z, [x0, x8, lsl #1]
@@ -303,14 +403,14 @@ define void @whilewr_loop_16(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    st1h { z0.h }, p1, [x2, x8, lsl #1]
 ; CHECK-SVE2-NEXT:    add x8, x8, x10
 ; CHECK-SVE2-NEXT:    whilelo p1.h, x8, x9
-; CHECK-SVE2-NEXT:    b.mi .LBB7_2
-; CHECK-SVE2-NEXT:  .LBB7_3: // %for.cond.cleanup
+; CHECK-SVE2-NEXT:    b.mi .LBB11_2
+; CHECK-SVE2-NEXT:  .LBB11_3: // %for.cond.cleanup
 ; CHECK-SVE2-NEXT:    ret
 ;
 ; CHECK-NOSVE2-LABEL: whilewr_loop_16:
 ; CHECK-NOSVE2:       // %bb.0: // %entry
 ; CHECK-NOSVE2-NEXT:    cmp w3, #1
-; CHECK-NOSVE2-NEXT:    b.lt .LBB7_3
+; CHECK-NOSVE2-NEXT:    b.lt .LBB11_3
 ; CHECK-NOSVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-NOSVE2-NEXT:    sub x9, x1, x2
 ; CHECK-NOSVE2-NEXT:    mov x8, xzr
@@ -326,7 +426,7 @@ define void @whilewr_loop_16(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    whilelo p1.h, xzr, x9
 ; CHECK-NOSVE2-NEXT:    cntp x10, p0, p0.h
 ; CHECK-NOSVE2-NEXT:    and x10, x10, #0xff
-; CHECK-NOSVE2-NEXT:  .LBB7_2: // %vector.body
+; CHECK-NOSVE2-NEXT:  .LBB11_2: // %vector.body
 ; CHECK-NOSVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-NOSVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-NOSVE2-NEXT:    ld1h { z0.h }, p1/z, [x0, x8, lsl #1]
@@ -335,8 +435,8 @@ define void @whilewr_loop_16(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    st1h { z0.h }, p1, [x2, x8, lsl #1]
 ; CHECK-NOSVE2-NEXT:    add x8, x8, x10
 ; CHECK-NOSVE2-NEXT:    whilelo p1.h, x8, x9
-; CHECK-NOSVE2-NEXT:    b.mi .LBB7_2
-; CHECK-NOSVE2-NEXT:  .LBB7_3: // %for.cond.cleanup
+; CHECK-NOSVE2-NEXT:    b.mi .LBB11_2
+; CHECK-NOSVE2-NEXT:  .LBB11_3: // %for.cond.cleanup
 ; CHECK-NOSVE2-NEXT:    ret
 entry:
   %cmp11 = icmp sgt i32 %n, 0
@@ -383,7 +483,7 @@ define void @whilewr_loop_32(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-LABEL: whilewr_loop_32:
 ; CHECK-SVE2:       // %bb.0: // %entry
 ; CHECK-SVE2-NEXT:    cmp w3, #1
-; CHECK-SVE2-NEXT:    b.lt .LBB8_3
+; CHECK-SVE2-NEXT:    b.lt .LBB12_3
 ; CHECK-SVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-SVE2-NEXT:    whilewr p0.s, x1, x2
 ; CHECK-SVE2-NEXT:    mov w9, w3
@@ -391,7 +491,7 @@ define void @whilewr_loop_32(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    whilelo p1.s, xzr, x9
 ; CHECK-SVE2-NEXT:    cntp x10, p0, p0.s
 ; CHECK-SVE2-NEXT:    and x10, x10, #0xff
-; CHECK-SVE2-NEXT:  .LBB8_2: // %vector.body
+; CHECK-SVE2-NEXT:  .LBB12_2: // %vector.body
 ; CHECK-SVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-SVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-SVE2-NEXT:    ld1w { z0.s }, p1/z, [x0, x8, lsl #2]
@@ -400,14 +500,14 @@ define void @whilewr_loop_32(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    st1w { z0.s }, p1, [x2, x8, lsl #2]
 ; CHECK-SVE2-NEXT:    add x8, x8, x10
 ; CHECK-SVE2-NEXT:    whilelo p1.s, x8, x9
-; CHECK-SVE2-NEXT:    b.mi .LBB8_2
-; CHECK-SVE2-NEXT:  .LBB8_3: // %for.cond.cleanup
+; CHECK-SVE2-NEXT:    b.mi .LBB12_2
+; CHECK-SVE2-NEXT:  .LBB12_3: // %for.cond.cleanup
 ; CHECK-SVE2-NEXT:    ret
 ;
 ; CHECK-NOSVE2-LABEL: whilewr_loop_32:
 ; CHECK-NOSVE2:       // %bb.0: // %entry
 ; CHECK-NOSVE2-NEXT:    cmp w3, #1
-; CHECK-NOSVE2-NEXT:    b.lt .LBB8_3
+; CHECK-NOSVE2-NEXT:    b.lt .LBB12_3
 ; CHECK-NOSVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-NOSVE2-NEXT:    sub x9, x1, x2
 ; CHECK-NOSVE2-NEXT:    mov x8, xzr
@@ -425,7 +525,7 @@ define void @whilewr_loop_32(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    whilelo p1.s, xzr, x9
 ; CHECK-NOSVE2-NEXT:    cntp x10, p0, p0.s
 ; CHECK-NOSVE2-NEXT:    and x10, x10, #0xff
-; CHECK-NOSVE2-NEXT:  .LBB8_2: // %vector.body
+; CHECK-NOSVE2-NEXT:  .LBB12_2: // %vector.body
 ; CHECK-NOSVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-NOSVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-NOSVE2-NEXT:    ld1w { z0.s }, p1/z, [x0, x8, lsl #2]
@@ -434,8 +534,8 @@ define void @whilewr_loop_32(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    st1w { z0.s }, p1, [x2, x8, lsl #2]
 ; CHECK-NOSVE2-NEXT:    add x8, x8, x10
 ; CHECK-NOSVE2-NEXT:    whilelo p1.s, x8, x9
-; CHECK-NOSVE2-NEXT:    b.mi .LBB8_2
-; CHECK-NOSVE2-NEXT:  .LBB8_3: // %for.cond.cleanup
+; CHECK-NOSVE2-NEXT:    b.mi .LBB12_2
+; CHECK-NOSVE2-NEXT:  .LBB12_3: // %for.cond.cleanup
 ; CHECK-NOSVE2-NEXT:    ret
 entry:
   %cmp9 = icmp sgt i32 %n, 0
@@ -482,7 +582,7 @@ define void @whilewr_loop_64(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-LABEL: whilewr_loop_64:
 ; CHECK-SVE2:       // %bb.0: // %entry
 ; CHECK-SVE2-NEXT:    cmp w3, #1
-; CHECK-SVE2-NEXT:    b.lt .LBB9_3
+; CHECK-SVE2-NEXT:    b.lt .LBB13_3
 ; CHECK-SVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-SVE2-NEXT:    whilewr p0.d, x1, x2
 ; CHECK-SVE2-NEXT:    mov w9, w3
@@ -490,7 +590,7 @@ define void @whilewr_loop_64(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    whilelo p1.d, xzr, x9
 ; CHECK-SVE2-NEXT:    cntp x10, p0, p0.d
 ; CHECK-SVE2-NEXT:    and x10, x10, #0xff
-; CHECK-SVE2-NEXT:  .LBB9_2: // %vector.body
+; CHECK-SVE2-NEXT:  .LBB13_2: // %vector.body
 ; CHECK-SVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-SVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-SVE2-NEXT:    ld1d { z0.d }, p1/z, [x0, x8, lsl #3]
@@ -499,14 +599,14 @@ define void @whilewr_loop_64(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    st1d { z0.d }, p1, [x2, x8, lsl #3]
 ; CHECK-SVE2-NEXT:    add x8, x8, x10
 ; CHECK-SVE2-NEXT:    whilelo p1.d, x8, x9
-; CHECK-SVE2-NEXT:    b.mi .LBB9_2
-; CHECK-SVE2-NEXT:  .LBB9_3: // %for.cond.cleanup
+; CHECK-SVE2-NEXT:    b.mi .LBB13_2
+; CHECK-SVE2-NEXT:  .LBB13_3: // %for.cond.cleanup
 ; CHECK-SVE2-NEXT:    ret
 ;
 ; CHECK-NOSVE2-LABEL: whilewr_loop_64:
 ; CHECK-NOSVE2:       // %bb.0: // %entry
 ; CHECK-NOSVE2-NEXT:    cmp w3, #1
-; CHECK-NOSVE2-NEXT:    b.lt .LBB9_3
+; CHECK-NOSVE2-NEXT:    b.lt .LBB13_3
 ; CHECK-NOSVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-NOSVE2-NEXT:    sub x9, x1, x2
 ; CHECK-NOSVE2-NEXT:    mov x8, xzr
@@ -524,7 +624,7 @@ define void @whilewr_loop_64(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    whilelo p1.d, xzr, x9
 ; CHECK-NOSVE2-NEXT:    cntp x10, p0, p0.d
 ; CHECK-NOSVE2-NEXT:    and x10, x10, #0xff
-; CHECK-NOSVE2-NEXT:  .LBB9_2: // %vector.body
+; CHECK-NOSVE2-NEXT:  .LBB13_2: // %vector.body
 ; CHECK-NOSVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-NOSVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-NOSVE2-NEXT:    ld1d { z0.d }, p1/z, [x0, x8, lsl #3]
@@ -533,8 +633,8 @@ define void @whilewr_loop_64(ptr noalias %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    st1d { z0.d }, p1, [x2, x8, lsl #3]
 ; CHECK-NOSVE2-NEXT:    add x8, x8, x10
 ; CHECK-NOSVE2-NEXT:    whilelo p1.d, x8, x9
-; CHECK-NOSVE2-NEXT:    b.mi .LBB9_2
-; CHECK-NOSVE2-NEXT:  .LBB9_3: // %for.cond.cleanup
+; CHECK-NOSVE2-NEXT:    b.mi .LBB13_2
+; CHECK-NOSVE2-NEXT:  .LBB13_3: // %for.cond.cleanup
 ; CHECK-NOSVE2-NEXT:    ret
 entry:
   %cmp9 = icmp sgt i32 %n, 0
@@ -581,7 +681,7 @@ define void @whilewr_loop_multiple_8(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-LABEL: whilewr_loop_multiple_8:
 ; CHECK-SVE2:       // %bb.0: // %entry
 ; CHECK-SVE2-NEXT:    cmp w3, #1
-; CHECK-SVE2-NEXT:    b.lt .LBB10_3
+; CHECK-SVE2-NEXT:    b.lt .LBB14_3
 ; CHECK-SVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-SVE2-NEXT:    whilewr p0.b, x0, x2
 ; CHECK-SVE2-NEXT:    mov w9, w3
@@ -591,7 +691,7 @@ define void @whilewr_loop_multiple_8(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    whilelo p1.b, xzr, x9
 ; CHECK-SVE2-NEXT:    cntp x10, p0, p0.b
 ; CHECK-SVE2-NEXT:    and x10, x10, #0xff
-; CHECK-SVE2-NEXT:  .LBB10_2: // %vector.body
+; CHECK-SVE2-NEXT:  .LBB14_2: // %vector.body
 ; CHECK-SVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-SVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-SVE2-NEXT:    ld1b { z0.b }, p1/z, [x0, x8]
@@ -600,14 +700,14 @@ define void @whilewr_loop_multiple_8(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    st1b { z0.b }, p1, [x2, x8]
 ; CHECK-SVE2-NEXT:    add x8, x8, x10
 ; CHECK-SVE2-NEXT:    whilelo p1.b, x8, x9
-; CHECK-SVE2-NEXT:    b.mi .LBB10_2
-; CHECK-SVE2-NEXT:  .LBB10_3: // %for.cond.cleanup
+; CHECK-SVE2-NEXT:    b.mi .LBB14_2
+; CHECK-SVE2-NEXT:  .LBB14_3: // %for.cond.cleanup
 ; CHECK-SVE2-NEXT:    ret
 ;
 ; CHECK-NOSVE2-LABEL: whilewr_loop_multiple_8:
 ; CHECK-NOSVE2:       // %bb.0: // %entry
 ; CHECK-NOSVE2-NEXT:    cmp w3, #1
-; CHECK-NOSVE2-NEXT:    b.lt .LBB10_3
+; CHECK-NOSVE2-NEXT:    b.lt .LBB14_3
 ; CHECK-NOSVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-NOSVE2-NEXT:    sub x9, x0, x2
 ; CHECK-NOSVE2-NEXT:    mov x8, xzr
@@ -629,7 +729,7 @@ define void @whilewr_loop_multiple_8(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    whilelo p1.b, xzr, x9
 ; CHECK-NOSVE2-NEXT:    cntp x10, p0, p0.b
 ; CHECK-NOSVE2-NEXT:    and x10, x10, #0xff
-; CHECK-NOSVE2-NEXT:  .LBB10_2: // %vector.body
+; CHECK-NOSVE2-NEXT:  .LBB14_2: // %vector.body
 ; CHECK-NOSVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-NOSVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-NOSVE2-NEXT:    ld1b { z0.b }, p1/z, [x0, x8]
@@ -638,8 +738,8 @@ define void @whilewr_loop_multiple_8(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    st1b { z0.b }, p1, [x2, x8]
 ; CHECK-NOSVE2-NEXT:    add x8, x8, x10
 ; CHECK-NOSVE2-NEXT:    whilelo p1.b, x8, x9
-; CHECK-NOSVE2-NEXT:    b.mi .LBB10_2
-; CHECK-NOSVE2-NEXT:  .LBB10_3: // %for.cond.cleanup
+; CHECK-NOSVE2-NEXT:    b.mi .LBB14_2
+; CHECK-NOSVE2-NEXT:  .LBB14_3: // %for.cond.cleanup
 ; CHECK-NOSVE2-NEXT:    ret
 entry:
   %cmp11 = icmp sgt i32 %n, 0
@@ -693,7 +793,7 @@ define void @whilewr_loop_multiple_16(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-LABEL: whilewr_loop_multiple_16:
 ; CHECK-SVE2:       // %bb.0: // %entry
 ; CHECK-SVE2-NEXT:    cmp w3, #1
-; CHECK-SVE2-NEXT:    b.lt .LBB11_3
+; CHECK-SVE2-NEXT:    b.lt .LBB15_3
 ; CHECK-SVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-SVE2-NEXT:    whilewr p0.h, x0, x2
 ; CHECK-SVE2-NEXT:    mov w9, w3
@@ -703,7 +803,7 @@ define void @whilewr_loop_multiple_16(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    whilelo p1.h, xzr, x9
 ; CHECK-SVE2-NEXT:    cntp x10, p0, p0.h
 ; CHECK-SVE2-NEXT:    and x10, x10, #0xff
-; CHECK-SVE2-NEXT:  .LBB11_2: // %vector.body
+; CHECK-SVE2-NEXT:  .LBB15_2: // %vector.body
 ; CHECK-SVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-SVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-SVE2-NEXT:    ld1h { z0.h }, p1/z, [x0, x8, lsl #1]
@@ -712,14 +812,14 @@ define void @whilewr_loop_multiple_16(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    st1h { z0.h }, p1, [x2, x8, lsl #1]
 ; CHECK-SVE2-NEXT:    add x8, x8, x10
 ; CHECK-SVE2-NEXT:    whilelo p1.h, x8, x9
-; CHECK-SVE2-NEXT:    b.mi .LBB11_2
-; CHECK-SVE2-NEXT:  .LBB11_3: // %for.cond.cleanup
+; CHECK-SVE2-NEXT:    b.mi .LBB15_2
+; CHECK-SVE2-NEXT:  .LBB15_3: // %for.cond.cleanup
 ; CHECK-SVE2-NEXT:    ret
 ;
 ; CHECK-NOSVE2-LABEL: whilewr_loop_multiple_16:
 ; CHECK-NOSVE2:       // %bb.0: // %entry
 ; CHECK-NOSVE2-NEXT:    cmp w3, #1
-; CHECK-NOSVE2-NEXT:    b.lt .LBB11_3
+; CHECK-NOSVE2-NEXT:    b.lt .LBB15_3
 ; CHECK-NOSVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-NOSVE2-NEXT:    sub x9, x0, x2
 ; CHECK-NOSVE2-NEXT:    mov x8, xzr
@@ -745,7 +845,7 @@ define void @whilewr_loop_multiple_16(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    whilelo p1.h, xzr, x9
 ; CHECK-NOSVE2-NEXT:    cntp x10, p0, p0.h
 ; CHECK-NOSVE2-NEXT:    and x10, x10, #0xff
-; CHECK-NOSVE2-NEXT:  .LBB11_2: // %vector.body
+; CHECK-NOSVE2-NEXT:  .LBB15_2: // %vector.body
 ; CHECK-NOSVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-NOSVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-NOSVE2-NEXT:    ld1h { z0.h }, p1/z, [x0, x8, lsl #1]
@@ -754,8 +854,8 @@ define void @whilewr_loop_multiple_16(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    st1h { z0.h }, p1, [x2, x8, lsl #1]
 ; CHECK-NOSVE2-NEXT:    add x8, x8, x10
 ; CHECK-NOSVE2-NEXT:    whilelo p1.h, x8, x9
-; CHECK-NOSVE2-NEXT:    b.mi .LBB11_2
-; CHECK-NOSVE2-NEXT:  .LBB11_3: // %for.cond.cleanup
+; CHECK-NOSVE2-NEXT:    b.mi .LBB15_2
+; CHECK-NOSVE2-NEXT:  .LBB15_3: // %for.cond.cleanup
 ; CHECK-NOSVE2-NEXT:    ret
 entry:
   %cmp11 = icmp sgt i32 %n, 0
@@ -811,7 +911,7 @@ define void @whilewr_loop_multiple_32(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-LABEL: whilewr_loop_multiple_32:
 ; CHECK-SVE2:       // %bb.0: // %entry
 ; CHECK-SVE2-NEXT:    cmp w3, #1
-; CHECK-SVE2-NEXT:    b.lt .LBB12_3
+; CHECK-SVE2-NEXT:    b.lt .LBB16_3
 ; CHECK-SVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-SVE2-NEXT:    whilewr p0.s, x0, x2
 ; CHECK-SVE2-NEXT:    mov w9, w3
@@ -821,7 +921,7 @@ define void @whilewr_loop_multiple_32(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    whilelo p1.s, xzr, x9
 ; CHECK-SVE2-NEXT:    cntp x10, p0, p0.s
 ; CHECK-SVE2-NEXT:    and x10, x10, #0xff
-; CHECK-SVE2-NEXT:  .LBB12_2: // %vector.body
+; CHECK-SVE2-NEXT:  .LBB16_2: // %vector.body
 ; CHECK-SVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-SVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-SVE2-NEXT:    ld1w { z0.s }, p1/z, [x0, x8, lsl #2]
@@ -830,14 +930,14 @@ define void @whilewr_loop_multiple_32(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    st1w { z0.s }, p1, [x2, x8, lsl #2]
 ; CHECK-SVE2-NEXT:    add x8, x8, x10
 ; CHECK-SVE2-NEXT:    whilelo p1.s, x8, x9
-; CHECK-SVE2-NEXT:    b.mi .LBB12_2
-; CHECK-SVE2-NEXT:  .LBB12_3: // %for.cond.cleanup
+; CHECK-SVE2-NEXT:    b.mi .LBB16_2
+; CHECK-SVE2-NEXT:  .LBB16_3: // %for.cond.cleanup
 ; CHECK-SVE2-NEXT:    ret
 ;
 ; CHECK-NOSVE2-LABEL: whilewr_loop_multiple_32:
 ; CHECK-NOSVE2:       // %bb.0: // %entry
 ; CHECK-NOSVE2-NEXT:    cmp w3, #1
-; CHECK-NOSVE2-NEXT:    b.lt .LBB12_3
+; CHECK-NOSVE2-NEXT:    b.lt .LBB16_3
 ; CHECK-NOSVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-NOSVE2-NEXT:    sub x9, x0, x2
 ; CHECK-NOSVE2-NEXT:    mov x8, xzr
@@ -867,7 +967,7 @@ define void @whilewr_loop_multiple_32(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    whilelo p1.s, xzr, x9
 ; CHECK-NOSVE2-NEXT:    cntp x10, p0, p0.s
 ; CHECK-NOSVE2-NEXT:    and x10, x10, #0xff
-; CHECK-NOSVE2-NEXT:  .LBB12_2: // %vector.body
+; CHECK-NOSVE2-NEXT:  .LBB16_2: // %vector.body
 ; CHECK-NOSVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-NOSVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-NOSVE2-NEXT:    ld1w { z0.s }, p1/z, [x0, x8, lsl #2]
@@ -876,8 +976,8 @@ define void @whilewr_loop_multiple_32(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    st1w { z0.s }, p1, [x2, x8, lsl #2]
 ; CHECK-NOSVE2-NEXT:    add x8, x8, x10
 ; CHECK-NOSVE2-NEXT:    whilelo p1.s, x8, x9
-; CHECK-NOSVE2-NEXT:    b.mi .LBB12_2
-; CHECK-NOSVE2-NEXT:  .LBB12_3: // %for.cond.cleanup
+; CHECK-NOSVE2-NEXT:    b.mi .LBB16_2
+; CHECK-NOSVE2-NEXT:  .LBB16_3: // %for.cond.cleanup
 ; CHECK-NOSVE2-NEXT:    ret
 entry:
   %cmp9 = icmp sgt i32 %n, 0
@@ -933,7 +1033,7 @@ define void @whilewr_loop_multiple_64(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-LABEL: whilewr_loop_multiple_64:
 ; CHECK-SVE2:       // %bb.0: // %entry
 ; CHECK-SVE2-NEXT:    cmp w3, #1
-; CHECK-SVE2-NEXT:    b.lt .LBB13_3
+; CHECK-SVE2-NEXT:    b.lt .LBB17_3
 ; CHECK-SVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-SVE2-NEXT:    whilewr p0.d, x0, x2
 ; CHECK-SVE2-NEXT:    mov w9, w3
@@ -943,7 +1043,7 @@ define void @whilewr_loop_multiple_64(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    whilelo p1.d, xzr, x9
 ; CHECK-SVE2-NEXT:    cntp x10, p0, p0.d
 ; CHECK-SVE2-NEXT:    and x10, x10, #0xff
-; CHECK-SVE2-NEXT:  .LBB13_2: // %vector.body
+; CHECK-SVE2-NEXT:  .LBB17_2: // %vector.body
 ; CHECK-SVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-SVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-SVE2-NEXT:    ld1d { z0.d }, p1/z, [x0, x8, lsl #3]
@@ -952,14 +1052,14 @@ define void @whilewr_loop_multiple_64(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-SVE2-NEXT:    st1d { z0.d }, p1, [x2, x8, lsl #3]
 ; CHECK-SVE2-NEXT:    add x8, x8, x10
 ; CHECK-SVE2-NEXT:    whilelo p1.d, x8, x9
-; CHECK-SVE2-NEXT:    b.mi .LBB13_2
-; CHECK-SVE2-NEXT:  .LBB13_3: // %for.cond.cleanup
+; CHECK-SVE2-NEXT:    b.mi .LBB17_2
+; CHECK-SVE2-NEXT:  .LBB17_3: // %for.cond.cleanup
 ; CHECK-SVE2-NEXT:    ret
 ;
 ; CHECK-NOSVE2-LABEL: whilewr_loop_multiple_64:
 ; CHECK-NOSVE2:       // %bb.0: // %entry
 ; CHECK-NOSVE2-NEXT:    cmp w3, #1
-; CHECK-NOSVE2-NEXT:    b.lt .LBB13_3
+; CHECK-NOSVE2-NEXT:    b.lt .LBB17_3
 ; CHECK-NOSVE2-NEXT:  // %bb.1: // %for.body.preheader
 ; CHECK-NOSVE2-NEXT:    sub x9, x0, x2
 ; CHECK-NOSVE2-NEXT:    mov x8, xzr
@@ -989,7 +1089,7 @@ define void @whilewr_loop_multiple_64(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    whilelo p1.d, xzr, x9
 ; CHECK-NOSVE2-NEXT:    cntp x10, p0, p0.d
 ; CHECK-NOSVE2-NEXT:    and x10, x10, #0xff
-; CHECK-NOSVE2-NEXT:  .LBB13_2: // %vector.body
+; CHECK-NOSVE2-NEXT:  .LBB17_2: // %vector.body
 ; CHECK-NOSVE2-NEXT:    // =>This Inner Loop Header: Depth=1
 ; CHECK-NOSVE2-NEXT:    and p1.b, p1/z, p1.b, p0.b
 ; CHECK-NOSVE2-NEXT:    ld1d { z0.d }, p1/z, [x0, x8, lsl #3]
@@ -998,8 +1098,8 @@ define void @whilewr_loop_multiple_64(ptr %a, ptr %b, ptr %c, i32 %n) {
 ; CHECK-NOSVE2-NEXT:    st1d { z0.d }, p1, [x2, x8, lsl #3]
 ; CHECK-NOSVE2-NEXT:    add x8, x8, x10
 ; CHECK-NOSVE2-NEXT:    whilelo p1.d, x8, x9
-; CHECK-NOSVE2-NEXT:    b.mi .LBB13_2
-; CHECK-NOSVE2-NEXT:  .LBB13_3: // %for.cond.cleanup
+; CHECK-NOSVE2-NEXT:    b.mi .LBB17_2
+; CHECK-NOSVE2-NEXT:  .LBB17_3: // %for.cond.cleanup
 ; CHECK-NOSVE2-NEXT:    ret
 entry:
   %cmp9 = icmp sgt i32 %n, 0
@@ -1076,3 +1176,5 @@ declare <vscale x 2 x i1> @llvm.get.active.lane.mask.nxv2i1.i64(i64, i64)
 declare <vscale x 2 x i64> @llvm.masked.load.nxv2i64.p0(ptr nocapture, i32 immarg, <vscale x 2 x i1>, <vscale x 2 x i64>)
 
 declare void @llvm.masked.store.nxv2i64.p0(<vscale x 2 x i64>, ptr nocapture, i32 immarg, <vscale x 2 x i1>)
+
+declare i64 @llvm.abs.i64(i64, i1 immarg)
