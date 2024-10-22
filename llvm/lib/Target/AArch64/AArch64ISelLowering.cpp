@@ -14178,13 +14178,10 @@ SDValue tryWhileWRFromOR(SDValue Op, SelectionDAG &DAG,
     return SDValue();
 
   CondCodeSDNode *Cond = cast<CondCodeSDNode>(Cmp.getOperand(2));
-
   auto ComparatorConst = dyn_cast<ConstantSDNode>(Cmp.getOperand(1));
-  if (!ComparatorConst || ComparatorConst->getSExtValue() > 0 ||
-      Cond->get() != ISD::CondCode::SETLT)
+  if (!ComparatorConst || Cond->get() != ISD::CondCode::SETLT)
     return SDValue();
-  unsigned CompValue = std::abs(ComparatorConst->getSExtValue());
-  unsigned EltSize = CompValue + 1;
+  unsigned EltSize = std::abs(ComparatorConst->getSExtValue());
   if (!isPowerOf2_64(EltSize) || EltSize > 8)
     return SDValue();
 
