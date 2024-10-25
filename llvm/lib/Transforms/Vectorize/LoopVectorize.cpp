@@ -1406,6 +1406,21 @@ public:
                                : ChosenTailFoldingStyle->second;
   }
 
+  RTCheckStyle getRTCheckStyle(TailFoldingStyle TFStyle) const {
+    switch (TFStyle) {
+    case TailFoldingStyle::Data:
+    case TailFoldingStyle::DataAndControlFlow:
+    case TailFoldingStyle::DataAndControlFlowWithoutRuntimeCheck:
+      return RTCheckStyle::UseSafeEltsMask;
+    default:
+      return RTCheckStyle::ScalarFallback;
+    }
+  }
+
+  RTCheckStyle getRTCheckStyle() const {
+    return getRTCheckStyle(getTailFoldingStyle());
+  }
+
   /// Selects and saves TailFoldingStyle for 2 options - if IV update may
   /// overflow or not.
   /// \param IsScalableVF true if scalable vector factors enabled.
@@ -2116,6 +2131,10 @@ static bool useActiveLaneMask(TailFoldingStyle Style) {
 static bool useActiveLaneMaskForControlFlow(TailFoldingStyle Style) {
   return Style == TailFoldingStyle::DataAndControlFlow ||
          Style == TailFoldingStyle::DataAndControlFlowWithoutRuntimeCheck;
+}
+
+static bool useSafeEltsMask(TailFoldingStyle TFStyle, RTCheckStyle Style) {
+  return useActiveLaneMask(TFStyle) && Style == RTCheckStyle::UseSafeEltsMask;
 }
 
 // Return true if \p OuterLp is an outer loop annotated with hints for explicit
@@ -7126,7 +7145,9 @@ void LoopVectorizationPlanner::plan(
     return;
 
   ArrayRef<PointerDiffInfo> DiffChecks;
-  if (RTChecks.has_value() && useActiveLaneMask(CM.getTailFoldingStyle(true)))
+  auto TFStyle = CM.getTailFoldingStyle();
+  if (RTChecks.has_value() &&
+      useSafeEltsMask(TFStyle, CM.getRTCheckStyle(TFStyle)))
     DiffChecks = *RTChecks;
 
   // Invalidate interleave groups if all blocks of loop will be predicated.
