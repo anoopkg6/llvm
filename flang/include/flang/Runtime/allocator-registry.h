@@ -6,8 +6,8 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef FORTRAN_RUNTIME_ALLOCATOR_H_
-#define FORTRAN_RUNTIME_ALLOCATOR_H_
+#ifndef FORTRAN_RUNTIME_ALLOCATOR_REGISTRY_H_
+#define FORTRAN_RUNTIME_ALLOCATOR_REGISTRY_H_
 
 #include "flang/Common/api-attrs.h"
 #include <cstdlib>
@@ -19,8 +19,9 @@ static constexpr unsigned kDefaultAllocator = 0;
 static constexpr unsigned kPinnedAllocatorPos = 1;
 static constexpr unsigned kDeviceAllocatorPos = 2;
 static constexpr unsigned kManagedAllocatorPos = 3;
+static constexpr unsigned kUnifiedAllocatorPos = 4;
 
-#define MAX_ALLOCATOR 5
+#define MAX_ALLOCATOR 7 // 3 bits are reserved in the descriptor.
 
 namespace Fortran::runtime {
 
@@ -61,4 +62,4 @@ RT_OFFLOAD_VAR_GROUP_END
 
 } // namespace Fortran::runtime
 
-#endif // FORTRAN_RUNTIME_ALLOCATOR_H_
+#endif // FORTRAN_RUNTIME_ALLOCATOR_REGISTRY_H_

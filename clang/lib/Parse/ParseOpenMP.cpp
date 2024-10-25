@@ -2561,7 +2561,7 @@ StmtResult Parser::ParseOpenMPExecutableDirective(
              DKind == OMPD_target_exit_data) {
     Actions.OpenMP().ActOnOpenMPRegionStart(DKind, getCurScope());
     AssociatedStmt = (Sema::CompoundScopeRAII(Actions),
-                      Actions.ActOnCompoundStmt(Loc, Loc, std::nullopt,
+                      Actions.ActOnCompoundStmt(Loc, Loc, {},
                                                 /*isStmtExpr=*/false));
     AssociatedStmt =
         Actions.OpenMP().ActOnOpenMPRegionEnd(AssociatedStmt, Clauses);
@@ -2954,8 +2954,6 @@ StmtResult Parser::ParseOpenMPDeclarativeOrExecutableDirective(
     }
     break;
   }
-  case OMPD_reverse:
-  case OMPD_interchange:
   case OMPD_declare_target: {
     SourceLocation DTLoc = ConsumeAnyToken();
     bool HasClauses = Tok.isNot(tok::annot_pragma_openmp_end);
@@ -3082,6 +3080,18 @@ OMPClause *Parser::ParseOpenMPSizesClause() {
                                                  OpenLoc, CloseLoc);
 }
 
+OMPClause *Parser::ParseOpenMPPermutationClause() {
+  SourceLocation ClauseNameLoc, OpenLoc, CloseLoc;
+  SmallVector<Expr *> ArgExprs;
+  if (ParseOpenMPExprListClause(OMPC_permutation, ClauseNameLoc, OpenLoc,
+                                CloseLoc, ArgExprs,
+                                /*ReqIntConst=*/true))
+    return nullptr;
+
+  return Actions.OpenMP().ActOnOpenMPPermutationClause(ArgExprs, ClauseNameLoc,
+                                                       OpenLoc, CloseLoc);
+}
+
 OMPClause *Parser::ParseOpenMPUsesAllocatorClause(OpenMPDirectiveKind DKind) {
   SourceLocation Loc = Tok.getLocation();
   ConsumeAnyToken();
@@ -3175,7 +3185,6 @@ OMPClause *Parser::ParseOpenMPClause(OpenMPDirectiveKind DKind,
   case OMPC_simdlen:
   case OMPC_collapse:
   case OMPC_ordered:
-  case OMPC_thread_limit:
   case OMPC_priority:
   case OMPC_grainsize:
   case OMPC_num_tasks:
@@ -3332,12 +3341,13 @@ OMPClause *Parser::ParseOpenMPClause(OpenMPDirectiveKind DKind,
                  : ParseOpenMPClause(CKind, WrongDirective);
     break;
   case OMPC_num_teams:
+  case OMPC_thread_limit:
     if (!FirstClause) {
       Diag(Tok, diag::err_omp_more_one_clause)
           << getOpenMPDirectiveName(DKind) << getOpenMPClauseName(CKind) << 0;
       ErrorFound = true;
     }
-    [[clang::fallthrough]];
+    [[fallthrough]];
   case OMPC_private:
   case OMPC_firstprivate:
   case OMPC_lastprivate:
@@ -3378,6 +3388,14 @@ OMPClause *Parser::ParseOpenMPClause(OpenMPDirectiveKind DKind,
     }
 
     Clause = ParseOpenMPSizesClause();
+    break;
+  case OMPC_permutation:
+    if (!FirstClause) {
+      Diag(Tok, diag::err_omp_more_one_clause)
+          << getOpenMPDirectiveName(DKind) << getOpenMPClauseName(CKind) << 0;
+      ErrorFound = true;
+    }
+    Clause = ParseOpenMPPermutationClause();
     break;
   case OMPC_uses_allocators:
     Clause = ParseOpenMPUsesAllocatorClause(DKind);
