@@ -1464,8 +1464,9 @@ static void transformRecipestoEVLRecipes(VPlan &Plan, VPValue &EVL) {
       };
       auto SetEVLForReversePointer = [&EVL](VPValue *V) -> void {
         VPReverseVectorPointerRecipe *R;
-        if (V->hasDefiningRecipe() && (R =
-                dyn_cast<VPReverseVectorPointerRecipe>(V->getDefiningRecipe())))
+        if (V->hasDefiningRecipe() &&
+            (R = dyn_cast<VPReverseVectorPointerRecipe>(
+                 V->getDefiningRecipe())))
           R->setOperand(1, &EVL);
       };
 
