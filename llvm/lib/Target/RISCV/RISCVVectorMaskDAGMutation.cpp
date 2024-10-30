@@ -36,7 +36,17 @@ static inline bool isVectorMaskProducer(const MachineInstr *MI) {
   case RISCV::VMSBF_M:
   case RISCV::VMSIF_M:
   case RISCV::VMSOF_M:
-  case RISCV::VIOTA_M:
+  // Vector Integer Add-with-Carry / Subtract-with-Borrow Instructions
+  case RISCV::VMADC_VV:
+  case RISCV::VMADC_VX:
+  case RISCV::VMADC_VI:
+  case RISCV::VMADC_VVM:
+  case RISCV::VMADC_VXM:
+  case RISCV::VMADC_VIM:
+  case RISCV::VMSBC_VV:
+  case RISCV::VMSBC_VX:
+  case RISCV::VMSBC_VVM:
+  case RISCV::VMSBC_VXM:
   // Vector Integer Compare Instructions
   case RISCV::VMSEQ_VV:
   case RISCV::VMSEQ_VX:
