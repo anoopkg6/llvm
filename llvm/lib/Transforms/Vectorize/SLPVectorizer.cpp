@@ -1948,6 +1948,9 @@ public:
 
     /// A vector of operand vectors.
     SmallVector<OperandDataVec, 4> OpsVec;
+    /// When VL[0] is IntrinsicInst, Arg_size is CallBase::arg_size. When VL[0]
+    /// is not IntrinsicInst, Arg_size is User::getNumOperands.
+    unsigned Arg_size;
 
     const TargetLibraryInfo &TLI;
     const DataLayout &DL;
@@ -2338,6 +2341,10 @@ public:
              "Expected same number of lanes");
       assert(isa<Instruction>(VL[0]) && "Expected instruction");
       unsigned NumOperands = cast<Instruction>(VL[0])->getNumOperands();
+      // IntrinsicInst::isCommutative returns true if swapping the first "two"
+      // arguments to the intrinsic produces the same result.
+      constexpr unsigned IntrinsicNumOperands = 2;
+      Arg_size = isa<IntrinsicInst>(VL[0]) ? IntrinsicNumOperands : NumOperands;
       OpsVec.resize(NumOperands);
       unsigned NumLanes = VL.size();
       for (unsigned OpIdx = 0; OpIdx != NumOperands; ++OpIdx) {
@@ -2363,10 +2370,7 @@ public:
     }
 
     /// \returns the number of operands.
-    /// reorder can only work on instructions with 2 operands. If we use
-    /// OpsVec.size() here, reorder will swap non-swappable operands (because
-    /// APO is a boolean value).
-    unsigned getNumOperands() const { return 2; }
+    unsigned getNumOperands() const { return Arg_size; }
 
     /// \returns the number of lanes.
     unsigned getNumLanes() const { return OpsVec[0].size(); }
