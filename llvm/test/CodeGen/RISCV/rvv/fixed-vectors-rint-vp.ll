@@ -586,17 +586,20 @@ define <32 x double> @vp_rint_v32f64_unmasked(<32 x double> %va, i32 zeroext %ev
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m8, ta, ma
 ; CHECK-NEXT:    vfabs.v v24, v8
 ; CHECK-NEXT:    vmflt.vf v0, v24, fa5
+; CHECK-NEXT:    addi a2, a0, -16
+; CHECK-NEXT:    sltu a0, a0, a2
+; CHECK-NEXT:    addi a0, a0, -1
+; CHECK-NEXT:    and a0, a0, a2
+; CHECK-NEXT:    vsetvli zero, a0, e64, m8, ta, ma
+; CHECK-NEXT:    vfabs.v v24, v16
+; CHECK-NEXT:    vmflt.vf v7, v24, fa5
+; CHECK-NEXT:    vsetvli zero, a1, e64, m8, ta, ma
 ; CHECK-NEXT:    vfcvt.x.f.v v24, v8, v0.t
 ; CHECK-NEXT:    vfcvt.f.x.v v24, v24, v0.t
 ; CHECK-NEXT:    vsetvli zero, zero, e64, m8, ta, mu
 ; CHECK-NEXT:    vfsgnj.vv v8, v24, v8, v0.t
-; CHECK-NEXT:    addi a1, a0, -16
-; CHECK-NEXT:    sltu a0, a0, a1
-; CHECK-NEXT:    addi a0, a0, -1
-; CHECK-NEXT:    and a0, a0, a1
+; CHECK-NEXT:    vmv1r.v v0, v7
 ; CHECK-NEXT:    vsetvli zero, a0, e64, m8, ta, ma
-; CHECK-NEXT:    vfabs.v v24, v16
-; CHECK-NEXT:    vmflt.vf v0, v24, fa5
 ; CHECK-NEXT:    vfcvt.x.f.v v24, v16, v0.t
 ; CHECK-NEXT:    vfcvt.f.x.v v24, v24, v0.t
 ; CHECK-NEXT:    vsetvli zero, zero, e64, m8, ta, mu

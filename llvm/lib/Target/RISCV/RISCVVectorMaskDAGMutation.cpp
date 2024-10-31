@@ -12,11 +12,14 @@
 //
 //===----------------------------------------------------------------------===//
 
+#include "MCTargetDesc/RISCVBaseInfo.h"
 #include "MCTargetDesc/RISCVMCTargetDesc.h"
+#include "RISCVRegisterInfo.h"
 #include "RISCVTargetMachine.h"
 #include "llvm/CodeGen/MachineInstr.h"
 #include "llvm/CodeGen/ScheduleDAGInstrs.h"
 #include "llvm/CodeGen/ScheduleDAGMutation.h"
+#include "llvm/TargetParser/RISCVTargetParser.h"
 
 #define DEBUG_TYPE "machine-scheduler"
 
@@ -98,7 +101,11 @@ public:
       if (MI->findRegisterUseOperand(RISCV::V0, TRI))
         NearestUseV0SU = &SU;
 
-      if (NearestUseV0SU && NearestUseV0SU != &SU && isVectorMaskProducer(MI))
+      if (NearestUseV0SU && NearestUseV0SU != &SU && isVectorMaskProducer(MI) &&
+          // For LMUL=8 cases, there will be more possibilities to spill.
+          // FIXME: We should use RegPressureTracker to do fine-grained
+          // controls.
+          RISCVII::getLMul(MI->getDesc().TSFlags) != RISCVII::LMUL_8)
         DAG->addEdge(&SU, SDep(NearestUseV0SU, SDep::Artificial));
     }
   }
