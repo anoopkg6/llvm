@@ -196,6 +196,15 @@ bool ToolChain::defaultToIEEELongDouble() const {
   return PPC_LINUX_DEFAULT_IEEELONGDOUBLE && getTriple().isOSLinux();
 }
 
+static void processMultilibCustomFlags(Multilib::flags_list &List,
+                                       const llvm::opt::ArgList &Args) {
+  for (const Arg *MultilibFlagArg :
+       Args.filtered(options::OPT_fmultilib_flag)) {
+    List.push_back(MultilibFlagArg->getAsString(Args));
+    MultilibFlagArg->claim();
+  }
+}
+
 static void getAArch64MultilibFlags(const Driver &D,
                                           const llvm::Triple &Triple,
                                           const llvm::opt::ArgList &Args,
@@ -232,6 +241,8 @@ static void getAArch64MultilibFlags(const Driver &D,
   if (ABIArg) {
     Result.push_back(ABIArg->getAsString(Args));
   }
+
+  processMultilibCustomFlags(Result, Args);
 }
 
 static void getARMMultilibFlags(const Driver &D,
@@ -285,6 +296,8 @@ static void getARMMultilibFlags(const Driver &D,
   if (BranchProtectionArg) {
     Result.push_back(BranchProtectionArg->getAsString(Args));
   }
+
+  processMultilibCustomFlags(Result, Args);
 }
 
 static void getRISCVMultilibFlags(const Driver &D, const llvm::Triple &Triple,
