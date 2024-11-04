@@ -14481,6 +14481,7 @@ SDValue SITargetLowering::performFMulCombine(SDNode *N,
                                              DAGCombinerInfo &DCI) const {
   SelectionDAG &DAG = DCI.DAG;
   EVT VT = N->getValueType(0);
+  EVT scalarVT = VT.getScalarType();
   EVT IntVT = VT.changeElementType(MVT::i32);
 
   SDLoc SL(N);
@@ -14497,16 +14498,15 @@ SDValue SITargetLowering::performFMulCombine(SDNode *N,
   // Given : A = 2^a  &  B = 2^b ; where a and b are integers.
   // fmul x, (select y, A, B)     -> ldexp( x, (select i32 y, a, b) )
   // fmul x, (select y, -A, -B)   -> ldexp( (fneg x), (select i32 y, a, b) )
-  if (VT.getScalarType() == MVT::f64 || VT.getScalarType() == MVT::f32 ||
-      VT.getScalarType() == MVT::f16) {
+  if (scalarVT == MVT::f64 || scalarVT == MVT::f32 || scalarVT == MVT::f16) {
     if (RHS.hasOneUse() && RHS.getOpcode() == ISD::SELECT) {
       const ConstantFPSDNode *TrueNode =
           isConstOrConstSplatFP(RHS.getOperand(1));
+      if (!TrueNode)
+        return SDValue();
       const ConstantFPSDNode *FalseNode =
           isConstOrConstSplatFP(RHS.getOperand(2));
-
-      bool AreNodesFP = TrueNode && FalseNode;
-      if (!AreNodesFP)
+      if (!FalseNode)
         return SDValue();
 
       if (TrueNode->isNegative() != FalseNode->isNegative())
@@ -14514,7 +14514,7 @@ SDValue SITargetLowering::performFMulCombine(SDNode *N,
 
       // For f32, only non-inline constants should be transformed.
       const SIInstrInfo *TII = getSubtarget()->getInstrInfo();
-      if (VT.getScalarType() == MVT::f32 &&
+      if (scalarVT == MVT::f32 &&
           TII->isInlineConstant(TrueNode->getValueAPF()) &&
           TII->isInlineConstant(FalseNode->getValueAPF()))
         return SDValue();
@@ -14522,15 +14522,19 @@ SDValue SITargetLowering::performFMulCombine(SDNode *N,
       LHS = TrueNode->isNegative()
                 ? DAG.getNode(ISD::FNEG, SL, VT, LHS, LHSFlags)
                 : LHS;
+
       int TrueNodeExpVal = TrueNode->getValueAPF().getExactLog2Abs();
+      if (TrueNodeExpVal == INT_MIN)
+        return SDValue();
       int FalseNodeExpVal = FalseNode->getValueAPF().getExactLog2Abs();
-      if (TrueNodeExpVal != INT_MIN && FalseNodeExpVal != INT_MIN) {
-        SDValue SelectNode =
-            DAG.getNode(ISD::SELECT, SL, IntVT, RHS.getOperand(0),
-                        DAG.getConstant(TrueNodeExpVal, SL, IntVT),
-                        DAG.getConstant(FalseNodeExpVal, SL, IntVT));
-        return DAG.getNode(ISD::FLDEXP, SL, VT, LHS, SelectNode, Flags);
-      }
+      if (FalseNodeExpVal == INT_MIN)
+        return SDValue();
+
+      SDValue SelectNode =
+          DAG.getNode(ISD::SELECT, SL, IntVT, RHS.getOperand(0),
+                      DAG.getConstant(TrueNodeExpVal, SL, IntVT),
+                      DAG.getConstant(FalseNodeExpVal, SL, IntVT));
+      return DAG.getNode(ISD::FLDEXP, SL, VT, LHS, SelectNode, Flags);
     }
   }
 
