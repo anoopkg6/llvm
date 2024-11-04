@@ -51,6 +51,12 @@
 //
 // RUN: %clang -std=c++20 Hello.cc -fmodules-reduced-bmi -Wall -Werror \
 // RUN:     -c -o Hello.o -### 2>&1 | FileCheck Hello.cc
+//
+// RUN: %clang -std=c++20 Hello.cppm -fmodule-output=Hello.pcm -c -o Hello.o \
+// RUN:     -### 2>&1 | FileCheck Hello.cppm -check-prefix=WARN
+//
+// RUN: %clang -std=c++20 Hello.cppm --precompile -o Hello.pcm \
+// RUN:     -### 2>&1 | FileCheck Hello.cppm -check-prefix=WARN
 
 //--- Hello.cppm
 export module Hello;
@@ -67,6 +73,8 @@ export module Hello;
 // With `-emit-module-interface` specified, we should still see the `-emit-module-interface`
 // flag.
 // CHECK-EMIT-MODULE-INTERFACE: -emit-module-interface
+
+// WARN: reduced BMI is expected to be enabled by default in Clang 21;
 
 //--- Hello.cc
 

@@ -557,11 +557,10 @@ def err_drv_module_output_with_multiple_arch : Error<
   "option '-fmodule-output' can't be used with multiple arch options">;
 
 def warn_drv_module_reduced_bmi_not_enabled : Warning<
-  "reduced BMI is expected to be enabled by default in Clang 21. It is encouraged to "
-  "enable it ahead of time to avoid potential breaking change. You can enable it "
-  "by offering '-fmodules-reduced-bmi' option in one phase compilation model (e.g., CMake). "
-  "Or if your build system support two phase compilation model, please contact the "
-  "build system authors to support reduced BMI and turn off the warning temporarily">,
+  "reduced BMI is expected to be enabled by default in Clang 21; it can be enabled "
+  "explicitly by passing '-fmodules-reduced-bmi' (in one-phase compilation models, "
+  "like CMake) or by disabling the diagnostic and requesting the build system vendor "
+  "support reduced BMIs (in two-phase compilation models)">,
   InGroup<DiagGroup<"missing-reduced-bmi">>;
 
 def warn_drv_delayed_template_parsing_after_cxx20 : Warning<
