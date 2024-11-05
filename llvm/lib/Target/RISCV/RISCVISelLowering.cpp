@@ -18099,13 +18099,12 @@ bool RISCVTargetLowering::isDesirableToCommuteWithShift(
     }
   }
 
-  if ((N0->getOpcode() == ISD::ADD || N0->getOpcode() == ISD::OR) &&
-      !N0->hasOneUse())
+  if (!N0->hasOneUse())
     return false;
 
   if (N0->getOpcode() == ISD::SIGN_EXTEND &&
       N0->getOperand(0)->getOpcode() == ISD::ADD &&
-      !(N0->hasOneUse() && N0->getOperand(0)->hasOneUse()))
+      !N0->getOperand(0)->hasOneUse())
     return isLDST();
 
   return true;
