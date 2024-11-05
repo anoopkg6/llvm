@@ -173,6 +173,7 @@ const char LLVMLoopVectorizeFollowupEpilogue[] =
 STATISTIC(LoopsVectorized, "Number of loops vectorized");
 STATISTIC(LoopsAnalyzed, "Number of loops analyzed for vectorization");
 STATISTIC(LoopsEpilogueVectorized, "Number of epilogues vectorized");
+STATISTIC(LoopsAliasMasked, "Number of loops predicated with an alias mask");
 
 static cl::opt<bool> EnableEpilogueVectorization(
     "enable-epilogue-vectorization", cl::init(true), cl::Hidden,
@@ -1403,6 +1404,21 @@ public:
                                : ChosenTailFoldingStyle->second;
   }
 
+  RTCheckStyle getRTCheckStyle(TailFoldingStyle TFStyle) const {
+    switch (TFStyle) {
+    case TailFoldingStyle::Data:
+    case TailFoldingStyle::DataAndControlFlow:
+    case TailFoldingStyle::DataAndControlFlowWithoutRuntimeCheck:
+      return RTCheckStyle::UseSafeEltsMask;
+    default:
+      return RTCheckStyle::ScalarFallback;
+    }
+  }
+
+  RTCheckStyle getRTCheckStyle() const {
+    return getRTCheckStyle(getTailFoldingStyle());
+  }
+
   /// Selects and saves TailFoldingStyle for 2 options - if IV update may
   /// overflow or not.
   /// \param IsScalableVF true if scalable vector factors enabled.
@@ -1804,6 +1820,10 @@ class GeneratedRTChecks {
   PredicatedScalarEvolution &PSE;
 
 public:
+  /// Set by VPlan when the vector loop should be entered even when runtime
+  /// checks determine that pointers alias within an iteration.
+  bool HasAliasMask = false;
+
   GeneratedRTChecks(PredicatedScalarEvolution &PSE, DominatorTree *DT,
                     LoopInfo *LI, TargetTransformInfo *TTI,
                     const DataLayout &DL, bool AddBranchWeights)
@@ -1845,9 +1865,11 @@ public:
 
     const auto &RtPtrChecking = *LAI.getRuntimePointerChecking();
     if (RtPtrChecking.Need) {
-      auto *Pred = SCEVCheckBlock ? SCEVCheckBlock : Preheader;
-      MemCheckBlock = SplitBlock(Pred, Pred->getTerminator(), DT, LI, nullptr,
-                                 "vector.memcheck");
+      if (!MemCheckBlock) {
+        auto *Pred = SCEVCheckBlock ? SCEVCheckBlock : Preheader;
+        MemCheckBlock = SplitBlock(Pred, Pred->getTerminator(), DT, LI, nullptr,
+                                   "vector.memcheck");
+      }
 
       auto DiffChecks = RtPtrChecking.getDiffChecks();
       if (DiffChecks) {
@@ -2075,11 +2097,18 @@ public:
     if (OuterLoop)
       OuterLoop->addBasicBlockToLoop(MemCheckBlock, *LI);
 
-    BranchInst &BI =
-        *BranchInst::Create(Bypass, LoopVectorPreHeader, MemRuntimeCheckCond);
-    if (AddBranchWeights) {
+    // TODO: Branch to the vector preheader conditionally based on the number of
+    // non-aliasing elements. The scalar loop will likely be better if only one
+    // or two elements will be processed per vectorised loop iteration.
+
+    // Jump to the vector preheader unconditionally if it's safe to do so
+    // because an alias mask has been set up.
+    BranchInst &BI = HasAliasMask
+                         ? *BranchInst::Create(LoopVectorPreHeader)
+                         : *BranchInst::Create(Bypass, LoopVectorPreHeader,
+                                               MemRuntimeCheckCond);
+    if (!HasAliasMask && AddBranchWeights)
       setBranchWeights(BI, MemCheckBypassWeights, /*IsExpected=*/false);
-    }
     ReplaceInstWithInst(MemCheckBlock->getTerminator(), &BI);
     MemCheckBlock->getTerminator()->setDebugLoc(
         Pred->getTerminator()->getDebugLoc());
@@ -2100,6 +2129,10 @@ static bool useActiveLaneMask(TailFoldingStyle Style) {
 static bool useActiveLaneMaskForControlFlow(TailFoldingStyle Style) {
   return Style == TailFoldingStyle::DataAndControlFlow ||
          Style == TailFoldingStyle::DataAndControlFlowWithoutRuntimeCheck;
+}
+
+static bool useSafeEltsMask(TailFoldingStyle TFStyle, RTCheckStyle Style) {
+  return useActiveLaneMask(TFStyle) && Style == RTCheckStyle::UseSafeEltsMask;
 }
 
 // Return true if \p OuterLp is an outer loop annotated with hints for explicit
@@ -2562,7 +2595,10 @@ BasicBlock *InnerLoopVectorizer::emitMemRuntimeChecks(BasicBlock *Bypass) {
     });
   }
 
-  LoopBypassBlocks.push_back(MemCheckBlock);
+  /// If an alias mask has been set up then we don't need the bypass as the
+  /// vector preheader will be branched to unconditionally
+  if (!RTChecks.HasAliasMask)
+    LoopBypassBlocks.push_back(MemCheckBlock);
 
   AddedSafetyChecks = true;
 
@@ -7093,7 +7129,9 @@ LoopVectorizationPlanner::planInVPlanNativePath(ElementCount UserVF) {
   return VectorizationFactor::Disabled();
 }
 
-void LoopVectorizationPlanner::plan(ElementCount UserVF, unsigned UserIC) {
+void LoopVectorizationPlanner::plan(
+    ElementCount UserVF, unsigned UserIC,
+    std::optional<ArrayRef<PointerDiffInfo>> RTChecks, bool &HasAliasMask) {
   assert(OrigLoop->isInnermost() && "Inner loop expected.");
   CM.collectValuesToIgnore();
   CM.collectElementTypesForWidening();
@@ -7101,6 +7139,12 @@ void LoopVectorizationPlanner::plan(ElementCount UserVF, unsigned UserIC) {
   FixedScalableVFPair MaxFactors = CM.computeMaxVF(UserVF, UserIC);
   if (!MaxFactors) // Cases that should not to be vectorized nor interleaved.
     return;
+
+  ArrayRef<PointerDiffInfo> DiffChecks;
+  auto TFStyle = CM.getTailFoldingStyle();
+  if (RTChecks.has_value() &&
+      useSafeEltsMask(TFStyle, CM.getRTCheckStyle(TFStyle)))
+    DiffChecks = *RTChecks;
 
   // Invalidate interleave groups if all blocks of loop will be predicated.
   if (CM.blockNeedsPredicationForAnyReason(OrigLoop->getHeader()) &&
@@ -7134,7 +7178,7 @@ void LoopVectorizationPlanner::plan(ElementCount UserVF, unsigned UserIC) {
       CM.collectInLoopReductions();
       if (CM.selectUserVectorizationFactor(UserVF)) {
         LLVM_DEBUG(dbgs() << "LV: Using user VF " << UserVF << ".\n");
-        buildVPlansWithVPRecipes(UserVF, UserVF);
+        buildVPlansWithVPRecipes(UserVF, UserVF, DiffChecks, HasAliasMask);
         LLVM_DEBUG(printPlans(dbgs()));
         return;
       }
@@ -7163,8 +7207,10 @@ void LoopVectorizationPlanner::plan(ElementCount UserVF, unsigned UserIC) {
       CM.collectInstsToScalarize(VF);
   }
 
-  buildVPlansWithVPRecipes(ElementCount::getFixed(1), MaxFactors.FixedVF);
-  buildVPlansWithVPRecipes(ElementCount::getScalable(1), MaxFactors.ScalableVF);
+  buildVPlansWithVPRecipes(ElementCount::getFixed(1), MaxFactors.FixedVF,
+                           DiffChecks, HasAliasMask);
+  buildVPlansWithVPRecipes(ElementCount::getScalable(1), MaxFactors.ScalableVF,
+                           DiffChecks, HasAliasMask);
 
   LLVM_DEBUG(printPlans(dbgs()));
 }
@@ -7699,7 +7745,6 @@ DenseMap<const SCEV *, Value *> LoopVectorizationPlanner::executePlan(
                              CanonicalIVStartValue, State);
 
   BestVPlan.execute(&State);
-
   // 2.5 Collect reduction resume values.
   auto *ExitVPBB = BestVPlan.getMiddleBlock();
   if (VectorizingEpilogue)
@@ -7931,7 +7976,7 @@ EpilogueVectorizerEpilogueLoop::createEpilogueVectorizedLoopSkeleton(
   // reduction phis in the scalar loop preheader.
   if (EPI.SCEVSafetyCheck)
     LoopBypassBlocks.push_back(EPI.SCEVSafetyCheck);
-  if (EPI.MemSafetyCheck)
+  if (EPI.MemSafetyCheck && !RTChecks.HasAliasMask)
     LoopBypassBlocks.push_back(EPI.MemSafetyCheck);
   LoopBypassBlocks.push_back(EPI.EpilogueIterationCountCheck);
 
@@ -8187,9 +8232,8 @@ void VPRecipeBuilder::createHeaderMask() {
 
   VPBuilder::InsertPointGuard Guard(Builder);
   Builder.setInsertPoint(HeaderVPBB, NewInsertionPoint);
-  VPValue *BlockMask = nullptr;
   VPValue *BTC = Plan.getOrCreateBackedgeTakenCount();
-  BlockMask = Builder.createICmp(CmpInst::ICMP_ULE, IV, BTC);
+  VPValue *BlockMask = Builder.createICmp(CmpInst::ICMP_ULE, IV, BTC);
   BlockMaskCache[Header] = BlockMask;
 }
 
@@ -8734,14 +8778,16 @@ VPRecipeBuilder::tryToCreateWidenRecipe(Instruction *Instr,
   return tryToWiden(Instr, Operands, VPBB);
 }
 
-void LoopVectorizationPlanner::buildVPlansWithVPRecipes(ElementCount MinVF,
-                                                        ElementCount MaxVF) {
+void LoopVectorizationPlanner::buildVPlansWithVPRecipes(
+    ElementCount MinVF, ElementCount MaxVF, ArrayRef<PointerDiffInfo> RTChecks,
+    bool &HasAliasMask) {
   assert(OrigLoop->isInnermost() && "Inner loop expected.");
 
   auto MaxVFTimes2 = MaxVF * 2;
   for (ElementCount VF = MinVF; ElementCount::isKnownLT(VF, MaxVFTimes2);) {
     VFRange SubRange = {VF, MaxVFTimes2};
-    if (auto Plan = tryToBuildVPlanWithVPRecipes(SubRange)) {
+    if (auto Plan =
+            tryToBuildVPlanWithVPRecipes(SubRange, RTChecks, HasAliasMask)) {
       // Now optimize the initial VPlan.
       if (!Plan->hasVF(ElementCount::getFixed(1)))
         VPlanTransforms::truncateToMinimalBitwidths(*Plan,
@@ -8774,6 +8820,8 @@ static void addCanonicalIVRecipes(VPlan &Plan, Type *IdxTy, bool HasNUW,
 
   VPBuilder Builder(TopRegion->getExitingBasicBlock());
   // Add a VPInstruction to increment the scalar canonical IV by VF * UF.
+  // If an alias mask is present, this will be replaced by an increment of the
+  // mask's popcount.
   auto *CanonicalIVIncrement = Builder.createOverflowingOp(
       Instruction::Add, {CanonicalIVPHI, &Plan.getVFxUF()}, {HasNUW, false}, DL,
       "index.next");
@@ -8993,8 +9041,8 @@ static void addExitUsersForFirstOrderRecurrences(
   }
 }
 
-VPlanPtr
-LoopVectorizationPlanner::tryToBuildVPlanWithVPRecipes(VFRange &Range) {
+VPlanPtr LoopVectorizationPlanner::tryToBuildVPlanWithVPRecipes(
+    VFRange &Range, ArrayRef<PointerDiffInfo> RTChecks, bool &HasAliasMask) {
 
   SmallPtrSet<const InterleaveGroup<Instruction> *, 1> InterleaveGroups;
 
@@ -9235,7 +9283,9 @@ LoopVectorizationPlanner::tryToBuildVPlanWithVPRecipes(VFRange &Range) {
     bool WithoutRuntimeCheck =
         Style == TailFoldingStyle::DataAndControlFlowWithoutRuntimeCheck;
     VPlanTransforms::addActiveLaneMask(*Plan, ForControlFlow,
-                                       WithoutRuntimeCheck);
+                                       WithoutRuntimeCheck, PSE, RTChecks);
+    if (ForControlFlow && !RTChecks.empty())
+      HasAliasMask = true;
   }
   return Plan;
 }
@@ -9720,6 +9770,7 @@ static bool processLoopInVPlanNativePath(
   // Mark the loop as already vectorized to avoid vectorizing again.
   Hints.setAlreadyVectorized();
   assert(!verifyFunction(*L->getHeader()->getParent(), &dbgs()));
+
   return true;
 }
 
@@ -10051,18 +10102,23 @@ bool LoopVectorizePass::processLoop(Loop *L) {
   ElementCount UserVF = Hints.getWidth();
   unsigned UserIC = Hints.getInterleave();
 
+  bool AddBranchWeights =
+      hasBranchWeightMD(*L->getLoopLatch()->getTerminator());
+  GeneratedRTChecks Checks(PSE, DT, LI, TTI, F->getDataLayout(),
+                           AddBranchWeights);
+
   // Plan how to best vectorize.
-  LVP.plan(UserVF, UserIC);
+  LVP.plan(UserVF, UserIC,
+           LVL.getLAI()->getRuntimePointerChecking()->getDiffChecks(),
+           Checks.HasAliasMask);
   VectorizationFactor VF = LVP.computeBestVF();
+  if (Checks.HasAliasMask)
+    LoopsAliasMasked++;
   unsigned IC = 1;
 
   if (ORE->allowExtraAnalysis(LV_NAME))
     LVP.emitInvalidCostRemarks(ORE);
 
-  bool AddBranchWeights =
-      hasBranchWeightMD(*L->getLoopLatch()->getTerminator());
-  GeneratedRTChecks Checks(PSE, DT, LI, TTI, F->getDataLayout(),
-                           AddBranchWeights);
   if (LVP.hasPlanWithVF(VF.Width)) {
     // Select the interleave count.
     IC = CM.selectInterleaveCount(VF.Width, VF.Cost);
