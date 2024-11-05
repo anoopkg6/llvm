@@ -691,11 +691,10 @@ ensure it is reachable, e.g. ``using N::g;``.
 Support for Reduced BMIs is still experimental, but it may become the default
 in the future. The expected roadmap for Reduced BMIs as of Clang 19.x is:
 
-1. ``-fmodules-reduced-bmi`` is opt-in for 1~2 releases. The period depends
+1. ``-fexperimental-modules-reduced-bmi`` was introduced in v19.x
+2. For v20.x, ``-fmodules-reduced-bmi`` is introduced as an equivalent non-experimental
+   option. It is expected to stay opt-in for 1~2 releases, though the period depends
    on user feedback and may be extended.
-2. Announce that Reduced BMIs are no longer experimental and introduce
-   ``-fmodules-reduced-bmi`` as a new option, and recommend use of the new
-   option. This transition is expected to take 1~2 additional releases as well.
 3. Finally, ``-fmodules-reduced-bmi`` will be the default. When that time
    comes, the term BMI will refer to the Reduced BMI and the Full BMI will only
    be meaningful to build systems which elect to support two-phase compilation.
