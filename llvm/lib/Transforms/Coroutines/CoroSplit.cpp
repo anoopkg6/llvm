@@ -30,6 +30,7 @@
 #include "llvm/Analysis/CFG.h"
 #include "llvm/Analysis/CallGraph.h"
 #include "llvm/Analysis/ConstantFolding.h"
+#include "llvm/Analysis/DebugInfoCache.h"
 #include "llvm/Analysis/LazyCallGraph.h"
 #include "llvm/Analysis/OptimizationRemarkEmitter.h"
 #include "llvm/Analysis/TargetTransformInfo.h"
@@ -41,6 +42,7 @@
 #include "llvm/IR/CallingConv.h"
 #include "llvm/IR/Constants.h"
 #include "llvm/IR/DataLayout.h"
+#include "llvm/IR/DebugInfo.h"
 #include "llvm/IR/DerivedTypes.h"
 #include "llvm/IR/Dominators.h"
 #include "llvm/IR/Function.h"
@@ -83,6 +85,47 @@ using namespace llvm;
 
 namespace {
 
+const DebugInfoFinder *cachedDIFinder(Function &F,
+                                      const DebugInfoCache *DICache) {
+  if (!DICache)
+    return nullptr;
+
+  auto *SP = F.getSubprogram();
+  auto *CU = SP ? SP->getUnit() : nullptr;
+  if (!CU)
+    return nullptr;
+
+  auto Found = DICache->Result.find(CU);
+  if (Found == DICache->Result.end())
+    return nullptr;
+
+  return &Found->getSecond();
+}
+
+/// Collect (a known) subset of global debug info metadata potentially used by
+/// the function \p F.
+///
+/// This metadata set can be used to avoid cloning debug info not owned by \p F
+/// and is shared among all potential clones \p F.
+void collectGlobalDebugInfo(Function &F, MetadataSetTy &GlobalDebugInfo,
+                            const DebugInfoCache *DICache) {
+  TimeTraceScope FunctionScope("CollectGlobalDebugInfo");
+
+  DebugInfoFinder DIFinder;
+
+  // Copy DIFinder from cache which is primed on F's compile unit when available
+  auto *PrimedDIFinder = cachedDIFinder(F, DICache);
+  if (PrimedDIFinder)
+    DIFinder = *PrimedDIFinder;
+
+  DISubprogram *SPClonedWithinModule = ProcessSubprogramAttachment(
+      F, CloneFunctionChangeType::LocalChangesOnly, DIFinder);
+
+  FindDebugInfoToIdentityMap(GlobalDebugInfo,
+                             CloneFunctionChangeType::LocalChangesOnly,
+                             DIFinder, SPClonedWithinModule);
+}
+
 /// A little helper class for building
 class CoroCloner {
 public:
@@ -119,21 +162,26 @@ private:
 
   TargetTransformInfo &TTI;
 
+  const MetadataSetTy &GlobalDebugInfo;
+
   /// Create a cloner for a switch lowering.
   CoroCloner(Function &OrigF, const Twine &Suffix, coro::Shape &Shape,
-             Kind FKind, TargetTransformInfo &TTI)
+             Kind FKind, TargetTransformInfo &TTI,
+             const MetadataSetTy &GlobalDebugInfo)
       : OrigF(OrigF), NewF(nullptr), Suffix(Suffix), Shape(Shape), FKind(FKind),
-        Builder(OrigF.getContext()), TTI(TTI) {
+        Builder(OrigF.getContext()), TTI(TTI),
+        GlobalDebugInfo(GlobalDebugInfo) {
     assert(Shape.ABI == coro::ABI::Switch);
   }
 
   /// Create a cloner for a continuation lowering.
   CoroCloner(Function &OrigF, const Twine &Suffix, coro::Shape &Shape,
              Function *NewF, AnyCoroSuspendInst *ActiveSuspend,
-             TargetTransformInfo &TTI)
+             TargetTransformInfo &TTI, const MetadataSetTy &GlobalDebugInfo)
       : OrigF(OrigF), NewF(NewF), Suffix(Suffix), Shape(Shape),
         FKind(Shape.ABI == coro::ABI::Async ? Kind::Async : Kind::Continuation),
-        Builder(OrigF.getContext()), ActiveSuspend(ActiveSuspend), TTI(TTI) {
+        Builder(OrigF.getContext()), ActiveSuspend(ActiveSuspend), TTI(TTI),
+        GlobalDebugInfo(GlobalDebugInfo) {
     assert(Shape.ABI == coro::ABI::Retcon ||
            Shape.ABI == coro::ABI::RetconOnce || Shape.ABI == coro::ABI::Async);
     assert(NewF && "need existing function for continuation");
@@ -144,10 +192,11 @@ public:
   /// Create a clone for a switch lowering.
   static Function *createClone(Function &OrigF, const Twine &Suffix,
                                coro::Shape &Shape, Kind FKind,
-                               TargetTransformInfo &TTI) {
+                               TargetTransformInfo &TTI,
+                               const MetadataSetTy &GlobalDebugInfo) {
     TimeTraceScope FunctionScope("CoroCloner");
 
-    CoroCloner Cloner(OrigF, Suffix, Shape, FKind, TTI);
+    CoroCloner Cloner(OrigF, Suffix, Shape, FKind, TTI, GlobalDebugInfo);
     Cloner.create();
     return Cloner.getFunction();
   }
@@ -156,10 +205,12 @@ public:
   static Function *createClone(Function &OrigF, const Twine &Suffix,
                                coro::Shape &Shape, Function *NewF,
                                AnyCoroSuspendInst *ActiveSuspend,
-                               TargetTransformInfo &TTI) {
+                               TargetTransformInfo &TTI,
+                               const MetadataSetTy &GlobalDebugInfo) {
     TimeTraceScope FunctionScope("CoroCloner");
 
-    CoroCloner Cloner(OrigF, Suffix, Shape, NewF, ActiveSuspend, TTI);
+    CoroCloner Cloner(OrigF, Suffix, Shape, NewF, ActiveSuspend, TTI,
+                      GlobalDebugInfo);
     Cloner.create();
     return Cloner.getFunction();
   }
@@ -1015,8 +1066,11 @@ void CoroCloner::create() {
   auto savedLinkage = NewF->getLinkage();
   NewF->setLinkage(llvm::GlobalValue::ExternalLinkage);
 
-  CloneFunctionInto(NewF, &OrigF, VMap,
-                    CloneFunctionChangeType::LocalChangesOnly, Returns);
+  CloneFunctionAttributesInto(NewF, &OrigF, VMap, false);
+  CloneFunctionMetadataInto(NewF, &OrigF, VMap, RF_None, nullptr, nullptr,
+                            &GlobalDebugInfo);
+  CloneFunctionBodyInto(NewF, &OrigF, VMap, RF_None, Returns, "", nullptr,
+                        nullptr, nullptr, &GlobalDebugInfo);
 
   auto &Context = NewF->getContext();
 
@@ -1487,19 +1541,25 @@ namespace {
 struct SwitchCoroutineSplitter {
   static void split(Function &F, coro::Shape &Shape,
                     SmallVectorImpl<Function *> &Clones,
-                    TargetTransformInfo &TTI) {
+                    TargetTransformInfo &TTI, const DebugInfoCache *DICache) {
     assert(Shape.ABI == coro::ABI::Switch);
+
+    MetadataSetTy GlobalDebugInfo;
+    collectGlobalDebugInfo(F, GlobalDebugInfo, DICache);
 
     // Create a resume clone by cloning the body of the original function,
     // setting new entry block and replacing coro.suspend an appropriate value
     // to force resume or cleanup pass for every suspend point.
     createResumeEntryBlock(F, Shape);
-    auto *ResumeClone = CoroCloner::createClone(
-        F, ".resume", Shape, CoroCloner::Kind::SwitchResume, TTI);
-    auto *DestroyClone = CoroCloner::createClone(
-        F, ".destroy", Shape, CoroCloner::Kind::SwitchUnwind, TTI);
+    auto *ResumeClone = CoroCloner::createClone(F, ".resume", Shape,
+                                                CoroCloner::Kind::SwitchResume,
+                                                TTI, GlobalDebugInfo);
+    auto *DestroyClone = CoroCloner::createClone(F, ".destroy", Shape,
+                                                 CoroCloner::Kind::SwitchUnwind,
+                                                 TTI, GlobalDebugInfo);
     auto *CleanupClone = CoroCloner::createClone(
-        F, ".cleanup", Shape, CoroCloner::Kind::SwitchCleanup, TTI);
+        F, ".cleanup", Shape, CoroCloner::Kind::SwitchCleanup, TTI,
+        GlobalDebugInfo);
 
     postSplitCleanup(*ResumeClone);
     postSplitCleanup(*DestroyClone);
@@ -1799,7 +1859,8 @@ CallInst *coro::createMustTailCall(DebugLoc Loc, Function *MustTailCallFn,
 
 void coro::AsyncABI::splitCoroutine(Function &F, coro::Shape &Shape,
                                     SmallVectorImpl<Function *> &Clones,
-                                    TargetTransformInfo &TTI) {
+                                    TargetTransformInfo &TTI,
+                                    const DebugInfoCache *DICache) {
   assert(Shape.ABI == coro::ABI::Async);
   assert(Clones.empty());
   // Reset various things that the optimizer might have decided it
@@ -1884,18 +1945,23 @@ void coro::AsyncABI::splitCoroutine(Function &F, coro::Shape &Shape,
   }
 
   assert(Clones.size() == Shape.CoroSuspends.size());
+
+  MetadataSetTy GlobalDebugInfo;
+  collectGlobalDebugInfo(F, GlobalDebugInfo, DICache);
+
   for (size_t Idx = 0, End = Shape.CoroSuspends.size(); Idx != End; ++Idx) {
     auto *Suspend = Shape.CoroSuspends[Idx];
     auto *Clone = Clones[Idx];
 
     CoroCloner::createClone(F, "resume." + Twine(Idx), Shape, Clone, Suspend,
-                            TTI);
+                            TTI, GlobalDebugInfo);
   }
 }
 
 void coro::AnyRetconABI::splitCoroutine(Function &F, coro::Shape &Shape,
                                         SmallVectorImpl<Function *> &Clones,
-                                        TargetTransformInfo &TTI) {
+                                        TargetTransformInfo &TTI,
+                                        const DebugInfoCache *DICache) {
   assert(Shape.ABI == coro::ABI::Retcon || Shape.ABI == coro::ABI::RetconOnce);
   assert(Clones.empty());
 
@@ -2014,12 +2080,16 @@ void coro::AnyRetconABI::splitCoroutine(Function &F, coro::Shape &Shape,
   }
 
   assert(Clones.size() == Shape.CoroSuspends.size());
+
+  MetadataSetTy GlobalDebugInfo;
+  collectGlobalDebugInfo(F, GlobalDebugInfo, DICache);
+
   for (size_t i = 0, e = Shape.CoroSuspends.size(); i != e; ++i) {
     auto Suspend = Shape.CoroSuspends[i];
     auto Clone = Clones[i];
 
-    CoroCloner::createClone(F, "resume." + Twine(i), Shape, Clone, Suspend,
-                            TTI);
+    CoroCloner::createClone(F, "resume." + Twine(i), Shape, Clone, Suspend, TTI,
+                            GlobalDebugInfo);
   }
 }
 
@@ -2066,13 +2136,15 @@ static bool hasSafeElideCaller(Function &F) {
 
 void coro::SwitchABI::splitCoroutine(Function &F, coro::Shape &Shape,
                                      SmallVectorImpl<Function *> &Clones,
-                                     TargetTransformInfo &TTI) {
-  SwitchCoroutineSplitter::split(F, Shape, Clones, TTI);
+                                     TargetTransformInfo &TTI,
+                                     const DebugInfoCache *DICache) {
+  SwitchCoroutineSplitter::split(F, Shape, Clones, TTI, DICache);
 }
 
 static void doSplitCoroutine(Function &F, SmallVectorImpl<Function *> &Clones,
                              coro::BaseABI &ABI, TargetTransformInfo &TTI,
-                             bool OptimizeFrame) {
+                             bool OptimizeFrame,
+                             const DebugInfoCache *DICache) {
   PrettyStackTraceFunction prettyStackTrace(F);
 
   auto &Shape = ABI.Shape;
@@ -2097,7 +2169,7 @@ static void doSplitCoroutine(Function &F, SmallVectorImpl<Function *> &Clones,
   if (isNoSuspendCoroutine) {
     handleNoSuspendCoroutine(Shape);
   } else {
-    ABI.splitCoroutine(F, Shape, Clones, TTI);
+    ABI.splitCoroutine(F, Shape, Clones, TTI, DICache);
   }
 
   // Replace all the swifterror operations in the original function.
@@ -2294,6 +2366,9 @@ PreservedAnalyses CoroSplitPass::run(LazyCallGraph::SCC &C,
   auto &FAM =
       AM.getResult<FunctionAnalysisManagerCGSCCProxy>(C, CG).getManager();
 
+  const auto &MAMProxy = AM.getResult<ModuleAnalysisManagerCGSCCProxy>(C, CG);
+  const auto *DICache = MAMProxy.getCachedResult<DebugInfoCacheAnalysis>(M);
+
   // Check for uses of llvm.coro.prepare.retcon/async.
   SmallVector<Function *, 2> PrepareFns;
   addPrepareFunction(M, PrepareFns, "llvm.coro.prepare.retcon");
@@ -2330,7 +2405,7 @@ PreservedAnalyses CoroSplitPass::run(LazyCallGraph::SCC &C,
 
     SmallVector<Function *, 4> Clones;
     auto &TTI = FAM.getResult<TargetIRAnalysis>(F);
-    doSplitCoroutine(F, Clones, *ABI, TTI, OptimizeFrame);
+    doSplitCoroutine(F, Clones, *ABI, TTI, OptimizeFrame, DICache);
     CurrentSCC = &updateCallGraphAfterCoroutineSplit(
         *N, Shape, Clones, *CurrentSCC, CG, AM, UR, FAM);
 
