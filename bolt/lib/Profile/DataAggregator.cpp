@@ -794,10 +794,8 @@ bool DataAggregator::doBranch(uint64_t From, uint64_t To, uint64_t Count,
     if (!Offset)
       return false;
 
-    // FIXME: support BAT case where the function might be in empty state
-    // (split fragments declared non-simple).
     if (!Func.hasCFG())
-      return false;
+      return BAT && !BAT->isSecondaryEntry(Func.getAddress(), Offset);
 
     // The offset should not be an entry point or a landing pad.
     const BinaryBasicBlock *ContBB = Func.getBasicBlockAtOffset(Offset);

@@ -186,6 +186,9 @@ private:
   const static uint32_t LPENTRY = 0x1;
 
 public:
+  /// Returns whether a given \p Offset is a secondary entry point or a landing pad in function with address \p Address.
+  bool isSecondaryEntry(uint64_t Address, uint32_t Offset) const;
+
   /// Map basic block input offset to a basic block index and hash pair.
   class BBHashMapTy {
     struct EntryTy {

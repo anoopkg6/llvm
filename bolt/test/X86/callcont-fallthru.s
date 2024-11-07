@@ -5,7 +5,6 @@
 # RUN: link_fdata %s %t %t.pa1 PREAGG
 # RUN: link_fdata %s %t %t.pa2 PREAGG2
 # RUN: link_fdata %s %t %t.pa3 PREAGG3
-# RUN: link_fdata %s %t %t.pa4 PREAGG4
 
 ## Check normal case: fallthrough is not LP or secondary entry.
 # RUN: llvm-strip --strip-unneeded %t -o %t.exe
@@ -18,18 +17,38 @@
 # RUN:   --print-cfg --print-only=main | FileCheck %s --check-prefix=CHECK2
 
 ## Check that we don't treat secondary entry points as call continuation sites.
-# RUN: llvm-bolt %t --pa -p %t.pa3 -o %t.out \
+# RUN: llvm-bolt %t --pa -p %t.pa3 -o %t.out3 \
 # RUN:   --print-cfg --print-only=main | FileCheck %s --check-prefix=CHECK3
 
 ## Check fallthrough to a landing pad case.
-# RUN: llvm-bolt %t.exe --pa -p %t.pa4 -o %t.out --enable-bat \
-# RUN:   --print-cfg --print-only=main | FileCheck %s --check-prefix=CHECK4
+# RUN: llvm-bolt %t.exe --pa -p %t.pa3 -o %t.out4 --enable-bat \
+# RUN:   --print-cfg --print-only=main | FileCheck %s --check-prefix=CHECK3
 
 ## Check that a landing pad is emitted in BAT
 # RUN: llvm-bat-dump %t.out --dump-all | FileCheck %s --check-prefix=CHECK-BAT
 
 # CHECK-BAT:      1 secondary entry points:
 # CHECK-BAT-NEXT: 0x38 (lp)
+
+## Check BAT case of a fallthrough to a call continuation
+# link_fdata %s %t.out3 %t.pa.bat PREAGG
+# RUN: perf2bolt %t.out3 -p %t.pa.bat --pa -o %t.fdata
+# RUN: FileCheck %s --check-prefix=CHECK-BAT-CC --input-file=%t.fdata
+# CHECK-BAT-CC: main
+
+## Check BAT case of a fallthrough to a secondary entry point or a landing pad
+# link_fdata %s %t.out3 %t.pa.bat2 PREAGG3
+
+## Secondary entry
+# RUN: perf2bolt %t.out3 -p %t.pa.bat2 --pa -o %t.fdata2
+# RUN: FileCheck %s --check-prefix=CHECK-BAT-ENTRY --input-file=%t.fdata2
+# CHECK-BAT-ENTRY: main
+
+## Landing pad
+# RUN: llvm-strip --strip-unneeded %t.out3
+# RUN: perf2bolt %t.out3 -p %t.pa.bat2 --pa -o %t.fdata3
+# RUN: FileCheck %s --check-prefix=CHECK-BAT-LP --input-file=%t.fdata3
+# CHECK-BAT-LP: main
 
   .globl foo
   .type foo, %function
@@ -83,15 +102,11 @@ Ltmp4:
 # CHECK2:      callq foo
 # CHECK2-NEXT: count: 3
 
-## Target is a secondary entry point
+## Target is a secondary entry point (non-stripped) or a landing pad
+## (strip-unneeded)
 # PREAGG3: B X:0 #Ltmp3# 2 0
 # CHECK3:      callq foo
 # CHECK3-NEXT: count: 0
-
-## Target is a landing pad
-# PREAGG4: B X:0 #Ltmp3# 2 0
-# CHECK4:      callq puts@PLT
-# CHECK4-NEXT: count: 0
 
 Ltmp3:
 	cmpl	$0x0, -0x18(%rbp)

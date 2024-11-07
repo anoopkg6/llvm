@@ -649,5 +649,16 @@ BoltAddressTranslation::translateSymbol(const BinaryContext &BC,
   return std::pair(ParentBF, SecondaryEntryId);
 }
 
+bool BoltAddressTranslation::isSecondaryEntry(uint64_t Address,
+                                              uint32_t Offset) const {
+  auto FunctionIt = SecondaryEntryPointsMap.find(Address);
+  if (FunctionIt == SecondaryEntryPointsMap.end())
+    return false;
+  const std::vector<uint32_t> &Offsets = FunctionIt->second;
+  uint64_t InputOffset = translate(Address, Offset, /*IsBranchSrc*/ false);
+  auto OffsetIt = llvm::lower_bound(Offsets, InputOffset << 1);
+  return OffsetIt != Offsets.end() && *OffsetIt >> 1 == InputOffset;
+}
+
 } // namespace bolt
 } // namespace llvm
