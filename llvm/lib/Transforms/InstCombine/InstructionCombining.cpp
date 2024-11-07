@@ -1775,15 +1775,13 @@ Instruction *InstCombinerImpl::foldOpIntoPhi(Instruction &I, PHINode *PN) {
 
   // We normally only transform phis with a single use.
   bool AllUsesIdentical = false;
-  bool MultipleUses = false;
+  bool MultipleShuffleVectorUses = false;
   if (!PN->hasOneUse()) {
     // Exceptions:
     //   - All uses are identical.
     //   - All uses are shufflevector instructions that fully simplify; this
     //     helps interleave -> phi -> 2x de-interleave+de patterns.
-    if (isa<ShuffleVectorInst>(I)) {
-      MultipleUses = true;
-    }
+    MultipleShuffleVectorUses = isa<ShuffleVectorInst>(I);
     AllUsesIdentical = true;
     unsigned NumUses = 0;
     for (User *U : PN->users()) {
@@ -1796,8 +1794,8 @@ Instruction *InstCombinerImpl::foldOpIntoPhi(Instruction &I, PHINode *PN) {
         AllUsesIdentical = false;
       // Only inspect first 4 uses to avoid quadratic complexity.
       if (!isa<ShuffleVectorInst>(UI) || NumUses > 4)
-        MultipleUses = false;
-      if (!AllUsesIdentical && !MultipleUses)
+        MultipleShuffleVectorUses = false;
+      if (!AllUsesIdentical && !MultipleShuffleVectorUses)
         return nullptr;
     }
   }
@@ -1850,9 +1848,9 @@ Instruction *InstCombinerImpl::foldOpIntoPhi(Instruction &I, PHINode *PN) {
       continue;
     }
 
-    // Be conservative in MultipleUses case and do not allow non-simplified
-    // vals.
-    if (MultipleUses)
+    // Be conservative in cases with multiple uses and require all inputs to
+    // simplify.
+    if (MultipleShuffleVectorUses)
       return nullptr;
 
     if (SeenNonSimplifiedInVal)
@@ -1926,7 +1924,7 @@ Instruction *InstCombinerImpl::foldOpIntoPhi(Instruction &I, PHINode *PN) {
     }
   }
 
-  if (!MultipleUses || AllUsesIdentical) {
+  if (!MultipleShuffleVectorUses || AllUsesIdentical) {
     replaceAllDbgUsesWith(const_cast<PHINode &>(*PN),
                           const_cast<PHINode &>(*NewPN),
                           const_cast<PHINode &>(*PN), DT);
