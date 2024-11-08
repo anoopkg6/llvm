@@ -357,10 +357,10 @@ class HexagonThunk : public Thunk {
 public:
   HexagonThunk(Ctx &ctx, const InputSection &isec, Relocation &rel,
                Symbol &dest)
-      : Thunk(ctx, dest, 0), RelOffset(rel.offset) {
+      : Thunk(ctx, dest, 0), relOffset(rel.offset) {
     alignment = 4;
   }
-  uint32_t RelOffset;
+  uint32_t relOffset;
   uint32_t size() override { return ctx.arg.isPic ? 12 : 8; }
   void writeTo(uint8_t *buf) override;
   void addSymbols(ThunkSection &isec) override;
@@ -1405,7 +1405,7 @@ void HexagonThunk::writeTo(uint8_t *buf) {
   }
 }
 void HexagonThunk::addSymbols(ThunkSection &isec) {
-  Symbol *enclosing = isec.getEnclosingSymbol(RelOffset);
+  Symbol *enclosing = isec.getEnclosingSymbol(relOffset);
   StringRef src = enclosing ? enclosing->getName() : isec.name;
 
   addSymbol(saver().save("__trampoline_for_" + destination.getName() +
@@ -1590,7 +1590,8 @@ static Thunk *addThunkHexagon(Ctx &ctx, const InputSection &isec,
   case R_HEX_GD_PLT_B22_PCREL:
     return make<HexagonThunk>(ctx, isec, rel, s);
   default:
-    fatal("unrecognized relocation type " + toString(rel.type));
+    Fatal(ctx) << "unrecognized relocation type " + toString(rel.type);
+    llvm_unreachable("");
   }
 }
 

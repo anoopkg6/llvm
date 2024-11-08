@@ -2,7 +2,7 @@
 # RUN: llvm-mc -filetype=obj -triple=hexagon-unknown-elf %s -o %t.o
 # RUN: ld.lld %t.o -o %t
 # RUN: llvm-objdump -d %t 2>&1 | FileCheck --check-prefix=CHECK-NONPIC %s
-# RUN: llvm-mc -filetype=obj --position-independent \
+# RUN: llvm-mc -filetype=obj \
 # RUN:         -triple=hexagon-unknown-elf %s -o %t.o
 
 # RUN: ld.lld --pie %t.o -o %t

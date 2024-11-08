@@ -279,8 +279,7 @@ bool Hexagon::inBranchRange(RelType type, uint64_t src, uint64_t dst) const {
   default:
     return true;
   }
-  llvm::report_fatal_error(StringRef(
-      "unsupported relocation type used in isInRange: " + toString(type)));
+  llvm_unreachable("");
 }
 
 bool Hexagon::needsThunk(RelExpr expr, RelType type, const InputFile *file,

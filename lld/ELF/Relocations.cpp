@@ -2089,9 +2089,8 @@ static int64_t getPCBias(Ctx &ctx, const InputSection &isec,
       return 8;
     }
   }
-  if (ctx.arg.emachine == EM_HEXAGON) {
+  if (ctx.arg.emachine == EM_HEXAGON)
     return -getHexagonPacketOffset(isec, rel);
-  }
   return 0;
 }
 
