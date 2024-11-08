@@ -1024,7 +1024,7 @@ bool VPWidenIntrinsicRecipe::onlyFirstLaneUsed(const VPValue *Op) const {
   // Vector predication intrinsics only demand the the first lane the last
   // operand (the EVL operand).
   if (VectorIntrinsicID == Intrinsic::experimental_vp_splat)
-    return Op == getOperand(0);
+    return Op == getOperand(0) || Op == getOperand(2);
   return VPIntrinsic::isVPIntrinsic(VectorIntrinsicID) &&
          Op == getOperand(getNumOperands() - 1);
 }
