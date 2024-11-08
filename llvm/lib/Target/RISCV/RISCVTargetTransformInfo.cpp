@@ -1193,11 +1193,10 @@ RISCVTTIImpl::getIntrinsicInstrCost(const IntrinsicCostAttributes &ICA,
                               CostKind);
   case Intrinsic::experimental_vp_splat: {
     auto LT = getTypeLegalizationCost(RetTy);
-    if (RetTy->getScalarSizeInBits() == 1) {
+    if (RetTy->getScalarSizeInBits() == 1)
       return LT.first *
              (1 + getRISCVInstructionCost({RISCV::VMV_V_X, RISCV::VMSNE_VI},
                                           LT.second, CostKind));
-    }
     return LT.first *
            getRISCVInstructionCost(RISCV::VMV_V_X, LT.second, CostKind);
   }

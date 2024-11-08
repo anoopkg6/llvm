@@ -154,8 +154,6 @@ bool llvm::isVectorIntrinsicWithOverloadTypeAtArg(Intrinsic::ID ID,
     return OpdIdx == 0;
   case Intrinsic::powi:
     return OpdIdx == -1 || OpdIdx == 1;
-  case Intrinsic::experimental_vp_splat:
-    return OpdIdx == -1;
   default:
     return OpdIdx == -1;
   }
