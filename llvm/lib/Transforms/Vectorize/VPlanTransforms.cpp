@@ -1498,9 +1498,8 @@ static void transformRecipestoEVLRecipes(VPlan &Plan, VPValue &EVL) {
                           IntegerType::getInt1Ty(CI->getContext())));
                       Ops.push_back(Mask);
                     }
-                    if (VPIntrinsic::getVectorLengthParamPos(VPID)) {
+                    if (VPIntrinsic::getVectorLengthParamPos(VPID))
                       Ops.push_back(&EVL);
-                    }
                     return new VPWidenIntrinsicRecipe(
                         *CI, VPID, Ops, TypeInfo.inferScalarType(CInst),
                         CInst->getDebugLoc());
