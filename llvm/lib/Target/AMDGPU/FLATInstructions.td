@@ -14,6 +14,12 @@ def GlobalSAddr : ComplexPattern<iPTR, 3, "SelectGlobalSAddr", [], [SDNPWantRoot
 def ScratchSAddr : ComplexPattern<iPTR, 2, "SelectScratchSAddr", [], [SDNPWantRoot], -10>;
 def ScratchSVAddr : ComplexPattern<iPTR, 3, "SelectScratchSVAddr", [], [SDNPWantRoot], -10>;
 
+class True16D16Table <string hiOp, string loOp> {
+  Instruction T16Op = !cast<Instruction>(NAME);
+  Instruction HiOp = !cast<Instruction>(hiOp);
+  Instruction LoOp = !cast<Instruction>(loOp);
+}
+
 //===----------------------------------------------------------------------===//
 // FLAT classes
 //===----------------------------------------------------------------------===//
@@ -225,6 +231,12 @@ class FLAT_Load_Pseudo <string opName, RegisterClass regClass,
   let DisableEncoding = !if(HasTiedOutput, "$vdst_in", "");
 }
 
+multiclass FLAT_Load_Pseudo_t16<string opName> {
+  def "" : FLAT_Load_Pseudo<opName, VGPR_32, 1>;
+  let True16Predicate = UseRealTrue16Insts in
+    def _t16 : FLAT_Load_Pseudo<opName#"_t16", VGPR_16>, True16D16Table<NAME#"_HI", NAME>;
+}
+
 class FLAT_Store_Pseudo <string opName, RegisterClass vdataClass,
   bit HasSaddr = 0, bit EnableSaddr = 0> : FLAT_Pseudo<
   opName,
@@ -240,6 +252,12 @@ class FLAT_Store_Pseudo <string opName, RegisterClass vdataClass,
   let has_vdst = 0;
   let has_saddr = HasSaddr;
   let enabled_saddr = EnableSaddr;
+}
+
+multiclass FLAT_Store_Pseudo_t16<string opName> {
+  def "" : FLAT_Store_Pseudo<opName, VGPR_32>;
+  let True16Predicate = UseRealTrue16Insts in
+    def _t16 : FLAT_Store_Pseudo<opName#"_t16", VGPR_16>, True16D16Table<NAME#"_D16_HI", NAME>;
 }
 
 multiclass FLAT_Global_Load_Pseudo<string opName, RegisterClass regClass, bit HasTiedInput = 0> {
@@ -653,8 +671,6 @@ def FLAT_LOAD_DWORDX2  : FLAT_Load_Pseudo <"flat_load_dwordx2", VReg_64>;
 def FLAT_LOAD_DWORDX4  : FLAT_Load_Pseudo <"flat_load_dwordx4", VReg_128>;
 def FLAT_LOAD_DWORDX3  : FLAT_Load_Pseudo <"flat_load_dwordx3", VReg_96>;
 
-def FLAT_STORE_BYTE    : FLAT_Store_Pseudo <"flat_store_byte", VGPR_32>;
-def FLAT_STORE_SHORT   : FLAT_Store_Pseudo <"flat_store_short", VGPR_32>;
 def FLAT_STORE_DWORD   : FLAT_Store_Pseudo <"flat_store_dword", VGPR_32>;
 def FLAT_STORE_DWORDX2 : FLAT_Store_Pseudo <"flat_store_dwordx2", VReg_64>;
 def FLAT_STORE_DWORDX4 : FLAT_Store_Pseudo <"flat_store_dwordx4", VReg_128>;
@@ -662,17 +678,20 @@ def FLAT_STORE_DWORDX3 : FLAT_Store_Pseudo <"flat_store_dwordx3", VReg_96>;
 
 let SubtargetPredicate = HasD16LoadStore in {
 let TiedSourceNotRead = 1 in {
-def FLAT_LOAD_UBYTE_D16     : FLAT_Load_Pseudo <"flat_load_ubyte_d16", VGPR_32, 1>;
 def FLAT_LOAD_UBYTE_D16_HI  : FLAT_Load_Pseudo <"flat_load_ubyte_d16_hi", VGPR_32, 1>;
-def FLAT_LOAD_SBYTE_D16     : FLAT_Load_Pseudo <"flat_load_sbyte_d16", VGPR_32, 1>;
+defm FLAT_LOAD_UBYTE_D16    : FLAT_Load_Pseudo_t16 <"flat_load_ubyte_d16">;
 def FLAT_LOAD_SBYTE_D16_HI  : FLAT_Load_Pseudo <"flat_load_sbyte_d16_hi", VGPR_32, 1>;
-def FLAT_LOAD_SHORT_D16     : FLAT_Load_Pseudo <"flat_load_short_d16", VGPR_32, 1>;
+defm FLAT_LOAD_SBYTE_D16    : FLAT_Load_Pseudo_t16 <"flat_load_sbyte_d16">;
 def FLAT_LOAD_SHORT_D16_HI  : FLAT_Load_Pseudo <"flat_load_short_d16_hi", VGPR_32, 1>;
+defm FLAT_LOAD_SHORT_D16    : FLAT_Load_Pseudo_t16 <"flat_load_short_d16">;
 }
 
 def FLAT_STORE_BYTE_D16_HI  : FLAT_Store_Pseudo <"flat_store_byte_d16_hi", VGPR_32>;
 def FLAT_STORE_SHORT_D16_HI : FLAT_Store_Pseudo <"flat_store_short_d16_hi", VGPR_32>;
 }
+
+defm FLAT_STORE_BYTE    : FLAT_Store_Pseudo_t16 <"flat_store_byte">;
+defm FLAT_STORE_SHORT   : FLAT_Store_Pseudo_t16 <"flat_store_short">;
 
 defm FLAT_ATOMIC_CMPSWAP    : FLAT_Atomic_Pseudo <"flat_atomic_cmpswap",
                                 VGPR_32, i32, v2i32, VReg_64>;
@@ -1044,6 +1063,11 @@ class FlatLoadPat_D16 <FLAT_Pseudo inst, SDPatternOperator node, ValueType vt> :
   (inst $vaddr, $offset, 0, $in)
 >;
 
+class FlatLoadPat_D16_t16 <FLAT_Pseudo inst, SDPatternOperator node, ValueType vt> : GCNPat <
+  (vt (node (FlatOffset (i64 VReg_64:$vaddr), i32:$offset))),
+  (inst $vaddr, $offset, (i32 0))
+>;
+
 class FlatSignedLoadPat_D16 <FLAT_Pseudo inst, SDPatternOperator node, ValueType vt> : GCNPat <
   (node (GlobalOffset (i64 VReg_64:$vaddr), i32:$offset), vt:$in),
   (inst $vaddr, $offset, 0, $in)
@@ -1366,15 +1390,30 @@ def : FlatLoadPat <FLAT_LOAD_UBYTE, zextloadi8_flat, i32>;
 def : FlatLoadPat <FLAT_LOAD_SBYTE, sextloadi8_flat, i32>;
 def : FlatLoadPat <FLAT_LOAD_SBYTE, atomic_load_sext_8_flat, i32>;
 def : FlatLoadPat <FLAT_LOAD_SBYTE, atomic_load_sext_8_flat, i16>;
-def : FlatLoadPat <FLAT_LOAD_UBYTE, extloadi8_flat, i16>;
-def : FlatLoadPat <FLAT_LOAD_UBYTE, zextloadi8_flat, i16>;
-def : FlatLoadPat <FLAT_LOAD_SBYTE, sextloadi8_flat, i16>;
 def : FlatLoadPat <FLAT_LOAD_USHORT, extloadi16_flat, i32>;
 def : FlatLoadPat <FLAT_LOAD_USHORT, zextloadi16_flat, i32>;
-def : FlatLoadPat <FLAT_LOAD_USHORT, load_flat, i16>;
 def : FlatLoadPat <FLAT_LOAD_SSHORT, sextloadi16_flat, i32>;
 def : FlatLoadPat <FLAT_LOAD_SSHORT, atomic_load_sext_16_flat, i32>;
 def : FlatLoadPat <FLAT_LOAD_DWORDX3, load_flat, v3i32>;
+
+foreach p = [NotHasTrue16BitInsts, UseFakeTrue16Insts] in
+let True16Predicate = p in {
+  def : FlatLoadPat <FLAT_LOAD_UBYTE, extloadi8_flat, i16>;
+  def : FlatLoadPat <FLAT_LOAD_UBYTE, zextloadi8_flat, i16>;
+  def : FlatLoadPat <FLAT_LOAD_SBYTE, sextloadi8_flat, i16>;
+  def : FlatLoadPat <FLAT_LOAD_USHORT, load_flat, i16>;
+  def : FlatStorePat <FLAT_STORE_BYTE, truncstorei8_flat, i16>;
+  def : FlatStorePat <FLAT_STORE_SHORT, store_flat, i16>;
+}
+
+let OtherPredicates = [D16PreservesUnusedBits, HasFlatAddressSpace], True16Predicate = UseRealTrue16Insts in {
+  def : FlatLoadPat_D16_t16<FLAT_LOAD_UBYTE_D16_t16, extloadi8_flat, i16>;
+  def : FlatLoadPat_D16_t16<FLAT_LOAD_UBYTE_D16_t16, zextloadi8_flat, i16>;
+  def : FlatLoadPat_D16_t16<FLAT_LOAD_SBYTE_D16_t16, sextloadi8_flat, i16>;
+  def : FlatLoadPat_D16_t16<FLAT_LOAD_SHORT_D16_t16, load_flat, i16>;
+  def : FlatStorePat <FLAT_STORE_BYTE_t16, truncstorei8_flat, i16>;
+  def : FlatStorePat <FLAT_STORE_SHORT_t16, store_flat, i16>;
+} // End let OtherPredicates = [D16PreservesUnusedBits, HasFlatAddressSpace], True16Predicate = UseRealTrue16Insts
 
 def : FlatLoadPat <FLAT_LOAD_DWORD, atomic_load_32_flat, i32>;
 def : FlatLoadPat <FLAT_LOAD_DWORDX2, atomic_load_64_flat, i64>;
@@ -1453,9 +1492,6 @@ let SubtargetPredicate = isGFX12Plus in {
   let OtherPredicates = [HasAtomicCSubNoRtnInsts] in
     defm : FlatAtomicNoRtnPatWithAddrSpace<"FLAT_ATOMIC_COND_SUB_U32", "int_amdgcn_atomic_cond_sub_u32", "flat_addrspace", i32>;
 }
-
-def : FlatStorePat <FLAT_STORE_BYTE, truncstorei8_flat, i16>;
-def : FlatStorePat <FLAT_STORE_SHORT, store_flat, i16>;
 
 let OtherPredicates = [HasD16LoadStore] in {
 def : FlatStorePat <FLAT_STORE_SHORT_D16_HI, truncstorei16_hi16_flat, i32>;
@@ -2752,3 +2788,11 @@ defm SCRATCH_STORE_SHORT_D16_HI    : VSCRATCH_Real_AllAddr_gfx12<0x25, "scratch_
 
 defm SCRATCH_LOAD_BLOCK            : VSCRATCH_Real_AllAddr_gfx12<0x53>;
 defm SCRATCH_STORE_BLOCK           : VSCRATCH_Real_AllAddr_gfx12<0x54>;
+
+def True16D16Table : GenericTable {
+  let FilterClass = "True16D16Table";
+  let CppTypeName = "True16D16Info";
+  let Fields = ["T16Op", "HiOp", "LoOp"];
+  let PrimaryKey = ["T16Op"];
+  let PrimaryKeyName = "getT16D16Helper";
+}
