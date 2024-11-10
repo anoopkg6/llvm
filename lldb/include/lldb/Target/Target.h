@@ -1143,9 +1143,13 @@ public:
                              Address &pointer_addr,
                              bool force_live_memory = false);
 
-  SectionLoadList &GetSectionLoadList() {
-    return m_section_load_history.GetCurrentSectionLoadList();
-  }
+  bool HasLoadedSections();
+
+  lldb::addr_t GetSectionLoadAddress(const lldb::SectionSP &section_sp);
+
+  void ClearSectionLoadList();
+
+  void DumpSectionLoadList(Stream &s);
 
   static Target *GetTargetFromContexts(const ExecutionContext *exe_ctx_ptr,
                                        const SymbolContext *sc_ptr);
@@ -1656,6 +1660,10 @@ protected:
 
   Target(const Target &) = delete;
   const Target &operator=(const Target &) = delete;
+
+  SectionLoadList &GetSectionLoadList() {
+    return m_section_load_history.GetCurrentSectionLoadList();
+  }
 };
 
 } // namespace lldb_private
