@@ -1627,6 +1627,8 @@ public:
   llvm::json::Value
   ReportStatistics(const lldb_private::StatisticsOptions &options);
 
+  void ResetStatistics();
+
   TargetStats &GetStatistics() { return m_stats; }
 
 protected:
