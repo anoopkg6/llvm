@@ -11,10 +11,8 @@
 
 #include <__config>
 #include <__type_traits/copy_cv.h>
-#include <__type_traits/is_enum.h>
 #include <__type_traits/is_integral.h>
 #include <__type_traits/nat.h>
-#include <__type_traits/remove_cv.h>
 #include <__type_traits/type_list.h>
 
 #if !defined(_LIBCPP_HAS_NO_PRAGMA_SYSTEM_HEADER)
@@ -45,7 +43,7 @@ typedef __type_list<signed char,
         > > > > > __signed_types;
 // clang-format on
 
-template <class _Tp, bool = is_integral<_Tp>::value || is_enum<_Tp>::value>
+template <class _Tp, bool = is_integral<_Tp>::value || __is_enum(_Tp)>
 struct __make_signed{};
 
 template <class _Tp>
@@ -70,7 +68,7 @@ template <> struct __make_signed<__uint128_t,        true> {typedef __int128_t t
 // clang-format on
 
 template <class _Tp>
-using __make_signed_t = __copy_cv_t<_Tp, typename __make_signed<__remove_cv_t<_Tp> >::type>;
+using __make_signed_t = __copy_cv_t<_Tp, typename __make_signed<__remove_cv(_Tp)>::type>;
 
 #endif // __has_builtin(__make_signed)
 
