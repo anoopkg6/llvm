@@ -14,20 +14,17 @@
 #include "X86ISelLowering.h"
 #include "MCTargetDesc/X86ShuffleDecode.h"
 #include "X86.h"
-#include "X86CallingConv.h"
 #include "X86FrameLowering.h"
 #include "X86InstrBuilder.h"
 #include "X86IntrinsicsInfo.h"
 #include "X86MachineFunctionInfo.h"
 #include "X86TargetMachine.h"
-#include "X86TargetObjectFile.h"
 #include "llvm/ADT/SmallBitVector.h"
 #include "llvm/ADT/SmallSet.h"
 #include "llvm/ADT/Statistic.h"
 #include "llvm/ADT/StringExtras.h"
 #include "llvm/ADT/StringSwitch.h"
 #include "llvm/Analysis/BlockFrequencyInfo.h"
-#include "llvm/Analysis/ObjCARCUtil.h"
 #include "llvm/Analysis/ProfileSummaryInfo.h"
 #include "llvm/Analysis/VectorUtils.h"
 #include "llvm/CodeGen/IntrinsicLowering.h"
@@ -27331,8 +27328,6 @@ static SDValue LowerINTRINSIC_W_CHAIN(SDValue Op, const X86Subtarget &Subtarget,
     case Intrinsic::x86_t2rpntlvwz0t1_internal:
     case Intrinsic::x86_t2rpntlvwz1_internal:
     case Intrinsic::x86_t2rpntlvwz1t1_internal: {
-      if (!Subtarget.hasAMXTILE())
-        break;
       auto *X86MFI = DAG.getMachineFunction().getInfo<X86MachineFunctionInfo>();
       X86MFI->setAMXProgModel(AMXProgModelEnum::ManagedRA);
       unsigned IntNo = Op.getConstantOperandVal(1);
@@ -37473,7 +37468,9 @@ X86TargetLowering::EmitInstrWithCustomInserter(MachineInstr &MI,
   case X86::PTDPBF8PS:
   case X86::PTDPBHF8PS:
   case X86::PTDPHBF8PS:
-  case X86::PTDPHF8PS: {
+  case X86::PTDPHF8PS:
+  case X86::PTMMULTF32PS:
+  case X86::PTTMMULTF32PS: {
     unsigned Opc;
     switch (MI.getOpcode()) {
     // clang-format off
@@ -37488,6 +37485,8 @@ X86TargetLowering::EmitInstrWithCustomInserter(MachineInstr &MI,
     case X86::PTDPBHF8PS: Opc = X86::TDPBHF8PS; break;
     case X86::PTDPHBF8PS: Opc = X86::TDPHBF8PS; break;
     case X86::PTDPHF8PS: Opc = X86::TDPHF8PS; break;
+    case X86::PTMMULTF32PS: Opc = X86::TMMULTF32PS; break;
+    case X86::PTTMMULTF32PS: Opc = X86::TTMMULTF32PS; break;
     // clang-format on
     }
 
