@@ -454,6 +454,13 @@ private:
 
   Instruction *hoistFNegAboveFMulFDiv(Value *FNegOp, Instruction &FMFSource);
 
+  /// Helper for `foldOpIntoPhi`. Tests is a given user of the phi node would
+  /// simplify when folded.
+  bool canFoldUserIntoPhi(Instruction &User, PHINode &PN,
+                          SmallVectorImpl<Value *> &NewPhiValues,
+                          SmallVectorImpl<unsigned> &OpsToMoveUseToIncomingBB,
+                          bool AllowOneNonSimplifiedValue);
+
 public:
   /// Create and insert the idiom we use to indicate a block is unreachable
   /// without having to rewrite the CFG from within InstCombine.

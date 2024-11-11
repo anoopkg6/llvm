@@ -1768,6 +1768,87 @@ static Value *simplifyInstructionWithPHI(Instruction &I, PHINode *PN,
   return nullptr;
 }
 
+bool InstCombinerImpl::canFoldUserIntoPhi(
+    Instruction &User, PHINode &PN, SmallVectorImpl<Value *> &NewPhiValues,
+    SmallVectorImpl<unsigned> &OpsToMoveUseToIncomingBB,
+    bool AllowOneNonSimplifiedValue) {
+  // Check that all operands are phi-translatable.
+  for (Value *Op : User.operands()) {
+    if (Op == &PN)
+      continue;
+
+    // Non-instructions never require phi-translation.
+    auto *OpInst = dyn_cast<Instruction>(Op);
+    if (!OpInst)
+      continue;
+
+    // Phi-translate can handle phi nodes in the same block.
+    if (isa<PHINode>(OpInst) && OpInst->getParent() == PN.getParent())
+      continue;
+
+    // Operand dominates the block, no phi-translation necessary.
+    if (DT.dominates(OpInst, PN.getParent()))
+      continue;
+
+    // Not phi-translatable, bail out.
+    return false;
+  }
+
+  // Check to see whether the instruction can be folded into each phi operand.
+  // If there is one operand that does not fold, remember the BB it is in.
+  bool SeenNonSimplifiedInVal = false;
+  for (unsigned I = 0, E = PN.getNumIncomingValues(); I != E; ++I) {
+    Value *InVal = PN.getIncomingValue(I);
+    BasicBlock *InBB = PN.getIncomingBlock(I);
+
+    if (auto *NewVal =
+            simplifyInstructionWithPHI(User, &PN, InVal, InBB, DL, SQ)) {
+      NewPhiValues.push_back(NewVal);
+      continue;
+    }
+
+    // If the only use of phi is comparing it with a constant then we can
+    // put this comparison in the incoming BB directly after a ucmp/scmp call
+    // because we know that it will simplify to a single icmp.
+    const APInt *Ignored;
+    if (isa<CmpIntrinsic>(InVal) && InVal->hasOneUser() &&
+        match(&User, m_ICmp(m_Specific(&PN), m_APInt(Ignored)))) {
+      OpsToMoveUseToIncomingBB.push_back(I);
+      NewPhiValues.push_back(nullptr);
+      continue;
+    }
+
+    if (!AllowOneNonSimplifiedValue || SeenNonSimplifiedInVal)
+      return false; // More than one non-simplified value.
+    SeenNonSimplifiedInVal = true;
+
+    // If there is exactly one non-simplified value, we can insert a copy of the
+    // operation in that block.  However, if this is a critical edge, we would
+    // be inserting the computation on some other paths (e.g. inside a loop).
+    // Only do this if the pred block is unconditionally branching into the phi
+    // block. Also, make sure that the pred block is not dead code.
+    BranchInst *BI = dyn_cast<BranchInst>(InBB->getTerminator());
+    if (!BI || !BI->isUnconditional() || !DT.isReachableFromEntry(InBB))
+      return false;
+
+    NewPhiValues.push_back(nullptr);
+    OpsToMoveUseToIncomingBB.push_back(I);
+
+    // If the InVal is an invoke at the end of the pred block, then we can't
+    // insert a computation after it without breaking the edge.
+    if (isa<InvokeInst>(InVal))
+      if (cast<Instruction>(InVal)->getParent() == InBB)
+        return false;
+
+    // Do not push the operation across a loop backedge. This could result in
+    // an infinite combine loop, and is generally non-profitable (especially
+    // if the operation was originally outside the loop).
+    if (isBackEdge(InBB, PN.getParent()))
+      return false;
+  }
+  return true;
+}
+
 Instruction *InstCombinerImpl::foldOpIntoPhi(Instruction &I, PHINode *PN) {
   unsigned NumPHIValues = PN->getNumIncomingValues();
   if (NumPHIValues == 0)
@@ -1798,89 +1879,28 @@ Instruction *InstCombinerImpl::foldOpIntoPhi(Instruction &I, PHINode *PN) {
       if (!AllUsesIdentical && !MultipleShuffleVectorUses)
         return nullptr;
     }
+
+    // Check that other uses will simplify as well.
+    if (MultipleShuffleVectorUses) {
+      for (User *U : PN->users()) {
+        if (U == &I)
+          continue;
+        SmallVector<Value *, 4> dummy_vals;
+        SmallVector<unsigned, 4> dummy_ints;
+        if (!canFoldUserIntoPhi(*cast<Instruction>(U), *PN, dummy_vals,
+                                dummy_ints,
+                                /*AllowOneNonSimplifiedValue=*/false))
+          return nullptr;
+      }
+    }
   }
 
-  // Check that all operands are phi-translatable.
-  for (Value *Op : I.operands()) {
-    if (Op == PN)
-      continue;
-
-    // Non-instructions never require phi-translation.
-    auto *I = dyn_cast<Instruction>(Op);
-    if (!I)
-      continue;
-
-    // Phi-translate can handle phi nodes in the same block.
-    if (isa<PHINode>(I))
-      if (I->getParent() == PN->getParent())
-        continue;
-
-    // Operand dominates the block, no phi-translation necessary.
-    if (DT.dominates(I, PN->getParent()))
-      continue;
-
-    // Not phi-translatable, bail out.
-    return nullptr;
-  }
-
-  // Check to see whether the instruction can be folded into each phi operand.
-  // If there is one operand that does not fold, remember the BB it is in.
   SmallVector<Value *> NewPhiValues;
   SmallVector<unsigned int> OpsToMoveUseToIncomingBB;
-  bool SeenNonSimplifiedInVal = false;
-  for (unsigned i = 0; i != NumPHIValues; ++i) {
-    Value *InVal = PN->getIncomingValue(i);
-    BasicBlock *InBB = PN->getIncomingBlock(i);
-
-    if (auto *NewVal = simplifyInstructionWithPHI(I, PN, InVal, InBB, DL, SQ)) {
-      NewPhiValues.push_back(NewVal);
-      continue;
-    }
-
-    // If the only use of phi is comparing it with a constant then we can
-    // put this comparison in the incoming BB directly after a ucmp/scmp call
-    // because we know that it will simplify to a single icmp.
-    const APInt *Ignored;
-    if (isa<CmpIntrinsic>(InVal) && InVal->hasOneUser() &&
-        match(&I, m_ICmp(m_Specific(PN), m_APInt(Ignored)))) {
-      OpsToMoveUseToIncomingBB.push_back(i);
-      NewPhiValues.push_back(nullptr);
-      continue;
-    }
-
-    // Be conservative in cases with multiple uses and require all inputs to
-    // simplify.
-    if (MultipleShuffleVectorUses)
-      return nullptr;
-
-    if (SeenNonSimplifiedInVal)
-      return nullptr; // More than one non-simplified value.
-    SeenNonSimplifiedInVal = true;
-
-    // If there is exactly one non-simplified value, we can insert a copy of the
-    // operation in that block.  However, if this is a critical edge, we would
-    // be inserting the computation on some other paths (e.g. inside a loop).
-    // Only do this if the pred block is unconditionally branching into the phi
-    // block. Also, make sure that the pred block is not dead code.
-    BranchInst *BI = dyn_cast<BranchInst>(InBB->getTerminator());
-    if (!BI || !BI->isUnconditional() || !DT.isReachableFromEntry(InBB))
-      return nullptr;
-
-    NewPhiValues.push_back(nullptr);
-    OpsToMoveUseToIncomingBB.push_back(i);
-
-    // If the InVal is an invoke at the end of the pred block, then we can't
-    // insert a computation after it without breaking the edge.
-    if (isa<InvokeInst>(InVal))
-      if (cast<Instruction>(InVal)->getParent() == InBB)
-        return nullptr;
-
-    // Do not push the operation across a loop backedge. This could result in
-    // an infinite combine loop, and is generally non-profitable (especially
-    // if the operation was originally outside the loop).
-    if (isBackEdge(InBB, PN->getParent()))
-      return nullptr;
-  }
+  if (!canFoldUserIntoPhi(
+          I, *PN, NewPhiValues, OpsToMoveUseToIncomingBB,
+          /*AllowOneNonSimplifiedValue=*/!MultipleShuffleVectorUses))
+    return nullptr;
 
   // Clone the instruction that uses the phi node and move it into the incoming
   // BB because we know that the next iteration of InstCombine will simplify it.
