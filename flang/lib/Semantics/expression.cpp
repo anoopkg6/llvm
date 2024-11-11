@@ -650,10 +650,11 @@ int ExpressionAnalyzer::AnalyzeKindParam(
   return static_cast<int>(kind);
 }
 
-// Common handling of parser::IntLiteralConstant and SignedIntLiteralConstant
-struct IntTypeVisitor {
+// Common handling of parser::IntLiteralConstant, SignedIntLiteralConstant,
+// and UnsignedLiteralConstant
+template <typename TYPES, TypeCategory CAT> struct IntTypeVisitor {
   using Result = MaybeExpr;
-  using Types = IntegerTypes;
+  using Types = TYPES;
   template <typename T> Result Test() {
     if (T::kind >= kind) {
       const char *p{digits.begin()};
@@ -668,7 +669,7 @@ struct IntTypeVisitor {
               "negated maximum INTEGER(KIND=%d) literal"_port_en_US, T::kind);
         }
       } else {
-        num = Int::Read(p, 10, true /*signed*/);
+        num = Int::Read(p, 10, /*isSigned=*/CAT == TypeCategory::Integer);
       }
       if (!num.overflow) {
         if (T::kind > kind) {
@@ -676,14 +677,16 @@ struct IntTypeVisitor {
               !analyzer.context().IsEnabled(LanguageFeature::BigIntLiterals)) {
             return std::nullopt;
           } else {
+            const char *typeName{
+                CAT == TypeCategory::Integer ? "INTEGER" : "UNSIGNED"};
             analyzer.Warn(LanguageFeature::BigIntLiterals, digits,
-                "Integer literal is too large for default INTEGER(KIND=%d); "
-                "assuming INTEGER(KIND=%d)"_port_en_US,
-                kind, T::kind);
+                "Integer literal is too large for default %s(KIND=%d); "
+                "assuming %s(KIND=%d)"_port_en_US,
+                typeName, kind, typeName, T::kind);
           }
         }
         return Expr<SomeType>{
-            Expr<SomeInteger>{Expr<T>{Constant<T>{std::move(num.value)}}}};
+            Expr<SomeKind<CAT>>{Expr<T>{Constant<T>{std::move(num.value)}}}};
       }
     }
     return std::nullopt;
@@ -695,24 +698,25 @@ struct IntTypeVisitor {
   bool isNegated;
 };
 
-template <typename PARSED>
+template <typename TYPES, TypeCategory CAT, typename PARSED>
 MaybeExpr ExpressionAnalyzer::IntLiteralConstant(
     const PARSED &x, bool isNegated) {
   const auto &kindParam{std::get<std::optional<parser::KindParam>>(x.t)};
   bool isDefaultKind{!kindParam};
-  int kind{AnalyzeKindParam(kindParam, GetDefaultKind(TypeCategory::Integer))};
-  if (CheckIntrinsicKind(TypeCategory::Integer, kind)) {
+  int kind{AnalyzeKindParam(kindParam, GetDefaultKind(CAT))};
+  const char *typeName{CAT == TypeCategory::Integer ? "INTEGER" : "UNSIGNED"};
+  if (CheckIntrinsicKind(CAT, kind)) {
     auto digits{std::get<parser::CharBlock>(x.t)};
-    if (MaybeExpr result{common::SearchTypes(
-            IntTypeVisitor{*this, digits, kind, isDefaultKind, isNegated})}) {
+    if (MaybeExpr result{common::SearchTypes(IntTypeVisitor<TYPES, CAT>{
+            *this, digits, kind, isDefaultKind, isNegated})}) {
       return result;
     } else if (isDefaultKind) {
       Say(digits,
-          "Integer literal is too large for any allowable "
-          "kind of INTEGER"_err_en_US);
+          "Integer literal is too large for any allowable kind of %s"_err_en_US,
+          typeName);
     } else {
-      Say(digits, "Integer literal is too large for INTEGER(KIND=%d)"_err_en_US,
-          kind);
+      Say(digits, "Integer literal is too large for %s(KIND=%d)"_err_en_US,
+          typeName, kind);
     }
   }
   return std::nullopt;
@@ -722,13 +726,25 @@ MaybeExpr ExpressionAnalyzer::Analyze(
     const parser::IntLiteralConstant &x, bool isNegated) {
   auto restorer{
       GetContextualMessages().SetLocation(std::get<parser::CharBlock>(x.t))};
-  return IntLiteralConstant(x, isNegated);
+  return IntLiteralConstant<IntegerTypes, TypeCategory::Integer>(x, isNegated);
 }
 
 MaybeExpr ExpressionAnalyzer::Analyze(
     const parser::SignedIntLiteralConstant &x) {
   auto restorer{GetContextualMessages().SetLocation(x.source)};
-  return IntLiteralConstant(x);
+  return IntLiteralConstant<IntegerTypes, TypeCategory::Integer>(x);
+}
+
+MaybeExpr ExpressionAnalyzer::Analyze(
+    const parser::UnsignedLiteralConstant &x) {
+  parser::CharBlock at{std::get<parser::CharBlock>(x.t)};
+  auto restorer{GetContextualMessages().SetLocation(at)};
+  if (!context().IsEnabled(common::LanguageFeature::Unsigned) &&
+      !context().AnyFatalError()) {
+    context().Say(
+        at, "-funsigned is required to enable UNSIGNED constants"_err_en_US);
+  }
+  return IntLiteralConstant<UnsignedTypes, TypeCategory::Unsigned>(x);
 }
 
 template <typename TYPE>
@@ -3498,9 +3514,9 @@ MaybeExpr ExpressionAnalyzer::Analyze(const parser::Expr::DefinedUnary &x) {
 
 // Binary (dyadic) operations
 
-template <template <typename> class OPR>
-MaybeExpr NumericBinaryHelper(ExpressionAnalyzer &context, NumericOperator opr,
-    const parser::Expr::IntrinsicBinary &x) {
+template <template <typename> class OPR, NumericOperator opr>
+MaybeExpr NumericBinaryHelper(
+    ExpressionAnalyzer &context, const parser::Expr::IntrinsicBinary &x) {
   ArgumentAnalyzer analyzer{context};
   analyzer.Analyze(std::get<0>(x.t));
   analyzer.Analyze(std::get<1>(x.t));
@@ -3509,9 +3525,10 @@ MaybeExpr NumericBinaryHelper(ExpressionAnalyzer &context, NumericOperator opr,
       analyzer.CheckForNullPointer();
       analyzer.CheckForAssumedRank();
       analyzer.CheckConformance();
-      return NumericOperation<OPR>(context.GetContextualMessages(),
-          analyzer.MoveExpr(0), analyzer.MoveExpr(1),
-          context.GetDefaultKind(TypeCategory::Real));
+      constexpr bool canBeUnsigned{opr != NumericOperator::Power};
+      return NumericOperation<OPR, canBeUnsigned>(
+          context.GetContextualMessages(), analyzer.MoveExpr(0),
+          analyzer.MoveExpr(1), context.GetDefaultKind(TypeCategory::Real));
     } else {
       return analyzer.TryDefinedOp(AsFortran(opr),
           "Operands of %s must be numeric; have %s and %s"_err_en_US);
@@ -3521,23 +3538,23 @@ MaybeExpr NumericBinaryHelper(ExpressionAnalyzer &context, NumericOperator opr,
 }
 
 MaybeExpr ExpressionAnalyzer::Analyze(const parser::Expr::Power &x) {
-  return NumericBinaryHelper<Power>(*this, NumericOperator::Power, x);
+  return NumericBinaryHelper<Power, NumericOperator::Power>(*this, x);
 }
 
 MaybeExpr ExpressionAnalyzer::Analyze(const parser::Expr::Multiply &x) {
-  return NumericBinaryHelper<Multiply>(*this, NumericOperator::Multiply, x);
+  return NumericBinaryHelper<Multiply, NumericOperator::Multiply>(*this, x);
 }
 
 MaybeExpr ExpressionAnalyzer::Analyze(const parser::Expr::Divide &x) {
-  return NumericBinaryHelper<Divide>(*this, NumericOperator::Divide, x);
+  return NumericBinaryHelper<Divide, NumericOperator::Divide>(*this, x);
 }
 
 MaybeExpr ExpressionAnalyzer::Analyze(const parser::Expr::Add &x) {
-  return NumericBinaryHelper<Add>(*this, NumericOperator::Add, x);
+  return NumericBinaryHelper<Add, NumericOperator::Add>(*this, x);
 }
 
 MaybeExpr ExpressionAnalyzer::Analyze(const parser::Expr::Subtract &x) {
-  return NumericBinaryHelper<Subtract>(*this, NumericOperator::Subtract, x);
+  return NumericBinaryHelper<Subtract, NumericOperator::Subtract>(*this, x);
 }
 
 MaybeExpr ExpressionAnalyzer::Analyze(
@@ -4268,12 +4285,14 @@ bool ArgumentAnalyzer::IsIntrinsicNumeric(NumericOperator opr) const {
     }
   } else {
     std::optional<DynamicType> rightType{GetType(1)};
-    if (IsBOZLiteral(0) && rightType) { // BOZ opr Integer/Real
+    if (IsBOZLiteral(0) && rightType) { // BOZ opr Integer/Unsigned/Real
       auto cat1{rightType->category()};
-      return cat1 == TypeCategory::Integer || cat1 == TypeCategory::Real;
-    } else if (IsBOZLiteral(1) && leftType) { // Integer/Real opr BOZ
+      return cat1 == TypeCategory::Integer || cat1 == TypeCategory::Unsigned ||
+          cat1 == TypeCategory::Real;
+    } else if (IsBOZLiteral(1) && leftType) { // Integer/Unsigned/Real opr BOZ
       auto cat0{leftType->category()};
-      return cat0 == TypeCategory::Integer || cat0 == TypeCategory::Real;
+      return cat0 == TypeCategory::Integer || cat0 == TypeCategory::Unsigned ||
+          cat0 == TypeCategory::Real;
     } else {
       return leftType && rightType &&
           semantics::IsIntrinsicNumeric(
@@ -4327,9 +4346,9 @@ bool ArgumentAnalyzer::CheckConformance() {
 }
 
 bool ArgumentAnalyzer::CheckAssignmentConformance() {
-  if (actuals_.size() == 2) {
-    const auto *lhs{actuals_.at(0).value().UnwrapExpr()};
-    const auto *rhs{actuals_.at(1).value().UnwrapExpr()};
+  if (actuals_.size() == 2 && actuals_[0] && actuals_[1]) {
+    const auto *lhs{actuals_[0]->UnwrapExpr()};
+    const auto *rhs{actuals_[1]->UnwrapExpr()};
     if (lhs && rhs) {
       auto &foldingContext{context_.GetFoldingContext()};
       auto lhShape{GetShape(foldingContext, *lhs)};
@@ -4521,6 +4540,7 @@ std::optional<ProcedureRef> ArgumentAnalyzer::TryDefinedAssignment() {
         }
       } else {
         if (lhsType->category() == TypeCategory::Integer ||
+            lhsType->category() == TypeCategory::Unsigned ||
             lhsType->category() == TypeCategory::Real) {
           ConvertBOZ(nullptr, 1, lhsType);
         }
@@ -4755,7 +4775,8 @@ int ArgumentAnalyzer::GetRank(std::size_t i) const {
 }
 
 // If the argument at index i is a BOZ literal, convert its type to match the
-// otherType.  If it's REAL convert to REAL, otherwise convert to INTEGER.
+// otherType.  If it's REAL, convert to REAL; if it's UNSIGNED, convert to
+// UNSIGNED; otherwise, convert to INTEGER.
 // Note that IBM supports comparing BOZ literals to CHARACTER operands.  That
 // is not currently supported.
 void ArgumentAnalyzer::ConvertBOZ(std::optional<DynamicType> *thisType,
@@ -4767,9 +4788,17 @@ void ArgumentAnalyzer::ConvertBOZ(std::optional<DynamicType> *thisType,
       int kind{context_.context().GetDefaultKind(TypeCategory::Real)};
       MaybeExpr realExpr{
           ConvertToKind<TypeCategory::Real>(kind, std::move(*boz))};
-      actuals_[i] = std::move(*realExpr);
+      actuals_[i] = std::move(realExpr.value());
       if (thisType) {
         thisType->emplace(TypeCategory::Real, kind);
+      }
+    } else if (otherType && otherType->category() == TypeCategory::Unsigned) {
+      int kind{context_.context().GetDefaultKind(TypeCategory::Unsigned)};
+      MaybeExpr unsignedExpr{
+          ConvertToKind<TypeCategory::Unsigned>(kind, std::move(*boz))};
+      actuals_[i] = std::move(unsignedExpr.value());
+      if (thisType) {
+        thisType->emplace(TypeCategory::Unsigned, kind);
       }
     } else {
       int kind{context_.context().GetDefaultKind(TypeCategory::Integer)};
