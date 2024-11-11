@@ -28,6 +28,18 @@ add_entrypoint_object(
 )
 
 add_entrypoint_object(
+  lsearch
+  SRCS
+    lsearch.cpp
+  HDRS
+    lsearch.h
+  DEPENDS
+    libc.include.search
+    libc.src.__support.CPP.cstddef
+    libc.src.string.memory_utils.inline_memcpy
+)
+
+add_entrypoint_object(
   hsearch
   SRCS
     hsearch.cpp

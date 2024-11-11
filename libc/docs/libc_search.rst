@@ -43,7 +43,7 @@ hdestroy                     |check|
 hsearch                      |check|
 insque                       |check|
 lfind
-lsearch
+lsearch                      |check|
 remque                       |check|
 tdelete
 tfind

@@ -25,3 +25,14 @@ add_libc_unittest(
     libc.src.search.insque
     libc.src.search.remque
 )
+
+add_libc_unittest(
+  lsearch_test
+  SUITE
+    libc_search_unittests
+  SRCS
+    lsearch_test.cpp
+  DEPENDS
+    libc.src.search.lsearch
+)
+
