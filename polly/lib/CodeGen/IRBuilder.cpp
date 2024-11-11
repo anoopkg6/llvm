@@ -128,8 +128,28 @@ void ScopAnnotator::popLoop(bool IsParallel) {
   LoopAttrEnv.pop_back();
 }
 
-void ScopAnnotator::annotateLoopLatch(BranchInst *B, Loop *L, bool IsParallel,
-                                      bool IsLoopVectorizerDisabled) const {
+void ScopAnnotator::addVectorizeMetadata(LLVMContext &Ctx,
+                                         SmallVector<Metadata *, 3> *Args,
+                                         bool EnableLoopVectorizer) const {
+  MDString *PropName = MDString::get(Ctx, "llvm.loop.vectorize.enable");
+  ConstantInt *Value =
+      ConstantInt::get(Type::getInt1Ty(Ctx), EnableLoopVectorizer);
+  ValueAsMetadata *PropValue = ValueAsMetadata::get(Value);
+  Args->push_back(MDNode::get(Ctx, {PropName, PropValue}));
+}
+
+void addParallelMetadata(LLVMContext &Ctx, SmallVector<Metadata *, 3> *Args,
+                         llvm::SmallVector<llvm::MDNode *, 8> ParallelLoops) {
+  MDString *PropName = MDString::get(Ctx, "llvm.loop.parallel_accesses");
+  MDNode *AccGroup = ParallelLoops.back();
+  Args->push_back(MDNode::get(Ctx, {PropName, AccGroup}));
+}
+
+// Last argument is optional, if no value is passed, we don't annotate
+// any vectorize metadata.
+void ScopAnnotator::annotateLoopLatch(
+    BranchInst *B, bool IsParallel,
+    std::optional<bool> EnableVectorizeMetadata) const {
   LLVMContext &Ctx = SE->getContext();
   SmallVector<Metadata *, 3> Args;
 
@@ -145,19 +165,10 @@ void ScopAnnotator::annotateLoopLatch(BranchInst *B, Loop *L, bool IsParallel,
     if (MData)
       llvm::append_range(Args, drop_begin(MData->operands(), 1));
   }
-
-  if (IsLoopVectorizerDisabled) {
-    MDString *PropName = MDString::get(Ctx, "llvm.loop.vectorize.enable");
-    ConstantInt *FalseValue = ConstantInt::get(Type::getInt1Ty(Ctx), 0);
-    ValueAsMetadata *PropValue = ValueAsMetadata::get(FalseValue);
-    Args.push_back(MDNode::get(Ctx, {PropName, PropValue}));
-  }
-
-  if (IsParallel) {
-    MDString *PropName = MDString::get(Ctx, "llvm.loop.parallel_accesses");
-    MDNode *AccGroup = ParallelLoops.back();
-    Args.push_back(MDNode::get(Ctx, {PropName, AccGroup}));
-  }
+  if (IsParallel)
+    addParallelMetadata(Ctx, &Args, ParallelLoops);
+  if (EnableVectorizeMetadata.has_value())
+    this->addVectorizeMetadata(Ctx, &Args, *EnableVectorizeMetadata);
 
   // No metadata to annotate.
   if (!MData && Args.size() <= 1)
