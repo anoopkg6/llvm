@@ -14,21 +14,21 @@ define {<16 x i1>, <16 x i1>} @vector_deinterleave_v16i1_v32i1(<32 x i1> %vec) {
 ; CHECK-NEXT:    vmv.v.i v10, 0
 ; CHECK-NEXT:    vid.v v9
 ; CHECK-NEXT:    li a0, -256
-; CHECK-NEXT:    vmerge.vim v11, v10, 1, v0
-; CHECK-NEXT:    vadd.vv v12, v9, v9
+; CHECK-NEXT:    vmerge.vim v12, v10, 1, v0
+; CHECK-NEXT:    vadd.vv v13, v9, v9
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m2, ta, ma
 ; CHECK-NEXT:    vmv.s.x v9, a0
 ; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vsetvli zero, zero, e8, m1, ta, mu
-; CHECK-NEXT:    vmerge.vim v14, v10, 1, v0
-; CHECK-NEXT:    vadd.vi v8, v12, -16
-; CHECK-NEXT:    vadd.vi v12, v12, -15
-; CHECK-NEXT:    vnsrl.wi v10, v14, 0
+; CHECK-NEXT:    vmerge.vim v10, v10, 1, v0
+; CHECK-NEXT:    vadd.vi v8, v13, -16
+; CHECK-NEXT:    vadd.vi v13, v13, -15
+; CHECK-NEXT:    vnsrl.wi v14, v10, 0
 ; CHECK-NEXT:    vmv1r.v v0, v9
-; CHECK-NEXT:    vrgather.vv v10, v11, v8, v0.t
-; CHECK-NEXT:    vnsrl.wi v8, v14, 8
-; CHECK-NEXT:    vmsne.vi v10, v10, 0
-; CHECK-NEXT:    vrgather.vv v8, v11, v12, v0.t
+; CHECK-NEXT:    vrgather.vv v14, v12, v8, v0.t
+; CHECK-NEXT:    vnsrl.wi v8, v10, 8
+; CHECK-NEXT:    vmsne.vi v10, v14, 0
+; CHECK-NEXT:    vrgather.vv v8, v12, v13, v0.t
 ; CHECK-NEXT:    vmsne.vi v8, v8, 0
 ; CHECK-NEXT:    vmv.v.v v0, v10
 ; CHECK-NEXT:    ret
