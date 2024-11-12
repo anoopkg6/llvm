@@ -155,6 +155,10 @@ bool VPlanVerifier::verifyEVLRecipe(const VPInstruction &EVL) const {
              })
              .Case<VPScalarCastRecipe>(
                  [&](const VPScalarCastRecipe *S) { return true; })
+             .Case<VPReverseVectorPointerRecipe>(
+                 [&](const VPReverseVectorPointerRecipe *R) {
+                   return VerifyEVLUse(*R, 1);
+                 })
              .Case<VPInstruction>([&](const VPInstruction *I) {
                if (I->getOpcode() != Instruction::Add) {
                  errs()
