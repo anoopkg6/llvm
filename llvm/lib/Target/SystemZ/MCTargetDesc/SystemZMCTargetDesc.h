@@ -43,6 +43,7 @@ extern const unsigned GR32Regs[16];
 extern const unsigned GRH32Regs[16];
 extern const unsigned GR64Regs[16];
 extern const unsigned GR128Regs[16];
+extern const unsigned FP16Regs[16];
 extern const unsigned FP32Regs[16];
 extern const unsigned FP64Regs[16];
 extern const unsigned FP128Regs[16];

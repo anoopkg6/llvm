@@ -709,8 +709,8 @@ def : InstRW<[WLat1, FXU, NormalGr], (instregex "LZ(DR|ER)$")>;
 def : InstRW<[WLat2, FXU2, GroupAlone2], (instregex "LZXR$")>;
 
 // Load
-def : InstRW<[WLat1, FXU, NormalGr], (instregex "LER$")>;
-def : InstRW<[WLat1, FXU, NormalGr], (instregex "LD(R|R32|GR)$")>;
+def : InstRW<[WLat1, FXU, NormalGr], (instregex "LER(16)?$")>;
+def : InstRW<[WLat1, FXU, NormalGr], (instregex "LD(R|R16|R32|GR)$")>;
 def : InstRW<[WLat3, FXU, NormalGr], (instregex "LGDR$")>;
 def : InstRW<[WLat2, FXU2, GroupAlone2], (instregex "LXR$")>;
 

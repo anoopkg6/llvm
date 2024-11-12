@@ -797,8 +797,8 @@ def : InstRW<[WLat1, FXb, NormalGr], (instregex "LZ(DR|ER)$")>;
 def : InstRW<[WLat2, FXb2, Cracked], (instregex "LZXR$")>;
 
 // Load
-def : InstRW<[WLat2, VecXsPm, NormalGr], (instregex "LER$")>;
-def : InstRW<[WLat1, FXb, NormalGr], (instregex "LD(R|R32|GR)$")>;
+def : InstRW<[WLat2, VecXsPm, NormalGr], (instregex "LER(16)?$")>;
+def : InstRW<[WLat1, FXb, NormalGr], (instregex "LD(R|R16|R32|GR)$")>;
 def : InstRW<[WLat3, FXb, NormalGr], (instregex "LGDR$")>;
 def : InstRW<[WLat2, FXb2, GroupAlone], (instregex "LXR$")>;
 

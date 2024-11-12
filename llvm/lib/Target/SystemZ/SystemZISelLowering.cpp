@@ -102,6 +102,7 @@ SystemZTargetLowering::SystemZTargetLowering(const TargetMachine &TM,
     addRegisterClass(MVT::i32, &SystemZ::GR32BitRegClass);
   addRegisterClass(MVT::i64, &SystemZ::GR64BitRegClass);
   if (!useSoftFloat()) {
+    addRegisterClass(MVT::f16, &SystemZ::FP16BitRegClass);
     if (Subtarget.hasVector()) {
       addRegisterClass(MVT::f32, &SystemZ::VR32BitRegClass);
       addRegisterClass(MVT::f64, &SystemZ::VR64BitRegClass);
@@ -513,11 +514,37 @@ SystemZTargetLowering::SystemZTargetLowering(const TargetMachine &TM,
   }
 
   // Handle floating-point types.
+  // Promote all f16 operations to float, with some exceptions below.
+  for (unsigned Opc = 0; Opc < ISD::BUILTIN_OP_END; ++Opc)
+    setOperationAction(Opc, MVT::f16, Promote);
+  setOperationAction(ISD::ConstantFP, MVT::f16, Expand);
+  for (MVT VT : {MVT::f32, MVT::f64, MVT::f128}) {
+    setLoadExtAction(ISD::EXTLOAD, VT, MVT::f16, Expand);
+    setTruncStoreAction(VT, MVT::f16, Expand);
+  }
+  setOperationAction(ISD::LOAD, MVT::f16, Custom);
+  setOperationAction(ISD::ATOMIC_LOAD, MVT::f16, Custom);
+  setOperationAction(ISD::STORE, MVT::f16, Custom);
+  setOperationAction(ISD::ATOMIC_STORE, MVT::f16, Custom);
+  setOperationAction(ISD::FP_ROUND, MVT::f16, Custom);
+  setOperationAction(ISD::FP_EXTEND, MVT::f32, Custom);
+  setOperationAction(ISD::FP_EXTEND, MVT::f64, Custom);
+  setOperationAction(ISD::FP_EXTEND, MVT::f128, Custom);
+
   for (unsigned I = MVT::FIRST_FP_VALUETYPE;
        I <= MVT::LAST_FP_VALUETYPE;
        ++I) {
     MVT VT = MVT::SimpleValueType(I);
     if (isTypeLegal(VT)) {
+      // No special instructions for these.
+      setOperationAction(ISD::FSIN, VT, Expand);
+      setOperationAction(ISD::FCOS, VT, Expand);
+      setOperationAction(ISD::FSINCOS, VT, Expand);
+      setOperationAction(ISD::FREM, VT, Expand);
+      setOperationAction(ISD::FPOW, VT, Expand);
+      if (VT == MVT::f16)
+        continue;
+
       // We can use FI for FRINT.
       setOperationAction(ISD::FRINT, VT, Legal);
 
@@ -529,13 +556,6 @@ SystemZTargetLowering::SystemZTargetLowering(const TargetMachine &TM,
         setOperationAction(ISD::FTRUNC, VT, Legal);
         setOperationAction(ISD::FROUND, VT, Legal);
       }
-
-      // No special instructions for these.
-      setOperationAction(ISD::FSIN, VT, Expand);
-      setOperationAction(ISD::FCOS, VT, Expand);
-      setOperationAction(ISD::FSINCOS, VT, Expand);
-      setOperationAction(ISD::FREM, VT, Expand);
-      setOperationAction(ISD::FPOW, VT, Expand);
 
       // Special treatment.
       setOperationAction(ISD::IS_FPCLASS, VT, Custom);
@@ -766,6 +786,9 @@ SystemZTargetLowering::SystemZTargetLowering(const TargetMachine &TM,
   // Default to having -disable-strictnode-mutation on
   IsStrictFPEnabled = true;
 
+  setLibcallName(RTLIB::FPROUND_F32_F16, "__truncsfhf2");
+  setLibcallName(RTLIB::FPEXT_F16_F32, "__extendhfsf2");
+
   if (Subtarget.isTargetzOS()) {
     struct RTLibCallMapping {
       RTLIB::Libcall Code;
@@ -933,6 +956,10 @@ SystemZVectorConstantInfo::SystemZVectorConstantInfo(BuildVectorSDNode *BVN) {
 
 bool SystemZTargetLowering::isFPImmLegal(const APFloat &Imm, EVT VT,
                                          bool ForCodeSize) const {
+  // TODO: Loading all f16 constants from ConstantPool for now.
+  if (&Imm.getSemantics() == &APFloat::IEEEhalf())
+    return false;
+
   // We can load zero using LZ?R and negative zero using LZ?R;LC?BR.
   if (Imm.isZero() || Imm.isNegZero())
     return true;
@@ -1656,6 +1683,10 @@ SDValue SystemZTargetLowering::LowerFormalArguments(
         NumFixedGPRs += 1;
         RC = &SystemZ::GR64BitRegClass;
         break;
+      case MVT::f16:
+        NumFixedFPRs += 1;
+        RC = &SystemZ::FP16BitRegClass;
+        break;
       case MVT::f32:
         NumFixedFPRs += 1;
         RC = &SystemZ::FP32BitRegClass;
@@ -1700,9 +1731,12 @@ SDValue SystemZTargetLowering::LowerFormalArguments(
       // from this parameter.  Unpromoted ints and floats are
       // passed as right-justified 8-byte values.
       SDValue FIN = DAG.getFrameIndex(FI, PtrVT);
-      if (VA.getLocVT() == MVT::i32 || VA.getLocVT() == MVT::f32)
+      if (VA.getLocVT() == MVT::i32 || VA.getLocVT() == MVT::f32 ||
+          VA.getLocVT() == MVT::f16) {
+        unsigned SlotOffs = VA.getLocVT() == MVT::f16 ? 6 : 4;
         FIN = DAG.getNode(ISD::ADD, DL, PtrVT, FIN,
-                          DAG.getIntPtrConstant(4, DL));
+                          DAG.getIntPtrConstant(SlotOffs, DL));
+      }
       ArgValue = DAG.getLoad(LocVT, DL, Chain, FIN,
                              MachinePointerInfo::getFixedStack(MF, FI));
     }
@@ -2015,6 +2049,8 @@ SystemZTargetLowering::LowerCall(CallLoweringInfo &CLI,
                         VA.getLocMemOffset();
       if (VA.getLocVT() == MVT::i32 || VA.getLocVT() == MVT::f32)
         Offset += 4;
+      else if (VA.getLocVT() == MVT::f16)
+        Offset += 6;
       SDValue Address = DAG.getNode(ISD::ADD, DL, PtrVT, StackPtr,
                                     DAG.getIntPtrConstant(Offset, DL));
 
@@ -4562,6 +4598,22 @@ SDValue SystemZTargetLowering::lowerATOMIC_FENCE(SDValue Op,
   return DAG.getNode(ISD::MEMBARRIER, DL, MVT::Other, Op.getOperand(0));
 }
 
+SDValue SystemZTargetLowering::lowerATOMIC_LOAD(SDValue Op,
+                                                SelectionDAG &DAG) const {
+  MVT RegVT = Op.getSimpleValueType();
+  if (RegVT.getSizeInBits() == 128)
+    return lowerATOMIC_LDST_I128(Op, DAG);
+  return lowerLoadF16(Op, DAG);
+}
+
+SDValue SystemZTargetLowering::lowerATOMIC_STORE(SDValue Op,
+                                                 SelectionDAG &DAG) const {
+  auto *Node = cast<AtomicSDNode>(Op.getNode());
+  if (Node->getMemoryVT().getSizeInBits() == 128)
+    return lowerATOMIC_LDST_I128(Op, DAG);
+  return lowerStoreF16(Op, DAG);
+}
+
 SDValue SystemZTargetLowering::lowerATOMIC_LDST_I128(SDValue Op,
                                                      SelectionDAG &DAG) const {
   auto *Node = cast<AtomicSDNode>(Op.getNode());
@@ -6108,6 +6160,133 @@ static SDValue lowerAddrSpaceCast(SDValue Op, SelectionDAG &DAG) {
   return Op;
 }
 
+SDValue SystemZTargetLowering::LowerFP_EXTEND(SDValue Op,
+                                              SelectionDAG &DAG) const {
+  bool IsStrict = Op->isStrictFPOpcode();
+  SDValue In = Op.getOperand(IsStrict ? 1 : 0);
+  MVT VT = Op.getSimpleValueType();
+  MVT SVT = In.getSimpleValueType();
+  if (SVT != MVT::f16)
+    return Op;
+
+  SDLoc DL(Op);
+  SDValue Chain = IsStrict ? Op.getOperand(0) : SDValue();
+
+  // Need a libcall.  XXX factor out (below)
+  TargetLowering::CallLoweringInfo CLI(DAG);
+  Chain = IsStrict ? Op.getOperand(0) : DAG.getEntryNode();
+  TargetLowering::ArgListTy Args;
+  TargetLowering::ArgListEntry Entry;
+  Entry.Node = In;
+  Entry.Ty = EVT(SVT).getTypeForEVT(*DAG.getContext());
+  Args.push_back(Entry);
+  SDValue Callee = DAG.getExternalSymbol(
+    getLibcallName(RTLIB::FPEXT_F16_F32), getPointerTy(DAG.getDataLayout()));
+  CLI.setDebugLoc(DL).setChain(Chain).setLibCallee(
+    CallingConv::C, EVT(MVT::f32).getTypeForEVT(*DAG.getContext()), Callee,
+    std::move(Args));
+  SDValue Res;
+  std::tie(Res,Chain) = LowerCallTo(CLI);
+  if (IsStrict)
+    Res = DAG.getMergeValues({Res, Chain}, DL);
+
+  return DAG.getNode(ISD::FP_EXTEND, DL, VT, Res);
+}
+
+SDValue SystemZTargetLowering::LowerFP_ROUND(SDValue Op,
+                                             SelectionDAG &DAG) const {
+  bool IsStrict = Op->isStrictFPOpcode();
+  SDValue In = Op.getOperand(IsStrict ? 1 : 0);
+  MVT VT = Op.getSimpleValueType();
+  MVT SVT = In.getSimpleValueType();
+  if (VT != MVT::f16)
+    return SDValue(); // XXX?
+
+  SDLoc DL(Op);
+  SDValue Chain = IsStrict ? Op.getOperand(0) : SDValue();
+
+  if (SVT != MVT::f32) {
+    SDValue Rnd = DAG.getIntPtrConstant(0, DL, /*isTarget=*/true);
+    In = DAG.getNode(ISD::FP_ROUND, DL, MVT::f32, In, Rnd);
+  }
+
+  // We need a libcall.
+  TargetLowering::CallLoweringInfo CLI(DAG);
+  Chain = IsStrict ? Op.getOperand(0) : DAG.getEntryNode();
+  TargetLowering::ArgListTy Args;
+  TargetLowering::ArgListEntry Entry;
+  Entry.Node = In;
+  Entry.Ty = EVT(MVT::f32).getTypeForEVT(*DAG.getContext());
+  Args.push_back(Entry);
+  SDValue Callee = DAG.getExternalSymbol(
+    getLibcallName(RTLIB::FPROUND_F32_F16), getPointerTy(DAG.getDataLayout()));
+  CLI.setDebugLoc(DL).setChain(Chain).setLibCallee(
+    CallingConv::C, EVT(MVT::f16).getTypeForEVT(*DAG.getContext()), Callee,
+    std::move(Args));
+  SDValue Res;
+  std::tie(Res, Chain) = LowerCallTo(CLI);
+  if (IsStrict)
+    Res = DAG.getMergeValues({Res, Chain}, DL);
+  return Res;
+}
+
+SDValue SystemZTargetLowering::lowerLoadF16(SDValue Op,
+                                            SelectionDAG &DAG) const {
+  MVT RegVT = Op.getSimpleValueType();
+  if (RegVT != MVT::f16)
+    return SDValue();
+
+  SDLoc DL(Op);
+  SDValue NewLd;
+  if (auto *AtomicLd = dyn_cast<AtomicSDNode>(Op.getNode())) {
+    assert(EVT(RegVT) == AtomicLd->getMemoryVT() && "Unhandled f16 load");
+    NewLd = DAG.getAtomic(ISD::ATOMIC_LOAD, DL, MVT::i16, MVT::i32,
+                          AtomicLd->getChain(), AtomicLd->getBasePtr(),
+                          AtomicLd->getMemOperand());
+    cast<AtomicSDNode>(NewLd)->setExtensionType(ISD::EXTLOAD);
+  } else {
+    LoadSDNode *Ld = cast<LoadSDNode>(Op.getNode());
+    assert(EVT(RegVT) == Ld->getMemoryVT() && "Unhandled f16 load");
+    NewLd = DAG.getExtLoad(ISD::EXTLOAD, DL, MVT::i32, Ld->getChain(),
+                           Ld->getBasePtr(), Ld->getPointerInfo(),
+                           MVT::i16, Ld->getOriginalAlign(),
+                           Ld->getMemOperand()->getFlags());
+  }
+  // Load as integer, shift and insert into upper 2 bytes of the FP register.
+  // TODO: Use VLEH if available.
+  SDValue Shft = DAG.getNode(ISD::SHL, DL, MVT::i32, NewLd,
+                             DAG.getConstant(16, DL, MVT::i32));
+  SDValue BCast = DAG.getNode(ISD::BITCAST, DL, MVT::f32, Shft);
+  SDValue F16Val = DAG.getTargetExtractSubreg(SystemZ::subreg_h16,
+                                              DL, MVT::f16, BCast);
+  return DAG.getMergeValues({F16Val, NewLd.getValue(1)}, DL);
+}
+
+SDValue SystemZTargetLowering::lowerStoreF16(SDValue Op,
+                                             SelectionDAG &DAG) const {
+  SDValue StoredVal = Op->getOperand(1);
+  MVT StoreVT = StoredVal.getSimpleValueType();
+  if (StoreVT != MVT::f16)
+    return SDValue();
+
+  // Move into a GPR, shift and store the 2 bytes.  TODO: Use VSTEH if available.
+  SDLoc DL(Op);
+  SDNode *U32 = DAG.getMachineNode(TargetOpcode::IMPLICIT_DEF, DL, MVT::f32);
+  SDValue In32 = DAG.getTargetInsertSubreg(SystemZ::subreg_h16, DL,
+                                           MVT::f32, SDValue(U32, 0), StoredVal);
+  SDValue BCast = DAG.getNode(ISD::BITCAST, DL, MVT::i32, In32);
+  SDValue Shft = DAG.getNode(ISD::SRL, DL, MVT::i32, BCast,
+                             DAG.getConstant(16, DL, MVT::i32));
+
+  if (auto *AtomicSt = dyn_cast<AtomicSDNode>(Op.getNode()))
+    return DAG.getAtomic(ISD::ATOMIC_STORE, DL, MVT::i16, AtomicSt->getChain(),
+                         Shft, AtomicSt->getBasePtr(), AtomicSt->getMemOperand());
+
+  StoreSDNode *St = cast<StoreSDNode>(Op.getNode());
+  return DAG.getTruncStore(St->getChain(), DL, Shft, St->getBasePtr(),
+                           MVT::i16, St->getMemOperand());
+}
+
 SDValue SystemZTargetLowering::lowerIS_FPCLASS(SDValue Op,
                                                SelectionDAG &DAG) const {
   SDLoc DL(Op);
@@ -6227,8 +6406,9 @@ SDValue SystemZTargetLowering::LowerOperation(SDValue Op,
   case ISD::ATOMIC_SWAP:
     return lowerATOMIC_LOAD_OP(Op, DAG, SystemZISD::ATOMIC_SWAPW);
   case ISD::ATOMIC_STORE:
+    return lowerATOMIC_STORE(Op, DAG);
   case ISD::ATOMIC_LOAD:
-    return lowerATOMIC_LDST_I128(Op, DAG);
+    return lowerATOMIC_LOAD(Op, DAG);
   case ISD::ATOMIC_LOAD_ADD:
     return lowerATOMIC_LOAD_OP(Op, DAG, SystemZISD::ATOMIC_LOADW_ADD);
   case ISD::ATOMIC_LOAD_SUB:
@@ -6285,6 +6465,16 @@ SDValue SystemZTargetLowering::LowerOperation(SDValue Op,
     return lowerAddrSpaceCast(Op, DAG);
   case ISD::ROTL:
     return lowerShift(Op, DAG, SystemZISD::VROTL_BY_SCALAR);
+  case ISD::FP_EXTEND:
+//case ISD::STRICT_FP_EXTEND:
+    return LowerFP_EXTEND(Op, DAG);
+  case ISD::FP_ROUND:
+//case ISD::STRICT_FP_ROUND:
+    return LowerFP_ROUND(Op, DAG);
+  case ISD::LOAD:
+    return lowerLoadF16(Op, DAG);
+  case ISD::STORE:
+    return lowerStoreF16(Op, DAG);
   case ISD::IS_FPCLASS:
     return lowerIS_FPCLASS(Op, DAG);
   case ISD::GET_ROUNDING:

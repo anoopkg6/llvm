@@ -47,8 +47,11 @@ def LDR : UnaryRR <"ldr", 0x28,   null_frag, FP64,  FP64>;
 def LXR : UnaryRRE<"lxr", 0xB365, null_frag, FP128, FP128>;
 
 // For z13 we prefer LDR over LER to avoid partial register dependencies.
-let isCodeGenOnly = 1 in
-  def LDR32 : UnaryRR<"ldr", 0x28, null_frag, FP32, FP32>;
+let isCodeGenOnly = 1 in {
+  def LER16 : UnaryRR <"ler", 0x38, null_frag, FP16, FP16>;
+  def LDR16 : UnaryRR<"ldr",  0x28, null_frag, FP16, FP16>;
+  def LDR32 : UnaryRR<"ldr",  0x28, null_frag, FP32, FP32>;
+}
 
 // Moves between two floating-point registers that also set the condition
 // codes. Note that these instructions will turn SNaNs into QNaNs and should

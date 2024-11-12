@@ -60,6 +60,7 @@ enum RegisterKind {
   GRH32Reg,
   GR64Reg,
   GR128Reg,
+  FP16Reg,
   FP32Reg,
   FP64Reg,
   FP128Reg,
@@ -356,6 +357,7 @@ public:
   bool isADDR32() const { return isReg(GR32Reg); }
   bool isADDR64() const { return isReg(GR64Reg); }
   bool isADDR128() const { return false; }
+  bool isFP16() const { return isReg(FP16Reg); }
   bool isFP32() const { return isReg(FP32Reg); }
   bool isFP64() const { return isReg(FP64Reg); }
   bool isFP128() const { return isReg(FP128Reg); }
@@ -533,6 +535,9 @@ public:
   }
   ParseStatus parseADDR128(OperandVector &Operands) {
     llvm_unreachable("Shouldn't be used as an operand");
+  }
+  ParseStatus parseFP16(OperandVector &Operands) {
+    return parseRegister(Operands, FP16Reg);
   }
   ParseStatus parseFP32(OperandVector &Operands) {
     return parseRegister(Operands, FP32Reg);
@@ -829,6 +834,7 @@ ParseStatus SystemZAsmParser::parseRegister(OperandVector &Operands,
   case GR128Reg:
     Group = RegGR;
     break;
+  case FP16Reg:
   case FP32Reg:
   case FP64Reg:
   case FP128Reg:
@@ -882,6 +888,7 @@ ParseStatus SystemZAsmParser::parseRegister(OperandVector &Operands,
   case GRH32Reg: Regs = SystemZMC::GRH32Regs; break;
   case GR64Reg:  Regs = SystemZMC::GR64Regs;  break;
   case GR128Reg: Regs = SystemZMC::GR128Regs; break;
+  case FP16Reg:  Regs = SystemZMC::FP16Regs;  break;
   case FP32Reg:  Regs = SystemZMC::FP32Regs;  break;
   case FP64Reg:  Regs = SystemZMC::FP64Regs;  break;
   case FP128Reg: Regs = SystemZMC::FP128Regs; break;

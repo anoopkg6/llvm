@@ -2,6 +2,18 @@
 ;
 ; RUN: llc < %s -mtriple=s390x-linux-gnu -mcpu=z14 | FileCheck %s
 
+; Test that an f16 intrinsic can be lowered with promotion to float.
+declare half @llvm.rint.f16(half %f)
+define half @f0(half %f) {
+; CHECK-LABEL: f0:
+; CHECK: brasl %r14, __extendhfsf2@PLT
+; CHECK: fiebra %f0, 0, %f0, 0
+; CHECK: brasl %r14, __truncsfhf2@PLT
+; CHECK: br %r14
+  %res = call half @llvm.rint.f16(half %f)
+  ret half %res
+}
+
 ; Test rint for f32.
 declare float @llvm.rint.f32(float %f)
 define float @f1(float %f) {

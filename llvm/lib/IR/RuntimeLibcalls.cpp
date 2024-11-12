@@ -327,6 +327,8 @@ void RuntimeLibcallsInfo::initLibcalls(const Triple &TT) {
     setLibcallName(RTLIB::SRL_I128, nullptr);
     setLibcallName(RTLIB::SHL_I128, nullptr);
     setLibcallName(RTLIB::SRA_I128, nullptr);
+    setLibcallName(RTLIB::FPROUND_F32_F16, "__truncsfhf2");
+    setLibcallName(RTLIB::FPEXT_F16_F32, "__extendhfsf2");
   }
 
   if (TT.isX86()) {

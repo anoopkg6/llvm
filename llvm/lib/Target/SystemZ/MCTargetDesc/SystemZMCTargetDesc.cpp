@@ -61,6 +61,13 @@ const unsigned SystemZMC::GR128Regs[16] = {
   SystemZ::R12Q, 0, SystemZ::R14Q, 0
 };
 
+const unsigned SystemZMC::FP16Regs[16] = {
+  SystemZ::F0H, SystemZ::F1H, SystemZ::F2H, SystemZ::F3H,
+  SystemZ::F4H, SystemZ::F5H, SystemZ::F6H, SystemZ::F7H,
+  SystemZ::F8H, SystemZ::F9H, SystemZ::F10H, SystemZ::F11H,
+  SystemZ::F12H, SystemZ::F13H, SystemZ::F14H, SystemZ::F15H
+};
+
 const unsigned SystemZMC::FP32Regs[16] = {
   SystemZ::F0S, SystemZ::F1S, SystemZ::F2S, SystemZ::F3S,
   SystemZ::F4S, SystemZ::F5S, SystemZ::F6S, SystemZ::F7S,
