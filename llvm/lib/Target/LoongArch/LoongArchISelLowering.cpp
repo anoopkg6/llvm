@@ -372,6 +372,10 @@ LoongArchTargetLowering::LoongArchTargetLowering(const TargetMachine &TM,
   setPrefFunctionAlignment(Subtarget.getPrefFunctionAlignment());
   setPrefLoopAlignment(Subtarget.getPrefLoopAlignment());
   setMaxBytesForAlignment(Subtarget.getMaxBytesForAlignment());
+
+  // cmpxchg sizes down to 8 bits become legal if LAMCAS is available.
+  if (Subtarget.hasLAMCAS())
+    setMinCmpXchgSizeInBits(8);
 }
 
 bool LoongArchTargetLowering::isOffsetFoldingLegal(
@@ -5764,6 +5768,10 @@ LoongArchTargetLowering::shouldExpandAtomicRMWInIR(AtomicRMWInst *AI) const {
   }
 
   unsigned Size = AI->getType()->getPrimitiveSizeInBits();
+  if (Subtarget.hasLAMCAS() &&
+      (AI->getOperation() == AtomicRMWInst::Nand || Size < 32))
+    return AtomicExpansionKind::CmpXChg;
+
   if (Size == 8 || Size == 16)
     return AtomicExpansionKind::MaskedIntrinsic;
   return AtomicExpansionKind::None;
@@ -5818,6 +5826,10 @@ getIntrinsicForMaskedAtomicRMWBinOp(unsigned GRLen,
 TargetLowering::AtomicExpansionKind
 LoongArchTargetLowering::shouldExpandAtomicCmpXchgInIR(
     AtomicCmpXchgInst *CI) const {
+
+  if (Subtarget.hasLAMCAS())
+    return AtomicExpansionKind::None;
+
   unsigned Size = CI->getCompareOperand()->getType()->getPrimitiveSizeInBits();
   if (Size == 8 || Size == 16)
     return AtomicExpansionKind::MaskedIntrinsic;
@@ -6313,8 +6325,8 @@ bool LoongArchTargetLowering::hasAndNotCompare(SDValue Y) const {
 }
 
 ISD::NodeType LoongArchTargetLowering::getExtendForAtomicCmpSwapArg() const {
-  // TODO: LAMCAS will use amcas{_DB,}.[bhwd] which does not require extension.
-  return ISD::SIGN_EXTEND;
+  // LAMCAS will use amcas[_DB].{b/h/w/d} which does not require extension.
+  return Subtarget.hasLAMCAS() ? ISD::ANY_EXTEND : ISD::SIGN_EXTEND;
 }
 
 bool LoongArchTargetLowering::shouldSignExtendTypeInLibCall(

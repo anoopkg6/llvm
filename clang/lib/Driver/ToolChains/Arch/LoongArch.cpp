@@ -269,6 +269,15 @@ void loongarch::getLoongArchTargetFeatures(const Driver &D,
     else
       Features.push_back("-lam-bh");
   }
+
+  // Select lamcas feature determined by -m[no-]lamcas.
+  if (const Arg *A =
+          Args.getLastArg(options::OPT_mlamcas, options::OPT_mno_lamcas)) {
+    if (A->getOption().matches(options::OPT_mlamcas))
+      Features.push_back("+lamcas");
+    else
+      Features.push_back("-lamcas");
+  }
 }
 
 std::string loongarch::postProcessTargetCPUString(const std::string &CPU,

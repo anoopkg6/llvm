@@ -5407,6 +5407,10 @@ def mlam_bh : Flag<["-"], "mlam-bh">, Group<m_loongarch_Features_Group>,
   HelpText<"Enable amswap[_db].{b/h} and amadd[_db].{b/h}">;
 def mno_lam_bh : Flag<["-"], "mno-lam-bh">, Group<m_loongarch_Features_Group>,
   HelpText<"Disable amswap[_db].{b/h} and amadd[_db].{b/h}">;
+def mlamcas : Flag<["-"], "mlamcas">, Group<m_loongarch_Features_Group>,
+  HelpText<"Enable amcas[_db].{b/h/w/d}">;
+def mno_lamcas : Flag<["-"], "mno-lamcas">, Group<m_loongarch_Features_Group>,
+  HelpText<"Disable amcas[_db].{b/h/w/d}">;
 def mannotate_tablejump : Flag<["-"], "mannotate-tablejump">, Group<m_loongarch_Features_Group>,
   HelpText<"Enable annotate table jump instruction to correlate it with the jump table.">;
 def mno_annotate_tablejump : Flag<["-"], "mno-annotate-tablejump">, Group<m_loongarch_Features_Group>,
