@@ -98,7 +98,6 @@ bool VPRecipeBase::mayWriteToMemory() const {
   case VPWidenLoadSC:
   case VPWidenPHISC:
   case VPWidenSC:
-  case VPWidenEVLSC:
   case VPWidenSelectSC: {
     const Instruction *I =
         dyn_cast_or_null<Instruction>(getVPSingleValue()->getUnderlyingValue());
@@ -142,7 +141,6 @@ bool VPRecipeBase::mayReadFromMemory() const {
   case VPWidenIntOrFpInductionSC:
   case VPWidenPHISC:
   case VPWidenSC:
-  case VPWidenEVLSC:
   case VPWidenSelectSC: {
     const Instruction *I =
         dyn_cast_or_null<Instruction>(getVPSingleValue()->getUnderlyingValue());
@@ -183,7 +181,6 @@ bool VPRecipeBase::mayHaveSideEffects() const {
   case VPWidenPHISC:
   case VPWidenPointerInductionSC:
   case VPWidenSC:
-  case VPWidenEVLSC:
   case VPWidenSelectSC: {
     const Instruction *I =
         dyn_cast_or_null<Instruction>(getVPSingleValue()->getUnderlyingValue());
@@ -957,24 +954,52 @@ void VPWidenIntrinsicRecipe::execute(VPTransformState &State) {
     Args.push_back(Arg);
   }
 
-  // Use vector version of the intrinsic.
-  Module *M = State.Builder.GetInsertBlock()->getModule();
-  Function *VectorF =
-      Intrinsic::getOrInsertDeclaration(M, VectorIntrinsicID, TysForDecl);
-  assert(VectorF && "Can't retrieve vector intrinsic.");
+  if (VPIntrinsic::isVPIntrinsic(VectorIntrinsicID) &&
+      VectorIntrinsicID != Intrinsic::vp_select) {
+    VectorBuilder VBuilder(State.Builder);
+    Value *Mask =
+        State.Builder.CreateVectorSplat(State.VF, State.Builder.getTrue());
+    VBuilder.setMask(Mask).setEVL(Args.back());
+    // Remove EVL from Args
+    Args.pop_back();
 
-  auto *CI = cast_or_null<CallInst>(getUnderlyingValue());
-  SmallVector<OperandBundleDef, 1> OpBundles;
-  if (CI)
-    CI->getOperandBundlesAsDefs(OpBundles);
+    if (VPCmpIntrinsic::isVPCmp(VectorIntrinsicID)) {
+      auto &Ctx = State.Builder.getContext();
+      Value *Pred = MetadataAsValue::get(
+          Ctx, MDString::get(Ctx, CmpInst::getPredicateName(getPredicate())));
+      Args.push_back(Pred);
+    }
 
-  CallInst *V = State.Builder.CreateCall(VectorF, Args, OpBundles);
+    Value *VPInst = VBuilder.createSimpleIntrinsic(
+        VectorIntrinsicID, TysForDecl[0], Args, "vp.call");
 
-  setFlags(V);
+    if (isa<FPMathOperator>(VPInst))
+      setFlags(cast<Instruction>(VPInst));
 
-  if (!V->getType()->isVoidTy())
-    State.set(this, V);
-  State.addMetadata(V, CI);
+    if (!VPInst->getType()->isVoidTy())
+      State.set(this, VPInst);
+    State.addMetadata(VPInst,
+                      dyn_cast_or_null<Instruction>(getUnderlyingValue()));
+  } else {
+    // Use vector version of the intrinsic.
+    Module *M = State.Builder.GetInsertBlock()->getModule();
+    Function *VectorF =
+        Intrinsic::getOrInsertDeclaration(M, VectorIntrinsicID, TysForDecl);
+    assert(VectorF && "Can't retrieve vector intrinsic.");
+
+    auto *CI = cast_or_null<CallInst>(getUnderlyingValue());
+    SmallVector<OperandBundleDef, 1> OpBundles;
+    if (CI)
+      CI->getOperandBundlesAsDefs(OpBundles);
+
+    CallInst *V = State.Builder.CreateCall(VectorF, Args, OpBundles);
+
+    setFlags(V);
+
+    if (!V->getType()->isVoidTy())
+      State.set(this, V);
+    State.addMetadata(V, CI);
+  }
 }
 
 InstructionCost VPWidenIntrinsicRecipe::computeCost(ElementCount VF,
@@ -1005,6 +1030,18 @@ InstructionCost VPWidenIntrinsicRecipe::computeCost(ElementCount VF,
   for (unsigned I = 0; I != getNumOperands(); ++I)
     ParamTys.push_back(
         ToVectorTy(Ctx.Types.inferScalarType(getOperand(I)), VF));
+
+  if (std::optional<unsigned> FOp =
+          VPIntrinsic::getFunctionalOpcodeForVP(VectorIntrinsicID)) {
+    if (VPCmpIntrinsic::isVPCmp(VectorIntrinsicID)) {
+      Instruction *CtxI = dyn_cast_or_null<Instruction>(getUnderlyingValue());
+      Type *VectorTy = ToVectorTy(Ctx.Types.inferScalarType(getOperand(0)), VF);
+      return Ctx.TTI.getCmpSelInstrCost(FOp.value(), VectorTy, nullptr,
+                                        getPredicate(), CostKind,
+                                        {TTI::OK_AnyValue, TTI::OP_None},
+                                        {TTI::OK_AnyValue, TTI::OP_None}, CtxI);
+    }
+  }
 
   // TODO: Rework TTI interface to avoid reliance on underlying IntrinsicInst.
   FastMathFlags FMF = hasFastMathFlags() ? getFastMathFlags() : FastMathFlags();
@@ -1417,57 +1454,12 @@ InstructionCost VPWidenRecipe::computeCost(ElementCount VF,
   }
 }
 
-void VPWidenEVLRecipe::execute(VPTransformState &State) {
-  unsigned Opcode = getOpcode();
-  // TODO: Support other opcodes
-  if (!Instruction::isBinaryOp(Opcode) && !Instruction::isUnaryOp(Opcode))
-    llvm_unreachable("Unsupported opcode in VPWidenEVLRecipe::execute");
-
-  State.setDebugLocFrom(getDebugLoc());
-
-  assert(State.get(getOperand(0))->getType()->isVectorTy() &&
-         "VPWidenEVLRecipe should not be used for scalars");
-
-  VPValue *EVL = getEVL();
-  Value *EVLArg = State.get(EVL, /*NeedsScalar=*/true);
-  IRBuilderBase &BuilderIR = State.Builder;
-  VectorBuilder Builder(BuilderIR);
-  Value *Mask = BuilderIR.CreateVectorSplat(State.VF, BuilderIR.getTrue());
-
-  SmallVector<Value *, 4> Ops;
-  for (unsigned I = 0, E = getNumOperands() - 1; I < E; ++I) {
-    VPValue *VPOp = getOperand(I);
-    Ops.push_back(State.get(VPOp));
-  }
-
-  Builder.setMask(Mask).setEVL(EVLArg);
-  Value *VPInst =
-      Builder.createVectorInstruction(Opcode, Ops[0]->getType(), Ops, "vp.op");
-  // Currently vp-intrinsics only accept FMF flags.
-  // TODO: Enable other flags when support is added.
-  if (isa<FPMathOperator>(VPInst))
-    setFlags(cast<Instruction>(VPInst));
-
-  State.set(this, VPInst);
-  State.addMetadata(VPInst,
-                    dyn_cast_or_null<Instruction>(getUnderlyingValue()));
-}
-
 #if !defined(NDEBUG) || defined(LLVM_ENABLE_DUMP)
 void VPWidenRecipe::print(raw_ostream &O, const Twine &Indent,
                           VPSlotTracker &SlotTracker) const {
   O << Indent << "WIDEN ";
   printAsOperand(O, SlotTracker);
   O << " = " << Instruction::getOpcodeName(Opcode);
-  printFlags(O);
-  printOperands(O, SlotTracker);
-}
-
-void VPWidenEVLRecipe::print(raw_ostream &O, const Twine &Indent,
-                             VPSlotTracker &SlotTracker) const {
-  O << Indent << "WIDEN ";
-  printAsOperand(O, SlotTracker);
-  O << " = vp." << Instruction::getOpcodeName(getOpcode());
   printFlags(O);
   printOperands(O, SlotTracker);
 }
