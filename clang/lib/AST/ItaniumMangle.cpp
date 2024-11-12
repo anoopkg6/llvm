@@ -576,6 +576,7 @@ private:
   static StringRef getCallingConvQualifierName(CallingConv CC);
   void mangleExtParameterInfo(FunctionProtoType::ExtParameterInfo info);
   void mangleExtFunctionInfo(const FunctionType *T);
+  void mangleSMEAttrs(unsigned SMEAttrs);
   void mangleBareFunctionType(const FunctionProtoType *T, bool MangleReturnType,
                               const FunctionDecl *FD = nullptr);
   void mangleNeonVectorType(const VectorType *T);
@@ -3534,6 +3535,39 @@ void CXXNameMangler::mangleExtFunctionInfo(const FunctionType *T) {
   // FIXME: noreturn
 }
 
+bool hasSharedState(unsigned SMEAttrs) {
+  switch (SMEAttrs) {
+  case FunctionType::ARM_In:
+  case FunctionType::ARM_Out:
+  case FunctionType::ARM_InOut:
+  case FunctionType::ARM_Preserves:
+    return true;
+  default:
+    return false;
+  }
+}
+
+void CXXNameMangler::mangleSMEAttrs(unsigned SMEAttrs) {
+  if (!SMEAttrs)
+    return;
+
+  // Streaming Mode
+  if (SMEAttrs & FunctionType::SME_PStateSMEnabledMask)
+    Out << "Lj1E";
+  else if (SMEAttrs & FunctionType::SME_PStateSMCompatibleMask)
+    Out << "Lj2E";
+  else
+    Out << "Lj0E";
+
+  // ZA & ZT0 State
+  Out << (hasSharedState(FunctionType::getArmZAState(SMEAttrs)) ? "Lj1E"
+                                                                : "Lj0E");
+  Out << (hasSharedState(FunctionType::getArmZT0State(SMEAttrs)) ? "Lj1E"
+                                                                 : "Lj0E");
+
+  return;
+}
+
 void
 CXXNameMangler::mangleExtParameterInfo(FunctionProtoType::ExtParameterInfo PI) {
   // Vendor-specific qualifiers are emitted in reverse alphabetical order.
@@ -3571,6 +3605,11 @@ CXXNameMangler::mangleExtParameterInfo(FunctionProtoType::ExtParameterInfo PI) {
 // <function-type> ::= [<CV-qualifiers>] F [Y]
 //                      <bare-function-type> [<ref-qualifier>] E
 void CXXNameMangler::mangleType(const FunctionProtoType *T) {
+  unsigned SMEAttrs = T->getAArch64SMEAttributes();
+
+  if (SMEAttrs)
+    Out << "11__SME_ATTRSI";
+
   mangleExtFunctionInfo(T);
 
   // Mangle CV-qualifiers, if present.  These are 'this' qualifiers,
@@ -3603,6 +3642,8 @@ void CXXNameMangler::mangleType(const FunctionProtoType *T) {
 
   // Mangle the ref-qualifier, if present.
   mangleRefQualifier(T->getRefQualifier());
+
+  mangleSMEAttrs(SMEAttrs);
 
   Out << 'E';
 }
