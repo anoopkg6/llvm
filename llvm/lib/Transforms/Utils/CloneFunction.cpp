@@ -138,9 +138,9 @@ void llvm::CloneFunctionAttributesInto(Function *NewFunc,
                          OldAttrs.getRetAttrs(), NewArgAttrs));
 }
 
-DISubprogram *llvm::ProcessSubprogramAttachment(const Function &F,
-                                                CloneFunctionChangeType Changes,
-                                                DebugInfoFinder &DIFinder) {
+DISubprogram *llvm::CollectDebugInfoForCloning(const Function &F,
+                                               CloneFunctionChangeType Changes,
+                                               DebugInfoFinder &DIFinder) {
   DISubprogram *SPClonedWithinModule = nullptr;
   if (Changes < CloneFunctionChangeType::DifferentModule) {
     SPClonedWithinModule = F.getSubprogram();
@@ -214,7 +214,7 @@ void llvm::CloneFunctionInto(Function *NewFunc, const Function *OldFunc,
   }
 
   DISubprogram *SPClonedWithinModule =
-      ProcessSubprogramAttachment(*OldFunc, Changes, DIFinder);
+      CollectDebugInfoForCloning(*OldFunc, Changes, DIFinder);
 
   // Loop over all of the basic blocks in the function, cloning them as
   // appropriate.  Note that we save BE this way in order to handle cloning of
@@ -223,7 +223,7 @@ void llvm::CloneFunctionInto(Function *NewFunc, const Function *OldFunc,
 
     // Create a new basic block and copy instructions into it!
     // NOTE: don't pass DIFinder becase instructions' debug info was process in
-    // ProcessSubprogramAttachment. This will be further cleaned up.
+    // CollectDebugInfoForCloning. This will be further cleaned up.
     BasicBlock *CBB =
         CloneBasicBlock(&BB, VMap, NameSuffix, NewFunc, CodeInfo, nullptr);
 
