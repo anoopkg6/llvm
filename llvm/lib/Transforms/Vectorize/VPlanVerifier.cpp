@@ -156,7 +156,8 @@ bool VPlanVerifier::verifyEVLRecipe(const VPInstruction &EVL) const {
              .Case<VPScalarCastRecipe>(
                  [&](const VPScalarCastRecipe *S) { return true; })
              .Case<VPInstruction>([&](const VPInstruction *I) {
-               if (I->getOpcode() != Instruction::Add) {
+               if ((I->getOpcode() != Instruction::Add) &&
+                   (I->getOpcode() != Instruction::Mul)) {
                  errs()
                      << "EVL is used as an operand in non-VPInstruction::Add\n";
                  return false;
@@ -164,11 +165,6 @@ bool VPlanVerifier::verifyEVLRecipe(const VPInstruction &EVL) const {
                if (I->getNumUsers() != 1) {
                  errs() << "EVL is used in VPInstruction:Add with multiple "
                            "users\n";
-                 return false;
-               }
-               if (!isa<VPEVLBasedIVPHIRecipe>(*I->users().begin())) {
-                 errs() << "Result of VPInstruction::Add with EVL operand is "
-                           "not used by VPEVLBasedIVPHIRecipe\n";
                  return false;
                }
                return true;
