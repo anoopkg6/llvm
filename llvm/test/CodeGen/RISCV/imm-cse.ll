@@ -14,8 +14,8 @@ define void @imm32_cse() nounwind {
 ; RV32I-NEXT:    lw a1, %lo(src)(a0)
 ; RV32I-NEXT:    lui a2, 1
 ; RV32I-NEXT:    addi a2, a2, 1
-; RV32I-NEXT:    add a1, a1, a2
 ; RV32I-NEXT:    lui a3, %hi(dst)
+; RV32I-NEXT:    add a1, a1, a2
 ; RV32I-NEXT:    sw a1, %lo(dst)(a3)
 ; RV32I-NEXT:    lw a1, %lo(src)(a0)
 ; RV32I-NEXT:    add a1, a1, a2

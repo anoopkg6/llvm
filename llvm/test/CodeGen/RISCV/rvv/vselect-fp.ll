@@ -27,8 +27,8 @@ define <vscale x 1 x half> @vfmerge_fv_nxv1f16(<vscale x 1 x half> %va, half %b,
 ;
 ; CHECK-ZVFHMIN-LABEL: vfmerge_fv_nxv1f16:
 ; CHECK-ZVFHMIN:       # %bb.0:
-; CHECK-ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; CHECK-ZVFHMIN-NEXT:    vsetvli a1, zero, e16, mf4, ta, ma
+; CHECK-ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; CHECK-ZVFHMIN-NEXT:    vmv.v.x v9, a0
 ; CHECK-ZVFHMIN-NEXT:    vmerge.vvm v8, v8, v9, v0
 ; CHECK-ZVFHMIN-NEXT:    ret
@@ -57,8 +57,8 @@ define <vscale x 2 x half> @vfmerge_fv_nxv2f16(<vscale x 2 x half> %va, half %b,
 ;
 ; CHECK-ZVFHMIN-LABEL: vfmerge_fv_nxv2f16:
 ; CHECK-ZVFHMIN:       # %bb.0:
-; CHECK-ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; CHECK-ZVFHMIN-NEXT:    vsetvli a1, zero, e16, mf2, ta, ma
+; CHECK-ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; CHECK-ZVFHMIN-NEXT:    vmv.v.x v9, a0
 ; CHECK-ZVFHMIN-NEXT:    vmerge.vvm v8, v8, v9, v0
 ; CHECK-ZVFHMIN-NEXT:    ret
@@ -87,8 +87,8 @@ define <vscale x 4 x half> @vfmerge_fv_nxv4f16(<vscale x 4 x half> %va, half %b,
 ;
 ; CHECK-ZVFHMIN-LABEL: vfmerge_fv_nxv4f16:
 ; CHECK-ZVFHMIN:       # %bb.0:
-; CHECK-ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; CHECK-ZVFHMIN-NEXT:    vsetvli a1, zero, e16, m1, ta, ma
+; CHECK-ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; CHECK-ZVFHMIN-NEXT:    vmv.v.x v9, a0
 ; CHECK-ZVFHMIN-NEXT:    vmerge.vvm v8, v8, v9, v0
 ; CHECK-ZVFHMIN-NEXT:    ret
@@ -117,8 +117,8 @@ define <vscale x 8 x half> @vfmerge_fv_nxv8f16(<vscale x 8 x half> %va, half %b,
 ;
 ; CHECK-ZVFHMIN-LABEL: vfmerge_fv_nxv8f16:
 ; CHECK-ZVFHMIN:       # %bb.0:
-; CHECK-ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; CHECK-ZVFHMIN-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; CHECK-ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; CHECK-ZVFHMIN-NEXT:    vmv.v.x v10, a0
 ; CHECK-ZVFHMIN-NEXT:    vmerge.vvm v8, v8, v10, v0
 ; CHECK-ZVFHMIN-NEXT:    ret
@@ -148,15 +148,15 @@ define <vscale x 8 x half> @vfmerge_zv_nxv8f16(<vscale x 8 x half> %va, <vscale 
 define <vscale x 8 x half> @vfmerge_nzv_nxv8f16(<vscale x 8 x half> %va, <vscale x 8 x i1> %cond) {
 ; CHECK-ZVFH-LABEL: vfmerge_nzv_nxv8f16:
 ; CHECK-ZVFH:       # %bb.0:
-; CHECK-ZVFH-NEXT:    lui a0, 1048568
 ; CHECK-ZVFH-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; CHECK-ZVFH-NEXT:    lui a0, 1048568
 ; CHECK-ZVFH-NEXT:    vmerge.vxm v8, v8, a0, v0
 ; CHECK-ZVFH-NEXT:    ret
 ;
 ; CHECK-ZVFHMIN-LABEL: vfmerge_nzv_nxv8f16:
 ; CHECK-ZVFHMIN:       # %bb.0:
-; CHECK-ZVFHMIN-NEXT:    lui a0, 1048568
 ; CHECK-ZVFHMIN-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; CHECK-ZVFHMIN-NEXT:    lui a0, 1048568
 ; CHECK-ZVFHMIN-NEXT:    vmv.v.x v10, a0
 ; CHECK-ZVFHMIN-NEXT:    vmerge.vvm v8, v8, v10, v0
 ; CHECK-ZVFHMIN-NEXT:    ret
@@ -200,8 +200,8 @@ define <vscale x 16 x half> @vfmerge_fv_nxv16f16(<vscale x 16 x half> %va, half 
 ;
 ; CHECK-ZVFHMIN-LABEL: vfmerge_fv_nxv16f16:
 ; CHECK-ZVFHMIN:       # %bb.0:
-; CHECK-ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; CHECK-ZVFHMIN-NEXT:    vsetvli a1, zero, e16, m4, ta, ma
+; CHECK-ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; CHECK-ZVFHMIN-NEXT:    vmv.v.x v12, a0
 ; CHECK-ZVFHMIN-NEXT:    vmerge.vvm v8, v8, v12, v0
 ; CHECK-ZVFHMIN-NEXT:    ret
@@ -230,8 +230,8 @@ define <vscale x 32 x half> @vfmerge_fv_nxv32f16(<vscale x 32 x half> %va, half 
 ;
 ; CHECK-ZVFHMIN-LABEL: vfmerge_fv_nxv32f16:
 ; CHECK-ZVFHMIN:       # %bb.0:
-; CHECK-ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; CHECK-ZVFHMIN-NEXT:    vsetvli a1, zero, e16, m8, ta, ma
+; CHECK-ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; CHECK-ZVFHMIN-NEXT:    vmv.v.x v16, a0
 ; CHECK-ZVFHMIN-NEXT:    vmerge.vvm v8, v8, v16, v0
 ; CHECK-ZVFHMIN-NEXT:    ret
@@ -342,8 +342,8 @@ define <vscale x 8 x float> @vfmerge_zv_nxv8f32(<vscale x 8 x float> %va, <vscal
 define <vscale x 8 x float> @vfmerge_nzv_nxv8f32(<vscale x 8 x float> %va, <vscale x 8 x i1> %cond) {
 ; CHECK-LABEL: vfmerge_nzv_nxv8f32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a0, 524288
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m4, ta, ma
+; CHECK-NEXT:    lui a0, 524288
 ; CHECK-NEXT:    vmerge.vxm v8, v8, a0, v0
 ; CHECK-NEXT:    ret
   %vc = select <vscale x 8 x i1> %cond, <vscale x 8 x float> splat (float -0.0), <vscale x 8 x float> %va
@@ -474,16 +474,16 @@ define <vscale x 8 x double> @vfmerge_nzv_nxv8f64(<vscale x 8 x double> %va, <vs
 ; RV32-LABEL: vfmerge_nzv_nxv8f64:
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    fcvt.d.w fa5, zero
-; RV32-NEXT:    fneg.d fa5, fa5
 ; RV32-NEXT:    vsetvli a0, zero, e64, m8, ta, ma
+; RV32-NEXT:    fneg.d fa5, fa5
 ; RV32-NEXT:    vfmerge.vfm v8, v8, fa5, v0
 ; RV32-NEXT:    ret
 ;
 ; RV64-LABEL: vfmerge_nzv_nxv8f64:
 ; RV64:       # %bb.0:
 ; RV64-NEXT:    li a0, -1
-; RV64-NEXT:    slli a0, a0, 63
 ; RV64-NEXT:    vsetvli a1, zero, e64, m8, ta, ma
+; RV64-NEXT:    slli a0, a0, 63
 ; RV64-NEXT:    vmerge.vxm v8, v8, a0, v0
 ; RV64-NEXT:    ret
   %vc = select <vscale x 8 x i1> %cond, <vscale x 8 x double> splat (double -0.0), <vscale x 8 x double> %va
@@ -493,17 +493,16 @@ define <vscale x 8 x double> @vfmerge_nzv_nxv8f64(<vscale x 8 x double> %va, <vs
 define <vscale x 16 x double> @vselect_combine_regression(<vscale x 16 x i64> %va, <vscale x 16 x double> %vb) {
 ; CHECK-LABEL: vselect_combine_regression:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    vmv8r.v v24, v16
 ; CHECK-NEXT:    csrr a1, vlenb
 ; CHECK-NEXT:    slli a1, a1, 3
-; CHECK-NEXT:    add a1, a0, a1
 ; CHECK-NEXT:    vsetvli a2, zero, e64, m8, ta, mu
 ; CHECK-NEXT:    vmseq.vi v0, v8, 0
-; CHECK-NEXT:    vmv.v.i v16, 0
-; CHECK-NEXT:    vmseq.vi v7, v24, 0
 ; CHECK-NEXT:    vmv.v.i v8, 0
 ; CHECK-NEXT:    vle64.v v8, (a0), v0.t
+; CHECK-NEXT:    vmseq.vi v7, v16, 0
 ; CHECK-NEXT:    vmv1r.v v0, v7
+; CHECK-NEXT:    vmv.v.i v16, 0
+; CHECK-NEXT:    add a1, a0, a1
 ; CHECK-NEXT:    vle64.v v16, (a1), v0.t
 ; CHECK-NEXT:    ret
   %cond = icmp eq <vscale x 16 x i64> %va, zeroinitializer
@@ -516,9 +515,10 @@ define void @vselect_legalize_regression(<vscale x 16 x double> %a, <vscale x 16
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a2, zero, e8, m2, ta, ma
 ; CHECK-NEXT:    vlm.v v24, (a0)
-; CHECK-NEXT:    vmand.mm v7, v0, v24
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a2, a0, 3
+; CHECK-NEXT:    slli a0, a0, 3
+; CHECK-NEXT:    vmand.mm v7, v0, v24
 ; CHECK-NEXT:    vsetvli a3, zero, e8, mf4, ta, ma
 ; CHECK-NEXT:    vslidedown.vx v0, v7, a2
 ; CHECK-NEXT:    vsetvli a2, zero, e64, m8, ta, ma
@@ -527,9 +527,8 @@ define void @vselect_legalize_regression(<vscale x 16 x double> %a, <vscale x 16
 ; CHECK-NEXT:    vmv1r.v v0, v7
 ; CHECK-NEXT:    vmv.v.i v24, 0
 ; CHECK-NEXT:    vmerge.vvm v8, v24, v8, v0
-; CHECK-NEXT:    vs8r.v v8, (a1)
-; CHECK-NEXT:    slli a0, a0, 3
 ; CHECK-NEXT:    add a0, a1, a0
+; CHECK-NEXT:    vs8r.v v8, (a1)
 ; CHECK-NEXT:    vs8r.v v16, (a0)
 ; CHECK-NEXT:    ret
   %cond = and <vscale x 16 x i1> %ma, %mb

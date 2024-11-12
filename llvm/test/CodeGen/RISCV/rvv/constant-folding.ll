@@ -15,8 +15,8 @@ define <2 x i16> @fixedlen(<2 x i32> %x) {
 ; CHECK-LABEL: fixedlen:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e32, mf2, ta, ma
-; CHECK-NEXT:    vsrl.vi v8, v8, 16
 ; CHECK-NEXT:    lui a0, 1048568
+; CHECK-NEXT:    vsrl.vi v8, v8, 16
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, mf4, ta, ma
 ; CHECK-NEXT:    vnsrl.wi v8, v8, 0
@@ -34,8 +34,8 @@ define <vscale x 2 x i16> @scalable(<vscale x 2 x i32> %x) {
 ; CHECK-LABEL: scalable:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a0, zero, e16, mf2, ta, ma
-; CHECK-NEXT:    vnsrl.wi v8, v8, 16
 ; CHECK-NEXT:    lui a0, 1048568
+; CHECK-NEXT:    vnsrl.wi v8, v8, 16
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v43 = lshr <vscale x 2 x i32> %x, splat (i32 16)

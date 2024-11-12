@@ -10,8 +10,8 @@
 define <vscale x 8 x half> @vsplat_nxv8f16(half %f) {
 ; CHECK-LABEL: vsplat_nxv8f16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fmv.x.w a0, fa0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; CHECK-NEXT:    fmv.x.w a0, fa0
 ; CHECK-NEXT:    vmv.v.x v8, a0
 ; CHECK-NEXT:    ret
   %head = insertelement <vscale x 8 x half> poison, half %f, i32 0

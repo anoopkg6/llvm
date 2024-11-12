@@ -17,8 +17,8 @@ define float @constraint_f_modifier_N_float(float %a) nounwind {
 ; RV32F-LABEL: constraint_f_modifier_N_float:
 ; RV32F:       # %bb.0:
 ; RV32F-NEXT:    lui a1, %hi(gf)
-; RV32F-NEXT:    flw fa5, %lo(gf)(a1)
 ; RV32F-NEXT:    fmv.w.x fa4, a0
+; RV32F-NEXT:    flw fa5, %lo(gf)(a1)
 ; RV32F-NEXT:    #APP
 ; RV32F-NEXT:    .insn 0x4, 0x53 | (15 << 7) | (14 << 15) | (15 << 20)
 ; RV32F-NEXT:    #NO_APP
@@ -28,8 +28,8 @@ define float @constraint_f_modifier_N_float(float %a) nounwind {
 ; RV64F-LABEL: constraint_f_modifier_N_float:
 ; RV64F:       # %bb.0:
 ; RV64F-NEXT:    lui a1, %hi(gf)
-; RV64F-NEXT:    flw fa5, %lo(gf)(a1)
 ; RV64F-NEXT:    fmv.w.x fa4, a0
+; RV64F-NEXT:    flw fa5, %lo(gf)(a1)
 ; RV64F-NEXT:    #APP
 ; RV64F-NEXT:    .insn 0x4, 0x53 | (15 << 7) | (14 << 15) | (15 << 20)
 ; RV64F-NEXT:    #NO_APP
@@ -45,8 +45,8 @@ define float @constraint_cf_modifier_N_float(float %a) nounwind {
 ; RV32F-LABEL: constraint_cf_modifier_N_float:
 ; RV32F:       # %bb.0:
 ; RV32F-NEXT:    lui a1, %hi(gf)
-; RV32F-NEXT:    flw fa5, %lo(gf)(a1)
 ; RV32F-NEXT:    fmv.w.x fa4, a0
+; RV32F-NEXT:    flw fa5, %lo(gf)(a1)
 ; RV32F-NEXT:    #APP
 ; RV32F-NEXT:    .insn 0x4, 0x53 | (15 << 7) | (14 << 15) | (15 << 20)
 ; RV32F-NEXT:    #NO_APP
@@ -56,8 +56,8 @@ define float @constraint_cf_modifier_N_float(float %a) nounwind {
 ; RV64F-LABEL: constraint_cf_modifier_N_float:
 ; RV64F:       # %bb.0:
 ; RV64F-NEXT:    lui a1, %hi(gf)
-; RV64F-NEXT:    flw fa5, %lo(gf)(a1)
 ; RV64F-NEXT:    fmv.w.x fa4, a0
+; RV64F-NEXT:    flw fa5, %lo(gf)(a1)
 ; RV64F-NEXT:    #APP
 ; RV64F-NEXT:    .insn 0x4, 0x53 | (15 << 7) | (14 << 15) | (15 << 20)
 ; RV64F-NEXT:    #NO_APP
@@ -72,8 +72,8 @@ define float @modifier_N_float_abi_name(float %a) nounwind {
 ; RV32F-LABEL: modifier_N_float_abi_name:
 ; RV32F:       # %bb.0:
 ; RV32F-NEXT:    lui a1, %hi(gf)
-; RV32F-NEXT:    flw fs0, %lo(gf)(a1)
 ; RV32F-NEXT:    fmv.w.x fa0, a0
+; RV32F-NEXT:    flw fs0, %lo(gf)(a1)
 ; RV32F-NEXT:    #APP
 ; RV32F-NEXT:    .insn 0x4, 0x53 | (0 << 7) | (10 << 15) | (8 << 20)
 ; RV32F-NEXT:    #NO_APP
@@ -83,8 +83,8 @@ define float @modifier_N_float_abi_name(float %a) nounwind {
 ; RV64F-LABEL: modifier_N_float_abi_name:
 ; RV64F:       # %bb.0:
 ; RV64F-NEXT:    lui a1, %hi(gf)
-; RV64F-NEXT:    flw fs0, %lo(gf)(a1)
 ; RV64F-NEXT:    fmv.w.x fa0, a0
+; RV64F-NEXT:    flw fs0, %lo(gf)(a1)
 ; RV64F-NEXT:    #APP
 ; RV64F-NEXT:    .insn 0x4, 0x53 | (0 << 7) | (10 << 15) | (8 << 20)
 ; RV64F-NEXT:    #NO_APP

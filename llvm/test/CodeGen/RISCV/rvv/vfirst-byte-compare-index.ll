@@ -15,14 +15,14 @@ define i32 @compare_bytes_simple(ptr %a, ptr %b, i32 signext %len, i32 signext %
 ; CHECK-NEXT:    srli a5, a5, 32
 ; CHECK-NEXT:    add a6, a0, a2
 ; CHECK-NEXT:    add a7, a0, a5
-; CHECK-NEXT:    srli a6, a6, 12
 ; CHECK-NEXT:    srli a7, a7, 12
+; CHECK-NEXT:    srli a6, a6, 12
 ; CHECK-NEXT:    bne a6, a7, .LBB0_7
 ; CHECK-NEXT:  # %bb.2: # %mismatch_mem_check
 ; CHECK-NEXT:    add a6, a1, a2
 ; CHECK-NEXT:    add a7, a1, a5
-; CHECK-NEXT:    srli a6, a6, 12
 ; CHECK-NEXT:    srli a7, a7, 12
+; CHECK-NEXT:    srli a6, a6, 12
 ; CHECK-NEXT:    bne a6, a7, .LBB0_7
 ; CHECK-NEXT:  .LBB0_3: # %mismatch_vec_loop
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
@@ -32,9 +32,9 @@ define i32 @compare_bytes_simple(ptr %a, ptr %b, i32 signext %len, i32 signext %
 ; CHECK-NEXT:    vle8.v v8, (a6)
 ; CHECK-NEXT:    add a6, a1, a2
 ; CHECK-NEXT:    vle8.v v10, (a6)
+; CHECK-NEXT:    mv a6, a4
 ; CHECK-NEXT:    vmsne.vv v12, v8, v10
 ; CHECK-NEXT:    vfirst.m a7, v12
-; CHECK-NEXT:    mv a6, a4
 ; CHECK-NEXT:    bltz a7, .LBB0_5
 ; CHECK-NEXT:  # %bb.4: # %mismatch_vec_loop
 ; CHECK-NEXT:    # in Loop: Header=BB0_3 Depth=1
@@ -53,9 +53,9 @@ define i32 @compare_bytes_simple(ptr %a, ptr %b, i32 signext %len, i32 signext %
 ; CHECK-NEXT:    slli a2, a4, 32
 ; CHECK-NEXT:    srli a2, a2, 32
 ; CHECK-NEXT:    add a5, a0, a2
-; CHECK-NEXT:    lbu a5, 0(a5)
 ; CHECK-NEXT:    add a2, a1, a2
 ; CHECK-NEXT:    lbu a2, 0(a2)
+; CHECK-NEXT:    lbu a5, 0(a5)
 ; CHECK-NEXT:    bne a5, a2, .LBB0_10
 ; CHECK-NEXT:  # %bb.8: # %mismatch_loop_inc
 ; CHECK-NEXT:    # in Loop: Header=BB0_7 Depth=1

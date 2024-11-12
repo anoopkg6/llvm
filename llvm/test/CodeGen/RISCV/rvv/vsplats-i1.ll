@@ -23,8 +23,8 @@ define <vscale x 1 x i1> @vsplat_nxv1i1_1() {
 define <vscale x 1 x i1> @vsplat_nxv1i1_2(i1 %x) {
 ; CHECK-LABEL: vsplat_nxv1i1_2:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf8, ta, ma
+; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    vmv.v.x v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -37,8 +37,8 @@ define <vscale x 1 x i1> @vsplat_nxv1i1_3(i32 signext %x, i32 signext %y) {
 ; CHECK-LABEL: vsplat_nxv1i1_3:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    xor a0, a0, a1
-; CHECK-NEXT:    snez a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf8, ta, ma
+; CHECK-NEXT:    snez a0, a0
 ; CHECK-NEXT:    vmv.v.x v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -69,8 +69,8 @@ define <vscale x 2 x i1> @vsplat_nxv2i1_1() {
 define <vscale x 2 x i1> @vsplat_nxv2i1_2(i1 %x) {
 ; CHECK-LABEL: vsplat_nxv2i1_2:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf4, ta, ma
+; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    vmv.v.x v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -100,8 +100,8 @@ define <vscale x 4 x i1> @vsplat_nxv4i1_1() {
 define <vscale x 4 x i1> @vsplat_nxv4i1_2(i1 %x) {
 ; CHECK-LABEL: vsplat_nxv4i1_2:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf2, ta, ma
+; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    vmv.v.x v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -131,8 +131,8 @@ define <vscale x 8 x i1> @vsplat_nxv8i1_1() {
 define <vscale x 8 x i1> @vsplat_nxv8i1_2(i1 %x) {
 ; CHECK-LABEL: vsplat_nxv8i1_2:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m1, ta, ma
+; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    vmv.v.x v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -162,8 +162,8 @@ define <vscale x 16 x i1> @vsplat_nxv16i1_1() {
 define <vscale x 16 x i1> @vsplat_nxv16i1_2(i1 %x) {
 ; CHECK-LABEL: vsplat_nxv16i1_2:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m2, ta, ma
+; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    vmv.v.x v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret

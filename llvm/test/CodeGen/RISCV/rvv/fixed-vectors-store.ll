@@ -92,8 +92,8 @@ define void @store_v6i1(ptr %p, <6 x i1> %v) {
 ; CHECK-NEXT:    vmv.x.s a2, v0
 ; CHECK-NEXT:    andi a3, a2, 2
 ; CHECK-NEXT:    or a1, a1, a3
-; CHECK-NEXT:    andi a3, a2, 4
 ; CHECK-NEXT:    andi a4, a2, 8
+; CHECK-NEXT:    andi a3, a2, 4
 ; CHECK-NEXT:    or a3, a3, a4
 ; CHECK-NEXT:    or a1, a1, a3
 ; CHECK-NEXT:    andi a3, a2, 16
@@ -132,9 +132,9 @@ define void @store_constant_v2i32(ptr %p) {
 ; CHECK-LABEL: store_constant_v2i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e32, mf2, ta, ma
-; CHECK-NEXT:    vmv.v.i v8, 3
-; CHECK-NEXT:    vid.v v9
 ; CHECK-NEXT:    li a1, 3
+; CHECK-NEXT:    vid.v v9
+; CHECK-NEXT:    vmv.v.i v8, 3
 ; CHECK-NEXT:    vmadd.vx v9, a1, v8
 ; CHECK-NEXT:    vse32.v v9, (a0)
 ; CHECK-NEXT:    ret
@@ -157,8 +157,8 @@ define void @store_constant_v4i16(ptr %p) {
 ; CHECK-LABEL: store_constant_v4i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    lui a1, 4176
-; CHECK-NEXT:    addi a1, a1, 1539
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
+; CHECK-NEXT:    addi a1, a1, 1539
 ; CHECK-NEXT:    vmv.s.x v8, a1
 ; CHECK-NEXT:    vsetvli zero, zero, e16, mf2, ta, ma
 ; CHECK-NEXT:    vsext.vf2 v9, v8
@@ -172,8 +172,8 @@ define void @store_constant_v4i32(ptr %p) {
 ; CHECK-LABEL: store_constant_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    lui a1, 4176
-; CHECK-NEXT:    addi a1, a1, 1539
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
+; CHECK-NEXT:    addi a1, a1, 1539
 ; CHECK-NEXT:    vmv.s.x v8, a1
 ; CHECK-NEXT:    vsext.vf4 v9, v8
 ; CHECK-NEXT:    vse32.v v9, (a0)
@@ -197,9 +197,9 @@ define void @store_constant_v2i8_align1(ptr %p) {
 ; CHECK-LABEL: store_constant_v2i8_align1:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e8, mf8, ta, ma
-; CHECK-NEXT:    vmv.v.i v8, 3
-; CHECK-NEXT:    vid.v v9
 ; CHECK-NEXT:    li a1, 3
+; CHECK-NEXT:    vid.v v9
+; CHECK-NEXT:    vmv.v.i v8, 3
 ; CHECK-NEXT:    vmadd.vx v9, a1, v8
 ; CHECK-NEXT:    vse8.v v9, (a0)
 ; CHECK-NEXT:    ret

@@ -6,8 +6,8 @@ define void @foo_set(ptr nocapture noundef %a, i32 noundef %v) {
 ; CHECK-LABEL: foo_set:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    srli a2, a1, 8
-; CHECK-NEXT:    sb a1, 3(a0)
 ; CHECK-NEXT:    sb a2, 4(a0)
+; CHECK-NEXT:    sb a1, 3(a0)
 ; CHECK-NEXT:    ret
 entry:
   %bf.load = load i96, ptr %a, align 1

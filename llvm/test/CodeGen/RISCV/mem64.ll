@@ -102,8 +102,8 @@ define dso_local i64 @lwu(ptr %a) nounwind {
 define dso_local void @sb(ptr %a, i8 %b) nounwind {
 ; RV64I-LABEL: sb:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    sb a1, 0(a0)
 ; RV64I-NEXT:    sb a1, 7(a0)
+; RV64I-NEXT:    sb a1, 0(a0)
 ; RV64I-NEXT:    ret
   store i8 %b, ptr %a
   %1 = getelementptr i8, ptr %a, i32 7
@@ -114,8 +114,8 @@ define dso_local void @sb(ptr %a, i8 %b) nounwind {
 define dso_local void @sh(ptr %a, i16 %b) nounwind {
 ; RV64I-LABEL: sh:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    sh a1, 0(a0)
 ; RV64I-NEXT:    sh a1, 16(a0)
+; RV64I-NEXT:    sh a1, 0(a0)
 ; RV64I-NEXT:    ret
   store i16 %b, ptr %a
   %1 = getelementptr i16, ptr %a, i32 8
@@ -126,8 +126,8 @@ define dso_local void @sh(ptr %a, i16 %b) nounwind {
 define dso_local void @sw(ptr %a, i32 %b) nounwind {
 ; RV64I-LABEL: sw:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    sw a1, 0(a0)
 ; RV64I-NEXT:    sw a1, 36(a0)
+; RV64I-NEXT:    sw a1, 0(a0)
 ; RV64I-NEXT:    ret
   store i32 %b, ptr %a
   %1 = getelementptr i32, ptr %a, i32 9
@@ -153,8 +153,8 @@ define dso_local i64 @ld(ptr %a) nounwind {
 define dso_local void @sd(ptr %a, i64 %b) nounwind {
 ; RV64I-LABEL: sd:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    sd a1, 0(a0)
 ; RV64I-NEXT:    sd a1, 88(a0)
+; RV64I-NEXT:    sd a1, 0(a0)
 ; RV64I-NEXT:    ret
   store i64 %b, ptr %a
   %1 = getelementptr i64, ptr %a, i32 11
@@ -166,8 +166,8 @@ define dso_local void @sd(ptr %a, i64 %b) nounwind {
 define dso_local i64 @load_sext_zext_anyext_i1(ptr %a) nounwind {
 ; RV64I-LABEL: load_sext_zext_anyext_i1:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    lbu a1, 1(a0)
 ; RV64I-NEXT:    lbu a2, 2(a0)
+; RV64I-NEXT:    lbu a1, 1(a0)
 ; RV64I-NEXT:    lbu zero, 0(a0)
 ; RV64I-NEXT:    sub a0, a2, a1
 ; RV64I-NEXT:    ret
@@ -188,8 +188,8 @@ define dso_local i64 @load_sext_zext_anyext_i1(ptr %a) nounwind {
 define dso_local i16 @load_sext_zext_anyext_i1_i16(ptr %a) nounwind {
 ; RV64I-LABEL: load_sext_zext_anyext_i1_i16:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    lbu a1, 1(a0)
 ; RV64I-NEXT:    lbu a2, 2(a0)
+; RV64I-NEXT:    lbu a1, 1(a0)
 ; RV64I-NEXT:    lbu zero, 0(a0)
 ; RV64I-NEXT:    sub a0, a2, a1
 ; RV64I-NEXT:    ret
@@ -215,8 +215,8 @@ define dso_local i64 @ld_sd_global(i64 %a) nounwind {
 ; RV64I:       # %bb.0:
 ; RV64I-NEXT:    lui a2, %hi(G)
 ; RV64I-NEXT:    ld a1, %lo(G)(a2)
-; RV64I-NEXT:    addi a3, a2, %lo(G)
 ; RV64I-NEXT:    sd a0, %lo(G)(a2)
+; RV64I-NEXT:    addi a3, a2, %lo(G)
 ; RV64I-NEXT:    ld zero, 72(a3)
 ; RV64I-NEXT:    sd a0, 72(a3)
 ; RV64I-NEXT:    mv a0, a1

@@ -52,25 +52,25 @@ define signext i32 @add_small_const(i32 signext %a) nounwind {
 define signext i32 @add_large_const(i32 signext %a) nounwind {
 ; RV32I-LABEL: add_large_const:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    slli a0, a0, 16
 ; RV32I-NEXT:    lui a1, 65520
+; RV32I-NEXT:    slli a0, a0, 16
 ; RV32I-NEXT:    add a0, a0, a1
 ; RV32I-NEXT:    srai a0, a0, 16
 ; RV32I-NEXT:    jalr zero, 0(ra)
 ;
 ; RV64I-LABEL: add_large_const:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    slli a0, a0, 48
 ; RV64I-NEXT:    lui a1, 4095
 ; RV64I-NEXT:    slli a1, a1, 36
+; RV64I-NEXT:    slli a0, a0, 48
 ; RV64I-NEXT:    add a0, a0, a1
 ; RV64I-NEXT:    srai a0, a0, 48
 ; RV64I-NEXT:    jalr zero, 0(ra)
 ;
 ; RV32C-LABEL: add_large_const:
 ; RV32C:       # %bb.0:
-; RV32C-NEXT:    c.slli a0, 16
 ; RV32C-NEXT:    lui a1, 65520
+; RV32C-NEXT:    c.slli a0, 16
 ; RV32C-NEXT:    c.add a0, a1
 ; RV32C-NEXT:    c.srai a0, 16
 ; RV32C-NEXT:    c.jr ra
@@ -92,25 +92,25 @@ define signext i32 @add_large_const(i32 signext %a) nounwind {
 define signext i32 @add_huge_const(i32 signext %a) nounwind {
 ; RV32I-LABEL: add_huge_const:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    slli a0, a0, 16
 ; RV32I-NEXT:    lui a1, 524272
+; RV32I-NEXT:    slli a0, a0, 16
 ; RV32I-NEXT:    add a0, a0, a1
 ; RV32I-NEXT:    srai a0, a0, 16
 ; RV32I-NEXT:    jalr zero, 0(ra)
 ;
 ; RV64I-LABEL: add_huge_const:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    slli a0, a0, 48
 ; RV64I-NEXT:    lui a1, 32767
 ; RV64I-NEXT:    slli a1, a1, 36
+; RV64I-NEXT:    slli a0, a0, 48
 ; RV64I-NEXT:    add a0, a0, a1
 ; RV64I-NEXT:    srai a0, a0, 48
 ; RV64I-NEXT:    jalr zero, 0(ra)
 ;
 ; RV32C-LABEL: add_huge_const:
 ; RV32C:       # %bb.0:
-; RV32C-NEXT:    c.slli a0, 16
 ; RV32C-NEXT:    lui a1, 524272
+; RV32C-NEXT:    c.slli a0, 16
 ; RV32C-NEXT:    c.add a0, a1
 ; RV32C-NEXT:    c.srai a0, 16
 ; RV32C-NEXT:    c.jr ra
@@ -181,10 +181,10 @@ define i128 @add_wide_operand(i128 %a) nounwind {
 ; RV32I-NEXT:    slli a2, a2, 3
 ; RV32I-NEXT:    lui a4, 128
 ; RV32I-NEXT:    add a1, a1, a4
-; RV32I-NEXT:    sw a2, 0(a0)
-; RV32I-NEXT:    sw a5, 4(a0)
-; RV32I-NEXT:    sw a3, 8(a0)
 ; RV32I-NEXT:    sw a1, 12(a0)
+; RV32I-NEXT:    sw a3, 8(a0)
+; RV32I-NEXT:    sw a5, 4(a0)
+; RV32I-NEXT:    sw a2, 0(a0)
 ; RV32I-NEXT:    jalr zero, 0(ra)
 ;
 ; RV64I-LABEL: add_wide_operand:
@@ -192,10 +192,10 @@ define i128 @add_wide_operand(i128 %a) nounwind {
 ; RV64I-NEXT:    srli a2, a0, 61
 ; RV64I-NEXT:    slli a1, a1, 3
 ; RV64I-NEXT:    or a1, a1, a2
-; RV64I-NEXT:    slli a0, a0, 3
 ; RV64I-NEXT:    addi a2, zero, 1
 ; RV64I-NEXT:    slli a2, a2, 51
 ; RV64I-NEXT:    add a1, a1, a2
+; RV64I-NEXT:    slli a0, a0, 3
 ; RV64I-NEXT:    jalr zero, 0(ra)
 ;
 ; RV32C-LABEL: add_wide_operand:
@@ -216,10 +216,10 @@ define i128 @add_wide_operand(i128 %a) nounwind {
 ; RV32C-NEXT:    c.slli a1, 3
 ; RV32C-NEXT:    c.or a1, a3
 ; RV32C-NEXT:    c.slli a6, 3
-; RV32C-NEXT:    sw a6, 0(a0)
-; RV32C-NEXT:    c.sw a4, 4(a0)
-; RV32C-NEXT:    c.sw a1, 8(a0)
 ; RV32C-NEXT:    c.sw a2, 12(a0)
+; RV32C-NEXT:    c.sw a1, 8(a0)
+; RV32C-NEXT:    c.sw a4, 4(a0)
+; RV32C-NEXT:    sw a6, 0(a0)
 ; RV32C-NEXT:    c.jr ra
 ;
 ; RV64C-LABEL: add_wide_operand:
@@ -227,10 +227,10 @@ define i128 @add_wide_operand(i128 %a) nounwind {
 ; RV64C-NEXT:    srli a2, a0, 61
 ; RV64C-NEXT:    c.slli a1, 3
 ; RV64C-NEXT:    c.or a1, a2
-; RV64C-NEXT:    c.slli a0, 3
 ; RV64C-NEXT:    c.li a2, 1
 ; RV64C-NEXT:    c.slli a2, 51
 ; RV64C-NEXT:    c.add a1, a2
+; RV64C-NEXT:    c.slli a0, 3
 ; RV64C-NEXT:    c.jr ra
   %1 = add i128 %a, 5192296858534827628530496329220096
   %2 = shl i128 %1, 3

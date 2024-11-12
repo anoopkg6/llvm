@@ -30,8 +30,8 @@ define <vscale x 2 x i64> @test_vp_splice_nxv2i64(<vscale x 2 x i64> %va, <vscal
 define <vscale x 2 x i64> @test_vp_splice_nxv2i64_negative_offset(<vscale x 2 x i64> %va, <vscale x 2 x i64> %vb, i32 zeroext %evla, i32 zeroext %evlb) {
 ; CHECK-LABEL: test_vp_splice_nxv2i64_negative_offset:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vsetivli zero, 5, e64, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 5
@@ -69,8 +69,8 @@ define <vscale x 1 x i64> @test_vp_splice_nxv1i64(<vscale x 1 x i64> %va, <vscal
 define <vscale x 1 x i64> @test_vp_splice_nxv1i64_negative_offset(<vscale x 1 x i64> %va, <vscale x 1 x i64> %vb, i32 zeroext %evla, i32 zeroext %evlb) {
 ; CHECK-LABEL: test_vp_splice_nxv1i64_negative_offset:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vsetivli zero, 5, e64, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 5
@@ -108,8 +108,8 @@ define <vscale x 2 x i32> @test_vp_splice_nxv2i32(<vscale x 2 x i32> %va, <vscal
 define <vscale x 2 x i32> @test_vp_splice_nxv2i32_negative_offset(<vscale x 2 x i32> %va, <vscale x 2 x i32> %vb, i32 zeroext %evla, i32 zeroext %evlb) {
 ; CHECK-LABEL: test_vp_splice_nxv2i32_negative_offset:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vsetivli zero, 5, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 5
@@ -147,8 +147,8 @@ define <vscale x 4 x i16> @test_vp_splice_nxv4i16(<vscale x 4 x i16> %va, <vscal
 define <vscale x 4 x i16> @test_vp_splice_nxv4i16_negative_offset(<vscale x 4 x i16> %va, <vscale x 4 x i16> %vb, i32 zeroext %evla, i32 zeroext %evlb) {
 ; CHECK-LABEL: test_vp_splice_nxv4i16_negative_offset:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vsetivli zero, 5, e16, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 5
@@ -186,8 +186,8 @@ define <vscale x 8 x i8> @test_vp_splice_nxv8i8(<vscale x 8 x i8> %va, <vscale x
 define <vscale x 8 x i8> @test_vp_splice_nxv8i8_negative_offset(<vscale x 8 x i8> %va, <vscale x 8 x i8> %vb, i32 zeroext %evla, i32 zeroext %evlb) {
 ; CHECK-LABEL: test_vp_splice_nxv8i8_negative_offset:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vsetivli zero, 5, e8, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 5
@@ -225,8 +225,8 @@ define <vscale x 1 x double> @test_vp_splice_nxv1f64(<vscale x 1 x double> %va, 
 define <vscale x 1 x double> @test_vp_splice_nxv1f64_negative_offset(<vscale x 1 x double> %va, <vscale x 1 x double> %vb, i32 zeroext %evla, i32 zeroext %evlb) {
 ; CHECK-LABEL: test_vp_splice_nxv1f64_negative_offset:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vsetivli zero, 5, e64, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 5
@@ -264,8 +264,8 @@ define <vscale x 2 x float> @test_vp_splice_nxv2f32(<vscale x 2 x float> %va, <v
 define <vscale x 2 x float> @test_vp_splice_nxv2f32_negative_offset(<vscale x 2 x float> %va, <vscale x 2 x float> %vb, i32 zeroext %evla, i32 zeroext %evlb) {
 ; CHECK-LABEL: test_vp_splice_nxv2f32_negative_offset:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vsetivli zero, 5, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 5

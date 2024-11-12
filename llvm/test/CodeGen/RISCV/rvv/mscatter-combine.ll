@@ -12,9 +12,9 @@ define void @complex_gep(ptr %p, <vscale x 2 x i64> %vec.ind, <vscale x 2 x i1> 
 ; RV32-NEXT:    vsetvli a1, zero, e32, m1, ta, ma
 ; RV32-NEXT:    vnsrl.wi v10, v8, 0
 ; RV32-NEXT:    li a1, 48
-; RV32-NEXT:    vmul.vx v8, v10, a1
-; RV32-NEXT:    addi a0, a0, 28
 ; RV32-NEXT:    vmv.v.i v9, 0
+; RV32-NEXT:    addi a0, a0, 28
+; RV32-NEXT:    vmul.vx v8, v10, a1
 ; RV32-NEXT:    vsoxei32.v v9, (a0), v8, v0.t
 ; RV32-NEXT:    ret
 ;
@@ -23,9 +23,9 @@ define void @complex_gep(ptr %p, <vscale x 2 x i64> %vec.ind, <vscale x 2 x i1> 
 ; RV64-NEXT:    li a1, 56
 ; RV64-NEXT:    vsetvli a2, zero, e64, m2, ta, ma
 ; RV64-NEXT:    vmul.vx v8, v8, a1
-; RV64-NEXT:    addi a0, a0, 32
 ; RV64-NEXT:    vsetvli zero, zero, e32, m1, ta, ma
 ; RV64-NEXT:    vmv.v.i v10, 0
+; RV64-NEXT:    addi a0, a0, 32
 ; RV64-NEXT:    vsoxei64.v v10, (a0), v8, v0.t
 ; RV64-NEXT:    ret
   %gep = getelementptr inbounds %struct, ptr %p, <vscale x 2 x i64> %vec.ind, i32 5
@@ -42,9 +42,9 @@ define void @strided_store_zero_start(i64 %n, ptr %p) {
 ; RV32-NEXT:    vnsrl.wi v8, v8, 0
 ; RV32-NEXT:    li a0, 48
 ; RV32-NEXT:    vmul.vx v8, v8, a0
-; RV32-NEXT:    addi a0, a2, 32
 ; RV32-NEXT:    vsetvli zero, zero, e64, m1, ta, ma
 ; RV32-NEXT:    vmv.v.i v9, 0
+; RV32-NEXT:    addi a0, a2, 32
 ; RV32-NEXT:    vsoxei32.v v9, (a0), v8
 ; RV32-NEXT:    ret
 ;
@@ -52,8 +52,8 @@ define void @strided_store_zero_start(i64 %n, ptr %p) {
 ; RV64:       # %bb.0:
 ; RV64-NEXT:    addi a0, a1, 36
 ; RV64-NEXT:    vsetvli a1, zero, e64, m1, ta, ma
-; RV64-NEXT:    vmv.v.i v8, 0
 ; RV64-NEXT:    li a1, 56
+; RV64-NEXT:    vmv.v.i v8, 0
 ; RV64-NEXT:    vsse64.v v8, (a0), a1
 ; RV64-NEXT:    ret
   %step = tail call <vscale x 1 x i64> @llvm.stepvector.nxv1i64()
@@ -72,9 +72,9 @@ define void @strided_store_offset_start(i64 %n, ptr %p) {
 ; RV32-NEXT:    vnsrl.wi v8, v8, 0
 ; RV32-NEXT:    li a0, 48
 ; RV32-NEXT:    vmul.vx v8, v8, a0
-; RV32-NEXT:    addi a0, a2, 32
 ; RV32-NEXT:    vsetvli zero, zero, e64, m1, ta, ma
 ; RV32-NEXT:    vmv.v.i v9, 0
+; RV32-NEXT:    addi a0, a2, 32
 ; RV32-NEXT:    vsoxei32.v v9, (a0), v8
 ; RV32-NEXT:    ret
 ;
@@ -84,10 +84,10 @@ define void @strided_store_offset_start(i64 %n, ptr %p) {
 ; RV64-NEXT:    slli a0, a0, 6
 ; RV64-NEXT:    sub a0, a0, a2
 ; RV64-NEXT:    add a0, a1, a0
-; RV64-NEXT:    addi a0, a0, 36
 ; RV64-NEXT:    vsetvli a1, zero, e64, m1, ta, ma
-; RV64-NEXT:    vmv.v.i v8, 0
 ; RV64-NEXT:    li a1, 56
+; RV64-NEXT:    vmv.v.i v8, 0
+; RV64-NEXT:    addi a0, a0, 36
 ; RV64-NEXT:    vsse64.v v8, (a0), a1
 ; RV64-NEXT:    ret
   %step = tail call <vscale x 1 x i64> @llvm.stepvector.nxv1i64()

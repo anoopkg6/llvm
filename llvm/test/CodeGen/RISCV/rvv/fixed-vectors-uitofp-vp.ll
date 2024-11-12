@@ -13,8 +13,8 @@ declare <4 x half> @llvm.vp.uitofp.v4f16.v4i7(<4 x i7>, <4 x i1>, i32)
 define <4 x half> @vuitofp_v4f16_v4i7(<4 x i7> %va, <4 x i1> %m, i32 zeroext %evl) {
 ; ZVFH-LABEL: vuitofp_v4f16_v4i7:
 ; ZVFH:       # %bb.0:
-; ZVFH-NEXT:    li a1, 127
 ; ZVFH-NEXT:    vsetivli zero, 4, e8, mf4, ta, ma
+; ZVFH-NEXT:    li a1, 127
 ; ZVFH-NEXT:    vand.vx v9, v8, a1
 ; ZVFH-NEXT:    vsetvli zero, a0, e8, mf4, ta, ma
 ; ZVFH-NEXT:    vfwcvt.f.xu.v v8, v9, v0.t
@@ -22,8 +22,8 @@ define <4 x half> @vuitofp_v4f16_v4i7(<4 x i7> %va, <4 x i1> %m, i32 zeroext %ev
 ;
 ; ZVFHMIN-LABEL: vuitofp_v4f16_v4i7:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    li a1, 127
 ; ZVFHMIN-NEXT:    vsetivli zero, 4, e8, mf4, ta, ma
+; ZVFHMIN-NEXT:    li a1, 127
 ; ZVFHMIN-NEXT:    vand.vx v8, v8, a1
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, mf2, ta, ma
 ; ZVFHMIN-NEXT:    vzext.vf2 v9, v8, v0.t
@@ -390,10 +390,10 @@ declare <32 x double> @llvm.vp.uitofp.v32f64.v32i64(<32 x i64>, <32 x i1>, i32)
 define <32 x double> @vuitofp_v32f64_v32i64(<32 x i64> %va, <32 x i1> %m, i32 zeroext %evl) {
 ; CHECK-LABEL: vuitofp_v32f64_v32i64:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a2, 16
 ; CHECK-NEXT:    vsetivli zero, 2, e8, mf4, ta, ma
-; CHECK-NEXT:    vslidedown.vi v24, v0, 2
 ; CHECK-NEXT:    mv a1, a0
+; CHECK-NEXT:    vslidedown.vi v24, v0, 2
+; CHECK-NEXT:    li a2, 16
 ; CHECK-NEXT:    bltu a0, a2, .LBB25_2
 ; CHECK-NEXT:  # %bb.1:
 ; CHECK-NEXT:    li a1, 16
@@ -404,8 +404,8 @@ define <32 x double> @vuitofp_v32f64_v32i64(<32 x i64> %va, <32 x i1> %m, i32 ze
 ; CHECK-NEXT:    sltu a0, a0, a1
 ; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    and a0, a0, a1
-; CHECK-NEXT:    vmv1r.v v0, v24
 ; CHECK-NEXT:    vsetvli zero, a0, e64, m8, ta, ma
+; CHECK-NEXT:    vmv1r.v v0, v24
 ; CHECK-NEXT:    vfcvt.f.xu.v v16, v16, v0.t
 ; CHECK-NEXT:    ret
   %v = call <32 x double> @llvm.vp.uitofp.v32f64.v32i64(<32 x i64> %va, <32 x i1> %m, i32 %evl)
@@ -415,18 +415,18 @@ define <32 x double> @vuitofp_v32f64_v32i64(<32 x i64> %va, <32 x i1> %m, i32 ze
 define <32 x double> @vuitofp_v32f64_v32i64_unmasked(<32 x i64> %va, i32 zeroext %evl) {
 ; CHECK-LABEL: vuitofp_v32f64_v32i64_unmasked:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a2, 16
 ; CHECK-NEXT:    mv a1, a0
+; CHECK-NEXT:    li a2, 16
 ; CHECK-NEXT:    bltu a0, a2, .LBB26_2
 ; CHECK-NEXT:  # %bb.1:
 ; CHECK-NEXT:    li a1, 16
 ; CHECK-NEXT:  .LBB26_2:
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m8, ta, ma
-; CHECK-NEXT:    vfcvt.f.xu.v v8, v8
 ; CHECK-NEXT:    addi a1, a0, -16
 ; CHECK-NEXT:    sltu a0, a0, a1
 ; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    and a0, a0, a1
+; CHECK-NEXT:    vfcvt.f.xu.v v8, v8
 ; CHECK-NEXT:    vsetvli zero, a0, e64, m8, ta, ma
 ; CHECK-NEXT:    vfcvt.f.xu.v v16, v16
 ; CHECK-NEXT:    ret

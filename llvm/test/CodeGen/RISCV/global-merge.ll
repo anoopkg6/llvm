@@ -38,9 +38,9 @@ define void @f1(i32 %a) nounwind {
 ; CHECK-WEXTERN-NEXT:    lui a1, %hi(.L_MergedGlobals)
 ; CHECK-WEXTERN-NEXT:    sw a0, %lo(.L_MergedGlobals)(a1)
 ; CHECK-WEXTERN-NEXT:    addi a1, a1, %lo(.L_MergedGlobals)
-; CHECK-WEXTERN-NEXT:    sw a0, 4(a1)
-; CHECK-WEXTERN-NEXT:    sw a0, 8(a1)
 ; CHECK-WEXTERN-NEXT:    sw a0, 12(a1)
+; CHECK-WEXTERN-NEXT:    sw a0, 8(a1)
+; CHECK-WEXTERN-NEXT:    sw a0, 4(a1)
 ; CHECK-WEXTERN-NEXT:    ret
   store i32 %a, ptr @ig1, align 4
   store i32 %a, ptr @ig2, align 4

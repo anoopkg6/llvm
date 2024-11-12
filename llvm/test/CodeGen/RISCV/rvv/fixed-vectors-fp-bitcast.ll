@@ -72,8 +72,8 @@ define i64 @bitcast_v4f16_i64(<4 x half> %a) {
 ; RV32-FP-NEXT:    li a0, 32
 ; RV32-FP-NEXT:    vsetivli zero, 1, e64, m1, ta, ma
 ; RV32-FP-NEXT:    vsrl.vx v9, v8, a0
-; RV32-FP-NEXT:    vmv.x.s a1, v9
 ; RV32-FP-NEXT:    vmv.x.s a0, v8
+; RV32-FP-NEXT:    vmv.x.s a1, v9
 ; RV32-FP-NEXT:    ret
 ;
 ; RV64-FP-LABEL: bitcast_v4f16_i64:
@@ -91,8 +91,8 @@ define i64 @bitcast_v2f32_i64(<2 x float> %a) {
 ; RV32-FP-NEXT:    li a0, 32
 ; RV32-FP-NEXT:    vsetivli zero, 1, e64, m1, ta, ma
 ; RV32-FP-NEXT:    vsrl.vx v9, v8, a0
-; RV32-FP-NEXT:    vmv.x.s a1, v9
 ; RV32-FP-NEXT:    vmv.x.s a0, v8
+; RV32-FP-NEXT:    vmv.x.s a1, v9
 ; RV32-FP-NEXT:    ret
 ;
 ; RV64-FP-LABEL: bitcast_v2f32_i64:
@@ -110,8 +110,8 @@ define i64 @bitcast_v1f64_i64(<1 x double> %a) {
 ; RV32-FP-NEXT:    li a0, 32
 ; RV32-FP-NEXT:    vsetivli zero, 1, e64, m1, ta, ma
 ; RV32-FP-NEXT:    vsrl.vx v9, v8, a0
-; RV32-FP-NEXT:    vmv.x.s a1, v9
 ; RV32-FP-NEXT:    vmv.x.s a0, v8
+; RV32-FP-NEXT:    vmv.x.s a1, v9
 ; RV32-FP-NEXT:    ret
 ;
 ; RV64-FP-LABEL: bitcast_v1f64_i64:

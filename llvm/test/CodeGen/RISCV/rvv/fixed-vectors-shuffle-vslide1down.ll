@@ -89,9 +89,9 @@ define <2 x i64> @vslide1down_2xi64(<2 x i64> %v, i64 %b) {
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    .cfi_def_cfa_offset 16
 ; RV32-NEXT:    sw a0, 8(sp)
-; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
+; RV32-NEXT:    sw a1, 12(sp)
 ; RV32-NEXT:    vlse64.v v9, (a0), zero
 ; RV32-NEXT:    vslidedown.vi v8, v8, 1
 ; RV32-NEXT:    vslideup.vi v8, v9, 1
@@ -115,9 +115,9 @@ define <4 x i64> @vslide1down_4xi64(<4 x i64> %v, i64 %b) {
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    .cfi_def_cfa_offset 16
 ; RV32-NEXT:    sw a0, 8(sp)
-; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
+; RV32-NEXT:    sw a1, 12(sp)
 ; RV32-NEXT:    vlse64.v v10, (a0), zero
 ; RV32-NEXT:    vslidedown.vi v8, v8, 1
 ; RV32-NEXT:    vslideup.vi v8, v10, 3
@@ -138,8 +138,8 @@ define <4 x i64> @vslide1down_4xi64(<4 x i64> %v, i64 %b) {
 define <2 x bfloat> @vslide1down_2xbf16(<2 x bfloat> %v, bfloat %b) {
 ; CHECK-LABEL: vslide1down_2xbf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vsetivli zero, 2, e16, mf4, ta, ma
+; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vslide1down.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %vb = insertelement <2 x bfloat> poison, bfloat %b, i64 0
@@ -150,8 +150,8 @@ define <2 x bfloat> @vslide1down_2xbf16(<2 x bfloat> %v, bfloat %b) {
 define <4 x bfloat> @vslide1down_4xbf16(<4 x bfloat> %v, bfloat %b) {
 ; CHECK-LABEL: vslide1down_4xbf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vsetivli zero, 4, e16, mf2, ta, ma
+; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vslide1down.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %vb = insertelement <4 x bfloat> poison, bfloat %b, i64 0
@@ -168,8 +168,8 @@ define <2 x half> @vslide1down_2xf16(<2 x half> %v, half %b) {
 ;
 ; ZVFHMIN-LABEL: vslide1down_2xf16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; ZVFHMIN-NEXT:    vsetivli zero, 2, e16, mf4, ta, ma
+; ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; ZVFHMIN-NEXT:    vslide1down.vx v8, v8, a0
 ; ZVFHMIN-NEXT:    ret
   %vb = insertelement <2 x half> poison, half %b, i64 0
@@ -186,8 +186,8 @@ define <4 x half> @vslide1down_4xf16(<4 x half> %v, half %b) {
 ;
 ; ZVFHMIN-LABEL: vslide1down_4xf16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; ZVFHMIN-NEXT:    vsetivli zero, 4, e16, mf2, ta, ma
+; ZVFHMIN-NEXT:    fmv.x.h a0, fa0
 ; ZVFHMIN-NEXT:    vslide1down.vx v8, v8, a0
 ; ZVFHMIN-NEXT:    ret
   %vb = insertelement <4 x half> poison, half %b, i64 0

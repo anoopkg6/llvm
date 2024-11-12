@@ -21,8 +21,8 @@ define <vscale x 1 x bfloat> @vfmerge_vv_nxv1bf16(<vscale x 1 x bfloat> %va, <vs
 define <vscale x 1 x bfloat> @vfmerge_fv_nxv1bf16(<vscale x 1 x bfloat> %va, bfloat %b, <vscale x 1 x i1> %cond) {
 ; CHECK-LABEL: vfmerge_fv_nxv1bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf4, ta, ma
+; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vmerge.vvm v8, v8, v9, v0
 ; CHECK-NEXT:    ret
@@ -45,8 +45,8 @@ define <vscale x 2 x bfloat> @vfmerge_vv_nxv2bf16(<vscale x 2 x bfloat> %va, <vs
 define <vscale x 2 x bfloat> @vfmerge_fv_nxv2bf16(<vscale x 2 x bfloat> %va, bfloat %b, <vscale x 2 x i1> %cond) {
 ; CHECK-LABEL: vfmerge_fv_nxv2bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf2, ta, ma
+; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vmerge.vvm v8, v8, v9, v0
 ; CHECK-NEXT:    ret
@@ -69,8 +69,8 @@ define <vscale x 4 x bfloat> @vfmerge_vv_nxv4bf16(<vscale x 4 x bfloat> %va, <vs
 define <vscale x 4 x bfloat> @vfmerge_fv_nxv4bf16(<vscale x 4 x bfloat> %va, bfloat %b, <vscale x 4 x i1> %cond) {
 ; CHECK-LABEL: vfmerge_fv_nxv4bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m1, ta, ma
+; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vmerge.vvm v8, v8, v9, v0
 ; CHECK-NEXT:    ret
@@ -93,8 +93,8 @@ define <vscale x 8 x bfloat> @vfmerge_vv_nxv8bf16(<vscale x 8 x bfloat> %va, <vs
 define <vscale x 8 x bfloat> @vfmerge_fv_nxv8bf16(<vscale x 8 x bfloat> %va, bfloat %b, <vscale x 8 x i1> %cond) {
 ; CHECK-LABEL: vfmerge_fv_nxv8bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vmv.v.x v10, a0
 ; CHECK-NEXT:    vmerge.vvm v8, v8, v10, v0
 ; CHECK-NEXT:    ret
@@ -145,8 +145,8 @@ define <vscale x 16 x bfloat> @vfmerge_vv_nxv16bf16(<vscale x 16 x bfloat> %va, 
 define <vscale x 16 x bfloat> @vfmerge_fv_nxv16bf16(<vscale x 16 x bfloat> %va, bfloat %b, <vscale x 16 x i1> %cond) {
 ; CHECK-LABEL: vfmerge_fv_nxv16bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m4, ta, ma
+; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vmv.v.x v12, a0
 ; CHECK-NEXT:    vmerge.vvm v8, v8, v12, v0
 ; CHECK-NEXT:    ret
@@ -169,8 +169,8 @@ define <vscale x 32 x bfloat> @vfmerge_vv_nxv32bf16(<vscale x 32 x bfloat> %va, 
 define <vscale x 32 x bfloat> @vfmerge_fv_nxv32bf16(<vscale x 32 x bfloat> %va, bfloat %b, <vscale x 32 x i1> %cond) {
 ; CHECK-LABEL: vfmerge_fv_nxv32bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m8, ta, ma
+; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vmv.v.x v16, a0
 ; CHECK-NEXT:    vmerge.vvm v8, v8, v16, v0
 ; CHECK-NEXT:    ret

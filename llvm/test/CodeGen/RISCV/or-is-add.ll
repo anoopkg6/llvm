@@ -58,9 +58,9 @@ define i64 @test4(i64 %x) {
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    srli a2, a0, 28
 ; RV32-NEXT:    slli a1, a1, 4
-; RV32-NEXT:    or a1, a1, a2
 ; RV32-NEXT:    slli a0, a0, 4
 ; RV32-NEXT:    addi a0, a0, 13
+; RV32-NEXT:    or a1, a1, a2
 ; RV32-NEXT:    ret
 ;
 ; RV64-LABEL: test4:

@@ -17,8 +17,8 @@ declare double @llvm.minimum.f64(double, double)
 define double @fminimum_f64(double %a, double %b) nounwind {
 ; CHECKIFD-LABEL: fminimum_f64:
 ; CHECKIFD:       # %bb.0:
-; CHECKIFD-NEXT:    feq.d a0, fa0, fa0
 ; CHECKIFD-NEXT:    fmv.d fa5, fa1
+; CHECKIFD-NEXT:    feq.d a0, fa0, fa0
 ; CHECKIFD-NEXT:    beqz a0, .LBB0_3
 ; CHECKIFD-NEXT:  # %bb.1:
 ; CHECKIFD-NEXT:    feq.d a0, fa1, fa1
@@ -36,9 +36,9 @@ define double @fminimum_f64(double %a, double %b) nounwind {
 ;
 ; RV32IZFINXZDINX-LABEL: fminimum_f64:
 ; RV32IZFINXZDINX:       # %bb.0:
-; RV32IZFINXZDINX-NEXT:    feq.d a6, a0, a0
-; RV32IZFINXZDINX-NEXT:    mv a4, a2
 ; RV32IZFINXZDINX-NEXT:    mv a5, a3
+; RV32IZFINXZDINX-NEXT:    mv a4, a2
+; RV32IZFINXZDINX-NEXT:    feq.d a6, a0, a0
 ; RV32IZFINXZDINX-NEXT:    beqz a6, .LBB0_3
 ; RV32IZFINXZDINX-NEXT:  # %bb.1:
 ; RV32IZFINXZDINX-NEXT:    feq.d a6, a2, a2
@@ -47,20 +47,20 @@ define double @fminimum_f64(double %a, double %b) nounwind {
 ; RV32IZFINXZDINX-NEXT:    fmin.d a0, a0, a4
 ; RV32IZFINXZDINX-NEXT:    ret
 ; RV32IZFINXZDINX-NEXT:  .LBB0_3:
-; RV32IZFINXZDINX-NEXT:    mv a4, a0
 ; RV32IZFINXZDINX-NEXT:    mv a5, a1
+; RV32IZFINXZDINX-NEXT:    mv a4, a0
 ; RV32IZFINXZDINX-NEXT:    feq.d a6, a2, a2
 ; RV32IZFINXZDINX-NEXT:    bnez a6, .LBB0_2
 ; RV32IZFINXZDINX-NEXT:  .LBB0_4:
-; RV32IZFINXZDINX-NEXT:    mv a0, a2
 ; RV32IZFINXZDINX-NEXT:    mv a1, a3
+; RV32IZFINXZDINX-NEXT:    mv a0, a2
 ; RV32IZFINXZDINX-NEXT:    fmin.d a0, a0, a4
 ; RV32IZFINXZDINX-NEXT:    ret
 ;
 ; RV64IZFINXZDINX-LABEL: fminimum_f64:
 ; RV64IZFINXZDINX:       # %bb.0:
-; RV64IZFINXZDINX-NEXT:    feq.d a3, a0, a0
 ; RV64IZFINXZDINX-NEXT:    mv a2, a1
+; RV64IZFINXZDINX-NEXT:    feq.d a3, a0, a0
 ; RV64IZFINXZDINX-NEXT:    beqz a3, .LBB0_3
 ; RV64IZFINXZDINX-NEXT:  # %bb.1:
 ; RV64IZFINXZDINX-NEXT:    feq.d a3, a1, a1
@@ -84,8 +84,8 @@ declare double @llvm.maximum.f64(double, double)
 define double @fmaximum_f64(double %a, double %b) nounwind {
 ; CHECKIFD-LABEL: fmaximum_f64:
 ; CHECKIFD:       # %bb.0:
-; CHECKIFD-NEXT:    feq.d a0, fa0, fa0
 ; CHECKIFD-NEXT:    fmv.d fa5, fa1
+; CHECKIFD-NEXT:    feq.d a0, fa0, fa0
 ; CHECKIFD-NEXT:    beqz a0, .LBB1_3
 ; CHECKIFD-NEXT:  # %bb.1:
 ; CHECKIFD-NEXT:    feq.d a0, fa1, fa1
@@ -103,9 +103,9 @@ define double @fmaximum_f64(double %a, double %b) nounwind {
 ;
 ; RV32IZFINXZDINX-LABEL: fmaximum_f64:
 ; RV32IZFINXZDINX:       # %bb.0:
-; RV32IZFINXZDINX-NEXT:    feq.d a6, a0, a0
-; RV32IZFINXZDINX-NEXT:    mv a4, a2
 ; RV32IZFINXZDINX-NEXT:    mv a5, a3
+; RV32IZFINXZDINX-NEXT:    mv a4, a2
+; RV32IZFINXZDINX-NEXT:    feq.d a6, a0, a0
 ; RV32IZFINXZDINX-NEXT:    beqz a6, .LBB1_3
 ; RV32IZFINXZDINX-NEXT:  # %bb.1:
 ; RV32IZFINXZDINX-NEXT:    feq.d a6, a2, a2
@@ -114,20 +114,20 @@ define double @fmaximum_f64(double %a, double %b) nounwind {
 ; RV32IZFINXZDINX-NEXT:    fmax.d a0, a0, a4
 ; RV32IZFINXZDINX-NEXT:    ret
 ; RV32IZFINXZDINX-NEXT:  .LBB1_3:
-; RV32IZFINXZDINX-NEXT:    mv a4, a0
 ; RV32IZFINXZDINX-NEXT:    mv a5, a1
+; RV32IZFINXZDINX-NEXT:    mv a4, a0
 ; RV32IZFINXZDINX-NEXT:    feq.d a6, a2, a2
 ; RV32IZFINXZDINX-NEXT:    bnez a6, .LBB1_2
 ; RV32IZFINXZDINX-NEXT:  .LBB1_4:
-; RV32IZFINXZDINX-NEXT:    mv a0, a2
 ; RV32IZFINXZDINX-NEXT:    mv a1, a3
+; RV32IZFINXZDINX-NEXT:    mv a0, a2
 ; RV32IZFINXZDINX-NEXT:    fmax.d a0, a0, a4
 ; RV32IZFINXZDINX-NEXT:    ret
 ;
 ; RV64IZFINXZDINX-LABEL: fmaximum_f64:
 ; RV64IZFINXZDINX:       # %bb.0:
-; RV64IZFINXZDINX-NEXT:    feq.d a3, a0, a0
 ; RV64IZFINXZDINX-NEXT:    mv a2, a1
+; RV64IZFINXZDINX-NEXT:    feq.d a3, a0, a0
 ; RV64IZFINXZDINX-NEXT:    beqz a3, .LBB1_3
 ; RV64IZFINXZDINX-NEXT:  # %bb.1:
 ; RV64IZFINXZDINX-NEXT:    feq.d a3, a1, a1
@@ -168,8 +168,8 @@ define double @fminimum_nnan_f64(double %a, double %b) nounwind {
 define double @fmaximum_nnan_f64(double %a, double %b) nounwind {
 ; CHECKIFD-LABEL: fmaximum_nnan_f64:
 ; CHECKIFD:       # %bb.0:
-; CHECKIFD-NEXT:    feq.d a0, fa0, fa0
 ; CHECKIFD-NEXT:    fmv.d fa5, fa1
+; CHECKIFD-NEXT:    feq.d a0, fa0, fa0
 ; CHECKIFD-NEXT:    beqz a0, .LBB3_3
 ; CHECKIFD-NEXT:  # %bb.1:
 ; CHECKIFD-NEXT:    feq.d a0, fa1, fa1
@@ -187,9 +187,9 @@ define double @fmaximum_nnan_f64(double %a, double %b) nounwind {
 ;
 ; RV32IZFINXZDINX-LABEL: fmaximum_nnan_f64:
 ; RV32IZFINXZDINX:       # %bb.0:
-; RV32IZFINXZDINX-NEXT:    feq.d a6, a0, a0
-; RV32IZFINXZDINX-NEXT:    mv a4, a2
 ; RV32IZFINXZDINX-NEXT:    mv a5, a3
+; RV32IZFINXZDINX-NEXT:    mv a4, a2
+; RV32IZFINXZDINX-NEXT:    feq.d a6, a0, a0
 ; RV32IZFINXZDINX-NEXT:    beqz a6, .LBB3_3
 ; RV32IZFINXZDINX-NEXT:  # %bb.1:
 ; RV32IZFINXZDINX-NEXT:    feq.d a6, a2, a2
@@ -198,20 +198,20 @@ define double @fmaximum_nnan_f64(double %a, double %b) nounwind {
 ; RV32IZFINXZDINX-NEXT:    fmin.d a0, a0, a4
 ; RV32IZFINXZDINX-NEXT:    ret
 ; RV32IZFINXZDINX-NEXT:  .LBB3_3:
-; RV32IZFINXZDINX-NEXT:    mv a4, a0
 ; RV32IZFINXZDINX-NEXT:    mv a5, a1
+; RV32IZFINXZDINX-NEXT:    mv a4, a0
 ; RV32IZFINXZDINX-NEXT:    feq.d a6, a2, a2
 ; RV32IZFINXZDINX-NEXT:    bnez a6, .LBB3_2
 ; RV32IZFINXZDINX-NEXT:  .LBB3_4:
-; RV32IZFINXZDINX-NEXT:    mv a0, a2
 ; RV32IZFINXZDINX-NEXT:    mv a1, a3
+; RV32IZFINXZDINX-NEXT:    mv a0, a2
 ; RV32IZFINXZDINX-NEXT:    fmin.d a0, a0, a4
 ; RV32IZFINXZDINX-NEXT:    ret
 ;
 ; RV64IZFINXZDINX-LABEL: fmaximum_nnan_f64:
 ; RV64IZFINXZDINX:       # %bb.0:
-; RV64IZFINXZDINX-NEXT:    feq.d a3, a0, a0
 ; RV64IZFINXZDINX-NEXT:    mv a2, a1
+; RV64IZFINXZDINX-NEXT:    feq.d a3, a0, a0
 ; RV64IZFINXZDINX-NEXT:    beqz a3, .LBB3_3
 ; RV64IZFINXZDINX-NEXT:  # %bb.1:
 ; RV64IZFINXZDINX-NEXT:    feq.d a3, a1, a1
@@ -274,8 +274,8 @@ define double @fminimum_nnan_op_f64(double %a, double %b) nounwind {
 define double @fmaximum_nnan_op_f64(double %a, double %b) nounwind {
 ; CHECKIFD-LABEL: fmaximum_nnan_op_f64:
 ; CHECKIFD:       # %bb.0:
-; CHECKIFD-NEXT:    fadd.d fa5, fa0, fa1
 ; CHECKIFD-NEXT:    fsub.d fa4, fa0, fa1
+; CHECKIFD-NEXT:    fadd.d fa5, fa0, fa1
 ; CHECKIFD-NEXT:    fmax.d fa0, fa5, fa4
 ; CHECKIFD-NEXT:    ret
 ;

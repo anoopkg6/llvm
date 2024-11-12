@@ -54,9 +54,9 @@ entry:
 define i32 @orc_b_i32_sub_shl8x_x_lsb_preshifted(i32 %x){
 ; RV32I-LABEL: orc_b_i32_sub_shl8x_x_lsb_preshifted:
 ; RV32I:       # %bb.0: # %entry
-; RV32I-NEXT:    srli a0, a0, 11
 ; RV32I-NEXT:    lui a1, 16
 ; RV32I-NEXT:    addi a1, a1, 257
+; RV32I-NEXT:    srli a0, a0, 11
 ; RV32I-NEXT:    and a0, a0, a1
 ; RV32I-NEXT:    slli a1, a0, 8
 ; RV32I-NEXT:    sub a0, a1, a0
@@ -64,9 +64,9 @@ define i32 @orc_b_i32_sub_shl8x_x_lsb_preshifted(i32 %x){
 ;
 ; RV32ZBB-LABEL: orc_b_i32_sub_shl8x_x_lsb_preshifted:
 ; RV32ZBB:       # %bb.0: # %entry
-; RV32ZBB-NEXT:    srli a0, a0, 11
 ; RV32ZBB-NEXT:    lui a1, 16
 ; RV32ZBB-NEXT:    addi a1, a1, 257
+; RV32ZBB-NEXT:    srli a0, a0, 11
 ; RV32ZBB-NEXT:    and a0, a0, a1
 ; RV32ZBB-NEXT:    orc.b a0, a0
 ; RV32ZBB-NEXT:    ret
@@ -232,8 +232,8 @@ define i32 @orc_b_i32_sub_shl8x_x_b1_shl_used(i32 %x, ptr %arr) {
 ; RV32I-NEXT:    lui a2, 8224
 ; RV32I-NEXT:    addi a2, a2, 514
 ; RV32I-NEXT:    and a0, a0, a2
-; RV32I-NEXT:    slli a2, a0, 7
 ; RV32I-NEXT:    srli a3, a0, 1
+; RV32I-NEXT:    slli a2, a0, 7
 ; RV32I-NEXT:    sub a0, a2, a3
 ; RV32I-NEXT:    sw a3, 0(a1)
 ; RV32I-NEXT:    ret
@@ -340,8 +340,8 @@ define i32 @orc_b_i32_sub_shl8x_x_b1_both_used(i32  %x, ptr %arr) {
 ; CHECK-NEXT:    slli a2, a0, 7
 ; CHECK-NEXT:    srli a3, a0, 1
 ; CHECK-NEXT:    sub a0, a2, a3
-; CHECK-NEXT:    sw a2, 0(a1)
 ; CHECK-NEXT:    sw a3, 4(a1)
+; CHECK-NEXT:    sw a2, 0(a1)
 ; CHECK-NEXT:    ret
 entry:
   %and = and i32 %x, 33686018

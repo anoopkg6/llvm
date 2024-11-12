@@ -124,8 +124,8 @@ define signext i32 @sad_2block_16xi8_as_i32(ptr %a, ptr %b, i32 signext %stridea
 ; CHECK-NEXT:    vzext.vf2 v14, v8
 ; CHECK-NEXT:    vwaddu.vv v16, v14, v10
 ; CHECK-NEXT:    vsetvli zero, zero, e8, m1, ta, ma
-; CHECK-NEXT:    vminu.vv v8, v12, v13
 ; CHECK-NEXT:    vmaxu.vv v9, v12, v13
+; CHECK-NEXT:    vminu.vv v8, v12, v13
 ; CHECK-NEXT:    vsub.vv v8, v9, v8
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m2, ta, ma
 ; CHECK-NEXT:    vzext.vf2 v10, v8

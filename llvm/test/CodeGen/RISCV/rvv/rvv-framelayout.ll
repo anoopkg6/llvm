@@ -5,8 +5,8 @@ define void @rvv_vla(i64 %n, i64 %i) nounwind {
 ; CHECK-LABEL: rvv_vla:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    addi sp, sp, -32
-; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    addi s0, sp, 32
 ; CHECK-NEXT:    csrr a2, vlenb
 ; CHECK-NEXT:    slli a2, a2, 2
@@ -24,13 +24,13 @@ define void @rvv_vla(i64 %n, i64 %i) nounwind {
 ; CHECK-NEXT:    slli a2, a2, 2
 ; CHECK-NEXT:    sub a2, s0, a2
 ; CHECK-NEXT:    addi a2, a2, -32
-; CHECK-NEXT:    vl2re64.v v8, (a2)
 ; CHECK-NEXT:    slli a1, a1, 2
 ; CHECK-NEXT:    add a0, a0, a1
+; CHECK-NEXT:    vl2re64.v v8, (a2)
 ; CHECK-NEXT:    lw zero, 0(a0)
 ; CHECK-NEXT:    addi sp, s0, -32
-; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 32
 ; CHECK-NEXT:    ret
   %vla.addr = alloca i32, i64 %n
@@ -50,8 +50,8 @@ define void @rvv_overaligned() nounwind {
 ; CHECK-LABEL: rvv_overaligned:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    addi sp, sp, -128
-; CHECK-NEXT:    sd ra, 120(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 112(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 120(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    addi s0, sp, 128
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
@@ -67,8 +67,8 @@ define void @rvv_overaligned() nounwind {
 ; CHECK-NEXT:    vl2re64.v v8, (a0)
 ; CHECK-NEXT:    lw zero, 64(sp)
 ; CHECK-NEXT:    addi sp, s0, -128
-; CHECK-NEXT:    ld ra, 120(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 112(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 120(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 128
 ; CHECK-NEXT:    ret
   %overaligned = alloca i32, align 64
@@ -87,19 +87,19 @@ define void @rvv_vla_and_overaligned(i64 %n, i64 %i) nounwind {
 ; CHECK-LABEL: rvv_vla_and_overaligned:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    addi sp, sp, -144
-; CHECK-NEXT:    sd ra, 136(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sd s0, 128(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s1, 120(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd s0, 128(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 136(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    addi s0, sp, 144
 ; CHECK-NEXT:    csrr a2, vlenb
 ; CHECK-NEXT:    slli a2, a2, 2
 ; CHECK-NEXT:    sub sp, sp, a2
 ; CHECK-NEXT:    andi sp, sp, -64
-; CHECK-NEXT:    mv s1, sp
 ; CHECK-NEXT:    slli a0, a0, 2
 ; CHECK-NEXT:    addi a0, a0, 15
 ; CHECK-NEXT:    andi a0, a0, -16
 ; CHECK-NEXT:    sub a0, sp, a0
+; CHECK-NEXT:    mv s1, sp
 ; CHECK-NEXT:    mv sp, a0
 ; CHECK-NEXT:    csrr a2, vlenb
 ; CHECK-NEXT:    slli a3, a2, 1
@@ -109,14 +109,14 @@ define void @rvv_vla_and_overaligned(i64 %n, i64 %i) nounwind {
 ; CHECK-NEXT:    vl1re64.v v8, (a2)
 ; CHECK-NEXT:    addi a2, s1, 112
 ; CHECK-NEXT:    vl2re64.v v8, (a2)
-; CHECK-NEXT:    lw zero, 64(s1)
 ; CHECK-NEXT:    slli a1, a1, 2
 ; CHECK-NEXT:    add a0, a0, a1
+; CHECK-NEXT:    lw zero, 64(s1)
 ; CHECK-NEXT:    lw zero, 0(a0)
 ; CHECK-NEXT:    addi sp, s0, -144
-; CHECK-NEXT:    ld ra, 136(sp) # 8-byte Folded Reload
-; CHECK-NEXT:    ld s0, 128(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s1, 120(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld s0, 128(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 136(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 144
 ; CHECK-NEXT:    ret
   %overaligned = alloca i32, align 64

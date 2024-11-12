@@ -43,8 +43,8 @@ define <vscale x 1 x i8> @vandn_vv_swapped_nxv1i8(<vscale x 1 x i8> %x, <vscale 
 define <vscale x 1 x i8> @vandn_vx_nxv1i8(i8 %x, <vscale x 1 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_nxv1i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf8, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -63,8 +63,8 @@ define <vscale x 1 x i8> @vandn_vx_nxv1i8(i8 %x, <vscale x 1 x i8> %y) {
 define <vscale x 1 x i8> @vandn_vx_swapped_nxv1i8(i8 %x, <vscale x 1 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv1i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf8, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -119,8 +119,8 @@ define <vscale x 2 x i8> @vandn_vv_swapped_nxv2i8(<vscale x 2 x i8> %x, <vscale 
 define <vscale x 2 x i8> @vandn_vx_nxv2i8(i8 %x, <vscale x 2 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_nxv2i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf4, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -139,8 +139,8 @@ define <vscale x 2 x i8> @vandn_vx_nxv2i8(i8 %x, <vscale x 2 x i8> %y) {
 define <vscale x 2 x i8> @vandn_vx_swapped_nxv2i8(i8 %x, <vscale x 2 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv2i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf4, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -195,8 +195,8 @@ define <vscale x 4 x i8> @vandn_vv_swapped_nxv4i8(<vscale x 4 x i8> %x, <vscale 
 define <vscale x 4 x i8> @vandn_vx_nxv4i8(i8 %x, <vscale x 4 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_nxv4i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf2, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -215,8 +215,8 @@ define <vscale x 4 x i8> @vandn_vx_nxv4i8(i8 %x, <vscale x 4 x i8> %y) {
 define <vscale x 4 x i8> @vandn_vx_swapped_nxv4i8(i8 %x, <vscale x 4 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv4i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf2, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -271,8 +271,8 @@ define <vscale x 8 x i8> @vandn_vv_swapped_nxv8i8(<vscale x 8 x i8> %x, <vscale 
 define <vscale x 8 x i8> @vandn_vx_nxv8i8(i8 %x, <vscale x 8 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_nxv8i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m1, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -291,8 +291,8 @@ define <vscale x 8 x i8> @vandn_vx_nxv8i8(i8 %x, <vscale x 8 x i8> %y) {
 define <vscale x 8 x i8> @vandn_vx_swapped_nxv8i8(i8 %x, <vscale x 8 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv8i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m1, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -347,8 +347,8 @@ define <vscale x 16 x i8> @vandn_vv_swapped_nxv16i8(<vscale x 16 x i8> %x, <vsca
 define <vscale x 16 x i8> @vandn_vx_nxv16i8(i8 %x, <vscale x 16 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_nxv16i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m2, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -367,8 +367,8 @@ define <vscale x 16 x i8> @vandn_vx_nxv16i8(i8 %x, <vscale x 16 x i8> %y) {
 define <vscale x 16 x i8> @vandn_vx_swapped_nxv16i8(i8 %x, <vscale x 16 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv16i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m2, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -423,8 +423,8 @@ define <vscale x 32 x i8> @vandn_vv_swapped_nxv32i8(<vscale x 32 x i8> %x, <vsca
 define <vscale x 32 x i8> @vandn_vx_nxv32i8(i8 %x, <vscale x 32 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_nxv32i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m4, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -443,8 +443,8 @@ define <vscale x 32 x i8> @vandn_vx_nxv32i8(i8 %x, <vscale x 32 x i8> %y) {
 define <vscale x 32 x i8> @vandn_vx_swapped_nxv32i8(i8 %x, <vscale x 32 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv32i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m4, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -499,8 +499,8 @@ define <vscale x 64 x i8> @vandn_vv_swapped_nxv64i8(<vscale x 64 x i8> %x, <vsca
 define <vscale x 64 x i8> @vandn_vx_nxv64i8(i8 %x, <vscale x 64 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_nxv64i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m8, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -519,8 +519,8 @@ define <vscale x 64 x i8> @vandn_vx_nxv64i8(i8 %x, <vscale x 64 x i8> %y) {
 define <vscale x 64 x i8> @vandn_vx_swapped_nxv64i8(i8 %x, <vscale x 64 x i8> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv64i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m8, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -575,8 +575,8 @@ define <vscale x 1 x i16> @vandn_vv_swapped_nxv1i16(<vscale x 1 x i16> %x, <vsca
 define <vscale x 1 x i16> @vandn_vx_nxv1i16(i16 %x, <vscale x 1 x i16> %y) {
 ; CHECK-LABEL: vandn_vx_nxv1i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf4, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -595,8 +595,8 @@ define <vscale x 1 x i16> @vandn_vx_nxv1i16(i16 %x, <vscale x 1 x i16> %y) {
 define <vscale x 1 x i16> @vandn_vx_swapped_nxv1i16(i16 %x, <vscale x 1 x i16> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv1i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf4, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -651,8 +651,8 @@ define <vscale x 2 x i16> @vandn_vv_swapped_nxv2i16(<vscale x 2 x i16> %x, <vsca
 define <vscale x 2 x i16> @vandn_vx_nxv2i16(i16 %x, <vscale x 2 x i16> %y) {
 ; CHECK-LABEL: vandn_vx_nxv2i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf2, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -671,8 +671,8 @@ define <vscale x 2 x i16> @vandn_vx_nxv2i16(i16 %x, <vscale x 2 x i16> %y) {
 define <vscale x 2 x i16> @vandn_vx_swapped_nxv2i16(i16 %x, <vscale x 2 x i16> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv2i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf2, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -727,8 +727,8 @@ define <vscale x 4 x i16> @vandn_vv_swapped_nxv4i16(<vscale x 4 x i16> %x, <vsca
 define <vscale x 4 x i16> @vandn_vx_nxv4i16(i16 %x, <vscale x 4 x i16> %y) {
 ; CHECK-LABEL: vandn_vx_nxv4i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m1, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -747,8 +747,8 @@ define <vscale x 4 x i16> @vandn_vx_nxv4i16(i16 %x, <vscale x 4 x i16> %y) {
 define <vscale x 4 x i16> @vandn_vx_swapped_nxv4i16(i16 %x, <vscale x 4 x i16> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv4i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m1, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -803,8 +803,8 @@ define <vscale x 8 x i16> @vandn_vv_swapped_nxv8i16(<vscale x 8 x i16> %x, <vsca
 define <vscale x 8 x i16> @vandn_vx_nxv8i16(i16 %x, <vscale x 8 x i16> %y) {
 ; CHECK-LABEL: vandn_vx_nxv8i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -823,8 +823,8 @@ define <vscale x 8 x i16> @vandn_vx_nxv8i16(i16 %x, <vscale x 8 x i16> %y) {
 define <vscale x 8 x i16> @vandn_vx_swapped_nxv8i16(i16 %x, <vscale x 8 x i16> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv8i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -879,8 +879,8 @@ define <vscale x 16 x i16> @vandn_vv_swapped_nxv16i16(<vscale x 16 x i16> %x, <v
 define <vscale x 16 x i16> @vandn_vx_nxv16i16(i16 %x, <vscale x 16 x i16> %y) {
 ; CHECK-LABEL: vandn_vx_nxv16i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m4, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -899,8 +899,8 @@ define <vscale x 16 x i16> @vandn_vx_nxv16i16(i16 %x, <vscale x 16 x i16> %y) {
 define <vscale x 16 x i16> @vandn_vx_swapped_nxv16i16(i16 %x, <vscale x 16 x i16> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv16i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m4, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -955,8 +955,8 @@ define <vscale x 32 x i16> @vandn_vv_swapped_nxv32i16(<vscale x 32 x i16> %x, <v
 define <vscale x 32 x i16> @vandn_vx_nxv32i16(i16 %x, <vscale x 32 x i16> %y) {
 ; CHECK-LABEL: vandn_vx_nxv32i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m8, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -975,8 +975,8 @@ define <vscale x 32 x i16> @vandn_vx_nxv32i16(i16 %x, <vscale x 32 x i16> %y) {
 define <vscale x 32 x i16> @vandn_vx_swapped_nxv32i16(i16 %x, <vscale x 32 x i16> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv32i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m8, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -1031,8 +1031,8 @@ define <vscale x 1 x i32> @vandn_vv_swapped_nxv1i32(<vscale x 1 x i32> %x, <vsca
 define <vscale x 1 x i32> @vandn_vx_nxv1i32(i32 %x, <vscale x 1 x i32> %y) {
 ; CHECK-LABEL: vandn_vx_nxv1i32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e32, mf2, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -1051,8 +1051,8 @@ define <vscale x 1 x i32> @vandn_vx_nxv1i32(i32 %x, <vscale x 1 x i32> %y) {
 define <vscale x 1 x i32> @vandn_vx_swapped_nxv1i32(i32 %x, <vscale x 1 x i32> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv1i32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e32, mf2, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -1107,8 +1107,8 @@ define <vscale x 2 x i32> @vandn_vv_swapped_nxv2i32(<vscale x 2 x i32> %x, <vsca
 define <vscale x 2 x i32> @vandn_vx_nxv2i32(i32 %x, <vscale x 2 x i32> %y) {
 ; CHECK-LABEL: vandn_vx_nxv2i32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m1, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -1127,8 +1127,8 @@ define <vscale x 2 x i32> @vandn_vx_nxv2i32(i32 %x, <vscale x 2 x i32> %y) {
 define <vscale x 2 x i32> @vandn_vx_swapped_nxv2i32(i32 %x, <vscale x 2 x i32> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv2i32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m1, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -1183,8 +1183,8 @@ define <vscale x 4 x i32> @vandn_vv_swapped_nxv4i32(<vscale x 4 x i32> %x, <vsca
 define <vscale x 4 x i32> @vandn_vx_nxv4i32(i32 %x, <vscale x 4 x i32> %y) {
 ; CHECK-LABEL: vandn_vx_nxv4i32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m2, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -1203,8 +1203,8 @@ define <vscale x 4 x i32> @vandn_vx_nxv4i32(i32 %x, <vscale x 4 x i32> %y) {
 define <vscale x 4 x i32> @vandn_vx_swapped_nxv4i32(i32 %x, <vscale x 4 x i32> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv4i32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m2, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -1259,8 +1259,8 @@ define <vscale x 8 x i32> @vandn_vv_swapped_nxv8i32(<vscale x 8 x i32> %x, <vsca
 define <vscale x 8 x i32> @vandn_vx_nxv8i32(i32 %x, <vscale x 8 x i32> %y) {
 ; CHECK-LABEL: vandn_vx_nxv8i32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m4, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -1279,8 +1279,8 @@ define <vscale x 8 x i32> @vandn_vx_nxv8i32(i32 %x, <vscale x 8 x i32> %y) {
 define <vscale x 8 x i32> @vandn_vx_swapped_nxv8i32(i32 %x, <vscale x 8 x i32> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv8i32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m4, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -1335,8 +1335,8 @@ define <vscale x 16 x i32> @vandn_vv_swapped_nxv16i32(<vscale x 16 x i32> %x, <v
 define <vscale x 16 x i32> @vandn_vx_nxv16i32(i32 %x, <vscale x 16 x i32> %y) {
 ; CHECK-LABEL: vandn_vx_nxv16i32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m8, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -1355,8 +1355,8 @@ define <vscale x 16 x i32> @vandn_vx_nxv16i32(i32 %x, <vscale x 16 x i32> %y) {
 define <vscale x 16 x i32> @vandn_vx_swapped_nxv16i32(i32 %x, <vscale x 16 x i32> %y) {
 ; CHECK-LABEL: vandn_vx_swapped_nxv16i32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m8, ta, ma
+; CHECK-NEXT:    not a0, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    ret
 ;
@@ -1417,8 +1417,8 @@ define <vscale x 1 x i64> @vandn_vx_nxv1i64(i64 %x, <vscale x 1 x i64> %y) {
 ; CHECK-RV32-NEXT:    not a1, a1
 ; CHECK-RV32-NEXT:    sw a0, 8(sp)
 ; CHECK-RV32-NEXT:    sw a1, 12(sp)
-; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vsetvli a1, zero, e64, m1, ta, ma
+; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vlse64.v v9, (a0), zero
 ; CHECK-RV32-NEXT:    vand.vv v8, v9, v8
 ; CHECK-RV32-NEXT:    addi sp, sp, 16
@@ -1427,8 +1427,8 @@ define <vscale x 1 x i64> @vandn_vx_nxv1i64(i64 %x, <vscale x 1 x i64> %y) {
 ;
 ; CHECK-RV64-LABEL: vandn_vx_nxv1i64:
 ; CHECK-RV64:       # %bb.0:
-; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vsetvli a1, zero, e64, m1, ta, ma
+; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vand.vx v8, v8, a0
 ; CHECK-RV64-NEXT:    ret
 ;
@@ -1440,8 +1440,8 @@ define <vscale x 1 x i64> @vandn_vx_nxv1i64(i64 %x, <vscale x 1 x i64> %y) {
 ; CHECK-ZVKB32-NEXT:    not a1, a1
 ; CHECK-ZVKB32-NEXT:    sw a0, 8(sp)
 ; CHECK-ZVKB32-NEXT:    sw a1, 12(sp)
-; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vsetvli a1, zero, e64, m1, ta, ma
+; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vlse64.v v9, (a0), zero
 ; CHECK-ZVKB32-NEXT:    vand.vv v8, v9, v8
 ; CHECK-ZVKB32-NEXT:    addi sp, sp, 16
@@ -1469,8 +1469,8 @@ define <vscale x 1 x i64> @vandn_vx_swapped_nxv1i64(i64 %x, <vscale x 1 x i64> %
 ; CHECK-RV32-NEXT:    not a1, a1
 ; CHECK-RV32-NEXT:    sw a0, 8(sp)
 ; CHECK-RV32-NEXT:    sw a1, 12(sp)
-; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vsetvli a1, zero, e64, m1, ta, ma
+; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vlse64.v v9, (a0), zero
 ; CHECK-RV32-NEXT:    vand.vv v8, v9, v8
 ; CHECK-RV32-NEXT:    addi sp, sp, 16
@@ -1479,8 +1479,8 @@ define <vscale x 1 x i64> @vandn_vx_swapped_nxv1i64(i64 %x, <vscale x 1 x i64> %
 ;
 ; CHECK-RV64-LABEL: vandn_vx_swapped_nxv1i64:
 ; CHECK-RV64:       # %bb.0:
-; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vsetvli a1, zero, e64, m1, ta, ma
+; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vand.vx v8, v8, a0
 ; CHECK-RV64-NEXT:    ret
 ;
@@ -1492,8 +1492,8 @@ define <vscale x 1 x i64> @vandn_vx_swapped_nxv1i64(i64 %x, <vscale x 1 x i64> %
 ; CHECK-ZVKB32-NEXT:    not a1, a1
 ; CHECK-ZVKB32-NEXT:    sw a0, 8(sp)
 ; CHECK-ZVKB32-NEXT:    sw a1, 12(sp)
-; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vsetvli a1, zero, e64, m1, ta, ma
+; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vlse64.v v9, (a0), zero
 ; CHECK-ZVKB32-NEXT:    vand.vv v8, v9, v8
 ; CHECK-ZVKB32-NEXT:    addi sp, sp, 16
@@ -1557,8 +1557,8 @@ define <vscale x 2 x i64> @vandn_vx_nxv2i64(i64 %x, <vscale x 2 x i64> %y) {
 ; CHECK-RV32-NEXT:    not a1, a1
 ; CHECK-RV32-NEXT:    sw a0, 8(sp)
 ; CHECK-RV32-NEXT:    sw a1, 12(sp)
-; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vsetvli a1, zero, e64, m2, ta, ma
+; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vlse64.v v10, (a0), zero
 ; CHECK-RV32-NEXT:    vand.vv v8, v10, v8
 ; CHECK-RV32-NEXT:    addi sp, sp, 16
@@ -1567,8 +1567,8 @@ define <vscale x 2 x i64> @vandn_vx_nxv2i64(i64 %x, <vscale x 2 x i64> %y) {
 ;
 ; CHECK-RV64-LABEL: vandn_vx_nxv2i64:
 ; CHECK-RV64:       # %bb.0:
-; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vsetvli a1, zero, e64, m2, ta, ma
+; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vand.vx v8, v8, a0
 ; CHECK-RV64-NEXT:    ret
 ;
@@ -1580,8 +1580,8 @@ define <vscale x 2 x i64> @vandn_vx_nxv2i64(i64 %x, <vscale x 2 x i64> %y) {
 ; CHECK-ZVKB32-NEXT:    not a1, a1
 ; CHECK-ZVKB32-NEXT:    sw a0, 8(sp)
 ; CHECK-ZVKB32-NEXT:    sw a1, 12(sp)
-; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vsetvli a1, zero, e64, m2, ta, ma
+; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vlse64.v v10, (a0), zero
 ; CHECK-ZVKB32-NEXT:    vand.vv v8, v10, v8
 ; CHECK-ZVKB32-NEXT:    addi sp, sp, 16
@@ -1609,8 +1609,8 @@ define <vscale x 2 x i64> @vandn_vx_swapped_nxv2i64(i64 %x, <vscale x 2 x i64> %
 ; CHECK-RV32-NEXT:    not a1, a1
 ; CHECK-RV32-NEXT:    sw a0, 8(sp)
 ; CHECK-RV32-NEXT:    sw a1, 12(sp)
-; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vsetvli a1, zero, e64, m2, ta, ma
+; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vlse64.v v10, (a0), zero
 ; CHECK-RV32-NEXT:    vand.vv v8, v10, v8
 ; CHECK-RV32-NEXT:    addi sp, sp, 16
@@ -1619,8 +1619,8 @@ define <vscale x 2 x i64> @vandn_vx_swapped_nxv2i64(i64 %x, <vscale x 2 x i64> %
 ;
 ; CHECK-RV64-LABEL: vandn_vx_swapped_nxv2i64:
 ; CHECK-RV64:       # %bb.0:
-; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vsetvli a1, zero, e64, m2, ta, ma
+; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vand.vx v8, v8, a0
 ; CHECK-RV64-NEXT:    ret
 ;
@@ -1632,8 +1632,8 @@ define <vscale x 2 x i64> @vandn_vx_swapped_nxv2i64(i64 %x, <vscale x 2 x i64> %
 ; CHECK-ZVKB32-NEXT:    not a1, a1
 ; CHECK-ZVKB32-NEXT:    sw a0, 8(sp)
 ; CHECK-ZVKB32-NEXT:    sw a1, 12(sp)
-; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vsetvli a1, zero, e64, m2, ta, ma
+; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vlse64.v v10, (a0), zero
 ; CHECK-ZVKB32-NEXT:    vand.vv v8, v10, v8
 ; CHECK-ZVKB32-NEXT:    addi sp, sp, 16
@@ -1697,8 +1697,8 @@ define <vscale x 4 x i64> @vandn_vx_nxv4i64(i64 %x, <vscale x 4 x i64> %y) {
 ; CHECK-RV32-NEXT:    not a1, a1
 ; CHECK-RV32-NEXT:    sw a0, 8(sp)
 ; CHECK-RV32-NEXT:    sw a1, 12(sp)
-; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vsetvli a1, zero, e64, m4, ta, ma
+; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vlse64.v v12, (a0), zero
 ; CHECK-RV32-NEXT:    vand.vv v8, v12, v8
 ; CHECK-RV32-NEXT:    addi sp, sp, 16
@@ -1707,8 +1707,8 @@ define <vscale x 4 x i64> @vandn_vx_nxv4i64(i64 %x, <vscale x 4 x i64> %y) {
 ;
 ; CHECK-RV64-LABEL: vandn_vx_nxv4i64:
 ; CHECK-RV64:       # %bb.0:
-; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vsetvli a1, zero, e64, m4, ta, ma
+; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vand.vx v8, v8, a0
 ; CHECK-RV64-NEXT:    ret
 ;
@@ -1720,8 +1720,8 @@ define <vscale x 4 x i64> @vandn_vx_nxv4i64(i64 %x, <vscale x 4 x i64> %y) {
 ; CHECK-ZVKB32-NEXT:    not a1, a1
 ; CHECK-ZVKB32-NEXT:    sw a0, 8(sp)
 ; CHECK-ZVKB32-NEXT:    sw a1, 12(sp)
-; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vsetvli a1, zero, e64, m4, ta, ma
+; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vlse64.v v12, (a0), zero
 ; CHECK-ZVKB32-NEXT:    vand.vv v8, v12, v8
 ; CHECK-ZVKB32-NEXT:    addi sp, sp, 16
@@ -1749,8 +1749,8 @@ define <vscale x 4 x i64> @vandn_vx_swapped_nxv4i64(i64 %x, <vscale x 4 x i64> %
 ; CHECK-RV32-NEXT:    not a1, a1
 ; CHECK-RV32-NEXT:    sw a0, 8(sp)
 ; CHECK-RV32-NEXT:    sw a1, 12(sp)
-; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vsetvli a1, zero, e64, m4, ta, ma
+; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vlse64.v v12, (a0), zero
 ; CHECK-RV32-NEXT:    vand.vv v8, v12, v8
 ; CHECK-RV32-NEXT:    addi sp, sp, 16
@@ -1759,8 +1759,8 @@ define <vscale x 4 x i64> @vandn_vx_swapped_nxv4i64(i64 %x, <vscale x 4 x i64> %
 ;
 ; CHECK-RV64-LABEL: vandn_vx_swapped_nxv4i64:
 ; CHECK-RV64:       # %bb.0:
-; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vsetvli a1, zero, e64, m4, ta, ma
+; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vand.vx v8, v8, a0
 ; CHECK-RV64-NEXT:    ret
 ;
@@ -1772,8 +1772,8 @@ define <vscale x 4 x i64> @vandn_vx_swapped_nxv4i64(i64 %x, <vscale x 4 x i64> %
 ; CHECK-ZVKB32-NEXT:    not a1, a1
 ; CHECK-ZVKB32-NEXT:    sw a0, 8(sp)
 ; CHECK-ZVKB32-NEXT:    sw a1, 12(sp)
-; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vsetvli a1, zero, e64, m4, ta, ma
+; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vlse64.v v12, (a0), zero
 ; CHECK-ZVKB32-NEXT:    vand.vv v8, v12, v8
 ; CHECK-ZVKB32-NEXT:    addi sp, sp, 16
@@ -1837,8 +1837,8 @@ define <vscale x 8 x i64> @vandn_vx_nxv8i64(i64 %x, <vscale x 8 x i64> %y) {
 ; CHECK-RV32-NEXT:    not a1, a1
 ; CHECK-RV32-NEXT:    sw a0, 8(sp)
 ; CHECK-RV32-NEXT:    sw a1, 12(sp)
-; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vsetvli a1, zero, e64, m8, ta, ma
+; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vlse64.v v16, (a0), zero
 ; CHECK-RV32-NEXT:    vand.vv v8, v16, v8
 ; CHECK-RV32-NEXT:    addi sp, sp, 16
@@ -1847,8 +1847,8 @@ define <vscale x 8 x i64> @vandn_vx_nxv8i64(i64 %x, <vscale x 8 x i64> %y) {
 ;
 ; CHECK-RV64-LABEL: vandn_vx_nxv8i64:
 ; CHECK-RV64:       # %bb.0:
-; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vsetvli a1, zero, e64, m8, ta, ma
+; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vand.vx v8, v8, a0
 ; CHECK-RV64-NEXT:    ret
 ;
@@ -1860,8 +1860,8 @@ define <vscale x 8 x i64> @vandn_vx_nxv8i64(i64 %x, <vscale x 8 x i64> %y) {
 ; CHECK-ZVKB32-NEXT:    not a1, a1
 ; CHECK-ZVKB32-NEXT:    sw a0, 8(sp)
 ; CHECK-ZVKB32-NEXT:    sw a1, 12(sp)
-; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vsetvli a1, zero, e64, m8, ta, ma
+; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vlse64.v v16, (a0), zero
 ; CHECK-ZVKB32-NEXT:    vand.vv v8, v16, v8
 ; CHECK-ZVKB32-NEXT:    addi sp, sp, 16
@@ -1889,8 +1889,8 @@ define <vscale x 8 x i64> @vandn_vx_swapped_nxv8i64(i64 %x, <vscale x 8 x i64> %
 ; CHECK-RV32-NEXT:    not a1, a1
 ; CHECK-RV32-NEXT:    sw a0, 8(sp)
 ; CHECK-RV32-NEXT:    sw a1, 12(sp)
-; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vsetvli a1, zero, e64, m8, ta, ma
+; CHECK-RV32-NEXT:    addi a0, sp, 8
 ; CHECK-RV32-NEXT:    vlse64.v v16, (a0), zero
 ; CHECK-RV32-NEXT:    vand.vv v8, v16, v8
 ; CHECK-RV32-NEXT:    addi sp, sp, 16
@@ -1899,8 +1899,8 @@ define <vscale x 8 x i64> @vandn_vx_swapped_nxv8i64(i64 %x, <vscale x 8 x i64> %
 ;
 ; CHECK-RV64-LABEL: vandn_vx_swapped_nxv8i64:
 ; CHECK-RV64:       # %bb.0:
-; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vsetvli a1, zero, e64, m8, ta, ma
+; CHECK-RV64-NEXT:    not a0, a0
 ; CHECK-RV64-NEXT:    vand.vx v8, v8, a0
 ; CHECK-RV64-NEXT:    ret
 ;
@@ -1912,8 +1912,8 @@ define <vscale x 8 x i64> @vandn_vx_swapped_nxv8i64(i64 %x, <vscale x 8 x i64> %
 ; CHECK-ZVKB32-NEXT:    not a1, a1
 ; CHECK-ZVKB32-NEXT:    sw a0, 8(sp)
 ; CHECK-ZVKB32-NEXT:    sw a1, 12(sp)
-; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vsetvli a1, zero, e64, m8, ta, ma
+; CHECK-ZVKB32-NEXT:    addi a0, sp, 8
 ; CHECK-ZVKB32-NEXT:    vlse64.v v16, (a0), zero
 ; CHECK-ZVKB32-NEXT:    vand.vv v8, v16, v8
 ; CHECK-ZVKB32-NEXT:    addi sp, sp, 16

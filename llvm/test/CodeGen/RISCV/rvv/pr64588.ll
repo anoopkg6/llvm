@@ -4,8 +4,8 @@
 define void @bar(ptr %p) {
 ; CHECK-LABEL: bar:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    sd zero, 0(a0)
 ; CHECK-NEXT:    sd zero, 8(a0)
+; CHECK-NEXT:    sd zero, 0(a0)
 ; CHECK-NEXT:    ret
   %v = insertelement <64 x i64> zeroinitializer, i64 0, i32 0
   %trunc = trunc <64 x i64> %v to <64 x i1>

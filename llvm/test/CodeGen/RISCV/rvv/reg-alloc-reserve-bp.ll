@@ -7,10 +7,10 @@ define void @foo(ptr nocapture noundef %p1) {
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    addi sp, sp, -192
 ; CHECK-NEXT:    .cfi_def_cfa_offset 192
-; CHECK-NEXT:    sd ra, 184(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sd s0, 176(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sd s1, 168(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s2, 160(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd s1, 168(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd s0, 176(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 184(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    .cfi_offset s0, -16
 ; CHECK-NEXT:    .cfi_offset s1, -24
@@ -21,37 +21,37 @@ define void @foo(ptr nocapture noundef %p1) {
 ; CHECK-NEXT:    slli a1, a1, 1
 ; CHECK-NEXT:    sub sp, sp, a1
 ; CHECK-NEXT:    andi sp, sp, -64
-; CHECK-NEXT:    mv s1, sp
-; CHECK-NEXT:    mv s2, a0
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
 ; CHECK-NEXT:    vle32.v v8, (a0)
+; CHECK-NEXT:    mv s2, a0
+; CHECK-NEXT:    mv s1, sp
 ; CHECK-NEXT:    addi a0, s1, 160
 ; CHECK-NEXT:    vs2r.v v8, (a0) # Unknown-size Folded Spill
 ; CHECK-NEXT:    addi sp, sp, -16
-; CHECK-NEXT:    addi t0, s1, 64
-; CHECK-NEXT:    li a0, 1
-; CHECK-NEXT:    li a1, 2
-; CHECK-NEXT:    li a2, 3
-; CHECK-NEXT:    li a3, 4
-; CHECK-NEXT:    li a4, 5
-; CHECK-NEXT:    li a5, 6
-; CHECK-NEXT:    li a6, 7
 ; CHECK-NEXT:    li a7, 8
+; CHECK-NEXT:    li a6, 7
+; CHECK-NEXT:    li a5, 6
+; CHECK-NEXT:    li a4, 5
+; CHECK-NEXT:    li a3, 4
+; CHECK-NEXT:    li a2, 3
+; CHECK-NEXT:    li a1, 2
+; CHECK-NEXT:    li a0, 1
+; CHECK-NEXT:    addi t0, s1, 64
 ; CHECK-NEXT:    sd t0, 0(sp)
 ; CHECK-NEXT:    call bar
 ; CHECK-NEXT:    addi sp, sp, 16
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (s2)
 ; CHECK-NEXT:    addi a0, s1, 160
 ; CHECK-NEXT:    vl2r.v v10, (a0) # Unknown-size Folded Reload
+; CHECK-NEXT:    vle32.v v8, (s2)
 ; CHECK-NEXT:    vfadd.vv v8, v10, v8
 ; CHECK-NEXT:    vse32.v v8, (s2)
 ; CHECK-NEXT:    addi sp, s0, -192
 ; CHECK-NEXT:    .cfi_def_cfa sp, 192
-; CHECK-NEXT:    ld ra, 184(sp) # 8-byte Folded Reload
-; CHECK-NEXT:    ld s0, 176(sp) # 8-byte Folded Reload
-; CHECK-NEXT:    ld s1, 168(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s2, 160(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld s1, 168(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld s0, 176(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 184(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
 ; CHECK-NEXT:    .cfi_restore s0
 ; CHECK-NEXT:    .cfi_restore s1

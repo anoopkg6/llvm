@@ -24,14 +24,14 @@ define i64 @th_tst_i64(i64 %a) nounwind {
 ; RV32I-LABEL: th_tst_i64:
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    slli a0, a0, 26
-; RV32I-NEXT:    srli a0, a0, 31
 ; RV32I-NEXT:    li a1, 0
+; RV32I-NEXT:    srli a0, a0, 31
 ; RV32I-NEXT:    ret
 ;
 ; RV32XTHEADBS-LABEL: th_tst_i64:
 ; RV32XTHEADBS:       # %bb.0:
-; RV32XTHEADBS-NEXT:    th.tst a0, a0, 5
 ; RV32XTHEADBS-NEXT:    li a1, 0
+; RV32XTHEADBS-NEXT:    th.tst a0, a0, 5
 ; RV32XTHEADBS-NEXT:    ret
   %shr = lshr i64 %a, 5
   %and = and i64 %shr, 1
@@ -59,14 +59,14 @@ define i64 @th_tst_i64_cmp(i64 %a) nounwind {
 ; RV32I-LABEL: th_tst_i64_cmp:
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    slli a0, a0, 26
-; RV32I-NEXT:    srli a0, a0, 31
 ; RV32I-NEXT:    li a1, 0
+; RV32I-NEXT:    srli a0, a0, 31
 ; RV32I-NEXT:    ret
 ;
 ; RV32XTHEADBS-LABEL: th_tst_i64_cmp:
 ; RV32XTHEADBS:       # %bb.0:
-; RV32XTHEADBS-NEXT:    th.tst a0, a0, 5
 ; RV32XTHEADBS-NEXT:    li a1, 0
+; RV32XTHEADBS-NEXT:    th.tst a0, a0, 5
 ; RV32XTHEADBS-NEXT:    ret
   %and = and i64 %a, 32
   %cmp = icmp ne i64 %and, 0

@@ -25,8 +25,8 @@
   ; CHECK-LABEL: foo:
   ; CHECK:       # %bb.0: # %entry
   ; CHECK-NEXT:    addi sp, sp, -2032
-  ; CHECK-NEXT:    sd ra, 2024(sp) # 8-byte Folded Spill
   ; CHECK-NEXT:    sd s0, 2016(sp) # 8-byte Folded Spill
+  ; CHECK-NEXT:    sd ra, 2024(sp) # 8-byte Folded Spill
   ; CHECK-NEXT:    addi s0, sp, 2032
   ; CHECK-NEXT:    sd a0, 0(sp)
   ; CHECK-NEXT:    lui a0, 2
@@ -42,8 +42,8 @@
   ; CHECK-NEXT:    ld a1, 0(sp)
   ; CHECK-NEXT:    call foo
   ; CHECK-NEXT:    addi sp, s0, -2032
-  ; CHECK-NEXT:    ld ra, 2024(sp) # 8-byte Folded Reload
   ; CHECK-NEXT:    ld s0, 2016(sp) # 8-byte Folded Reload
+  ; CHECK-NEXT:    ld ra, 2024(sp) # 8-byte Folded Reload
   ; CHECK-NEXT:    addi sp, sp, 2032
   ; CHECK-NEXT:    ret
   entry:

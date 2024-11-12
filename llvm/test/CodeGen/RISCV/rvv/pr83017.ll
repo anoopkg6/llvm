@@ -30,10 +30,10 @@
 define void @aliasing(ptr %p) {
 ; CHECK-LABEL: aliasing:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lw a1, 84(a0)
-; CHECK-NEXT:    addi a2, a0, 80
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
 ; CHECK-NEXT:    vmv.v.i v8, 0
+; CHECK-NEXT:    addi a2, a0, 80
+; CHECK-NEXT:    lw a1, 84(a0)
 ; CHECK-NEXT:    vs1r.v v8, (a2)
 ; CHECK-NEXT:    addi a2, a0, 64
 ; CHECK-NEXT:    vs1r.v v8, (a2)

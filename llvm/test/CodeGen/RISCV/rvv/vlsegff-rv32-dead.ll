@@ -52,8 +52,8 @@ define <vscale x 16 x i16> @test_vlseg2ff_mask_dead_vl(target("riscv.vector.tupl
 ; CHECK-LABEL: test_vlseg2ff_mask_dead_vl:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv4r.v v4, v8
-; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m4, ta, mu
+; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vlseg2e16ff.v v4, (a0), v0.t
 ; CHECK-NEXT:    ret
 entry:

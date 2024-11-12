@@ -24,9 +24,9 @@ define double @double_imm() nounwind {
 ; CHECKRV32ZDINX-LABEL: double_imm:
 ; CHECKRV32ZDINX:       # %bb.0:
 ; CHECKRV32ZDINX-NEXT:    lui a0, 345155
-; CHECKRV32ZDINX-NEXT:    addi a0, a0, -744
 ; CHECKRV32ZDINX-NEXT:    lui a1, 262290
 ; CHECKRV32ZDINX-NEXT:    addi a1, a1, 507
+; CHECKRV32ZDINX-NEXT:    addi a0, a0, -744
 ; CHECKRV32ZDINX-NEXT:    ret
 ;
 ; CHECKRV64ZDINX-LABEL: double_imm:
@@ -83,8 +83,8 @@ define double @double_positive_zero(ptr %pd) nounwind {
 ;
 ; CHECKRV32ZDINX-LABEL: double_positive_zero:
 ; CHECKRV32ZDINX:       # %bb.0:
-; CHECKRV32ZDINX-NEXT:    li a0, 0
 ; CHECKRV32ZDINX-NEXT:    li a1, 0
+; CHECKRV32ZDINX-NEXT:    li a0, 0
 ; CHECKRV32ZDINX-NEXT:    ret
 ;
 ; CHECKRV64ZDINX-LABEL: double_positive_zero:
@@ -109,8 +109,8 @@ define double @double_negative_zero(ptr %pd) nounwind {
 ;
 ; CHECKRV32ZDINX-LABEL: double_negative_zero:
 ; CHECKRV32ZDINX:       # %bb.0:
-; CHECKRV32ZDINX-NEXT:    lui a1, 524288
 ; CHECKRV32ZDINX-NEXT:    li a0, 0
+; CHECKRV32ZDINX-NEXT:    lui a1, 524288
 ; CHECKRV32ZDINX-NEXT:    ret
 ;
 ; CHECKRV64ZDINX-LABEL: double_negative_zero:
@@ -122,8 +122,8 @@ define double @double_negative_zero(ptr %pd) nounwind {
 define dso_local double @negzero_sel(i16 noundef %a, double noundef %d) nounwind {
 ; CHECK32D-LABEL: negzero_sel:
 ; CHECK32D:       # %bb.0: # %entry
-; CHECK32D-NEXT:    slli a0, a0, 16
 ; CHECK32D-NEXT:    fcvt.d.w fa5, zero
+; CHECK32D-NEXT:    slli a0, a0, 16
 ; CHECK32D-NEXT:    beqz a0, .LBB4_2
 ; CHECK32D-NEXT:  # %bb.1: # %entry
 ; CHECK32D-NEXT:    fneg.d fa0, fa5
@@ -142,8 +142,8 @@ define dso_local double @negzero_sel(i16 noundef %a, double noundef %d) nounwind
 ;
 ; CHECKRV32ZDINX-LABEL: negzero_sel:
 ; CHECKRV32ZDINX:       # %bb.0: # %entry
-; CHECKRV32ZDINX-NEXT:    slli a0, a0, 16
 ; CHECKRV32ZDINX-NEXT:    fcvt.d.w a4, zero
+; CHECKRV32ZDINX-NEXT:    slli a0, a0, 16
 ; CHECKRV32ZDINX-NEXT:    beqz a0, .LBB4_2
 ; CHECKRV32ZDINX-NEXT:  # %bb.1: # %entry
 ; CHECKRV32ZDINX-NEXT:    fneg.d a2, a4
@@ -152,8 +152,8 @@ define dso_local double @negzero_sel(i16 noundef %a, double noundef %d) nounwind
 ; CHECKRV32ZDINX-NEXT:    mv a3, a2
 ; CHECKRV32ZDINX-NEXT:    mv a2, a1
 ; CHECKRV32ZDINX-NEXT:  .LBB4_3: # %entry
-; CHECKRV32ZDINX-NEXT:    mv a0, a2
 ; CHECKRV32ZDINX-NEXT:    mv a1, a3
+; CHECKRV32ZDINX-NEXT:    mv a0, a2
 ; CHECKRV32ZDINX-NEXT:    ret
 ;
 ; CHECKRV64ZDINX-LABEL: negzero_sel:

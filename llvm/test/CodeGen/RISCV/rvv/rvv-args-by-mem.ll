@@ -24,9 +24,9 @@ define <vscale x 16 x i32> @foo(i32 %0, i32 %1, i32 %2, i32 %3, i32 %4, i32 %5, 
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    addi sp, sp, -96
 ; CHECK-NEXT:    .cfi_def_cfa_offset 96
-; CHECK-NEXT:    sd ra, 88(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sd s0, 80(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s1, 72(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd s0, 80(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 88(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    .cfi_offset s0, -16
 ; CHECK-NEXT:    .cfi_offset s1, -24
@@ -45,16 +45,16 @@ define <vscale x 16 x i32> @foo(i32 %0, i32 %1, i32 %2, i32 %3, i32 %4, i32 %5, 
 ; CHECK-NEXT:    add t1, s1, t1
 ; CHECK-NEXT:    addi t1, t1, 64
 ; CHECK-NEXT:    vs8r.v v8, (t1)
-; CHECK-NEXT:    sd t1, 0(sp)
-; CHECK-NEXT:    sd t0, 8(sp)
 ; CHECK-NEXT:    vmv8r.v v16, v8
+; CHECK-NEXT:    sd t0, 8(sp)
+; CHECK-NEXT:    sd t1, 0(sp)
 ; CHECK-NEXT:    call bar
 ; CHECK-NEXT:    addi sp, sp, 16
 ; CHECK-NEXT:    addi sp, s0, -96
 ; CHECK-NEXT:    .cfi_def_cfa sp, 96
-; CHECK-NEXT:    ld ra, 88(sp) # 8-byte Folded Reload
-; CHECK-NEXT:    ld s0, 80(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s1, 72(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld s0, 80(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 88(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
 ; CHECK-NEXT:    .cfi_restore s0
 ; CHECK-NEXT:    .cfi_restore s1

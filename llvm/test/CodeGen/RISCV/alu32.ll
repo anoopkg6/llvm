@@ -243,8 +243,8 @@ define i32 @slt(i32 %a, i32 %b) nounwind {
 ;
 ; RV64I-LABEL: slt:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    sext.w a1, a1
 ; RV64I-NEXT:    sext.w a0, a0
+; RV64I-NEXT:    sext.w a1, a1
 ; RV64I-NEXT:    slt a0, a0, a1
 ; RV64I-NEXT:    ret
   %1 = icmp slt i32 %a, %b
@@ -260,8 +260,8 @@ define i32 @sltu(i32 %a, i32 %b) nounwind {
 ;
 ; RV64I-LABEL: sltu:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    sext.w a1, a1
 ; RV64I-NEXT:    sext.w a0, a0
+; RV64I-NEXT:    sext.w a1, a1
 ; RV64I-NEXT:    sltu a0, a0, a1
 ; RV64I-NEXT:    ret
   %1 = icmp ult i32 %a, %b

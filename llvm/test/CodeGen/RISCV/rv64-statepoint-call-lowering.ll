@@ -147,8 +147,8 @@ define void @test_void_vararg() gc "statepoint-example" {
 ; CHECK-NEXT:    .cfi_def_cfa_offset 16
 ; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
-; CHECK-NEXT:    li a0, 42
 ; CHECK-NEXT:    li a1, 43
+; CHECK-NEXT:    li a0, 42
 ; CHECK-NEXT:    call varargf
 ; CHECK-NEXT:  .Ltmp6:
 ; CHECK-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
@@ -192,12 +192,12 @@ define i1 @test_cross_bb(ptr addrspace(1) %a, i1 %external_cond) gc "statepoint-
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    addi sp, sp, -32
 ; CHECK-NEXT:    .cfi_def_cfa_offset 32
-; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    .cfi_offset s0, -16
-; CHECK-NEXT:    andi s0, a1, 1
 ; CHECK-NEXT:    sd a0, 8(sp)
+; CHECK-NEXT:    andi s0, a1, 1
 ; CHECK-NEXT:    call return_i1
 ; CHECK-NEXT:  .Ltmp8:
 ; CHECK-NEXT:    beqz s0, .LBB8_2
@@ -211,8 +211,8 @@ define i1 @test_cross_bb(ptr addrspace(1) %a, i1 %external_cond) gc "statepoint-
 ; CHECK-NEXT:  .LBB8_2: # %right
 ; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:  .LBB8_3: # %right
-; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
 ; CHECK-NEXT:    .cfi_restore s0
 ; CHECK-NEXT:    addi sp, sp, 32
@@ -248,11 +248,11 @@ define void @test_attributes(ptr byval(%struct2) %s) gc "statepoint-example" {
 ; CHECK-NEXT:    ld a1, 8(a0)
 ; CHECK-NEXT:    sd a1, 8(sp)
 ; CHECK-NEXT:    ld a0, 0(a0)
+; CHECK-NEXT:    li t2, 0
+; CHECK-NEXT:    mv a2, sp
+; CHECK-NEXT:    li a1, 17
 ; CHECK-NEXT:    sd a0, 0(sp)
 ; CHECK-NEXT:    li a0, 42
-; CHECK-NEXT:    li a1, 17
-; CHECK-NEXT:    mv a2, sp
-; CHECK-NEXT:    li t2, 0
 ; CHECK-NEXT:    call consume_attributes
 ; CHECK-NEXT:  .Ltmp9:
 ; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload

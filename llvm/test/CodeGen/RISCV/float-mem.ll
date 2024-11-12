@@ -11,8 +11,8 @@
 define dso_local float @flw(ptr %a) nounwind {
 ; CHECKIF-LABEL: flw:
 ; CHECKIF:       # %bb.0:
-; CHECKIF-NEXT:    flw fa5, 0(a0)
 ; CHECKIF-NEXT:    flw fa4, 12(a0)
+; CHECKIF-NEXT:    flw fa5, 0(a0)
 ; CHECKIF-NEXT:    fadd.s fa0, fa5, fa4
 ; CHECKIF-NEXT:    ret
 ;
@@ -37,15 +37,15 @@ define dso_local void @fsw(ptr %a, float %b, float %c) nounwind {
 ; CHECKIF-LABEL: fsw:
 ; CHECKIF:       # %bb.0:
 ; CHECKIF-NEXT:    fadd.s fa5, fa0, fa1
-; CHECKIF-NEXT:    fsw fa5, 0(a0)
 ; CHECKIF-NEXT:    fsw fa5, 32(a0)
+; CHECKIF-NEXT:    fsw fa5, 0(a0)
 ; CHECKIF-NEXT:    ret
 ;
 ; CHECKIZFINX-LABEL: fsw:
 ; CHECKIZFINX:       # %bb.0:
 ; CHECKIZFINX-NEXT:    fadd.s a1, a1, a2
-; CHECKIZFINX-NEXT:    sw a1, 0(a0)
 ; CHECKIZFINX-NEXT:    sw a1, 32(a0)
+; CHECKIZFINX-NEXT:    sw a1, 0(a0)
 ; CHECKIZFINX-NEXT:    ret
   %1 = fadd float %b, %c
   store float %1, ptr %a
@@ -65,8 +65,8 @@ define dso_local float @flw_fsw_global(float %a, float %b) nounwind {
 ; CHECKIF-NEXT:    fadd.s fa0, fa0, fa1
 ; CHECKIF-NEXT:    lui a0, %hi(G)
 ; CHECKIF-NEXT:    flw fa5, %lo(G)(a0)
-; CHECKIF-NEXT:    addi a1, a0, %lo(G)
 ; CHECKIF-NEXT:    fsw fa0, %lo(G)(a0)
+; CHECKIF-NEXT:    addi a1, a0, %lo(G)
 ; CHECKIF-NEXT:    flw fa5, 36(a1)
 ; CHECKIF-NEXT:    fsw fa0, 36(a1)
 ; CHECKIF-NEXT:    ret
@@ -76,8 +76,8 @@ define dso_local float @flw_fsw_global(float %a, float %b) nounwind {
 ; CHECKIZFINX-NEXT:    fadd.s a0, a0, a1
 ; CHECKIZFINX-NEXT:    lui a1, %hi(G)
 ; CHECKIZFINX-NEXT:    lw zero, %lo(G)(a1)
-; CHECKIZFINX-NEXT:    addi a2, a1, %lo(G)
 ; CHECKIZFINX-NEXT:    sw a0, %lo(G)(a1)
+; CHECKIZFINX-NEXT:    addi a2, a1, %lo(G)
 ; CHECKIZFINX-NEXT:    lw zero, 36(a2)
 ; CHECKIZFINX-NEXT:    sw a0, 36(a2)
 ; CHECKIZFINX-NEXT:    ret
@@ -138,14 +138,14 @@ define dso_local float @flw_stack(float %a) nounwind {
 ; RV32IF-LABEL: flw_stack:
 ; RV32IF:       # %bb.0:
 ; RV32IF-NEXT:    addi sp, sp, -16
-; RV32IF-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
 ; RV32IF-NEXT:    fsw fs0, 8(sp) # 4-byte Folded Spill
-; RV32IF-NEXT:    fmv.s fs0, fa0
+; RV32IF-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
 ; RV32IF-NEXT:    addi a0, sp, 4
+; RV32IF-NEXT:    fmv.s fs0, fa0
 ; RV32IF-NEXT:    call notdead
 ; RV32IF-NEXT:    flw fa5, 4(sp)
-; RV32IF-NEXT:    fadd.s fa0, fa5, fs0
 ; RV32IF-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
+; RV32IF-NEXT:    fadd.s fa0, fa5, fs0
 ; RV32IF-NEXT:    flw fs0, 8(sp) # 4-byte Folded Reload
 ; RV32IF-NEXT:    addi sp, sp, 16
 ; RV32IF-NEXT:    ret
@@ -153,14 +153,14 @@ define dso_local float @flw_stack(float %a) nounwind {
 ; RV64IF-LABEL: flw_stack:
 ; RV64IF:       # %bb.0:
 ; RV64IF-NEXT:    addi sp, sp, -16
-; RV64IF-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; RV64IF-NEXT:    fsw fs0, 4(sp) # 4-byte Folded Spill
-; RV64IF-NEXT:    fmv.s fs0, fa0
+; RV64IF-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; RV64IF-NEXT:    mv a0, sp
+; RV64IF-NEXT:    fmv.s fs0, fa0
 ; RV64IF-NEXT:    call notdead
 ; RV64IF-NEXT:    flw fa5, 0(sp)
-; RV64IF-NEXT:    fadd.s fa0, fa5, fs0
 ; RV64IF-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
+; RV64IF-NEXT:    fadd.s fa0, fa5, fs0
 ; RV64IF-NEXT:    flw fs0, 4(sp) # 4-byte Folded Reload
 ; RV64IF-NEXT:    addi sp, sp, 16
 ; RV64IF-NEXT:    ret
@@ -168,14 +168,14 @@ define dso_local float @flw_stack(float %a) nounwind {
 ; RV32IZFINX-LABEL: flw_stack:
 ; RV32IZFINX:       # %bb.0:
 ; RV32IZFINX-NEXT:    addi sp, sp, -16
-; RV32IZFINX-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
 ; RV32IZFINX-NEXT:    sw s0, 8(sp) # 4-byte Folded Spill
+; RV32IZFINX-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
 ; RV32IZFINX-NEXT:    mv s0, a0
 ; RV32IZFINX-NEXT:    addi a0, sp, 4
 ; RV32IZFINX-NEXT:    call notdead
 ; RV32IZFINX-NEXT:    lw a0, 4(sp)
-; RV32IZFINX-NEXT:    fadd.s a0, a0, s0
 ; RV32IZFINX-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
+; RV32IZFINX-NEXT:    fadd.s a0, a0, s0
 ; RV32IZFINX-NEXT:    lw s0, 8(sp) # 4-byte Folded Reload
 ; RV32IZFINX-NEXT:    addi sp, sp, 16
 ; RV32IZFINX-NEXT:    ret
@@ -183,14 +183,14 @@ define dso_local float @flw_stack(float %a) nounwind {
 ; RV64IZFINX-LABEL: flw_stack:
 ; RV64IZFINX:       # %bb.0:
 ; RV64IZFINX-NEXT:    addi sp, sp, -32
-; RV64IZFINX-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; RV64IZFINX-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; RV64IZFINX-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; RV64IZFINX-NEXT:    mv s0, a0
 ; RV64IZFINX-NEXT:    addi a0, sp, 12
 ; RV64IZFINX-NEXT:    call notdead
 ; RV64IZFINX-NEXT:    lw a0, 12(sp)
-; RV64IZFINX-NEXT:    fadd.s a0, a0, s0
 ; RV64IZFINX-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
+; RV64IZFINX-NEXT:    fadd.s a0, a0, s0
 ; RV64IZFINX-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; RV64IZFINX-NEXT:    addi sp, sp, 32
 ; RV64IZFINX-NEXT:    ret
@@ -206,9 +206,9 @@ define dso_local void @fsw_stack(float %a, float %b) nounwind {
 ; RV32IF:       # %bb.0:
 ; RV32IF-NEXT:    addi sp, sp, -16
 ; RV32IF-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
+; RV32IF-NEXT:    addi a0, sp, 8
 ; RV32IF-NEXT:    fadd.s fa5, fa0, fa1
 ; RV32IF-NEXT:    fsw fa5, 8(sp)
-; RV32IF-NEXT:    addi a0, sp, 8
 ; RV32IF-NEXT:    call notdead
 ; RV32IF-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32IF-NEXT:    addi sp, sp, 16
@@ -218,9 +218,9 @@ define dso_local void @fsw_stack(float %a, float %b) nounwind {
 ; RV64IF:       # %bb.0:
 ; RV64IF-NEXT:    addi sp, sp, -16
 ; RV64IF-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
+; RV64IF-NEXT:    addi a0, sp, 4
 ; RV64IF-NEXT:    fadd.s fa5, fa0, fa1
 ; RV64IF-NEXT:    fsw fa5, 4(sp)
-; RV64IF-NEXT:    addi a0, sp, 4
 ; RV64IF-NEXT:    call notdead
 ; RV64IF-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64IF-NEXT:    addi sp, sp, 16

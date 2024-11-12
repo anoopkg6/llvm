@@ -19,8 +19,8 @@ define i64 @vscale_zero() nounwind {
 ;
 ; RV32-LABEL: vscale_zero:
 ; RV32:       # %bb.0: # %entry
-; RV32-NEXT:    li a0, 0
 ; RV32-NEXT:    li a1, 0
+; RV32-NEXT:    li a0, 0
 ; RV32-NEXT:    ret
 ;
 ; RV64-VLEN256EXACT-LABEL: vscale_zero:
@@ -43,8 +43,8 @@ define i64 @vscale_one() nounwind {
 ; RV32-LABEL: vscale_one:
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    csrr a0, vlenb
-; RV32-NEXT:    srli a0, a0, 3
 ; RV32-NEXT:    li a1, 0
+; RV32-NEXT:    srli a0, a0, 3
 ; RV32-NEXT:    ret
 ;
 ; RV64-VLEN256EXACT-LABEL: vscale_one:
@@ -67,8 +67,8 @@ define i64 @vscale_uimmpow2xlen() nounwind {
 ; RV32-LABEL: vscale_uimmpow2xlen:
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    csrr a0, vlenb
-; RV32-NEXT:    slli a0, a0, 3
 ; RV32-NEXT:    li a1, 0
+; RV32-NEXT:    slli a0, a0, 3
 ; RV32-NEXT:    ret
 ;
 ; RV64-VLEN256EXACT-LABEL: vscale_uimmpow2xlen:
@@ -122,8 +122,8 @@ define i64 @vscale_select(i32 %x, i32 %y) {
 ; RV32-LABEL: vscale_select:
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    csrr a0, vlenb
-; RV32-NEXT:    srli a0, a0, 3
 ; RV32-NEXT:    li a1, 0
+; RV32-NEXT:    srli a0, a0, 3
 ; RV32-NEXT:    ret
 ;
 ; RV64-VLEN256EXACT-LABEL: vscale_select:
@@ -147,8 +147,8 @@ define i64 @vscale_high_bits_zero() nounwind {
 ; RV32-LABEL: vscale_high_bits_zero:
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    csrr a0, vlenb
-; RV32-NEXT:    srli a0, a0, 3
 ; RV32-NEXT:    li a1, 0
+; RV32-NEXT:    srli a0, a0, 3
 ; RV32-NEXT:    ret
 ;
 ; RV64-VLEN256EXACT-LABEL: vscale_high_bits_zero:
@@ -173,8 +173,8 @@ define i64 @vscale_masked() nounwind {
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    csrr a0, vlenb
 ; RV32-NEXT:    srli a0, a0, 3
-; RV32-NEXT:    andi a0, a0, 510
 ; RV32-NEXT:    li a1, 0
+; RV32-NEXT:    andi a0, a0, 510
 ; RV32-NEXT:    ret
 ;
 ; RV64-VLEN256MIN-LABEL: vscale_masked:

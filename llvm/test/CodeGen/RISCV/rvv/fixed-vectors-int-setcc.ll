@@ -10,8 +10,8 @@ define void @seteq_vv_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: seteq_vv_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmseq.vv v0, v8, v9
 ; CHECK-NEXT:    vmv.v.i v8, 0
 ; CHECK-NEXT:    vmerge.vim v8, v8, -1, v0
@@ -30,8 +30,8 @@ define void @setne_vv_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmsne.vv v0, v8, v10
 ; CHECK-NEXT:    vmv.v.i v8, 0
 ; CHECK-NEXT:    vmerge.vim v8, v8, 1, v0
@@ -50,8 +50,8 @@ define void @setgt_vv_v64i8(ptr %x, ptr %y, ptr %z) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a3, 64
 ; CHECK-NEXT:    vsetvli zero, a3, e8, m4, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v12, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmslt.vv v16, v12, v8
 ; CHECK-NEXT:    vsm.v v16, (a2)
 ; CHECK-NEXT:    ret
@@ -67,8 +67,8 @@ define void @setlt_vv_v128i8(ptr %x, ptr %y, ptr %z) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a3, 128
 ; CHECK-NEXT:    vsetvli zero, a3, e8, m8, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v16, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmslt.vv v24, v8, v16
 ; CHECK-NEXT:    vsm.v v24, (a2)
 ; CHECK-NEXT:    ret
@@ -83,8 +83,8 @@ define void @setge_vv_v8i8(ptr %x, ptr %y, ptr %z) {
 ; CHECK-LABEL: setge_vv_v8i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e8, mf2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmsle.vv v8, v9, v8
 ; CHECK-NEXT:    vsm.v v8, (a2)
 ; CHECK-NEXT:    ret
@@ -99,8 +99,8 @@ define void @setle_vv_v16i8(ptr %x, ptr %y, ptr %z) {
 ; CHECK-LABEL: setle_vv_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmsle.vv v8, v8, v9
 ; CHECK-NEXT:    vsm.v v8, (a2)
 ; CHECK-NEXT:    ret
@@ -116,8 +116,8 @@ define void @setugt_vv_v32i8(ptr %x, ptr %y, ptr %z) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a3, 32
 ; CHECK-NEXT:    vsetvli zero, a3, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmsltu.vv v12, v10, v8
 ; CHECK-NEXT:    vsm.v v12, (a2)
 ; CHECK-NEXT:    ret
@@ -133,8 +133,8 @@ define void @setult_vv_v64i8(ptr %x, ptr %y, ptr %z) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a3, 64
 ; CHECK-NEXT:    vsetvli zero, a3, e8, m4, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v12, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmsltu.vv v16, v8, v12
 ; CHECK-NEXT:    vsm.v v16, (a2)
 ; CHECK-NEXT:    ret
@@ -150,8 +150,8 @@ define void @setuge_vv_v128i8(ptr %x, ptr %y, ptr %z) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a3, 128
 ; CHECK-NEXT:    vsetvli zero, a3, e8, m8, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v16, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmsleu.vv v24, v16, v8
 ; CHECK-NEXT:    vsm.v v24, (a2)
 ; CHECK-NEXT:    ret
@@ -166,8 +166,8 @@ define void @setule_vv_v8i8(ptr %x, ptr %y, ptr %z) {
 ; CHECK-LABEL: setule_vv_v8i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e8, mf2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmsleu.vv v8, v8, v9
 ; CHECK-NEXT:    vsm.v v8, (a2)
 ; CHECK-NEXT:    ret
@@ -679,8 +679,8 @@ define void @seteq_vv_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: seteq_vv_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmseq.vv v0, v8, v9
 ; CHECK-NEXT:    vmv.v.i v8, 0
 ; CHECK-NEXT:    vmerge.vim v8, v8, -1, v0
@@ -698,8 +698,8 @@ define void @setne_vv_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: setne_vv_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vmsne.vv v0, v8, v9
 ; CHECK-NEXT:    vmv.v.i v8, 0
 ; CHECK-NEXT:    vmerge.vim v8, v8, -1, v0
@@ -717,8 +717,8 @@ define void @setgt_vv_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: setgt_vv_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vmslt.vv v0, v9, v8
 ; CHECK-NEXT:    vmv.v.i v8, 0
 ; CHECK-NEXT:    vmerge.vim v8, v8, -1, v0
@@ -736,8 +736,8 @@ define void @setlt_vv_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: setlt_vv_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmslt.vv v0, v8, v10
 ; CHECK-NEXT:    vmv.v.i v8, 0
 ; CHECK-NEXT:    vmerge.vim v8, v8, 1, v0
@@ -755,8 +755,8 @@ define void @setugt_vv_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: setugt_vv_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vmsltu.vv v0, v10, v8
 ; CHECK-NEXT:    vmv.v.i v8, 0
 ; CHECK-NEXT:    vmerge.vim v8, v8, 1, v0
@@ -774,8 +774,8 @@ define void @setult_vv_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: setult_vv_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vmsltu.vv v0, v8, v10
 ; CHECK-NEXT:    vmv.v.i v8, 0
 ; CHECK-NEXT:    vmerge.vim v8, v8, 1, v0

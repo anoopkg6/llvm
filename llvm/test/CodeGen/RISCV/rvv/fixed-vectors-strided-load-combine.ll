@@ -111,8 +111,8 @@ define void @widen_4xv4i16_unaligned(ptr %x, ptr %z) {
 define void @strided_constant(ptr %x, ptr %z) {
 ; CHECK-LABEL: strided_constant:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a2, 16
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
+; CHECK-NEXT:    li a2, 16
 ; CHECK-NEXT:    vlse64.v v8, (a0), a2
 ; CHECK-NEXT:    vse64.v v8, (a1)
 ; CHECK-NEXT:    ret
@@ -128,8 +128,8 @@ define void @strided_constant(ptr %x, ptr %z) {
 define void @strided_constant_64(ptr %x, ptr %z) {
 ; CHECK-LABEL: strided_constant_64:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a2, 64
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
+; CHECK-NEXT:    li a2, 64
 ; CHECK-NEXT:    vlse64.v v8, (a0), a2
 ; CHECK-NEXT:    vse64.v v8, (a1)
 ; CHECK-NEXT:    ret
@@ -167,8 +167,8 @@ define void @strided_constant_0(ptr %x, ptr %z) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e16, mf2, ta, ma
 ; CHECK-NEXT:    vle16.v v8, (a0)
-; CHECK-NEXT:    vmv1r.v v9, v8
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
+; CHECK-NEXT:    vmv1r.v v9, v8
 ; CHECK-NEXT:    vslideup.vi v9, v8, 4
 ; CHECK-NEXT:    vse16.v v9, (a1)
 ; CHECK-NEXT:    ret
@@ -469,8 +469,8 @@ define void @strided_non_load(ptr %x, ptr %z, <4 x i16> %b) {
 define void @strided_constant_neg_4xv2f32(ptr %x, ptr %z, i64 %s) {
 ; CHECK-LABEL: strided_constant_neg_4xv2f32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a2, -64
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; CHECK-NEXT:    li a2, -64
 ; CHECK-NEXT:    vlse64.v v8, (a0), a2
 ; CHECK-NEXT:    vse64.v v8, (a1)
 ; CHECK-NEXT:    ret
@@ -492,9 +492,9 @@ define void @strided_constant_neg_4xv2f32(ptr %x, ptr %z, i64 %s) {
 define void @reverse_strided_constant_pos_4xv2f32(ptr %x, ptr %z, i64 %s) {
 ; CHECK-LABEL: reverse_strided_constant_pos_4xv2f32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, 192
-; CHECK-NEXT:    li a2, -64
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; CHECK-NEXT:    li a2, -64
+; CHECK-NEXT:    addi a0, a0, 192
 ; CHECK-NEXT:    vlse64.v v8, (a0), a2
 ; CHECK-NEXT:    vse64.v v8, (a1)
 ; CHECK-NEXT:    ret
@@ -515,9 +515,9 @@ define void @reverse_strided_constant_pos_4xv2f32(ptr %x, ptr %z, i64 %s) {
 define void @reverse_strided_constant_neg_4xv2f32(ptr %x, ptr %z, i64 %s) {
 ; CHECK-LABEL: reverse_strided_constant_neg_4xv2f32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -192
-; CHECK-NEXT:    li a2, 64
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; CHECK-NEXT:    li a2, 64
+; CHECK-NEXT:    addi a0, a0, -192
 ; CHECK-NEXT:    vlse64.v v8, (a0), a2
 ; CHECK-NEXT:    vse64.v v8, (a1)
 ; CHECK-NEXT:    ret
@@ -541,9 +541,9 @@ define void @reverse_strided_runtime_4xv2f32(ptr %x, ptr %z, i64 %s) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    add a0, a0, a2
 ; CHECK-NEXT:    add a3, a2, a2
-; CHECK-NEXT:    add a0, a0, a3
-; CHECK-NEXT:    neg a2, a2
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; CHECK-NEXT:    neg a2, a2
+; CHECK-NEXT:    add a0, a0, a3
 ; CHECK-NEXT:    vlse64.v v8, (a0), a2
 ; CHECK-NEXT:    vse64.v v8, (a1)
 ; CHECK-NEXT:    ret

@@ -19,8 +19,8 @@ define <vscale x 1 x half> @vfsgnj_vv_nxv1f16(<vscale x 1 x half> %va, <vscale x
 ;
 ; ZVFHMIN-LABEL: vfsgnj_vv_nxv1f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, mf4, ta, ma
+; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vand.vx v9, v9, a1, v0.t
 ; ZVFHMIN-NEXT:    addi a1, a1, -1
 ; ZVFHMIN-NEXT:    vand.vx v8, v8, a1, v0.t
@@ -39,8 +39,8 @@ define <vscale x 1 x half> @vfsgnj_vv_nxv1f16_unmasked(<vscale x 1 x half> %va, 
 ;
 ; ZVFHMIN-LABEL: vfsgnj_vv_nxv1f16_unmasked:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, mf4, ta, ma
+; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vand.vx v9, v9, a1
 ; ZVFHMIN-NEXT:    addi a1, a1, -1
 ; ZVFHMIN-NEXT:    vand.vx v8, v8, a1
@@ -61,8 +61,8 @@ define <vscale x 2 x half> @vfsgnj_vv_nxv2f16(<vscale x 2 x half> %va, <vscale x
 ;
 ; ZVFHMIN-LABEL: vfsgnj_vv_nxv2f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, mf2, ta, ma
+; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vand.vx v9, v9, a1, v0.t
 ; ZVFHMIN-NEXT:    addi a1, a1, -1
 ; ZVFHMIN-NEXT:    vand.vx v8, v8, a1, v0.t
@@ -81,8 +81,8 @@ define <vscale x 2 x half> @vfsgnj_vv_nxv2f16_unmasked(<vscale x 2 x half> %va, 
 ;
 ; ZVFHMIN-LABEL: vfsgnj_vv_nxv2f16_unmasked:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, mf2, ta, ma
+; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vand.vx v9, v9, a1
 ; ZVFHMIN-NEXT:    addi a1, a1, -1
 ; ZVFHMIN-NEXT:    vand.vx v8, v8, a1
@@ -103,8 +103,8 @@ define <vscale x 4 x half> @vfsgnj_vv_nxv4f16(<vscale x 4 x half> %va, <vscale x
 ;
 ; ZVFHMIN-LABEL: vfsgnj_vv_nxv4f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, m1, ta, ma
+; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vand.vx v9, v9, a1, v0.t
 ; ZVFHMIN-NEXT:    addi a1, a1, -1
 ; ZVFHMIN-NEXT:    vand.vx v8, v8, a1, v0.t
@@ -123,8 +123,8 @@ define <vscale x 4 x half> @vfsgnj_vv_nxv4f16_unmasked(<vscale x 4 x half> %va, 
 ;
 ; ZVFHMIN-LABEL: vfsgnj_vv_nxv4f16_unmasked:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, m1, ta, ma
+; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vand.vx v9, v9, a1
 ; ZVFHMIN-NEXT:    addi a1, a1, -1
 ; ZVFHMIN-NEXT:    vand.vx v8, v8, a1
@@ -145,8 +145,8 @@ define <vscale x 8 x half> @vfsgnj_vv_nxv8f16(<vscale x 8 x half> %va, <vscale x
 ;
 ; ZVFHMIN-LABEL: vfsgnj_vv_nxv8f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, m2, ta, ma
+; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vand.vx v10, v10, a1, v0.t
 ; ZVFHMIN-NEXT:    addi a1, a1, -1
 ; ZVFHMIN-NEXT:    vand.vx v8, v8, a1, v0.t
@@ -165,8 +165,8 @@ define <vscale x 8 x half> @vfsgnj_vv_nxv8f16_unmasked(<vscale x 8 x half> %va, 
 ;
 ; ZVFHMIN-LABEL: vfsgnj_vv_nxv8f16_unmasked:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, m2, ta, ma
+; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vand.vx v10, v10, a1
 ; ZVFHMIN-NEXT:    addi a1, a1, -1
 ; ZVFHMIN-NEXT:    vand.vx v8, v8, a1
@@ -187,8 +187,8 @@ define <vscale x 16 x half> @vfsgnj_vv_nxv16f16(<vscale x 16 x half> %va, <vscal
 ;
 ; ZVFHMIN-LABEL: vfsgnj_vv_nxv16f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, m4, ta, ma
+; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vand.vx v12, v12, a1, v0.t
 ; ZVFHMIN-NEXT:    addi a1, a1, -1
 ; ZVFHMIN-NEXT:    vand.vx v8, v8, a1, v0.t
@@ -207,8 +207,8 @@ define <vscale x 16 x half> @vfsgnj_vv_nxv16f16_unmasked(<vscale x 16 x half> %v
 ;
 ; ZVFHMIN-LABEL: vfsgnj_vv_nxv16f16_unmasked:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, m4, ta, ma
+; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vand.vx v12, v12, a1
 ; ZVFHMIN-NEXT:    addi a1, a1, -1
 ; ZVFHMIN-NEXT:    vand.vx v8, v8, a1
@@ -229,8 +229,8 @@ define <vscale x 32 x half> @vfsgnj_vv_nxv32f16(<vscale x 32 x half> %va, <vscal
 ;
 ; ZVFHMIN-LABEL: vfsgnj_vv_nxv32f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
+; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vand.vx v16, v16, a1, v0.t
 ; ZVFHMIN-NEXT:    addi a1, a1, -1
 ; ZVFHMIN-NEXT:    vand.vx v8, v8, a1, v0.t
@@ -249,8 +249,8 @@ define <vscale x 32 x half> @vfsgnj_vv_nxv32f16_unmasked(<vscale x 32 x half> %v
 ;
 ; ZVFHMIN-LABEL: vfsgnj_vv_nxv32f16_unmasked:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
+; ZVFHMIN-NEXT:    lui a1, 8
 ; ZVFHMIN-NEXT:    vand.vx v16, v16, a1
 ; ZVFHMIN-NEXT:    addi a1, a1, -1
 ; ZVFHMIN-NEXT:    vand.vx v8, v8, a1

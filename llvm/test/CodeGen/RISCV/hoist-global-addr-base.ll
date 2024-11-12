@@ -18,8 +18,8 @@ define dso_local void @multiple_stores() local_unnamed_addr nounwind {
 ; CHECK-NEXT:    addi a0, a0, %lo(s)
 ; CHECK-NEXT:    li a1, 10
 ; CHECK-NEXT:    li a2, 20
-; CHECK-NEXT:    sw a1, 160(a0)
 ; CHECK-NEXT:    sw a2, 164(a0)
+; CHECK-NEXT:    sw a1, 160(a0)
 ; CHECK-NEXT:    ret
 entry:
   store i32 10, ptr getelementptr inbounds (%struct.S, ptr @s, i32 0, i32 1), align 4
@@ -182,8 +182,8 @@ declare void @abort()
 define dso_local void @one_store() local_unnamed_addr nounwind {
 ; CHECK-LABEL: one_store:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    lui a0, %hi(s+160)
 ; CHECK-NEXT:    li a1, 10
+; CHECK-NEXT:    lui a0, %hi(s+160)
 ; CHECK-NEXT:    sw a1, %lo(s+160)(a0)
 ; CHECK-NEXT:    ret
 entry:
@@ -212,9 +212,9 @@ define ptr @neg_offset_not_simm32() {
 ; RV64-LABEL: neg_offset_not_simm32:
 ; RV64:       # %bb.0:
 ; RV64-NEXT:    lui a0, %hi(bar)
-; RV64-NEXT:    addi a0, a0, %lo(bar)
 ; RV64-NEXT:    lui a1, 524288
 ; RV64-NEXT:    addi a1, a1, -1365
+; RV64-NEXT:    addi a0, a0, %lo(bar)
 ; RV64-NEXT:    add a0, a0, a1
 ; RV64-NEXT:    ret
     ret ptr getelementptr inbounds ([0 x i8], ptr @bar, i32 0, i64 -2147485013)
@@ -323,8 +323,8 @@ define void @self_store() {
 define void @store_addi_addi() {
 ; CHECK-LABEL: store_addi_addi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a0, %hi(bar+3211)
 ; CHECK-NEXT:    li a1, 10
+; CHECK-NEXT:    lui a0, %hi(bar+3211)
 ; CHECK-NEXT:    sb a1, %lo(bar+3211)(a0)
 ; CHECK-NEXT:    ret
   store i8 10, ptr getelementptr inbounds ([0 x i8], ptr @bar, i32 0, i64 3211)
@@ -334,8 +334,8 @@ define void @store_addi_addi() {
 define void @store_addi_addi_neg() {
 ; CHECK-LABEL: store_addi_addi_neg:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a0, %hi(bar-4000)
 ; CHECK-NEXT:    li a1, 10
+; CHECK-NEXT:    lui a0, %hi(bar-4000)
 ; CHECK-NEXT:    sb a1, %lo(bar-4000)(a0)
 ; CHECK-NEXT:    ret
   store i8 10, ptr getelementptr inbounds ([0 x i8], ptr @bar, i32 0, i64 -4000)
@@ -346,8 +346,8 @@ define void @store_addi_addi_neg() {
 define void @store_sh2add() {
 ; CHECK-LABEL: store_sh2add:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a0, %hi(bar+6424)
 ; CHECK-NEXT:    li a1, 10
+; CHECK-NEXT:    lui a0, %hi(bar+6424)
 ; CHECK-NEXT:    sb a1, %lo(bar+6424)(a0)
 ; CHECK-NEXT:    ret
   store i8 10, ptr getelementptr inbounds ([0 x i8], ptr @bar, i32 0, i64 6424)
@@ -358,8 +358,8 @@ define void @store_sh2add() {
 define void @store_sh3add() {
 ; CHECK-LABEL: store_sh3add:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a0, %hi(bar+12848)
 ; CHECK-NEXT:    li a1, 10
+; CHECK-NEXT:    lui a0, %hi(bar+12848)
 ; CHECK-NEXT:    sb a1, %lo(bar+12848)(a0)
 ; CHECK-NEXT:    ret
   store i8 10, ptr getelementptr inbounds ([0 x i8], ptr @bar, i32 0, i64 12848)

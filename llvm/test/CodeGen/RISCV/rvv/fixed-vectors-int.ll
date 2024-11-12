@@ -6,8 +6,8 @@ define void @add_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: add_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vadd.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -22,8 +22,8 @@ define void @add_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: add_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vadd.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -38,8 +38,8 @@ define void @add_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: add_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vadd.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -54,8 +54,8 @@ define void @add_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: add_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vadd.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -70,8 +70,8 @@ define void @add_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: add_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vadd.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -86,8 +86,8 @@ define void @sub_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: sub_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vsub.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -102,8 +102,8 @@ define void @sub_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: sub_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vsub.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -118,8 +118,8 @@ define void @sub_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: sub_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vsub.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -134,8 +134,8 @@ define void @sub_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: sub_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vsub.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -150,8 +150,8 @@ define void @sub_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: sub_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vsub.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -166,8 +166,8 @@ define void @mul_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: mul_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmul.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -182,8 +182,8 @@ define void @mul_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: mul_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmul.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -198,8 +198,8 @@ define void @mul_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: mul_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmul.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -214,8 +214,8 @@ define void @mul_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: mul_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vmul.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -230,8 +230,8 @@ define void @mul_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: mul_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vmul.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -246,8 +246,8 @@ define void @and_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: and_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vand.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -262,8 +262,8 @@ define void @and_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: and_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vand.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -278,8 +278,8 @@ define void @and_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: and_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vand.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -294,8 +294,8 @@ define void @and_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: and_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vand.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -310,8 +310,8 @@ define void @and_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: and_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vand.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -326,8 +326,8 @@ define void @or_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: or_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vor.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -342,8 +342,8 @@ define void @or_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: or_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vor.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -358,8 +358,8 @@ define void @or_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: or_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vor.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -374,8 +374,8 @@ define void @or_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: or_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vor.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -390,8 +390,8 @@ define void @or_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: or_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vor.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -406,8 +406,8 @@ define void @xor_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: xor_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vxor.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -422,8 +422,8 @@ define void @xor_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: xor_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vxor.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -438,8 +438,8 @@ define void @xor_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: xor_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vxor.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -454,8 +454,8 @@ define void @xor_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: xor_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vxor.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -470,8 +470,8 @@ define void @xor_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: xor_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vxor.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -486,8 +486,8 @@ define void @lshr_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: lshr_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vsrl.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -502,8 +502,8 @@ define void @lshr_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: lshr_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vsrl.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -518,8 +518,8 @@ define void @lshr_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: lshr_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vsrl.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -534,8 +534,8 @@ define void @lshr_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: lshr_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vsrl.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -550,8 +550,8 @@ define void @lshr_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: lshr_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vsrl.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -566,8 +566,8 @@ define void @ashr_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: ashr_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vsra.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -582,8 +582,8 @@ define void @ashr_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: ashr_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vsra.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -598,8 +598,8 @@ define void @ashr_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: ashr_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vsra.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -614,8 +614,8 @@ define void @ashr_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: ashr_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vsra.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -630,8 +630,8 @@ define void @ashr_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: ashr_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vsra.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -646,8 +646,8 @@ define void @shl_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: shl_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vsll.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -662,8 +662,8 @@ define void @shl_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: shl_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vsll.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -678,8 +678,8 @@ define void @shl_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: shl_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vsll.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -694,8 +694,8 @@ define void @shl_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: shl_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vsll.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -710,8 +710,8 @@ define void @shl_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: shl_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vsll.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -726,8 +726,8 @@ define void @sdiv_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: sdiv_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vdiv.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -742,8 +742,8 @@ define void @sdiv_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: sdiv_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vdiv.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -758,8 +758,8 @@ define void @sdiv_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: sdiv_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vdiv.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -774,8 +774,8 @@ define void @sdiv_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: sdiv_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vdiv.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -790,8 +790,8 @@ define void @sdiv_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: sdiv_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vdiv.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -806,8 +806,8 @@ define void @srem_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: srem_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vrem.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -822,8 +822,8 @@ define void @srem_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: srem_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vrem.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -838,8 +838,8 @@ define void @srem_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: srem_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vrem.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -854,8 +854,8 @@ define void @srem_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: srem_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vrem.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -870,8 +870,8 @@ define void @srem_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: srem_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vrem.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -886,8 +886,8 @@ define void @udiv_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: udiv_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vdivu.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -902,8 +902,8 @@ define void @udiv_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: udiv_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vdivu.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -918,8 +918,8 @@ define void @udiv_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: udiv_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vdivu.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -934,8 +934,8 @@ define void @udiv_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: udiv_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vdivu.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -950,8 +950,8 @@ define void @udiv_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: udiv_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vdivu.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -966,8 +966,8 @@ define void @urem_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: urem_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vremu.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -982,8 +982,8 @@ define void @urem_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: urem_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vremu.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -998,8 +998,8 @@ define void @urem_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: urem_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vremu.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1014,8 +1014,8 @@ define void @urem_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: urem_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vremu.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1030,8 +1030,8 @@ define void @urem_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: urem_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vremu.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1075,8 +1075,8 @@ define void @mulhu_v16i8(ptr %x) {
 ; CHECK-NEXT:    vsetvli zero, zero, e8, m1, ta, ma
 ; CHECK-NEXT:    vmv.v.i v8, 4
 ; CHECK-NEXT:    vmerge.vim v10, v8, 1, v0
-; CHECK-NEXT:    addi a1, a1, 78
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m2, ta, ma
+; CHECK-NEXT:    addi a1, a1, 78
 ; CHECK-NEXT:    vmv.s.x v0, a1
 ; CHECK-NEXT:    lui a1, 8
 ; CHECK-NEXT:    addi a1, a1, 304
@@ -1118,8 +1118,8 @@ define void @mulhu_v8i16(ptr %x) {
 ; CHECK-NEXT:    vmulhu.vv v8, v8, v10
 ; CHECK-NEXT:    vadd.vv v8, v8, v9
 ; CHECK-NEXT:    li a1, 33
-; CHECK-NEXT:    vmv.s.x v0, a1
 ; CHECK-NEXT:    vmv.v.i v9, 3
+; CHECK-NEXT:    vmv.s.x v0, a1
 ; CHECK-NEXT:    vmerge.vim v9, v9, 2, v0
 ; CHECK-NEXT:    vsetivli zero, 7, e16, m1, tu, ma
 ; CHECK-NEXT:    vslideup.vi v9, v12, 6
@@ -1139,8 +1139,8 @@ define void @mulhu_v6i16(ptr %x) {
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
 ; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    lui a1, %hi(.LCPI67_0)
-; CHECK-NEXT:    addi a1, a1, %lo(.LCPI67_0)
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
+; CHECK-NEXT:    addi a1, a1, %lo(.LCPI67_0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
 ; CHECK-NEXT:    vdivu.vv v8, v8, v9
@@ -1169,9 +1169,9 @@ define void @mulhu_v4i32(ptr %x) {
 ; CHECK-NEXT:    vmulhu.vv v9, v8, v9
 ; CHECK-NEXT:    vsub.vv v8, v8, v9
 ; CHECK-NEXT:    vmulhu.vv v8, v8, v11
-; CHECK-NEXT:    vadd.vv v8, v8, v9
 ; CHECK-NEXT:    lui a1, 4128
 ; CHECK-NEXT:    addi a1, a1, 514
+; CHECK-NEXT:    vadd.vv v8, v8, v9
 ; CHECK-NEXT:    vmv.s.x v9, a1
 ; CHECK-NEXT:    vsext.vf4 v10, v9
 ; CHECK-NEXT:    vsrl.vv v8, v8, v10
@@ -1193,9 +1193,9 @@ define void @mulhu_v2i64(ptr %x) {
 ; RV32-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
 ; RV32-NEXT:    vle32.v v9, (a1)
 ; RV32-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; RV32-NEXT:    vmulhu.vv v8, v8, v9
 ; RV32-NEXT:    lui a1, 32
 ; RV32-NEXT:    addi a1, a1, 1
+; RV32-NEXT:    vmulhu.vv v8, v8, v9
 ; RV32-NEXT:    vmv.s.x v9, a1
 ; RV32-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
 ; RV32-NEXT:    vsext.vf4 v10, v9
@@ -1216,8 +1216,8 @@ define void @mulhu_v2i64(ptr %x) {
 ; RV64-NEXT:    lui a1, 699051
 ; RV64-NEXT:    addiw a1, a1, -1365
 ; RV64-NEXT:    slli a2, a1, 32
-; RV64-NEXT:    add a1, a1, a2
 ; RV64-NEXT:    vsetvli zero, zero, e64, m1, tu, ma
+; RV64-NEXT:    add a1, a1, a2
 ; RV64-NEXT:    vmv.s.x v9, a1
 ; RV64-NEXT:    vsetvli zero, zero, e64, m1, ta, ma
 ; RV64-NEXT:    vmulhu.vv v8, v8, v9
@@ -1243,8 +1243,8 @@ define void @mulhs_v16i8(ptr %x) {
 ; CHECK-NEXT:    addi a1, a1, -1452
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m2, ta, ma
 ; CHECK-NEXT:    vmv.s.x v0, a1
-; CHECK-NEXT:    li a1, 57
 ; CHECK-NEXT:    vsetvli zero, zero, e8, m1, ta, ma
+; CHECK-NEXT:    li a1, 57
 ; CHECK-NEXT:    vmerge.vxm v9, v9, a1, v0
 ; CHECK-NEXT:    vmulhu.vv v8, v8, v9
 ; CHECK-NEXT:    vmv.v.i v9, 7
@@ -1262,12 +1262,12 @@ define void @mulhs_v8i16(ptr %x) {
 ; CHECK-LABEL: mulhs_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    lui a1, 5
 ; CHECK-NEXT:    addi a1, a1, -1755
 ; CHECK-NEXT:    vmv.v.x v9, a1
 ; CHECK-NEXT:    li a1, 105
 ; CHECK-NEXT:    vmv.s.x v0, a1
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    lui a1, 1048571
 ; CHECK-NEXT:    addi a1, a1, 1755
 ; CHECK-NEXT:    vmerge.vxm v9, v9, a1, v0
@@ -1287,9 +1287,9 @@ define void @mulhs_v6i16(ptr %x) {
 ; CHECK-LABEL: mulhs_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    li a1, 22
 ; CHECK-NEXT:    vmv.s.x v0, a1
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
 ; CHECK-NEXT:    vmv.v.i v9, -7
 ; CHECK-NEXT:    vmerge.vim v9, v9, 7, v0
@@ -1311,9 +1311,9 @@ define void @mulhs_v4i32(ptr %x) {
 ; RV32-NEXT:    lui a1, 419430
 ; RV32-NEXT:    addi a1, a1, 1639
 ; RV32-NEXT:    vmv.v.x v9, a1
-; RV32-NEXT:    vmv.v.i v0, 5
 ; RV32-NEXT:    lui a1, 629146
 ; RV32-NEXT:    addi a1, a1, -1639
+; RV32-NEXT:    vmv.v.i v0, 5
 ; RV32-NEXT:    vmerge.vxm v9, v9, a1, v0
 ; RV32-NEXT:    vmulh.vv v8, v8, v9
 ; RV32-NEXT:    vsrl.vi v9, v8, 31
@@ -1362,8 +1362,8 @@ define void @mulhs_v2i64(ptr %x) {
 ; RV32-NEXT:    vsrl.vi v10, v10, 1
 ; RV32-NEXT:    vrsub.vi v10, v10, 0
 ; RV32-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; RV32-NEXT:    vmadd.vv v10, v8, v9
 ; RV32-NEXT:    li a1, 63
+; RV32-NEXT:    vmadd.vv v10, v8, v9
 ; RV32-NEXT:    vsrl.vx v8, v10, a1
 ; RV32-NEXT:    lui a1, 16
 ; RV32-NEXT:    vmv.s.x v9, a1
@@ -1394,8 +1394,8 @@ define void @mulhs_v2i64(ptr %x) {
 ; RV64-NEXT:    vrsub.vi v11, v10, 0
 ; RV64-NEXT:    vmadd.vv v11, v8, v9
 ; RV64-NEXT:    li a1, 63
-; RV64-NEXT:    vsrl.vx v8, v11, a1
 ; RV64-NEXT:    vsra.vv v9, v11, v10
+; RV64-NEXT:    vsrl.vx v8, v11, a1
 ; RV64-NEXT:    vadd.vv v8, v9, v8
 ; RV64-NEXT:    vse64.v v8, (a0)
 ; RV64-NEXT:    ret
@@ -1409,8 +1409,8 @@ define void @smin_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: smin_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmin.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1426,8 +1426,8 @@ define void @smin_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: smin_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmin.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1443,8 +1443,8 @@ define void @smin_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: smin_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmin.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1460,8 +1460,8 @@ define void @smin_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: smin_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vmin.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1477,8 +1477,8 @@ define void @smin_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: smin_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vmin.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1626,8 +1626,8 @@ define void @smax_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: smax_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmax.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1643,8 +1643,8 @@ define void @smax_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: smax_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmax.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1660,8 +1660,8 @@ define void @smax_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: smax_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmax.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1677,8 +1677,8 @@ define void @smax_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: smax_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vmax.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1694,8 +1694,8 @@ define void @smax_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: smax_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vmax.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1843,8 +1843,8 @@ define void @umin_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: umin_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vminu.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1860,8 +1860,8 @@ define void @umin_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: umin_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vminu.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1877,8 +1877,8 @@ define void @umin_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: umin_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vminu.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1894,8 +1894,8 @@ define void @umin_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: umin_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vminu.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -1911,8 +1911,8 @@ define void @umin_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: umin_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vminu.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2060,8 +2060,8 @@ define void @umax_v16i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: umax_v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmaxu.vv v8, v8, v9
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2077,8 +2077,8 @@ define void @umax_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: umax_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmaxu.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2094,8 +2094,8 @@ define void @umax_v6i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: umax_v6i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v9, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmaxu.vv v8, v8, v9
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2111,8 +2111,8 @@ define void @umax_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: umax_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v9, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vmaxu.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2128,8 +2128,8 @@ define void @umax_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: umax_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v9, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vmaxu.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2278,8 +2278,8 @@ define void @add_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vadd.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2294,8 +2294,8 @@ define void @add_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: add_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vadd.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2310,8 +2310,8 @@ define void @add_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: add_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vadd.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2326,8 +2326,8 @@ define void @add_v6i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: add_v6i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 6, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vadd.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2342,8 +2342,8 @@ define void @add_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: add_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vadd.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2359,8 +2359,8 @@ define void @sub_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vsub.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2375,8 +2375,8 @@ define void @sub_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: sub_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vsub.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2391,8 +2391,8 @@ define void @sub_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: sub_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vsub.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2407,8 +2407,8 @@ define void @sub_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: sub_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vsub.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2424,8 +2424,8 @@ define void @mul_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmul.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2440,8 +2440,8 @@ define void @mul_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: mul_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmul.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2456,8 +2456,8 @@ define void @mul_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: mul_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vmul.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2472,8 +2472,8 @@ define void @mul_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: mul_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vmul.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2489,8 +2489,8 @@ define void @and_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vand.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2505,8 +2505,8 @@ define void @and_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: and_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vand.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2521,8 +2521,8 @@ define void @and_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: and_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vand.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2537,8 +2537,8 @@ define void @and_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: and_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vand.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2554,8 +2554,8 @@ define void @or_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vor.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2570,8 +2570,8 @@ define void @or_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: or_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vor.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2586,8 +2586,8 @@ define void @or_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: or_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vor.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2602,8 +2602,8 @@ define void @or_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: or_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vor.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2619,8 +2619,8 @@ define void @xor_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vxor.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2635,8 +2635,8 @@ define void @xor_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: xor_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vxor.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2651,8 +2651,8 @@ define void @xor_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: xor_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vxor.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2667,8 +2667,8 @@ define void @xor_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: xor_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vxor.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2684,8 +2684,8 @@ define void @lshr_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vsrl.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2700,8 +2700,8 @@ define void @lshr_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: lshr_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vsrl.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2716,8 +2716,8 @@ define void @lshr_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: lshr_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vsrl.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2732,8 +2732,8 @@ define void @lshr_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: lshr_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vsrl.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2749,8 +2749,8 @@ define void @ashr_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vsra.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2765,8 +2765,8 @@ define void @ashr_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: ashr_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vsra.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2781,8 +2781,8 @@ define void @ashr_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: ashr_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vsra.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2797,8 +2797,8 @@ define void @ashr_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: ashr_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vsra.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2814,8 +2814,8 @@ define void @shl_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vsll.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2830,8 +2830,8 @@ define void @shl_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: shl_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vsll.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2846,8 +2846,8 @@ define void @shl_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: shl_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vsll.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2862,8 +2862,8 @@ define void @shl_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: shl_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vsll.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2879,8 +2879,8 @@ define void @sdiv_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vdiv.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2895,8 +2895,8 @@ define void @sdiv_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: sdiv_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vdiv.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2911,8 +2911,8 @@ define void @sdiv_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: sdiv_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vdiv.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2927,8 +2927,8 @@ define void @sdiv_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: sdiv_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vdiv.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2944,8 +2944,8 @@ define void @srem_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vrem.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2960,8 +2960,8 @@ define void @srem_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: srem_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vrem.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2976,8 +2976,8 @@ define void @srem_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: srem_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vrem.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -2992,8 +2992,8 @@ define void @srem_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: srem_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vrem.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3009,8 +3009,8 @@ define void @udiv_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vdivu.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3025,8 +3025,8 @@ define void @udiv_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: udiv_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vdivu.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3041,8 +3041,8 @@ define void @udiv_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: udiv_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vdivu.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3057,8 +3057,8 @@ define void @udiv_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: udiv_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vdivu.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3074,8 +3074,8 @@ define void @urem_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vremu.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3090,8 +3090,8 @@ define void @urem_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: urem_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vremu.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3106,8 +3106,8 @@ define void @urem_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: urem_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vremu.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3122,8 +3122,8 @@ define void @urem_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: urem_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vremu.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3138,8 +3138,8 @@ define void @extract_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: extract_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vadd.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3187,8 +3187,8 @@ define void @mulhu_v32i8(ptr %x) {
 ; CHECK-NEXT:    vmv.v.i v8, 4
 ; CHECK-NEXT:    vmerge.vim v12, v8, 1, v0
 ; CHECK-NEXT:    lui a1, 66785
-; CHECK-NEXT:    addi a1, a1, 78
 ; CHECK-NEXT:    vsetvli zero, zero, e32, m8, ta, ma
+; CHECK-NEXT:    addi a1, a1, 78
 ; CHECK-NEXT:    vmv.s.x v0, a1
 ; CHECK-NEXT:    lui a1, 529160
 ; CHECK-NEXT:    addi a1, a1, 304
@@ -3232,10 +3232,10 @@ define void @mulhu_v16i16(ptr %x) {
 ; RV32-NEXT:    vmulhu.vv v14, v16, v14
 ; RV32-NEXT:    vsub.vv v10, v10, v14
 ; RV32-NEXT:    vmulhu.vv v10, v10, v12
-; RV32-NEXT:    vadd.vv v10, v10, v14
 ; RV32-NEXT:    lui a1, 2
 ; RV32-NEXT:    addi a1, a1, 289
 ; RV32-NEXT:    vmv.s.x v0, a1
+; RV32-NEXT:    vadd.vv v10, v10, v14
 ; RV32-NEXT:    vsetvli zero, zero, e8, m1, ta, ma
 ; RV32-NEXT:    vmv.v.i v9, 3
 ; RV32-NEXT:    vmerge.vim v9, v9, 2, v0
@@ -3268,8 +3268,8 @@ define void @mulhu_v16i16(ptr %x) {
 ; RV64-NEXT:    vsrl.vv v14, v8, v16
 ; RV64-NEXT:    vmulhu.vv v12, v14, v12
 ; RV64-NEXT:    lui a1, %hi(.LCPI182_1)
-; RV64-NEXT:    ld a1, %lo(.LCPI182_1)(a1)
 ; RV64-NEXT:    vsub.vv v8, v8, v12
+; RV64-NEXT:    ld a1, %lo(.LCPI182_1)(a1)
 ; RV64-NEXT:    vmulhu.vv v8, v8, v10
 ; RV64-NEXT:    vadd.vv v8, v8, v12
 ; RV64-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
@@ -3303,8 +3303,8 @@ define void @mulhu_v8i32(ptr %x) {
 ; CHECK-NEXT:    vmulhu.vv v8, v8, v12
 ; CHECK-NEXT:    vadd.vv v8, v8, v10
 ; CHECK-NEXT:    lui a1, 4128
-; CHECK-NEXT:    addi a1, a1, 514
 ; CHECK-NEXT:    vsetivli zero, 2, e32, mf2, ta, ma
+; CHECK-NEXT:    addi a1, a1, 514
 ; CHECK-NEXT:    vmv.v.x v10, a1
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
 ; CHECK-NEXT:    vsext.vf4 v12, v10
@@ -3327,16 +3327,16 @@ define void @mulhu_v4i64(ptr %x) {
 ; RV32-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
 ; RV32-NEXT:    vle32.v v10, (a1)
 ; RV32-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; RV32-NEXT:    vmulhu.vv v10, v8, v10
 ; RV32-NEXT:    lui a1, 524288
 ; RV32-NEXT:    vmv.s.x v12, a1
+; RV32-NEXT:    vmulhu.vv v10, v8, v10
 ; RV32-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
 ; RV32-NEXT:    vmv.v.i v14, 0
 ; RV32-NEXT:    vsetivli zero, 6, e32, m2, tu, ma
 ; RV32-NEXT:    vslideup.vi v14, v12, 5
 ; RV32-NEXT:    lui a1, %hi(.LCPI184_1)
-; RV32-NEXT:    addi a1, a1, %lo(.LCPI184_1)
 ; RV32-NEXT:    vsetivli zero, 8, e8, mf2, ta, ma
+; RV32-NEXT:    addi a1, a1, %lo(.LCPI184_1)
 ; RV32-NEXT:    vle8.v v12, (a1)
 ; RV32-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
 ; RV32-NEXT:    vsub.vv v8, v8, v10
@@ -3356,19 +3356,19 @@ define void @mulhu_v4i64(ptr %x) {
 ; RV64-NEXT:    lui a1, %hi(.LCPI184_0)
 ; RV64-NEXT:    addi a1, a1, %lo(.LCPI184_0)
 ; RV64-NEXT:    vle64.v v10, (a1)
-; RV64-NEXT:    vmulhu.vv v10, v8, v10
-; RV64-NEXT:    vsub.vv v8, v8, v10
 ; RV64-NEXT:    li a1, -1
 ; RV64-NEXT:    slli a1, a1, 63
 ; RV64-NEXT:    vmv.s.x v12, a1
+; RV64-NEXT:    vmulhu.vv v10, v8, v10
+; RV64-NEXT:    vsub.vv v8, v8, v10
 ; RV64-NEXT:    vmv.v.i v14, 0
 ; RV64-NEXT:    vsetivli zero, 3, e64, m2, tu, ma
 ; RV64-NEXT:    vslideup.vi v14, v12, 2
 ; RV64-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
 ; RV64-NEXT:    vmulhu.vv v8, v8, v14
-; RV64-NEXT:    vadd.vv v8, v8, v10
 ; RV64-NEXT:    lui a1, 12320
 ; RV64-NEXT:    addi a1, a1, 513
+; RV64-NEXT:    vadd.vv v8, v8, v10
 ; RV64-NEXT:    vmv.s.x v10, a1
 ; RV64-NEXT:    vsext.vf8 v12, v10
 ; RV64-NEXT:    vsrl.vv v8, v8, v12
@@ -3391,12 +3391,12 @@ define void @mulhs_v32i8(ptr %x) {
 ; CHECK-NEXT:    vmv.s.x v0, a1
 ; CHECK-NEXT:    vsetvli zero, zero, e8, m2, ta, ma
 ; CHECK-NEXT:    vmv.v.i v10, 7
-; CHECK-NEXT:    vmerge.vim v10, v10, 1, v0
 ; CHECK-NEXT:    li a1, -123
 ; CHECK-NEXT:    vmv.v.x v12, a1
 ; CHECK-NEXT:    li a1, 57
 ; CHECK-NEXT:    vmerge.vxm v12, v12, a1, v0
 ; CHECK-NEXT:    vmulhu.vv v8, v8, v12
+; CHECK-NEXT:    vmerge.vim v10, v10, 1, v0
 ; CHECK-NEXT:    vsrl.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3410,13 +3410,13 @@ define void @mulhs_v16i16(ptr %x) {
 ; CHECK-LABEL: mulhs_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    lui a1, 5
 ; CHECK-NEXT:    addi a1, a1, -1755
 ; CHECK-NEXT:    vmv.v.x v10, a1
 ; CHECK-NEXT:    lui a1, 7
 ; CHECK-NEXT:    addi a1, a1, -1687
 ; CHECK-NEXT:    vmv.s.x v0, a1
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    lui a1, 1048571
 ; CHECK-NEXT:    addi a1, a1, 1755
 ; CHECK-NEXT:    vmerge.vxm v10, v10, a1, v0
@@ -3436,12 +3436,12 @@ define void @mulhs_v8i32(ptr %x) {
 ; RV32-LABEL: mulhs_v8i32:
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; RV32-NEXT:    vle32.v v8, (a0)
 ; RV32-NEXT:    lui a1, 419430
 ; RV32-NEXT:    addi a1, a1, 1639
 ; RV32-NEXT:    vmv.v.x v10, a1
 ; RV32-NEXT:    li a1, 85
 ; RV32-NEXT:    vmv.s.x v0, a1
+; RV32-NEXT:    vle32.v v8, (a0)
 ; RV32-NEXT:    lui a1, 629146
 ; RV32-NEXT:    addi a1, a1, -1639
 ; RV32-NEXT:    vmerge.vxm v10, v10, a1, v0
@@ -3497,8 +3497,8 @@ define void @mulhs_v4i64(ptr %x) {
 ; RV32-NEXT:    vmadd.vv v14, v8, v10
 ; RV32-NEXT:    li a1, 63
 ; RV32-NEXT:    vsrl.vx v8, v14, a1
-; RV32-NEXT:    lui a1, 16
 ; RV32-NEXT:    vsetivli zero, 2, e32, mf2, ta, ma
+; RV32-NEXT:    lui a1, 16
 ; RV32-NEXT:    vmv.v.x v10, a1
 ; RV32-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
 ; RV32-NEXT:    vsext.vf4 v12, v10
@@ -3528,8 +3528,8 @@ define void @mulhs_v4i64(ptr %x) {
 ; RV64-NEXT:    addi a1, a1, -256
 ; RV64-NEXT:    vmv.s.x v12, a1
 ; RV64-NEXT:    vsext.vf8 v14, v12
-; RV64-NEXT:    vmadd.vv v14, v8, v10
 ; RV64-NEXT:    li a1, 63
+; RV64-NEXT:    vmadd.vv v14, v8, v10
 ; RV64-NEXT:    vsrl.vx v8, v14, a1
 ; RV64-NEXT:    lui a1, 4096
 ; RV64-NEXT:    addi a1, a1, 256
@@ -3550,8 +3550,8 @@ define void @smin_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmin.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3567,8 +3567,8 @@ define void @smin_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: smin_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmin.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3584,8 +3584,8 @@ define void @smin_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: smin_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vmin.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3601,8 +3601,8 @@ define void @smin_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: smin_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vmin.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3619,8 +3619,8 @@ define void @smax_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmax.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3636,8 +3636,8 @@ define void @smax_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: smax_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmax.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3653,8 +3653,8 @@ define void @smax_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: smax_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vmax.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3670,8 +3670,8 @@ define void @smax_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: smax_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vmax.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3688,8 +3688,8 @@ define void @umin_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vminu.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3705,8 +3705,8 @@ define void @umin_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: umin_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vminu.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3722,8 +3722,8 @@ define void @umin_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: umin_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vminu.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3739,8 +3739,8 @@ define void @umin_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: umin_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vminu.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3757,8 +3757,8 @@ define void @umax_v32i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmaxu.vv v8, v8, v10
 ; CHECK-NEXT:    vse8.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3774,8 +3774,8 @@ define void @umax_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: umax_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    vmaxu.vv v8, v8, v10
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3791,8 +3791,8 @@ define void @umax_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: umax_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    vmaxu.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -3808,8 +3808,8 @@ define void @umax_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: umax_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vle64.v v10, (a1)
+; CHECK-NEXT:    vle64.v v8, (a0)
 ; CHECK-NEXT:    vmaxu.vv v8, v8, v10
 ; CHECK-NEXT:    vse64.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -5529,8 +5529,8 @@ define void @mulhu_vx_v2i64(ptr %x) {
 ; RV32-NEXT:    addi a2, a1, -1366
 ; RV32-NEXT:    addi a1, a1, -1365
 ; RV32-NEXT:    sw a1, 8(sp)
-; RV32-NEXT:    sw a2, 12(sp)
 ; RV32-NEXT:    addi a1, sp, 8
+; RV32-NEXT:    sw a2, 12(sp)
 ; RV32-NEXT:    vlse64.v v9, (a1), zero
 ; RV32-NEXT:    vmulhu.vv v8, v8, v9
 ; RV32-NEXT:    vsrl.vi v8, v8, 1
@@ -5542,8 +5542,8 @@ define void @mulhu_vx_v2i64(ptr %x) {
 ; RV64-LABEL: mulhu_vx_v2i64:
 ; RV64:       # %bb.0:
 ; RV64-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; RV64-NEXT:    vle64.v v8, (a0)
 ; RV64-NEXT:    lui a1, 699051
+; RV64-NEXT:    vle64.v v8, (a0)
 ; RV64-NEXT:    addiw a1, a1, -1365
 ; RV64-NEXT:    slli a2, a1, 32
 ; RV64-NEXT:    add a1, a1, a2
@@ -5638,8 +5638,8 @@ define void @mulhs_vx_v2i64(ptr %x) {
 ; RV32-NEXT:    sw a2, 12(sp)
 ; RV32-NEXT:    addi a1, sp, 8
 ; RV32-NEXT:    vlse64.v v9, (a1), zero
-; RV32-NEXT:    vmulh.vv v8, v8, v9
 ; RV32-NEXT:    li a1, 63
+; RV32-NEXT:    vmulh.vv v8, v8, v9
 ; RV32-NEXT:    vsrl.vx v9, v8, a1
 ; RV32-NEXT:    vadd.vv v8, v8, v9
 ; RV32-NEXT:    vse64.v v8, (a0)
@@ -5650,9 +5650,9 @@ define void @mulhs_vx_v2i64(ptr %x) {
 ; RV64-LABEL: mulhs_vx_v2i64:
 ; RV64:       # %bb.0:
 ; RV64-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; RV64-NEXT:    vle64.v v8, (a0)
 ; RV64-NEXT:    lui a1, %hi(.LCPI321_0)
 ; RV64-NEXT:    ld a1, %lo(.LCPI321_0)(a1)
+; RV64-NEXT:    vle64.v v8, (a0)
 ; RV64-NEXT:    vmulh.vx v8, v8, a1
 ; RV64-NEXT:    li a1, 63
 ; RV64-NEXT:    vsrl.vx v9, v8, a1

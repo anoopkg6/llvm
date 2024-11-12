@@ -8,8 +8,8 @@ define dso_local <16 x i16> @interleave(<8 x i16> %v0, <8 x i16> %v1) {
 ; CHECK-LABEL: interleave:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vwaddu.vv v10, v8, v9
 ; CHECK-NEXT:    li a0, -1
+; CHECK-NEXT:    vwaddu.vv v10, v8, v9
 ; CHECK-NEXT:    vwmaccu.vx v10, a0, v9
 ; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    ret

@@ -367,8 +367,8 @@ entry:
 define <vscale x 1 x half> @intrinsic_vfmv.s.f_f_nxv1f16_negzero(<vscale x 1 x half> %0, iXLen %1) nounwind {
 ; CHECK-LABEL: intrinsic_vfmv.s.f_f_nxv1f16_negzero:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    lui a1, 1048568
 ; CHECK-NEXT:    vsetvli zero, a0, e16, m1, tu, ma
+; CHECK-NEXT:    lui a1, 1048568
 ; CHECK-NEXT:    vmv.s.x v8, a1
 ; CHECK-NEXT:    ret
 entry:
@@ -379,8 +379,8 @@ entry:
 define <vscale x 1 x float> @intrinsic_vfmv.s.f_f_nxv1f32_negzero(<vscale x 1 x float> %0, iXLen %1) nounwind {
 ; CHECK-LABEL: intrinsic_vfmv.s.f_f_nxv1f32_negzero:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    lui a1, 524288
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m1, tu, ma
+; CHECK-NEXT:    lui a1, 524288
 ; CHECK-NEXT:    vmv.s.x v8, a1
 ; CHECK-NEXT:    ret
 entry:
@@ -392,16 +392,16 @@ define <vscale x 1 x double> @intrinsic_vfmv.s.f_f_nxv1f64_negzero(<vscale x 1 x
 ; RV32-LABEL: intrinsic_vfmv.s.f_f_nxv1f64_negzero:
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    fcvt.d.w fa5, zero
-; RV32-NEXT:    fneg.d fa5, fa5
 ; RV32-NEXT:    vsetvli zero, a0, e64, m1, tu, ma
+; RV32-NEXT:    fneg.d fa5, fa5
 ; RV32-NEXT:    vfmv.s.f v8, fa5
 ; RV32-NEXT:    ret
 ;
 ; RV64-LABEL: intrinsic_vfmv.s.f_f_nxv1f64_negzero:
 ; RV64:       # %bb.0: # %entry
 ; RV64-NEXT:    li a1, -1
-; RV64-NEXT:    slli a1, a1, 63
 ; RV64-NEXT:    vsetvli zero, a0, e64, m1, tu, ma
+; RV64-NEXT:    slli a1, a1, 63
 ; RV64-NEXT:    vmv.s.x v8, a1
 ; RV64-NEXT:    ret
 entry:

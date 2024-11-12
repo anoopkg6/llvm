@@ -22,8 +22,8 @@ define void @two_fdivs(double %a0, double %a1, double %a2, ptr %res) {
 ; CHECK-NEXT:    fdiv.d fa5, fa5, fa0
 ; CHECK-NEXT:    fmul.d fa4, fa1, fa5
 ; CHECK-NEXT:    fmul.d fa5, fa2, fa5
-; CHECK-NEXT:    fsd fa4, 0(a0)
 ; CHECK-NEXT:    fsd fa5, 8(a0)
+; CHECK-NEXT:    fsd fa4, 0(a0)
 ; CHECK-NEXT:    ret
 entry:
   %div = fdiv arcp double %a1, %a0
@@ -40,8 +40,8 @@ define void @no_arcp(double %a0, double %a1, double %a2, ptr %res) {
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    fdiv.d fa5, fa1, fa0
 ; CHECK-NEXT:    fdiv.d fa4, fa2, fa0
-; CHECK-NEXT:    fsd fa5, 0(a0)
 ; CHECK-NEXT:    fsd fa4, 8(a0)
+; CHECK-NEXT:    fsd fa5, 0(a0)
 ; CHECK-NEXT:    ret
 entry:
   %div = fdiv arcp double %a1, %a0

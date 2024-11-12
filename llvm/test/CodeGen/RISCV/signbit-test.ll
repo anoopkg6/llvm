@@ -7,8 +7,8 @@ define i64 @test_clear_mask_i64_i32(i64 %x) nounwind {
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    bltz a0, .LBB0_2
 ; RV32-NEXT:  # %bb.1: # %t
-; RV32-NEXT:    li a1, 0
 ; RV32-NEXT:    li a0, 42
+; RV32-NEXT:    li a1, 0
 ; RV32-NEXT:  .LBB0_2: # %f
 ; RV32-NEXT:    ret
 ;
@@ -36,8 +36,8 @@ define i64 @test_set_mask_i64_i32(i64 %x) nounwind {
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    bgez a0, .LBB1_2
 ; RV32-NEXT:  # %bb.1: # %t
-; RV32-NEXT:    li a1, 0
 ; RV32-NEXT:    li a0, 42
+; RV32-NEXT:    li a1, 0
 ; RV32-NEXT:  .LBB1_2: # %f
 ; RV32-NEXT:    ret
 ;
@@ -66,8 +66,8 @@ define i64 @test_clear_mask_i64_i16(i64 %x) nounwind {
 ; RV32-NEXT:    slli a2, a0, 16
 ; RV32-NEXT:    bltz a2, .LBB2_2
 ; RV32-NEXT:  # %bb.1: # %t
-; RV32-NEXT:    li a1, 0
 ; RV32-NEXT:    li a0, 42
+; RV32-NEXT:    li a1, 0
 ; RV32-NEXT:  .LBB2_2: # %f
 ; RV32-NEXT:    ret
 ;
@@ -96,8 +96,8 @@ define i64 @test_set_mask_i64_i16(i64 %x) nounwind {
 ; RV32-NEXT:    slli a2, a0, 16
 ; RV32-NEXT:    bgez a2, .LBB3_2
 ; RV32-NEXT:  # %bb.1: # %t
-; RV32-NEXT:    li a1, 0
 ; RV32-NEXT:    li a0, 42
+; RV32-NEXT:    li a1, 0
 ; RV32-NEXT:  .LBB3_2: # %f
 ; RV32-NEXT:    ret
 ;
@@ -126,8 +126,8 @@ define i64 @test_clear_mask_i64_i8(i64 %x) nounwind {
 ; RV32-NEXT:    andi a2, a0, 128
 ; RV32-NEXT:    bnez a2, .LBB4_2
 ; RV32-NEXT:  # %bb.1: # %t
-; RV32-NEXT:    li a1, 0
 ; RV32-NEXT:    li a0, 42
+; RV32-NEXT:    li a1, 0
 ; RV32-NEXT:  .LBB4_2: # %f
 ; RV32-NEXT:    ret
 ;
@@ -156,8 +156,8 @@ define i64 @test_set_mask_i64_i8(i64 %x) nounwind {
 ; RV32-NEXT:    andi a2, a0, 128
 ; RV32-NEXT:    beqz a2, .LBB5_2
 ; RV32-NEXT:  # %bb.1: # %t
-; RV32-NEXT:    li a1, 0
 ; RV32-NEXT:    li a0, 42
+; RV32-NEXT:    li a1, 0
 ; RV32-NEXT:  .LBB5_2: # %f
 ; RV32-NEXT:    ret
 ;

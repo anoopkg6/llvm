@@ -608,8 +608,8 @@ define void @extract_v2i1_v64i1_42(ptr %x, ptr %y) {
 ; VLA-NEXT:    vsetvli zero, a2, e8, m4, ta, ma
 ; VLA-NEXT:    vlm.v v0, (a0)
 ; VLA-NEXT:    vmv.v.i v8, 0
-; VLA-NEXT:    vmerge.vim v8, v8, 1, v0
 ; VLA-NEXT:    li a0, 42
+; VLA-NEXT:    vmerge.vim v8, v8, 1, v0
 ; VLA-NEXT:    vsetivli zero, 2, e8, m4, ta, ma
 ; VLA-NEXT:    vslidedown.vx v8, v8, a0
 ; VLA-NEXT:    vsetivli zero, 2, e8, mf8, ta, ma
@@ -765,8 +765,8 @@ define void @extract_v2i1_nxv64i1_42(<vscale x 64 x i1> %x, ptr %y) {
 ; VLA-NEXT:    vsetvli a1, zero, e8, m8, ta, ma
 ; VLA-NEXT:    vmv.v.i v8, 0
 ; VLA-NEXT:    vmerge.vim v8, v8, 1, v0
-; VLA-NEXT:    li a1, 42
 ; VLA-NEXT:    vsetivli zero, 2, e8, m4, ta, ma
+; VLA-NEXT:    li a1, 42
 ; VLA-NEXT:    vslidedown.vx v8, v8, a1
 ; VLA-NEXT:    vsetivli zero, 2, e8, mf8, ta, ma
 ; VLA-NEXT:    vmsne.vi v0, v8, 0

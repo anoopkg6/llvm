@@ -19,9 +19,9 @@ define <vscale x 1 x i8> @bitreverse_nxv1i8(<vscale x 1 x i8> %va) {
 ; CHECK-NEXT:    vor.vv v8, v9, v8
 ; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    li a0, 85
-; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vor.vv v8, v9, v8
 ; CHECK-NEXT:    ret
 ;
@@ -50,9 +50,9 @@ define <vscale x 2 x i8> @bitreverse_nxv2i8(<vscale x 2 x i8> %va) {
 ; CHECK-NEXT:    vor.vv v8, v9, v8
 ; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    li a0, 85
-; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vor.vv v8, v9, v8
 ; CHECK-NEXT:    ret
 ;
@@ -81,9 +81,9 @@ define <vscale x 4 x i8> @bitreverse_nxv4i8(<vscale x 4 x i8> %va) {
 ; CHECK-NEXT:    vor.vv v8, v9, v8
 ; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    li a0, 85
-; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vor.vv v8, v9, v8
 ; CHECK-NEXT:    ret
 ;
@@ -112,9 +112,9 @@ define <vscale x 8 x i8> @bitreverse_nxv8i8(<vscale x 8 x i8> %va) {
 ; CHECK-NEXT:    vor.vv v8, v9, v8
 ; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    li a0, 85
-; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vor.vv v8, v9, v8
 ; CHECK-NEXT:    ret
 ;
@@ -143,9 +143,9 @@ define <vscale x 16 x i8> @bitreverse_nxv16i8(<vscale x 16 x i8> %va) {
 ; CHECK-NEXT:    vor.vv v8, v10, v8
 ; CHECK-NEXT:    vsrl.vi v10, v8, 1
 ; CHECK-NEXT:    li a0, 85
-; CHECK-NEXT:    vand.vx v10, v10, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v10, v10, a0
 ; CHECK-NEXT:    vor.vv v8, v10, v8
 ; CHECK-NEXT:    ret
 ;
@@ -174,9 +174,9 @@ define <vscale x 32 x i8> @bitreverse_nxv32i8(<vscale x 32 x i8> %va) {
 ; CHECK-NEXT:    vor.vv v8, v12, v8
 ; CHECK-NEXT:    vsrl.vi v12, v8, 1
 ; CHECK-NEXT:    li a0, 85
-; CHECK-NEXT:    vand.vx v12, v12, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v12, v12, a0
 ; CHECK-NEXT:    vor.vv v8, v12, v8
 ; CHECK-NEXT:    ret
 ;
@@ -205,9 +205,9 @@ define <vscale x 64 x i8> @bitreverse_nxv64i8(<vscale x 64 x i8> %va) {
 ; CHECK-NEXT:    vor.vv v8, v16, v8
 ; CHECK-NEXT:    vsrl.vi v16, v8, 1
 ; CHECK-NEXT:    li a0, 85
-; CHECK-NEXT:    vand.vx v16, v16, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v16, v16, a0
 ; CHECK-NEXT:    vor.vv v8, v16, v8
 ; CHECK-NEXT:    ret
 ;
@@ -245,9 +245,9 @@ define <vscale x 1 x i16> @bitreverse_nxv1i16(<vscale x 1 x i16> %va) {
 ; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    lui a0, 5
 ; CHECK-NEXT:    addi a0, a0, 1365
-; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vor.vv v8, v9, v8
 ; CHECK-NEXT:    ret
 ;
@@ -285,9 +285,9 @@ define <vscale x 2 x i16> @bitreverse_nxv2i16(<vscale x 2 x i16> %va) {
 ; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    lui a0, 5
 ; CHECK-NEXT:    addi a0, a0, 1365
-; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vor.vv v8, v9, v8
 ; CHECK-NEXT:    ret
 ;
@@ -325,9 +325,9 @@ define <vscale x 4 x i16> @bitreverse_nxv4i16(<vscale x 4 x i16> %va) {
 ; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    lui a0, 5
 ; CHECK-NEXT:    addi a0, a0, 1365
-; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vor.vv v8, v9, v8
 ; CHECK-NEXT:    ret
 ;
@@ -365,9 +365,9 @@ define <vscale x 8 x i16> @bitreverse_nxv8i16(<vscale x 8 x i16> %va) {
 ; CHECK-NEXT:    vsrl.vi v10, v8, 1
 ; CHECK-NEXT:    lui a0, 5
 ; CHECK-NEXT:    addi a0, a0, 1365
-; CHECK-NEXT:    vand.vx v10, v10, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v10, v10, a0
 ; CHECK-NEXT:    vor.vv v8, v10, v8
 ; CHECK-NEXT:    ret
 ;
@@ -405,9 +405,9 @@ define <vscale x 16 x i16> @bitreverse_nxv16i16(<vscale x 16 x i16> %va) {
 ; CHECK-NEXT:    vsrl.vi v12, v8, 1
 ; CHECK-NEXT:    lui a0, 5
 ; CHECK-NEXT:    addi a0, a0, 1365
-; CHECK-NEXT:    vand.vx v12, v12, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v12, v12, a0
 ; CHECK-NEXT:    vor.vv v8, v12, v8
 ; CHECK-NEXT:    ret
 ;
@@ -445,9 +445,9 @@ define <vscale x 32 x i16> @bitreverse_nxv32i16(<vscale x 32 x i16> %va) {
 ; CHECK-NEXT:    vsrl.vi v16, v8, 1
 ; CHECK-NEXT:    lui a0, 5
 ; CHECK-NEXT:    addi a0, a0, 1365
-; CHECK-NEXT:    vand.vx v16, v16, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v16, v16, a0
 ; CHECK-NEXT:    vor.vv v8, v16, v8
 ; CHECK-NEXT:    ret
 ;
@@ -493,9 +493,9 @@ define <vscale x 1 x i32> @bitreverse_nxv1i32(<vscale x 1 x i32> %va) {
 ; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    lui a0, 349525
 ; CHECK-NEXT:    addi a0, a0, 1365
-; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vor.vv v8, v9, v8
 ; CHECK-NEXT:    ret
 ;
@@ -541,9 +541,9 @@ define <vscale x 2 x i32> @bitreverse_nxv2i32(<vscale x 2 x i32> %va) {
 ; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    lui a0, 349525
 ; CHECK-NEXT:    addi a0, a0, 1365
-; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v9, v9, a0
 ; CHECK-NEXT:    vor.vv v8, v9, v8
 ; CHECK-NEXT:    ret
 ;
@@ -589,9 +589,9 @@ define <vscale x 4 x i32> @bitreverse_nxv4i32(<vscale x 4 x i32> %va) {
 ; CHECK-NEXT:    vsrl.vi v10, v8, 1
 ; CHECK-NEXT:    lui a0, 349525
 ; CHECK-NEXT:    addi a0, a0, 1365
-; CHECK-NEXT:    vand.vx v10, v10, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v10, v10, a0
 ; CHECK-NEXT:    vor.vv v8, v10, v8
 ; CHECK-NEXT:    ret
 ;
@@ -637,9 +637,9 @@ define <vscale x 8 x i32> @bitreverse_nxv8i32(<vscale x 8 x i32> %va) {
 ; CHECK-NEXT:    vsrl.vi v12, v8, 1
 ; CHECK-NEXT:    lui a0, 349525
 ; CHECK-NEXT:    addi a0, a0, 1365
-; CHECK-NEXT:    vand.vx v12, v12, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v12, v12, a0
 ; CHECK-NEXT:    vor.vv v8, v12, v8
 ; CHECK-NEXT:    ret
 ;
@@ -685,9 +685,9 @@ define <vscale x 16 x i32> @bitreverse_nxv16i32(<vscale x 16 x i32> %va) {
 ; CHECK-NEXT:    vsrl.vi v16, v8, 1
 ; CHECK-NEXT:    lui a0, 349525
 ; CHECK-NEXT:    addi a0, a0, 1365
-; CHECK-NEXT:    vand.vx v16, v16, a0
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vadd.vv v8, v8, v8
+; CHECK-NEXT:    vand.vx v16, v16, a0
 ; CHECK-NEXT:    vor.vv v8, v16, v8
 ; CHECK-NEXT:    ret
 ;
@@ -764,9 +764,9 @@ define <vscale x 1 x i64> @bitreverse_nxv1i64(<vscale x 1 x i64> %va) {
 ; RV32-NEXT:    vsetvli a1, zero, e32, m1, ta, ma
 ; RV32-NEXT:    vmv.v.x v10, a0
 ; RV32-NEXT:    vsetvli a0, zero, e64, m1, ta, ma
-; RV32-NEXT:    vand.vv v9, v9, v10
 ; RV32-NEXT:    vand.vv v8, v8, v10
 ; RV32-NEXT:    vadd.vv v8, v8, v8
+; RV32-NEXT:    vand.vv v9, v9, v10
 ; RV32-NEXT:    vor.vv v8, v9, v8
 ; RV32-NEXT:    addi sp, sp, 16
 ; RV32-NEXT:    .cfi_def_cfa_offset 0
@@ -826,9 +826,9 @@ define <vscale x 1 x i64> @bitreverse_nxv1i64(<vscale x 1 x i64> %va) {
 ; RV64-NEXT:    addiw a0, a0, 1365
 ; RV64-NEXT:    slli a1, a0, 32
 ; RV64-NEXT:    add a0, a0, a1
-; RV64-NEXT:    vand.vx v9, v9, a0
 ; RV64-NEXT:    vand.vx v8, v8, a0
 ; RV64-NEXT:    vadd.vv v8, v8, v8
+; RV64-NEXT:    vand.vx v9, v9, a0
 ; RV64-NEXT:    vor.vv v8, v9, v8
 ; RV64-NEXT:    ret
 ;
@@ -905,9 +905,9 @@ define <vscale x 2 x i64> @bitreverse_nxv2i64(<vscale x 2 x i64> %va) {
 ; RV32-NEXT:    vsetvli a1, zero, e32, m2, ta, ma
 ; RV32-NEXT:    vmv.v.x v12, a0
 ; RV32-NEXT:    vsetvli a0, zero, e64, m2, ta, ma
-; RV32-NEXT:    vand.vv v10, v10, v12
 ; RV32-NEXT:    vand.vv v8, v8, v12
 ; RV32-NEXT:    vadd.vv v8, v8, v8
+; RV32-NEXT:    vand.vv v10, v10, v12
 ; RV32-NEXT:    vor.vv v8, v10, v8
 ; RV32-NEXT:    addi sp, sp, 16
 ; RV32-NEXT:    .cfi_def_cfa_offset 0
@@ -967,9 +967,9 @@ define <vscale x 2 x i64> @bitreverse_nxv2i64(<vscale x 2 x i64> %va) {
 ; RV64-NEXT:    addiw a0, a0, 1365
 ; RV64-NEXT:    slli a1, a0, 32
 ; RV64-NEXT:    add a0, a0, a1
-; RV64-NEXT:    vand.vx v10, v10, a0
 ; RV64-NEXT:    vand.vx v8, v8, a0
 ; RV64-NEXT:    vadd.vv v8, v8, v8
+; RV64-NEXT:    vand.vx v10, v10, a0
 ; RV64-NEXT:    vor.vv v8, v10, v8
 ; RV64-NEXT:    ret
 ;
@@ -1046,9 +1046,9 @@ define <vscale x 4 x i64> @bitreverse_nxv4i64(<vscale x 4 x i64> %va) {
 ; RV32-NEXT:    vsetvli a1, zero, e32, m4, ta, ma
 ; RV32-NEXT:    vmv.v.x v16, a0
 ; RV32-NEXT:    vsetvli a0, zero, e64, m4, ta, ma
-; RV32-NEXT:    vand.vv v12, v12, v16
 ; RV32-NEXT:    vand.vv v8, v8, v16
 ; RV32-NEXT:    vadd.vv v8, v8, v8
+; RV32-NEXT:    vand.vv v12, v12, v16
 ; RV32-NEXT:    vor.vv v8, v12, v8
 ; RV32-NEXT:    addi sp, sp, 16
 ; RV32-NEXT:    .cfi_def_cfa_offset 0
@@ -1108,9 +1108,9 @@ define <vscale x 4 x i64> @bitreverse_nxv4i64(<vscale x 4 x i64> %va) {
 ; RV64-NEXT:    addiw a0, a0, 1365
 ; RV64-NEXT:    slli a1, a0, 32
 ; RV64-NEXT:    add a0, a0, a1
-; RV64-NEXT:    vand.vx v12, v12, a0
 ; RV64-NEXT:    vand.vx v8, v8, a0
 ; RV64-NEXT:    vadd.vv v8, v8, v8
+; RV64-NEXT:    vand.vx v12, v12, a0
 ; RV64-NEXT:    vor.vv v8, v12, v8
 ; RV64-NEXT:    ret
 ;
@@ -1157,24 +1157,24 @@ define <vscale x 8 x i64> @bitreverse_nxv8i64(<vscale x 8 x i64> %va) {
 ; RV32-NEXT:    vor.vv v24, v24, v0
 ; RV32-NEXT:    addi a4, sp, 16
 ; RV32-NEXT:    vl8r.v v0, (a4) # Unknown-size Folded Reload
+; RV32-NEXT:    vand.vv v16, v8, v16
+; RV32-NEXT:    vsll.vi v16, v16, 8
 ; RV32-NEXT:    vor.vv v24, v24, v0
 ; RV32-NEXT:    vs8r.v v24, (a4) # Unknown-size Folded Spill
 ; RV32-NEXT:    vand.vx v0, v8, a2
 ; RV32-NEXT:    vsll.vx v0, v0, a1
 ; RV32-NEXT:    vsll.vx v24, v8, a0
 ; RV32-NEXT:    vor.vv v24, v24, v0
-; RV32-NEXT:    vand.vv v16, v8, v16
 ; RV32-NEXT:    vand.vx v8, v8, a3
 ; RV32-NEXT:    vsll.vi v8, v8, 24
-; RV32-NEXT:    vsll.vi v16, v16, 8
 ; RV32-NEXT:    vor.vv v8, v8, v16
 ; RV32-NEXT:    vor.vv v8, v24, v8
 ; RV32-NEXT:    addi a0, sp, 16
 ; RV32-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
-; RV32-NEXT:    vor.vv v8, v8, v16
-; RV32-NEXT:    vsrl.vi v16, v8, 4
 ; RV32-NEXT:    lui a0, 61681
 ; RV32-NEXT:    addi a0, a0, -241
+; RV32-NEXT:    vor.vv v8, v8, v16
+; RV32-NEXT:    vsrl.vi v16, v8, 4
 ; RV32-NEXT:    vsetvli a1, zero, e32, m8, ta, ma
 ; RV32-NEXT:    vmv.v.x v24, a0
 ; RV32-NEXT:    vsetvli a0, zero, e64, m8, ta, ma
@@ -1198,12 +1198,12 @@ define <vscale x 8 x i64> @bitreverse_nxv8i64(<vscale x 8 x i64> %va) {
 ; RV32-NEXT:    vsetvli a1, zero, e32, m8, ta, ma
 ; RV32-NEXT:    vmv.v.x v24, a0
 ; RV32-NEXT:    vsetvli a0, zero, e64, m8, ta, ma
-; RV32-NEXT:    vand.vv v16, v16, v24
 ; RV32-NEXT:    vand.vv v8, v8, v24
-; RV32-NEXT:    vadd.vv v8, v8, v8
-; RV32-NEXT:    vor.vv v8, v16, v8
 ; RV32-NEXT:    csrr a0, vlenb
 ; RV32-NEXT:    slli a0, a0, 3
+; RV32-NEXT:    vadd.vv v8, v8, v8
+; RV32-NEXT:    vand.vv v16, v16, v24
+; RV32-NEXT:    vor.vv v8, v16, v8
 ; RV32-NEXT:    add sp, sp, a0
 ; RV32-NEXT:    .cfi_def_cfa sp, 16
 ; RV32-NEXT:    addi sp, sp, 16
@@ -1264,9 +1264,9 @@ define <vscale x 8 x i64> @bitreverse_nxv8i64(<vscale x 8 x i64> %va) {
 ; RV64-NEXT:    addiw a0, a0, 1365
 ; RV64-NEXT:    slli a1, a0, 32
 ; RV64-NEXT:    add a0, a0, a1
-; RV64-NEXT:    vand.vx v16, v16, a0
 ; RV64-NEXT:    vand.vx v8, v8, a0
 ; RV64-NEXT:    vadd.vv v8, v8, v8
+; RV64-NEXT:    vand.vx v16, v16, a0
 ; RV64-NEXT:    vor.vv v8, v16, v8
 ; RV64-NEXT:    ret
 ;

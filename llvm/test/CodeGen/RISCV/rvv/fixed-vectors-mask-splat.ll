@@ -24,8 +24,8 @@ define void @splat_zeros_v2i1(ptr %x) {
 define void @splat_v1i1(ptr %x, i1 %y) {
 ; CHECK-LABEL: splat_v1i1:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:    vsetivli zero, 1, e8, mf8, ta, ma
+; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:    vmv.s.x v8, a1
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    vmv.s.x v8, zero
@@ -48,8 +48,8 @@ define void @splat_v1i1_icmp(ptr %x, i32 signext %y, i32 signext %z) {
 ; CHECK-LABEL: splat_v1i1_icmp:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    xor a1, a1, a2
-; CHECK-NEXT:    seqz a1, a1
 ; CHECK-NEXT:    vsetivli zero, 1, e8, mf8, ta, ma
+; CHECK-NEXT:    seqz a1, a1
 ; CHECK-NEXT:    vmv.s.x v8, a1
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    vmv.s.x v8, zero
@@ -82,8 +82,8 @@ define void @splat_ones_v4i1(ptr %x) {
 define void @splat_v4i1(ptr %x, i1 %y) {
 ; CHECK-LABEL: splat_v4i1:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:    vsetivli zero, 4, e8, mf4, ta, ma
+; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:    vmv.v.x v8, a1
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    vmv.v.i v8, 0
@@ -114,8 +114,8 @@ define void @splat_zeros_v8i1(ptr %x) {
 define void @splat_v8i1(ptr %x, i1 %y) {
 ; CHECK-LABEL: splat_v8i1:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:    vsetivli zero, 8, e8, mf2, ta, ma
+; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:    vmv.v.x v8, a1
 ; CHECK-NEXT:    vmsne.vi v8, v8, 0
 ; CHECK-NEXT:    vsm.v v8, (a0)
@@ -139,8 +139,8 @@ define void @splat_ones_v16i1(ptr %x) {
 define void @splat_v16i1(ptr %x, i1 %y) {
 ; CHECK-LABEL: splat_v16i1:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
+; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:    vmv.v.x v8, a1
 ; CHECK-NEXT:    vmsne.vi v8, v8, 0
 ; CHECK-NEXT:    vsm.v v8, (a0)
@@ -163,9 +163,9 @@ define void @splat_zeros_v32i1(ptr %x) {
 define void @splat_v32i1(ptr %x, i1 %y) {
 ; CHECK-LABEL: splat_v32i1:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
+; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:    vmv.v.x v8, a1
 ; CHECK-NEXT:    vmsne.vi v10, v8, 0
 ; CHECK-NEXT:    vsm.v v10, (a0)
@@ -197,9 +197,9 @@ define void @splat_ones_v64i1(ptr %x) {
 define void @splat_v64i1(ptr %x, i1 %y) {
 ; CHECK-LABEL: splat_v64i1:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:    li a2, 64
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m4, ta, ma
+; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:    vmv.v.x v8, a1
 ; CHECK-NEXT:    vmsne.vi v12, v8, 0
 ; CHECK-NEXT:    vsm.v v12, (a0)

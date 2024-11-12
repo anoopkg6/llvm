@@ -9,15 +9,15 @@
 define <vscale x 8 x bfloat> @vsplat_nxv8bf16(bfloat %f) {
 ; NOZFMIN-LABEL: vsplat_nxv8bf16:
 ; NOZFMIN:       # %bb.0:
-; NOZFMIN-NEXT:    fmv.x.w a0, fa0
 ; NOZFMIN-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; NOZFMIN-NEXT:    fmv.x.w a0, fa0
 ; NOZFMIN-NEXT:    vmv.v.x v8, a0
 ; NOZFMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vsplat_nxv8bf16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a0, fa0
 ; ZFMIN-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a0, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a0
 ; ZFMIN-NEXT:    ret
   %head = insertelement <vscale x 8 x bfloat> poison, bfloat %f, i32 0
@@ -43,15 +43,15 @@ define <vscale x 8 x half> @vsplat_nxv8f16(half %f) {
 ;
 ; ZVFHMIN-LABEL: vsplat_nxv8f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    fmv.x.w a0, fa0
 ; ZVFHMIN-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; ZVFHMIN-NEXT:    fmv.x.w a0, fa0
 ; ZVFHMIN-NEXT:    vmv.v.x v8, a0
 ; ZVFHMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vsplat_nxv8f16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a0, fa0
 ; ZFMIN-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a0, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a0
 ; ZFMIN-NEXT:    ret
   %head = insertelement <vscale x 8 x half> poison, half %f, i32 0

@@ -121,8 +121,8 @@ define <2 x i32> @vp_bswap_v2i32(<2 x i32> %va, <2 x i1> %m, i32 zeroext %evl) {
 ; CHECK-NEXT:    vsrl.vi v10, v8, 24, v0.t
 ; CHECK-NEXT:    vor.vv v9, v9, v10, v0.t
 ; CHECK-NEXT:    vand.vx v10, v8, a0, v0.t
-; CHECK-NEXT:    vsll.vi v10, v10, 8, v0.t
 ; CHECK-NEXT:    vsll.vi v8, v8, 24, v0.t
+; CHECK-NEXT:    vsll.vi v10, v10, 8, v0.t
 ; CHECK-NEXT:    vor.vv v8, v8, v10, v0.t
 ; CHECK-NEXT:    vor.vv v8, v8, v9, v0.t
 ; CHECK-NEXT:    ret
@@ -141,8 +141,8 @@ define <2 x i32> @vp_bswap_v2i32_unmasked(<2 x i32> %va, i32 zeroext %evl) {
 ; CHECK-NEXT:    vsrl.vi v10, v8, 24
 ; CHECK-NEXT:    vor.vv v9, v9, v10
 ; CHECK-NEXT:    vand.vx v10, v8, a0
-; CHECK-NEXT:    vsll.vi v10, v10, 8
 ; CHECK-NEXT:    vsll.vi v8, v8, 24
+; CHECK-NEXT:    vsll.vi v10, v10, 8
 ; CHECK-NEXT:    vor.vv v8, v8, v10
 ; CHECK-NEXT:    vor.vv v8, v8, v9
 ; CHECK-NEXT:    ret
@@ -163,8 +163,8 @@ define <4 x i32> @vp_bswap_v4i32(<4 x i32> %va, <4 x i1> %m, i32 zeroext %evl) {
 ; CHECK-NEXT:    vsrl.vi v10, v8, 24, v0.t
 ; CHECK-NEXT:    vor.vv v9, v9, v10, v0.t
 ; CHECK-NEXT:    vand.vx v10, v8, a0, v0.t
-; CHECK-NEXT:    vsll.vi v10, v10, 8, v0.t
 ; CHECK-NEXT:    vsll.vi v8, v8, 24, v0.t
+; CHECK-NEXT:    vsll.vi v10, v10, 8, v0.t
 ; CHECK-NEXT:    vor.vv v8, v8, v10, v0.t
 ; CHECK-NEXT:    vor.vv v8, v8, v9, v0.t
 ; CHECK-NEXT:    ret
@@ -183,8 +183,8 @@ define <4 x i32> @vp_bswap_v4i32_unmasked(<4 x i32> %va, i32 zeroext %evl) {
 ; CHECK-NEXT:    vsrl.vi v10, v8, 24
 ; CHECK-NEXT:    vor.vv v9, v9, v10
 ; CHECK-NEXT:    vand.vx v10, v8, a0
-; CHECK-NEXT:    vsll.vi v10, v10, 8
 ; CHECK-NEXT:    vsll.vi v8, v8, 24
+; CHECK-NEXT:    vsll.vi v10, v10, 8
 ; CHECK-NEXT:    vor.vv v8, v8, v10
 ; CHECK-NEXT:    vor.vv v8, v8, v9
 ; CHECK-NEXT:    ret
@@ -205,8 +205,8 @@ define <8 x i32> @vp_bswap_v8i32(<8 x i32> %va, <8 x i1> %m, i32 zeroext %evl) {
 ; CHECK-NEXT:    vsrl.vi v12, v8, 24, v0.t
 ; CHECK-NEXT:    vor.vv v10, v10, v12, v0.t
 ; CHECK-NEXT:    vand.vx v12, v8, a0, v0.t
-; CHECK-NEXT:    vsll.vi v12, v12, 8, v0.t
 ; CHECK-NEXT:    vsll.vi v8, v8, 24, v0.t
+; CHECK-NEXT:    vsll.vi v12, v12, 8, v0.t
 ; CHECK-NEXT:    vor.vv v8, v8, v12, v0.t
 ; CHECK-NEXT:    vor.vv v8, v8, v10, v0.t
 ; CHECK-NEXT:    ret
@@ -225,8 +225,8 @@ define <8 x i32> @vp_bswap_v8i32_unmasked(<8 x i32> %va, i32 zeroext %evl) {
 ; CHECK-NEXT:    vsrl.vi v12, v8, 24
 ; CHECK-NEXT:    vor.vv v10, v10, v12
 ; CHECK-NEXT:    vand.vx v12, v8, a0
-; CHECK-NEXT:    vsll.vi v12, v12, 8
 ; CHECK-NEXT:    vsll.vi v8, v8, 24
+; CHECK-NEXT:    vsll.vi v12, v12, 8
 ; CHECK-NEXT:    vor.vv v8, v8, v12
 ; CHECK-NEXT:    vor.vv v8, v8, v10
 ; CHECK-NEXT:    ret
@@ -247,8 +247,8 @@ define <16 x i32> @vp_bswap_v16i32(<16 x i32> %va, <16 x i1> %m, i32 zeroext %ev
 ; CHECK-NEXT:    vsrl.vi v16, v8, 24, v0.t
 ; CHECK-NEXT:    vor.vv v12, v12, v16, v0.t
 ; CHECK-NEXT:    vand.vx v16, v8, a0, v0.t
-; CHECK-NEXT:    vsll.vi v16, v16, 8, v0.t
 ; CHECK-NEXT:    vsll.vi v8, v8, 24, v0.t
+; CHECK-NEXT:    vsll.vi v16, v16, 8, v0.t
 ; CHECK-NEXT:    vor.vv v8, v8, v16, v0.t
 ; CHECK-NEXT:    vor.vv v8, v8, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -267,8 +267,8 @@ define <16 x i32> @vp_bswap_v16i32_unmasked(<16 x i32> %va, i32 zeroext %evl) {
 ; CHECK-NEXT:    vsrl.vi v16, v8, 24
 ; CHECK-NEXT:    vor.vv v12, v12, v16
 ; CHECK-NEXT:    vand.vx v16, v8, a0
-; CHECK-NEXT:    vsll.vi v16, v16, 8
 ; CHECK-NEXT:    vsll.vi v8, v8, 24
+; CHECK-NEXT:    vsll.vi v16, v16, 8
 ; CHECK-NEXT:    vor.vv v8, v8, v16
 ; CHECK-NEXT:    vor.vv v8, v8, v12
 ; CHECK-NEXT:    ret
@@ -311,9 +311,9 @@ define <2 x i64> @vp_bswap_v2i64(<2 x i64> %va, <2 x i1> %m, i32 zeroext %evl) {
 ; RV32-NEXT:    vand.vx v12, v12, a2, v0.t
 ; RV32-NEXT:    vor.vv v11, v12, v11, v0.t
 ; RV32-NEXT:    vsrl.vi v12, v8, 24, v0.t
-; RV32-NEXT:    vand.vx v12, v12, a4, v0.t
 ; RV32-NEXT:    vsrl.vi v8, v8, 8, v0.t
 ; RV32-NEXT:    vand.vv v8, v8, v10, v0.t
+; RV32-NEXT:    vand.vx v12, v12, a4, v0.t
 ; RV32-NEXT:    vor.vv v8, v8, v12, v0.t
 ; RV32-NEXT:    vor.vv v8, v8, v11, v0.t
 ; RV32-NEXT:    vor.vv v8, v9, v8, v0.t
@@ -346,9 +346,9 @@ define <2 x i64> @vp_bswap_v2i64(<2 x i64> %va, <2 x i1> %m, i32 zeroext %evl) {
 ; RV64-NEXT:    vand.vx v11, v11, a3, v0.t
 ; RV64-NEXT:    vor.vv v10, v11, v10, v0.t
 ; RV64-NEXT:    vsrl.vi v11, v8, 24, v0.t
-; RV64-NEXT:    vand.vx v11, v11, a1, v0.t
 ; RV64-NEXT:    vsrl.vi v8, v8, 8, v0.t
 ; RV64-NEXT:    vand.vx v8, v8, a0, v0.t
+; RV64-NEXT:    vand.vx v11, v11, a1, v0.t
 ; RV64-NEXT:    vor.vv v8, v8, v11, v0.t
 ; RV64-NEXT:    vor.vv v8, v8, v10, v0.t
 ; RV64-NEXT:    vor.vv v8, v9, v8, v0.t
@@ -390,9 +390,9 @@ define <2 x i64> @vp_bswap_v2i64_unmasked(<2 x i64> %va, i32 zeroext %evl) {
 ; RV32-NEXT:    vand.vx v12, v12, a2
 ; RV32-NEXT:    vor.vv v11, v12, v11
 ; RV32-NEXT:    vsrl.vi v12, v8, 24
-; RV32-NEXT:    vand.vx v12, v12, a4
 ; RV32-NEXT:    vsrl.vi v8, v8, 8
 ; RV32-NEXT:    vand.vv v8, v8, v10
+; RV32-NEXT:    vand.vx v12, v12, a4
 ; RV32-NEXT:    vor.vv v8, v8, v12
 ; RV32-NEXT:    vor.vv v8, v8, v11
 ; RV32-NEXT:    vor.vv v8, v9, v8
@@ -425,9 +425,9 @@ define <2 x i64> @vp_bswap_v2i64_unmasked(<2 x i64> %va, i32 zeroext %evl) {
 ; RV64-NEXT:    vand.vx v11, v11, a3
 ; RV64-NEXT:    vor.vv v10, v11, v10
 ; RV64-NEXT:    vsrl.vi v11, v8, 24
-; RV64-NEXT:    vand.vx v11, v11, a1
 ; RV64-NEXT:    vsrl.vi v8, v8, 8
 ; RV64-NEXT:    vand.vx v8, v8, a0
+; RV64-NEXT:    vand.vx v11, v11, a1
 ; RV64-NEXT:    vor.vv v8, v8, v11
 ; RV64-NEXT:    vor.vv v8, v8, v10
 ; RV64-NEXT:    vor.vv v8, v9, v8
@@ -471,9 +471,9 @@ define <4 x i64> @vp_bswap_v4i64(<4 x i64> %va, <4 x i1> %m, i32 zeroext %evl) {
 ; RV32-NEXT:    vand.vx v16, v16, a2, v0.t
 ; RV32-NEXT:    vor.vv v14, v16, v14, v0.t
 ; RV32-NEXT:    vsrl.vi v16, v8, 24, v0.t
-; RV32-NEXT:    vand.vx v16, v16, a4, v0.t
 ; RV32-NEXT:    vsrl.vi v8, v8, 8, v0.t
 ; RV32-NEXT:    vand.vv v8, v8, v12, v0.t
+; RV32-NEXT:    vand.vx v16, v16, a4, v0.t
 ; RV32-NEXT:    vor.vv v8, v8, v16, v0.t
 ; RV32-NEXT:    vor.vv v8, v8, v14, v0.t
 ; RV32-NEXT:    vor.vv v8, v10, v8, v0.t
@@ -506,9 +506,9 @@ define <4 x i64> @vp_bswap_v4i64(<4 x i64> %va, <4 x i1> %m, i32 zeroext %evl) {
 ; RV64-NEXT:    vand.vx v14, v14, a3, v0.t
 ; RV64-NEXT:    vor.vv v12, v14, v12, v0.t
 ; RV64-NEXT:    vsrl.vi v14, v8, 24, v0.t
-; RV64-NEXT:    vand.vx v14, v14, a1, v0.t
 ; RV64-NEXT:    vsrl.vi v8, v8, 8, v0.t
 ; RV64-NEXT:    vand.vx v8, v8, a0, v0.t
+; RV64-NEXT:    vand.vx v14, v14, a1, v0.t
 ; RV64-NEXT:    vor.vv v8, v8, v14, v0.t
 ; RV64-NEXT:    vor.vv v8, v8, v12, v0.t
 ; RV64-NEXT:    vor.vv v8, v10, v8, v0.t
@@ -550,9 +550,9 @@ define <4 x i64> @vp_bswap_v4i64_unmasked(<4 x i64> %va, i32 zeroext %evl) {
 ; RV32-NEXT:    vand.vx v16, v16, a2
 ; RV32-NEXT:    vor.vv v14, v16, v14
 ; RV32-NEXT:    vsrl.vi v16, v8, 24
-; RV32-NEXT:    vand.vx v16, v16, a4
 ; RV32-NEXT:    vsrl.vi v8, v8, 8
 ; RV32-NEXT:    vand.vv v8, v8, v12
+; RV32-NEXT:    vand.vx v16, v16, a4
 ; RV32-NEXT:    vor.vv v8, v8, v16
 ; RV32-NEXT:    vor.vv v8, v8, v14
 ; RV32-NEXT:    vor.vv v8, v10, v8
@@ -585,9 +585,9 @@ define <4 x i64> @vp_bswap_v4i64_unmasked(<4 x i64> %va, i32 zeroext %evl) {
 ; RV64-NEXT:    vand.vx v14, v14, a3
 ; RV64-NEXT:    vor.vv v12, v14, v12
 ; RV64-NEXT:    vsrl.vi v14, v8, 24
-; RV64-NEXT:    vand.vx v14, v14, a1
 ; RV64-NEXT:    vsrl.vi v8, v8, 8
 ; RV64-NEXT:    vand.vx v8, v8, a0
+; RV64-NEXT:    vand.vx v14, v14, a1
 ; RV64-NEXT:    vor.vv v8, v8, v14
 ; RV64-NEXT:    vor.vv v8, v8, v12
 ; RV64-NEXT:    vor.vv v8, v10, v8
@@ -631,9 +631,9 @@ define <8 x i64> @vp_bswap_v8i64(<8 x i64> %va, <8 x i1> %m, i32 zeroext %evl) {
 ; RV32-NEXT:    vand.vx v24, v24, a2, v0.t
 ; RV32-NEXT:    vor.vv v20, v24, v20, v0.t
 ; RV32-NEXT:    vsrl.vi v24, v8, 24, v0.t
-; RV32-NEXT:    vand.vx v24, v24, a4, v0.t
 ; RV32-NEXT:    vsrl.vi v8, v8, 8, v0.t
 ; RV32-NEXT:    vand.vv v8, v8, v12, v0.t
+; RV32-NEXT:    vand.vx v24, v24, a4, v0.t
 ; RV32-NEXT:    vor.vv v8, v8, v24, v0.t
 ; RV32-NEXT:    vor.vv v8, v8, v20, v0.t
 ; RV32-NEXT:    vor.vv v8, v16, v8, v0.t
@@ -666,9 +666,9 @@ define <8 x i64> @vp_bswap_v8i64(<8 x i64> %va, <8 x i1> %m, i32 zeroext %evl) {
 ; RV64-NEXT:    vand.vx v20, v20, a3, v0.t
 ; RV64-NEXT:    vor.vv v16, v20, v16, v0.t
 ; RV64-NEXT:    vsrl.vi v20, v8, 24, v0.t
-; RV64-NEXT:    vand.vx v20, v20, a1, v0.t
 ; RV64-NEXT:    vsrl.vi v8, v8, 8, v0.t
 ; RV64-NEXT:    vand.vx v8, v8, a0, v0.t
+; RV64-NEXT:    vand.vx v20, v20, a1, v0.t
 ; RV64-NEXT:    vor.vv v8, v8, v20, v0.t
 ; RV64-NEXT:    vor.vv v8, v8, v16, v0.t
 ; RV64-NEXT:    vor.vv v8, v12, v8, v0.t
@@ -710,9 +710,9 @@ define <8 x i64> @vp_bswap_v8i64_unmasked(<8 x i64> %va, i32 zeroext %evl) {
 ; RV32-NEXT:    vand.vx v24, v24, a2
 ; RV32-NEXT:    vor.vv v20, v24, v20
 ; RV32-NEXT:    vsrl.vi v24, v8, 24
-; RV32-NEXT:    vand.vx v24, v24, a4
 ; RV32-NEXT:    vsrl.vi v8, v8, 8
 ; RV32-NEXT:    vand.vv v8, v8, v16
+; RV32-NEXT:    vand.vx v24, v24, a4
 ; RV32-NEXT:    vor.vv v8, v8, v24
 ; RV32-NEXT:    vor.vv v8, v8, v20
 ; RV32-NEXT:    vor.vv v8, v12, v8
@@ -745,9 +745,9 @@ define <8 x i64> @vp_bswap_v8i64_unmasked(<8 x i64> %va, i32 zeroext %evl) {
 ; RV64-NEXT:    vand.vx v20, v20, a3
 ; RV64-NEXT:    vor.vv v16, v20, v16
 ; RV64-NEXT:    vsrl.vi v20, v8, 24
-; RV64-NEXT:    vand.vx v20, v20, a1
 ; RV64-NEXT:    vsrl.vi v8, v8, 8
 ; RV64-NEXT:    vand.vx v8, v8, a0
+; RV64-NEXT:    vand.vx v20, v20, a1
 ; RV64-NEXT:    vor.vv v8, v8, v20
 ; RV64-NEXT:    vor.vv v8, v8, v16
 ; RV64-NEXT:    vor.vv v8, v12, v8
@@ -763,8 +763,8 @@ define <15 x i64> @vp_bswap_v15i64(<15 x i64> %va, <15 x i1> %m, i32 zeroext %ev
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    .cfi_def_cfa_offset 16
-; RV32-NEXT:    csrr a1, vlenb
 ; RV32-NEXT:    li a2, 24
+; RV32-NEXT:    csrr a1, vlenb
 ; RV32-NEXT:    mul a1, a1, a2
 ; RV32-NEXT:    sub sp, sp, a1
 ; RV32-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x18, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 24 * vlenb
@@ -802,16 +802,16 @@ define <15 x i64> @vp_bswap_v15i64(<15 x i64> %va, <15 x i1> %m, i32 zeroext %ev
 ; RV32-NEXT:    vand.vv v24, v8, v16, v0.t
 ; RV32-NEXT:    vsll.vi v16, v24, 8, v0.t
 ; RV32-NEXT:    vl8r.v v24, (a0) # Unknown-size Folded Reload
-; RV32-NEXT:    vor.vv v16, v24, v16, v0.t
 ; RV32-NEXT:    csrr a0, vlenb
 ; RV32-NEXT:    slli a0, a0, 4
 ; RV32-NEXT:    add a0, sp, a0
+; RV32-NEXT:    vor.vv v16, v24, v16, v0.t
 ; RV32-NEXT:    addi a0, a0, 16
 ; RV32-NEXT:    vl8r.v v24, (a0) # Unknown-size Folded Reload
-; RV32-NEXT:    vor.vv v16, v24, v16, v0.t
 ; RV32-NEXT:    csrr a0, vlenb
 ; RV32-NEXT:    slli a0, a0, 4
 ; RV32-NEXT:    add a0, sp, a0
+; RV32-NEXT:    vor.vv v16, v24, v16, v0.t
 ; RV32-NEXT:    addi a0, a0, 16
 ; RV32-NEXT:    vs8r.v v16, (a0) # Unknown-size Folded Spill
 ; RV32-NEXT:    vsrl.vx v16, v8, a1, v0.t
@@ -828,20 +828,20 @@ define <15 x i64> @vp_bswap_v15i64(<15 x i64> %va, <15 x i1> %m, i32 zeroext %ev
 ; RV32-NEXT:    add a0, sp, a0
 ; RV32-NEXT:    addi a0, a0, 16
 ; RV32-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
+; RV32-NEXT:    addi a0, sp, 16
+; RV32-NEXT:    li a1, 24
 ; RV32-NEXT:    vand.vv v8, v8, v16, v0.t
 ; RV32-NEXT:    vor.vv v8, v8, v24, v0.t
-; RV32-NEXT:    addi a0, sp, 16
 ; RV32-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
-; RV32-NEXT:    vor.vv v8, v8, v16, v0.t
 ; RV32-NEXT:    csrr a0, vlenb
 ; RV32-NEXT:    slli a0, a0, 4
 ; RV32-NEXT:    add a0, sp, a0
 ; RV32-NEXT:    addi a0, a0, 16
+; RV32-NEXT:    vor.vv v8, v8, v16, v0.t
 ; RV32-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
-; RV32-NEXT:    vor.vv v8, v16, v8, v0.t
 ; RV32-NEXT:    csrr a0, vlenb
-; RV32-NEXT:    li a1, 24
 ; RV32-NEXT:    mul a0, a0, a1
+; RV32-NEXT:    vor.vv v8, v16, v8, v0.t
 ; RV32-NEXT:    add sp, sp, a0
 ; RV32-NEXT:    .cfi_def_cfa sp, 16
 ; RV32-NEXT:    addi sp, sp, 16
@@ -888,12 +888,12 @@ define <15 x i64> @vp_bswap_v15i64(<15 x i64> %va, <15 x i1> %m, i32 zeroext %ev
 ; RV64-NEXT:    vsrl.vi v8, v8, 8, v0.t
 ; RV64-NEXT:    vand.vx v8, v8, a0, v0.t
 ; RV64-NEXT:    vor.vv v8, v8, v16, v0.t
-; RV64-NEXT:    vor.vv v8, v8, v24, v0.t
 ; RV64-NEXT:    addi a0, sp, 16
 ; RV64-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
-; RV64-NEXT:    vor.vv v8, v16, v8, v0.t
 ; RV64-NEXT:    csrr a0, vlenb
 ; RV64-NEXT:    slli a0, a0, 3
+; RV64-NEXT:    vor.vv v8, v8, v24, v0.t
+; RV64-NEXT:    vor.vv v8, v16, v8, v0.t
 ; RV64-NEXT:    add sp, sp, a0
 ; RV64-NEXT:    .cfi_def_cfa sp, 16
 ; RV64-NEXT:    addi sp, sp, 16
@@ -949,11 +949,11 @@ define <15 x i64> @vp_bswap_v15i64_unmasked(<15 x i64> %va, i32 zeroext %evl) {
 ; RV32-NEXT:    vsrl.vi v8, v8, 24
 ; RV32-NEXT:    vand.vx v8, v8, a4
 ; RV32-NEXT:    vor.vv v8, v16, v8
-; RV32-NEXT:    vor.vv v8, v8, v24
 ; RV32-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
-; RV32-NEXT:    vor.vv v8, v16, v8
 ; RV32-NEXT:    csrr a0, vlenb
 ; RV32-NEXT:    slli a0, a0, 3
+; RV32-NEXT:    vor.vv v8, v8, v24
+; RV32-NEXT:    vor.vv v8, v16, v8
 ; RV32-NEXT:    add sp, sp, a0
 ; RV32-NEXT:    .cfi_def_cfa sp, 16
 ; RV32-NEXT:    addi sp, sp, 16
@@ -985,9 +985,9 @@ define <15 x i64> @vp_bswap_v15i64_unmasked(<15 x i64> %va, i32 zeroext %evl) {
 ; RV64-NEXT:    vand.vx v0, v0, a3
 ; RV64-NEXT:    vor.vv v24, v0, v24
 ; RV64-NEXT:    vsrl.vi v0, v8, 24
-; RV64-NEXT:    vand.vx v0, v0, a1
 ; RV64-NEXT:    vsrl.vi v8, v8, 8
 ; RV64-NEXT:    vand.vx v8, v8, a0
+; RV64-NEXT:    vand.vx v0, v0, a1
 ; RV64-NEXT:    vor.vv v8, v8, v0
 ; RV64-NEXT:    vor.vv v8, v8, v24
 ; RV64-NEXT:    vor.vv v8, v16, v8
@@ -1003,8 +1003,8 @@ define <16 x i64> @vp_bswap_v16i64(<16 x i64> %va, <16 x i1> %m, i32 zeroext %ev
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    .cfi_def_cfa_offset 16
-; RV32-NEXT:    csrr a1, vlenb
 ; RV32-NEXT:    li a2, 24
+; RV32-NEXT:    csrr a1, vlenb
 ; RV32-NEXT:    mul a1, a1, a2
 ; RV32-NEXT:    sub sp, sp, a1
 ; RV32-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x18, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 24 * vlenb
@@ -1042,16 +1042,16 @@ define <16 x i64> @vp_bswap_v16i64(<16 x i64> %va, <16 x i1> %m, i32 zeroext %ev
 ; RV32-NEXT:    vand.vv v24, v8, v16, v0.t
 ; RV32-NEXT:    vsll.vi v16, v24, 8, v0.t
 ; RV32-NEXT:    vl8r.v v24, (a0) # Unknown-size Folded Reload
-; RV32-NEXT:    vor.vv v16, v24, v16, v0.t
 ; RV32-NEXT:    csrr a0, vlenb
 ; RV32-NEXT:    slli a0, a0, 4
 ; RV32-NEXT:    add a0, sp, a0
+; RV32-NEXT:    vor.vv v16, v24, v16, v0.t
 ; RV32-NEXT:    addi a0, a0, 16
 ; RV32-NEXT:    vl8r.v v24, (a0) # Unknown-size Folded Reload
-; RV32-NEXT:    vor.vv v16, v24, v16, v0.t
 ; RV32-NEXT:    csrr a0, vlenb
 ; RV32-NEXT:    slli a0, a0, 4
 ; RV32-NEXT:    add a0, sp, a0
+; RV32-NEXT:    vor.vv v16, v24, v16, v0.t
 ; RV32-NEXT:    addi a0, a0, 16
 ; RV32-NEXT:    vs8r.v v16, (a0) # Unknown-size Folded Spill
 ; RV32-NEXT:    vsrl.vx v16, v8, a1, v0.t
@@ -1068,20 +1068,20 @@ define <16 x i64> @vp_bswap_v16i64(<16 x i64> %va, <16 x i1> %m, i32 zeroext %ev
 ; RV32-NEXT:    add a0, sp, a0
 ; RV32-NEXT:    addi a0, a0, 16
 ; RV32-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
+; RV32-NEXT:    addi a0, sp, 16
+; RV32-NEXT:    li a1, 24
 ; RV32-NEXT:    vand.vv v8, v8, v16, v0.t
 ; RV32-NEXT:    vor.vv v8, v8, v24, v0.t
-; RV32-NEXT:    addi a0, sp, 16
 ; RV32-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
-; RV32-NEXT:    vor.vv v8, v8, v16, v0.t
 ; RV32-NEXT:    csrr a0, vlenb
 ; RV32-NEXT:    slli a0, a0, 4
 ; RV32-NEXT:    add a0, sp, a0
 ; RV32-NEXT:    addi a0, a0, 16
+; RV32-NEXT:    vor.vv v8, v8, v16, v0.t
 ; RV32-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
-; RV32-NEXT:    vor.vv v8, v16, v8, v0.t
 ; RV32-NEXT:    csrr a0, vlenb
-; RV32-NEXT:    li a1, 24
 ; RV32-NEXT:    mul a0, a0, a1
+; RV32-NEXT:    vor.vv v8, v16, v8, v0.t
 ; RV32-NEXT:    add sp, sp, a0
 ; RV32-NEXT:    .cfi_def_cfa sp, 16
 ; RV32-NEXT:    addi sp, sp, 16
@@ -1128,12 +1128,12 @@ define <16 x i64> @vp_bswap_v16i64(<16 x i64> %va, <16 x i1> %m, i32 zeroext %ev
 ; RV64-NEXT:    vsrl.vi v8, v8, 8, v0.t
 ; RV64-NEXT:    vand.vx v8, v8, a0, v0.t
 ; RV64-NEXT:    vor.vv v8, v8, v16, v0.t
-; RV64-NEXT:    vor.vv v8, v8, v24, v0.t
 ; RV64-NEXT:    addi a0, sp, 16
 ; RV64-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
-; RV64-NEXT:    vor.vv v8, v16, v8, v0.t
 ; RV64-NEXT:    csrr a0, vlenb
 ; RV64-NEXT:    slli a0, a0, 3
+; RV64-NEXT:    vor.vv v8, v8, v24, v0.t
+; RV64-NEXT:    vor.vv v8, v16, v8, v0.t
 ; RV64-NEXT:    add sp, sp, a0
 ; RV64-NEXT:    .cfi_def_cfa sp, 16
 ; RV64-NEXT:    addi sp, sp, 16
@@ -1189,11 +1189,11 @@ define <16 x i64> @vp_bswap_v16i64_unmasked(<16 x i64> %va, i32 zeroext %evl) {
 ; RV32-NEXT:    vsrl.vi v8, v8, 24
 ; RV32-NEXT:    vand.vx v8, v8, a4
 ; RV32-NEXT:    vor.vv v8, v16, v8
-; RV32-NEXT:    vor.vv v8, v8, v24
 ; RV32-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
-; RV32-NEXT:    vor.vv v8, v16, v8
 ; RV32-NEXT:    csrr a0, vlenb
 ; RV32-NEXT:    slli a0, a0, 3
+; RV32-NEXT:    vor.vv v8, v8, v24
+; RV32-NEXT:    vor.vv v8, v16, v8
 ; RV32-NEXT:    add sp, sp, a0
 ; RV32-NEXT:    .cfi_def_cfa sp, 16
 ; RV32-NEXT:    addi sp, sp, 16
@@ -1225,9 +1225,9 @@ define <16 x i64> @vp_bswap_v16i64_unmasked(<16 x i64> %va, i32 zeroext %evl) {
 ; RV64-NEXT:    vand.vx v0, v0, a3
 ; RV64-NEXT:    vor.vv v24, v0, v24
 ; RV64-NEXT:    vsrl.vi v0, v8, 24
-; RV64-NEXT:    vand.vx v0, v0, a1
 ; RV64-NEXT:    vsrl.vi v8, v8, 8
 ; RV64-NEXT:    vand.vx v8, v8, a0
+; RV64-NEXT:    vand.vx v0, v0, a1
 ; RV64-NEXT:    vor.vv v8, v8, v0
 ; RV64-NEXT:    vor.vv v8, v8, v24
 ; RV64-NEXT:    vor.vv v8, v16, v8
@@ -1252,10 +1252,10 @@ define <128 x i16> @vp_bswap_v128i16(<128 x i16> %va, <128 x i1> %m, i32 zeroext
 ; CHECK-NEXT:    add a1, sp, a1
 ; CHECK-NEXT:    addi a1, a1, 16
 ; CHECK-NEXT:    vs8r.v v16, (a1) # Unknown-size Folded Spill
-; CHECK-NEXT:    li a2, 64
 ; CHECK-NEXT:    vsetivli zero, 8, e8, m1, ta, ma
-; CHECK-NEXT:    vslidedown.vi v24, v0, 8
 ; CHECK-NEXT:    mv a1, a0
+; CHECK-NEXT:    vslidedown.vi v24, v0, 8
+; CHECK-NEXT:    li a2, 64
 ; CHECK-NEXT:    bltu a0, a2, .LBB26_2
 ; CHECK-NEXT:  # %bb.1:
 ; CHECK-NEXT:    li a1, 64
@@ -1277,10 +1277,10 @@ define <128 x i16> @vp_bswap_v128i16(<128 x i16> %va, <128 x i1> %m, i32 zeroext
 ; CHECK-NEXT:    addi a1, a1, 16
 ; CHECK-NEXT:    vl8r.v v8, (a1) # Unknown-size Folded Reload
 ; CHECK-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
+; CHECK-NEXT:    addi a0, sp, 16
 ; CHECK-NEXT:    vsrl.vi v16, v8, 8, v0.t
 ; CHECK-NEXT:    vsll.vi v8, v8, 8, v0.t
 ; CHECK-NEXT:    vor.vv v16, v8, v16, v0.t
-; CHECK-NEXT:    addi a0, sp, 16
 ; CHECK-NEXT:    vl8r.v v8, (a0) # Unknown-size Folded Reload
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 4
@@ -1296,8 +1296,8 @@ define <128 x i16> @vp_bswap_v128i16(<128 x i16> %va, <128 x i1> %m, i32 zeroext
 define <128 x i16> @vp_bswap_v128i16_unmasked(<128 x i16> %va, i32 zeroext %evl) {
 ; CHECK-LABEL: vp_bswap_v128i16_unmasked:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a2, 64
 ; CHECK-NEXT:    mv a1, a0
+; CHECK-NEXT:    li a2, 64
 ; CHECK-NEXT:    bltu a0, a2, .LBB27_2
 ; CHECK-NEXT:  # %bb.1:
 ; CHECK-NEXT:    li a1, 64
@@ -1305,11 +1305,11 @@ define <128 x i16> @vp_bswap_v128i16_unmasked(<128 x i16> %va, i32 zeroext %evl)
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m8, ta, ma
 ; CHECK-NEXT:    vsrl.vi v24, v8, 8
 ; CHECK-NEXT:    vsll.vi v8, v8, 8
-; CHECK-NEXT:    vor.vv v8, v8, v24
 ; CHECK-NEXT:    addi a1, a0, -64
 ; CHECK-NEXT:    sltu a0, a0, a1
 ; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    and a0, a0, a1
+; CHECK-NEXT:    vor.vv v8, v8, v24
 ; CHECK-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
 ; CHECK-NEXT:    vsrl.vi v24, v16, 8
 ; CHECK-NEXT:    vsll.vi v16, v16, 8

@@ -24,9 +24,9 @@ define i15 @foo(i15 %x) nounwind {
 ; CHECK-NEXT:    srli a1, a0, 1
 ; CHECK-NEXT:    lui a2, 1
 ; CHECK-NEXT:    addiw a2, a2, 1365
-; CHECK-NEXT:    and a1, a1, a2
 ; CHECK-NEXT:    slli a0, a0, 49
 ; CHECK-NEXT:    srli a0, a0, 49
+; CHECK-NEXT:    and a1, a1, a2
 ; CHECK-NEXT:    sub a0, a0, a1
 ; CHECK-NEXT:    lui a1, 209715
 ; CHECK-NEXT:    addiw a1, a1, 819

@@ -27,14 +27,14 @@ define i64 @andn_i64(i64 %a, i64 %b) nounwind {
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    not a2, a2
 ; RV32I-NEXT:    not a3, a3
-; RV32I-NEXT:    and a0, a2, a0
 ; RV32I-NEXT:    and a1, a3, a1
+; RV32I-NEXT:    and a0, a2, a0
 ; RV32I-NEXT:    ret
 ;
 ; RV32ZBB-ZBKB-LABEL: andn_i64:
 ; RV32ZBB-ZBKB:       # %bb.0:
-; RV32ZBB-ZBKB-NEXT:    andn a0, a0, a2
 ; RV32ZBB-ZBKB-NEXT:    andn a1, a1, a3
+; RV32ZBB-ZBKB-NEXT:    andn a0, a0, a2
 ; RV32ZBB-ZBKB-NEXT:    ret
   %neg = xor i64 %b, -1
   %and = and i64 %neg, %a
@@ -62,14 +62,14 @@ define i64 @orn_i64(i64 %a, i64 %b) nounwind {
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    not a2, a2
 ; RV32I-NEXT:    not a3, a3
-; RV32I-NEXT:    or a0, a2, a0
 ; RV32I-NEXT:    or a1, a3, a1
+; RV32I-NEXT:    or a0, a2, a0
 ; RV32I-NEXT:    ret
 ;
 ; RV32ZBB-ZBKB-LABEL: orn_i64:
 ; RV32ZBB-ZBKB:       # %bb.0:
-; RV32ZBB-ZBKB-NEXT:    orn a0, a0, a2
 ; RV32ZBB-ZBKB-NEXT:    orn a1, a1, a3
+; RV32ZBB-ZBKB-NEXT:    orn a0, a0, a2
 ; RV32ZBB-ZBKB-NEXT:    ret
   %neg = xor i64 %b, -1
   %or = or i64 %neg, %a
@@ -97,14 +97,14 @@ define i64 @xnor_i64(i64 %a, i64 %b) nounwind {
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    not a0, a0
 ; RV32I-NEXT:    not a1, a1
-; RV32I-NEXT:    xor a0, a0, a2
 ; RV32I-NEXT:    xor a1, a1, a3
+; RV32I-NEXT:    xor a0, a0, a2
 ; RV32I-NEXT:    ret
 ;
 ; RV32ZBB-ZBKB-LABEL: xnor_i64:
 ; RV32ZBB-ZBKB:       # %bb.0:
-; RV32ZBB-ZBKB-NEXT:    xnor a0, a0, a2
 ; RV32ZBB-ZBKB-NEXT:    xnor a1, a1, a3
+; RV32ZBB-ZBKB-NEXT:    xnor a0, a0, a2
 ; RV32ZBB-ZBKB-NEXT:    ret
   %neg = xor i64 %a, -1
   %xor = xor i64 %neg, %b
@@ -138,19 +138,19 @@ declare i64 @llvm.fshl.i64(i64, i64, i64)
 define i64 @rol_i64(i64 %a, i64 %b) nounwind {
 ; CHECK-LABEL: rol_i64:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a6, a2, 63
 ; CHECK-NEXT:    li a4, 32
+; CHECK-NEXT:    andi a6, a2, 63
 ; CHECK-NEXT:    bltu a6, a4, .LBB7_2
 ; CHECK-NEXT:  # %bb.1:
-; CHECK-NEXT:    li a3, 0
 ; CHECK-NEXT:    sll a7, a0, a6
+; CHECK-NEXT:    li a3, 0
 ; CHECK-NEXT:    j .LBB7_3
 ; CHECK-NEXT:  .LBB7_2:
-; CHECK-NEXT:    sll a3, a0, a2
 ; CHECK-NEXT:    neg a5, a6
-; CHECK-NEXT:    srl a5, a0, a5
 ; CHECK-NEXT:    sll a7, a1, a2
+; CHECK-NEXT:    srl a5, a0, a5
 ; CHECK-NEXT:    or a7, a5, a7
+; CHECK-NEXT:    sll a3, a0, a2
 ; CHECK-NEXT:  .LBB7_3:
 ; CHECK-NEXT:    neg a5, a2
 ; CHECK-NEXT:    mv a2, a1
@@ -165,9 +165,9 @@ define i64 @rol_i64(i64 %a, i64 %b) nounwind {
 ; CHECK-NEXT:    bnez a6, .LBB7_8
 ; CHECK-NEXT:    j .LBB7_9
 ; CHECK-NEXT:  .LBB7_7:
-; CHECK-NEXT:    srl a7, a0, a5
 ; CHECK-NEXT:    neg t0, a6
 ; CHECK-NEXT:    sll t0, a1, t0
+; CHECK-NEXT:    srl a7, a0, a5
 ; CHECK-NEXT:    or a7, a7, t0
 ; CHECK-NEXT:    beqz a6, .LBB7_9
 ; CHECK-NEXT:  .LBB7_8:
@@ -180,8 +180,8 @@ define i64 @rol_i64(i64 %a, i64 %b) nounwind {
 ; CHECK-NEXT:  .LBB7_11:
 ; CHECK-NEXT:    srl a1, a1, a5
 ; CHECK-NEXT:  .LBB7_12:
-; CHECK-NEXT:    or a0, a3, a0
 ; CHECK-NEXT:    or a1, a2, a1
+; CHECK-NEXT:    or a0, a3, a0
 ; CHECK-NEXT:    ret
   %or = tail call i64 @llvm.fshl.i64(i64 %a, i64 %a, i64 %b)
   ret i64 %or
@@ -214,8 +214,8 @@ declare i64 @llvm.fshr.i64(i64, i64, i64)
 define i64 @ror_i64(i64 %a, i64 %b) nounwind {
 ; CHECK-LABEL: ror_i64:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a5, a2, 63
 ; CHECK-NEXT:    li a4, 32
+; CHECK-NEXT:    andi a5, a2, 63
 ; CHECK-NEXT:    bltu a5, a4, .LBB9_2
 ; CHECK-NEXT:  # %bb.1:
 ; CHECK-NEXT:    srl a6, a1, a5
@@ -223,9 +223,9 @@ define i64 @ror_i64(i64 %a, i64 %b) nounwind {
 ; CHECK-NEXT:    bnez a5, .LBB9_3
 ; CHECK-NEXT:    j .LBB9_4
 ; CHECK-NEXT:  .LBB9_2:
-; CHECK-NEXT:    srl a3, a0, a2
 ; CHECK-NEXT:    neg a6, a5
 ; CHECK-NEXT:    sll a6, a1, a6
+; CHECK-NEXT:    srl a3, a0, a2
 ; CHECK-NEXT:    or a6, a3, a6
 ; CHECK-NEXT:    mv a3, a0
 ; CHECK-NEXT:    beqz a5, .LBB9_4
@@ -241,8 +241,8 @@ define i64 @ror_i64(i64 %a, i64 %b) nounwind {
 ; CHECK-NEXT:  .LBB9_6:
 ; CHECK-NEXT:    sll a4, a0, a6
 ; CHECK-NEXT:    neg a7, a5
-; CHECK-NEXT:    srl a0, a0, a7
 ; CHECK-NEXT:    sll a6, a1, a6
+; CHECK-NEXT:    srl a0, a0, a7
 ; CHECK-NEXT:    or a0, a0, a6
 ; CHECK-NEXT:    bnez a5, .LBB9_9
 ; CHECK-NEXT:    j .LBB9_10
@@ -251,14 +251,14 @@ define i64 @ror_i64(i64 %a, i64 %b) nounwind {
 ; CHECK-NEXT:    andi a5, a6, 63
 ; CHECK-NEXT:    bltu a5, a4, .LBB9_6
 ; CHECK-NEXT:  .LBB9_8:
-; CHECK-NEXT:    li a4, 0
 ; CHECK-NEXT:    sll a0, a0, a5
+; CHECK-NEXT:    li a4, 0
 ; CHECK-NEXT:    beqz a5, .LBB9_10
 ; CHECK-NEXT:  .LBB9_9:
 ; CHECK-NEXT:    mv a1, a0
 ; CHECK-NEXT:  .LBB9_10:
-; CHECK-NEXT:    or a0, a3, a4
 ; CHECK-NEXT:    or a1, a2, a1
+; CHECK-NEXT:    or a0, a3, a4
 ; CHECK-NEXT:    ret
   %or = tail call i64 @llvm.fshr.i64(i64 %a, i64 %a, i64 %b)
   ret i64 %or
@@ -302,9 +302,9 @@ define i64 @rori_i64(i64 %a) nounwind {
 ; CHECK-NEXT:    slli a2, a0, 31
 ; CHECK-NEXT:    srli a0, a0, 1
 ; CHECK-NEXT:    slli a3, a1, 31
-; CHECK-NEXT:    or a0, a0, a3
 ; CHECK-NEXT:    srli a1, a1, 1
 ; CHECK-NEXT:    or a1, a2, a1
+; CHECK-NEXT:    or a0, a0, a3
 ; CHECK-NEXT:    ret
   %1 = tail call i64 @llvm.fshl.i64(i64 %a, i64 %a, i64 63)
   ret i64 %1
@@ -315,8 +315,8 @@ define i64 @rori_i64_fshr(i64 %a) nounwind {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    srli a2, a1, 31
 ; CHECK-NEXT:    slli a3, a0, 1
-; CHECK-NEXT:    slli a1, a1, 1
 ; CHECK-NEXT:    srli a0, a0, 31
+; CHECK-NEXT:    slli a1, a1, 1
 ; CHECK-NEXT:    or a1, a1, a0
 ; CHECK-NEXT:    or a0, a2, a3
 ; CHECK-NEXT:    ret

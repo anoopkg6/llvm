@@ -246,8 +246,8 @@ define i64 @intrinsic_vmv.x.s_s_nxv1i64(<vscale x 1 x i64> %0) nounwind {
 ; RV32-NEXT:    li a0, 32
 ; RV32-NEXT:    vsetivli zero, 1, e64, m1, ta, ma
 ; RV32-NEXT:    vsrl.vx v9, v8, a0
-; RV32-NEXT:    vmv.x.s a1, v9
 ; RV32-NEXT:    vmv.x.s a0, v8
+; RV32-NEXT:    vmv.x.s a1, v9
 ; RV32-NEXT:    ret
 ;
 ; RV64-LABEL: intrinsic_vmv.x.s_s_nxv1i64:
@@ -268,8 +268,8 @@ define i64 @intrinsic_vmv.x.s_s_nxv2i64(<vscale x 2 x i64> %0) nounwind {
 ; RV32-NEXT:    li a0, 32
 ; RV32-NEXT:    vsetivli zero, 1, e64, m2, ta, ma
 ; RV32-NEXT:    vsrl.vx v10, v8, a0
-; RV32-NEXT:    vmv.x.s a1, v10
 ; RV32-NEXT:    vmv.x.s a0, v8
+; RV32-NEXT:    vmv.x.s a1, v10
 ; RV32-NEXT:    ret
 ;
 ; RV64-LABEL: intrinsic_vmv.x.s_s_nxv2i64:
@@ -290,8 +290,8 @@ define i64 @intrinsic_vmv.x.s_s_nxv4i64(<vscale x 4 x i64> %0) nounwind {
 ; RV32-NEXT:    li a0, 32
 ; RV32-NEXT:    vsetivli zero, 1, e64, m4, ta, ma
 ; RV32-NEXT:    vsrl.vx v12, v8, a0
-; RV32-NEXT:    vmv.x.s a1, v12
 ; RV32-NEXT:    vmv.x.s a0, v8
+; RV32-NEXT:    vmv.x.s a1, v12
 ; RV32-NEXT:    ret
 ;
 ; RV64-LABEL: intrinsic_vmv.x.s_s_nxv4i64:
@@ -312,8 +312,8 @@ define i64 @intrinsic_vmv.x.s_s_nxv8i64(<vscale x 8 x i64> %0) nounwind {
 ; RV32-NEXT:    li a0, 32
 ; RV32-NEXT:    vsetivli zero, 1, e64, m8, ta, ma
 ; RV32-NEXT:    vsrl.vx v16, v8, a0
-; RV32-NEXT:    vmv.x.s a1, v16
 ; RV32-NEXT:    vmv.x.s a0, v8
+; RV32-NEXT:    vmv.x.s a1, v16
 ; RV32-NEXT:    ret
 ;
 ; RV64-LABEL: intrinsic_vmv.x.s_s_nxv8i64:

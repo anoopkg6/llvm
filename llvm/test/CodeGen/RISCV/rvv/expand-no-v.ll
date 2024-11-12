@@ -35,8 +35,8 @@ define i32 @vpreduce_add_v4i32(i32 %s, <4 x i32> %v, <4 x i1> %m, i32 %evl) {
 ; RV32-NEXT:    and a1, a2, a1
 ; RV32-NEXT:    neg a2, a3
 ; RV32-NEXT:    and a2, a2, a5
-; RV32-NEXT:    add a1, a2, a1
 ; RV32-NEXT:    add a4, a4, a6
+; RV32-NEXT:    add a1, a2, a1
 ; RV32-NEXT:    add a1, a4, a1
 ; RV32-NEXT:    add a0, a1, a0
 ; RV32-NEXT:    ret
@@ -71,8 +71,8 @@ define i32 @vpreduce_add_v4i32(i32 %s, <4 x i32> %v, <4 x i1> %m, i32 %evl) {
 ; RV64-NEXT:    and a1, a2, a1
 ; RV64-NEXT:    negw a2, a3
 ; RV64-NEXT:    and a2, a2, a5
-; RV64-NEXT:    add a1, a2, a1
 ; RV64-NEXT:    add a4, a4, a6
+; RV64-NEXT:    add a1, a2, a1
 ; RV64-NEXT:    add a1, a4, a1
 ; RV64-NEXT:    addw a0, a1, a0
 ; RV64-NEXT:    ret

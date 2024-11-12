@@ -423,8 +423,8 @@ define <vscale x 1 x i64> @vshl_vx_nxv1i64_0(<vscale x 1 x i64> %va) {
 define <vscale x 1 x i64> @vshl_vx_nxv1i64_1(<vscale x 1 x i64> %va) {
 ; CHECK-LABEL: vshl_vx_nxv1i64_1:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 32
 ; CHECK-NEXT:    vsetvli a1, zero, e64, m1, ta, ma
+; CHECK-NEXT:    li a0, 32
 ; CHECK-NEXT:    vsll.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %vc = shl <vscale x 1 x i64> %va, splat (i64 32)
@@ -466,8 +466,8 @@ define <vscale x 2 x i64> @vshl_vx_nxv2i64_0(<vscale x 2 x i64> %va) {
 define <vscale x 2 x i64> @vshl_vx_nxv2i64_1(<vscale x 2 x i64> %va) {
 ; CHECK-LABEL: vshl_vx_nxv2i64_1:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 32
 ; CHECK-NEXT:    vsetvli a1, zero, e64, m2, ta, ma
+; CHECK-NEXT:    li a0, 32
 ; CHECK-NEXT:    vsll.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %vc = shl <vscale x 2 x i64> %va, splat (i64 32)
@@ -509,8 +509,8 @@ define <vscale x 4 x i64> @vshl_vx_nxv4i64_0(<vscale x 4 x i64> %va) {
 define <vscale x 4 x i64> @vshl_vx_nxv4i64_1(<vscale x 4 x i64> %va) {
 ; CHECK-LABEL: vshl_vx_nxv4i64_1:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 32
 ; CHECK-NEXT:    vsetvli a1, zero, e64, m4, ta, ma
+; CHECK-NEXT:    li a0, 32
 ; CHECK-NEXT:    vsll.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %vc = shl <vscale x 4 x i64> %va, splat (i64 32)
@@ -552,8 +552,8 @@ define <vscale x 8 x i64> @vshl_vx_nxv8i64_0(<vscale x 8 x i64> %va) {
 define <vscale x 8 x i64> @vshl_vx_nxv8i64_1(<vscale x 8 x i64> %va) {
 ; CHECK-LABEL: vshl_vx_nxv8i64_1:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 32
 ; CHECK-NEXT:    vsetvli a1, zero, e64, m8, ta, ma
+; CHECK-NEXT:    li a0, 32
 ; CHECK-NEXT:    vsll.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %vc = shl <vscale x 8 x i64> %va, splat (i64 32)

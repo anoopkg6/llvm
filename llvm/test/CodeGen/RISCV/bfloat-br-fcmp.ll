@@ -42,8 +42,8 @@ if.else:
 define void @br_fcmp_oeq(bfloat %a, bfloat %b) nounwind {
 ; RV32IZFBFMIN-LABEL: br_fcmp_oeq:
 ; RV32IZFBFMIN:       # %bb.0:
-; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    feq.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    bnez a0, .LBB1_2
 ; RV32IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -55,8 +55,8 @@ define void @br_fcmp_oeq(bfloat %a, bfloat %b) nounwind {
 ;
 ; RV64IZFBFMIN-LABEL: br_fcmp_oeq:
 ; RV64IZFBFMIN:       # %bb.0:
-; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    feq.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    bnez a0, .LBB1_2
 ; RV64IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -77,8 +77,8 @@ if.then:
 define void @br_fcmp_oeq_alt(bfloat %a, bfloat %b) nounwind {
 ; RV32IZFBFMIN-LABEL: br_fcmp_oeq_alt:
 ; RV32IZFBFMIN:       # %bb.0:
-; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    feq.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    bnez a0, .LBB2_2
 ; RV32IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -90,8 +90,8 @@ define void @br_fcmp_oeq_alt(bfloat %a, bfloat %b) nounwind {
 ;
 ; RV64IZFBFMIN-LABEL: br_fcmp_oeq_alt:
 ; RV64IZFBFMIN:       # %bb.0:
-; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    feq.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    bnez a0, .LBB2_2
 ; RV64IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -112,8 +112,8 @@ if.else:
 define void @br_fcmp_ogt(bfloat %a, bfloat %b) nounwind {
 ; RV32IZFBFMIN-LABEL: br_fcmp_ogt:
 ; RV32IZFBFMIN:       # %bb.0:
-; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa1
+; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV32IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    bnez a0, .LBB3_2
 ; RV32IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -125,8 +125,8 @@ define void @br_fcmp_ogt(bfloat %a, bfloat %b) nounwind {
 ;
 ; RV64IZFBFMIN-LABEL: br_fcmp_ogt:
 ; RV64IZFBFMIN:       # %bb.0:
-; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa1
+; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV64IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    bnez a0, .LBB3_2
 ; RV64IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -147,8 +147,8 @@ if.then:
 define void @br_fcmp_oge(bfloat %a, bfloat %b) nounwind {
 ; RV32IZFBFMIN-LABEL: br_fcmp_oge:
 ; RV32IZFBFMIN:       # %bb.0:
-; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa1
+; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV32IZFBFMIN-NEXT:    fle.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    bnez a0, .LBB4_2
 ; RV32IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -160,8 +160,8 @@ define void @br_fcmp_oge(bfloat %a, bfloat %b) nounwind {
 ;
 ; RV64IZFBFMIN-LABEL: br_fcmp_oge:
 ; RV64IZFBFMIN:       # %bb.0:
-; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa1
+; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV64IZFBFMIN-NEXT:    fle.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    bnez a0, .LBB4_2
 ; RV64IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -182,8 +182,8 @@ if.then:
 define void @br_fcmp_olt(bfloat %a, bfloat %b) nounwind {
 ; RV32IZFBFMIN-LABEL: br_fcmp_olt:
 ; RV32IZFBFMIN:       # %bb.0:
-; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    bnez a0, .LBB5_2
 ; RV32IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -195,8 +195,8 @@ define void @br_fcmp_olt(bfloat %a, bfloat %b) nounwind {
 ;
 ; RV64IZFBFMIN-LABEL: br_fcmp_olt:
 ; RV64IZFBFMIN:       # %bb.0:
-; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    bnez a0, .LBB5_2
 ; RV64IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -217,8 +217,8 @@ if.then:
 define void @br_fcmp_ole(bfloat %a, bfloat %b) nounwind {
 ; RV32IZFBFMIN-LABEL: br_fcmp_ole:
 ; RV32IZFBFMIN:       # %bb.0:
-; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    fle.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    bnez a0, .LBB6_2
 ; RV32IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -230,8 +230,8 @@ define void @br_fcmp_ole(bfloat %a, bfloat %b) nounwind {
 ;
 ; RV64IZFBFMIN-LABEL: br_fcmp_ole:
 ; RV64IZFBFMIN:       # %bb.0:
-; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    fle.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    bnez a0, .LBB6_2
 ; RV64IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -254,8 +254,8 @@ define void @br_fcmp_one(bfloat %a, bfloat %b) nounwind {
 ; RV32IZFBFMIN:       # %bb.0:
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
-; RV32IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    flt.s a1, fa5, fa4
+; RV32IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    or a0, a1, a0
 ; RV32IZFBFMIN-NEXT:    bnez a0, .LBB7_2
 ; RV32IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -269,8 +269,8 @@ define void @br_fcmp_one(bfloat %a, bfloat %b) nounwind {
 ; RV64IZFBFMIN:       # %bb.0:
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
-; RV64IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    flt.s a1, fa5, fa4
+; RV64IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    or a0, a1, a0
 ; RV64IZFBFMIN-NEXT:    bnez a0, .LBB7_2
 ; RV64IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -332,8 +332,8 @@ define void @br_fcmp_ueq(bfloat %a, bfloat %b) nounwind {
 ; RV32IZFBFMIN:       # %bb.0:
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
-; RV32IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    flt.s a1, fa5, fa4
+; RV32IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    or a0, a1, a0
 ; RV32IZFBFMIN-NEXT:    beqz a0, .LBB9_2
 ; RV32IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -347,8 +347,8 @@ define void @br_fcmp_ueq(bfloat %a, bfloat %b) nounwind {
 ; RV64IZFBFMIN:       # %bb.0:
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
-; RV64IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    flt.s a1, fa5, fa4
+; RV64IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    or a0, a1, a0
 ; RV64IZFBFMIN-NEXT:    beqz a0, .LBB9_2
 ; RV64IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -369,8 +369,8 @@ if.then:
 define void @br_fcmp_ugt(bfloat %a, bfloat %b) nounwind {
 ; RV32IZFBFMIN-LABEL: br_fcmp_ugt:
 ; RV32IZFBFMIN:       # %bb.0:
-; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    fle.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    beqz a0, .LBB10_2
 ; RV32IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -382,8 +382,8 @@ define void @br_fcmp_ugt(bfloat %a, bfloat %b) nounwind {
 ;
 ; RV64IZFBFMIN-LABEL: br_fcmp_ugt:
 ; RV64IZFBFMIN:       # %bb.0:
-; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    fle.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    beqz a0, .LBB10_2
 ; RV64IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -404,8 +404,8 @@ if.then:
 define void @br_fcmp_uge(bfloat %a, bfloat %b) nounwind {
 ; RV32IZFBFMIN-LABEL: br_fcmp_uge:
 ; RV32IZFBFMIN:       # %bb.0:
-; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    beqz a0, .LBB11_2
 ; RV32IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -417,8 +417,8 @@ define void @br_fcmp_uge(bfloat %a, bfloat %b) nounwind {
 ;
 ; RV64IZFBFMIN-LABEL: br_fcmp_uge:
 ; RV64IZFBFMIN:       # %bb.0:
-; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    beqz a0, .LBB11_2
 ; RV64IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -439,8 +439,8 @@ if.then:
 define void @br_fcmp_ult(bfloat %a, bfloat %b) nounwind {
 ; RV32IZFBFMIN-LABEL: br_fcmp_ult:
 ; RV32IZFBFMIN:       # %bb.0:
-; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa1
+; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV32IZFBFMIN-NEXT:    fle.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    beqz a0, .LBB12_2
 ; RV32IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -452,8 +452,8 @@ define void @br_fcmp_ult(bfloat %a, bfloat %b) nounwind {
 ;
 ; RV64IZFBFMIN-LABEL: br_fcmp_ult:
 ; RV64IZFBFMIN:       # %bb.0:
-; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa1
+; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV64IZFBFMIN-NEXT:    fle.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    beqz a0, .LBB12_2
 ; RV64IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -474,8 +474,8 @@ if.then:
 define void @br_fcmp_ule(bfloat %a, bfloat %b) nounwind {
 ; RV32IZFBFMIN-LABEL: br_fcmp_ule:
 ; RV32IZFBFMIN:       # %bb.0:
-; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa1
+; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV32IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    beqz a0, .LBB13_2
 ; RV32IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -487,8 +487,8 @@ define void @br_fcmp_ule(bfloat %a, bfloat %b) nounwind {
 ;
 ; RV64IZFBFMIN-LABEL: br_fcmp_ule:
 ; RV64IZFBFMIN:       # %bb.0:
-; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa1
+; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa0
 ; RV64IZFBFMIN-NEXT:    flt.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    beqz a0, .LBB13_2
 ; RV64IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -509,8 +509,8 @@ if.then:
 define void @br_fcmp_une(bfloat %a, bfloat %b) nounwind {
 ; RV32IZFBFMIN-LABEL: br_fcmp_une:
 ; RV32IZFBFMIN:       # %bb.0:
-; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV32IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV32IZFBFMIN-NEXT:    feq.s a0, fa4, fa5
 ; RV32IZFBFMIN-NEXT:    beqz a0, .LBB14_2
 ; RV32IZFBFMIN-NEXT:  # %bb.1: # %if.else
@@ -522,8 +522,8 @@ define void @br_fcmp_une(bfloat %a, bfloat %b) nounwind {
 ;
 ; RV64IZFBFMIN-LABEL: br_fcmp_une:
 ; RV64IZFBFMIN:       # %bb.0:
-; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa4, fa0
+; RV64IZFBFMIN-NEXT:    fcvt.s.bf16 fa5, fa1
 ; RV64IZFBFMIN-NEXT:    feq.s a0, fa4, fa5
 ; RV64IZFBFMIN-NEXT:    beqz a0, .LBB14_2
 ; RV64IZFBFMIN-NEXT:  # %bb.1: # %if.else

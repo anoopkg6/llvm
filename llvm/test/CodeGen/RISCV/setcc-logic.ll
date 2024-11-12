@@ -7,16 +7,16 @@
 define i1 @and_icmp_eq(i32 signext %a, i32 signext %b, i32 signext %c, i32 signext %d) nounwind {
 ; RV32I-LABEL: and_icmp_eq:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    xor a0, a0, a1
 ; RV32I-NEXT:    xor a2, a2, a3
+; RV32I-NEXT:    xor a0, a0, a1
 ; RV32I-NEXT:    or a0, a0, a2
 ; RV32I-NEXT:    seqz a0, a0
 ; RV32I-NEXT:    ret
 ;
 ; RV64I-LABEL: and_icmp_eq:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    xor a0, a0, a1
 ; RV64I-NEXT:    xor a2, a2, a3
+; RV64I-NEXT:    xor a0, a0, a1
 ; RV64I-NEXT:    or a0, a0, a2
 ; RV64I-NEXT:    seqz a0, a0
 ; RV64I-NEXT:    ret
@@ -29,16 +29,16 @@ define i1 @and_icmp_eq(i32 signext %a, i32 signext %b, i32 signext %c, i32 signe
 define i1 @or_icmp_ne(i32 signext %a, i32 signext %b, i32 signext %c, i32 signext %d) nounwind {
 ; RV32I-LABEL: or_icmp_ne:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    xor a0, a0, a1
 ; RV32I-NEXT:    xor a2, a2, a3
+; RV32I-NEXT:    xor a0, a0, a1
 ; RV32I-NEXT:    or a0, a0, a2
 ; RV32I-NEXT:    snez a0, a0
 ; RV32I-NEXT:    ret
 ;
 ; RV64I-LABEL: or_icmp_ne:
 ; RV64I:       # %bb.0:
-; RV64I-NEXT:    xor a0, a0, a1
 ; RV64I-NEXT:    xor a2, a2, a3
+; RV64I-NEXT:    xor a0, a0, a1
 ; RV64I-NEXT:    or a0, a0, a2
 ; RV64I-NEXT:    snez a0, a0
 ; RV64I-NEXT:    ret
@@ -54,8 +54,8 @@ define i1 @or_icmps_const_1bit_diff(i64 %x) nounwind {
 ; RV32I-NEXT:    addi a2, a0, -13
 ; RV32I-NEXT:    sltu a0, a2, a0
 ; RV32I-NEXT:    add a0, a1, a0
-; RV32I-NEXT:    addi a0, a0, -1
 ; RV32I-NEXT:    andi a2, a2, -5
+; RV32I-NEXT:    addi a0, a0, -1
 ; RV32I-NEXT:    or a0, a2, a0
 ; RV32I-NEXT:    seqz a0, a0
 ; RV32I-NEXT:    ret
@@ -96,9 +96,9 @@ define i1 @and_icmps_const_not1bit_diff(i32 %x) nounwind {
 ; RV32I-LABEL: and_icmps_const_not1bit_diff:
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    addi a1, a0, -44
-; RV32I-NEXT:    snez a1, a1
 ; RV32I-NEXT:    addi a0, a0, -92
 ; RV32I-NEXT:    snez a0, a0
+; RV32I-NEXT:    snez a1, a1
 ; RV32I-NEXT:    and a0, a1, a0
 ; RV32I-NEXT:    ret
 ;
@@ -106,9 +106,9 @@ define i1 @and_icmps_const_not1bit_diff(i32 %x) nounwind {
 ; RV64I:       # %bb.0:
 ; RV64I-NEXT:    sext.w a0, a0
 ; RV64I-NEXT:    addi a1, a0, -44
-; RV64I-NEXT:    snez a1, a1
 ; RV64I-NEXT:    addi a0, a0, -92
 ; RV64I-NEXT:    snez a0, a0
+; RV64I-NEXT:    snez a1, a1
 ; RV64I-NEXT:    and a0, a1, a0
 ; RV64I-NEXT:    ret
   %a = icmp ne i32 %x, 44

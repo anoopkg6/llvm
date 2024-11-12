@@ -58,8 +58,8 @@ define <4 x i1> @load_large_vector(ptr %p) {
 ; ZVE32X-NEXT:    vmsne.vi v8, v8, 0
 ; ZVE32X-NEXT:    vsetivli zero, 4, e8, mf4, ta, ma
 ; ZVE32X-NEXT:    vmerge.vim v10, v10, 1, v0
-; ZVE32X-NEXT:    vmv1r.v v0, v8
 ; ZVE32X-NEXT:    vsetivli zero, 1, e8, mf4, ta, ma
+; ZVE32X-NEXT:    vmv1r.v v0, v8
 ; ZVE32X-NEXT:    vmerge.vim v8, v9, 1, v0
 ; ZVE32X-NEXT:    vsetivli zero, 4, e8, mf4, ta, ma
 ; ZVE32X-NEXT:    vslideup.vi v10, v8, 3

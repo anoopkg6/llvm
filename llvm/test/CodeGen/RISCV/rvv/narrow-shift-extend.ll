@@ -120,8 +120,8 @@ entry:
 define <vscale x 4 x i32> @test_vloxei6(ptr %ptr, <vscale x 4 x i7> %offset, i64 %vl) {
 ; CHECK-LABEL: test_vloxei6:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    li a2, 127
 ; CHECK-NEXT:    vsetvli a3, zero, e8, mf2, ta, ma
+; CHECK-NEXT:    li a2, 127
 ; CHECK-NEXT:    vand.vx v8, v8, a2
 ; CHECK-NEXT:    vsetvli zero, zero, e64, m4, ta, ma
 ; CHECK-NEXT:    vzext.vf8 v12, v8

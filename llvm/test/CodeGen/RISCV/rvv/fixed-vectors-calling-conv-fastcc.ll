@@ -93,8 +93,8 @@ define fastcc <128 x i32> @ret_split_v128i32(ptr %x) {
 ; CHECK-NEXT:    addi a1, a0, 384
 ; CHECK-NEXT:    vse32.v v24, (a1)
 ; CHECK-NEXT:    addi a1, a0, 256
-; CHECK-NEXT:    vse32.v v0, (a1)
 ; CHECK-NEXT:    addi a0, a0, 128
+; CHECK-NEXT:    vse32.v v0, (a1)
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
   %v = load <128 x i32>, ptr %x
@@ -181,9 +181,9 @@ define fastcc <32 x i32> @ret_v32i32_call_v32i32_v32i32_i32(<32 x i32> %x, <32 x
 ; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    vmv8r.v v24, v8
-; CHECK-NEXT:    li a1, 2
 ; CHECK-NEXT:    vmv8r.v v8, v16
 ; CHECK-NEXT:    vmv8r.v v16, v24
+; CHECK-NEXT:    li a1, 2
 ; CHECK-NEXT:    call ext2
 ; CHECK-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
@@ -199,8 +199,8 @@ define fastcc <32 x i32> @ret_v32i32_call_v32i32_v32i32_v32i32_i32(<32 x i32> %x
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    addi sp, sp, -256
 ; CHECK-NEXT:    .cfi_def_cfa_offset 256
-; CHECK-NEXT:    sd ra, 248(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 240(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 248(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    .cfi_offset s0, -16
 ; CHECK-NEXT:    addi s0, sp, 256
@@ -210,15 +210,15 @@ define fastcc <32 x i32> @ret_v32i32_call_v32i32_v32i32_v32i32_i32(<32 x i32> %x
 ; CHECK-NEXT:    vsetvli zero, a2, e32, m8, ta, ma
 ; CHECK-NEXT:    vle32.v v24, (a0)
 ; CHECK-NEXT:    mv a3, sp
-; CHECK-NEXT:    mv a0, sp
-; CHECK-NEXT:    li a2, 42
 ; CHECK-NEXT:    vse32.v v8, (a3)
 ; CHECK-NEXT:    vmv.v.v v8, v24
+; CHECK-NEXT:    li a2, 42
+; CHECK-NEXT:    mv a0, sp
 ; CHECK-NEXT:    call ext3
 ; CHECK-NEXT:    addi sp, s0, -256
 ; CHECK-NEXT:    .cfi_def_cfa sp, 256
-; CHECK-NEXT:    ld ra, 248(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 240(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 248(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
 ; CHECK-NEXT:    .cfi_restore s0
 ; CHECK-NEXT:    addi sp, sp, 256
@@ -249,8 +249,8 @@ define fastcc <32 x i32> @pass_vector_arg_indirect_stack(<32 x i32> %x, <32 x i3
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    addi sp, sp, -256
 ; CHECK-NEXT:    .cfi_def_cfa_offset 256
-; CHECK-NEXT:    sd ra, 248(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 240(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 248(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    .cfi_offset s0, -16
 ; CHECK-NEXT:    addi s0, sp, 256
@@ -260,23 +260,23 @@ define fastcc <32 x i32> @pass_vector_arg_indirect_stack(<32 x i32> %x, <32 x i3
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m8, ta, ma
 ; CHECK-NEXT:    vmv.v.i v8, 0
 ; CHECK-NEXT:    mv a0, sp
-; CHECK-NEXT:    li a1, 1
-; CHECK-NEXT:    li a2, 2
-; CHECK-NEXT:    li a3, 3
-; CHECK-NEXT:    li a4, 4
-; CHECK-NEXT:    li a5, 5
-; CHECK-NEXT:    li a6, 6
-; CHECK-NEXT:    li a7, 7
-; CHECK-NEXT:    mv t3, sp
-; CHECK-NEXT:    li t4, 8
 ; CHECK-NEXT:    vse32.v v8, (a0)
-; CHECK-NEXT:    li a0, 0
 ; CHECK-NEXT:    vmv.v.i v16, 0
+; CHECK-NEXT:    li a0, 0
+; CHECK-NEXT:    li t4, 8
+; CHECK-NEXT:    mv t3, sp
+; CHECK-NEXT:    li a7, 7
+; CHECK-NEXT:    li a6, 6
+; CHECK-NEXT:    li a5, 5
+; CHECK-NEXT:    li a4, 4
+; CHECK-NEXT:    li a3, 3
+; CHECK-NEXT:    li a2, 2
+; CHECK-NEXT:    li a1, 1
 ; CHECK-NEXT:    call vector_arg_indirect_stack
 ; CHECK-NEXT:    addi sp, s0, -256
 ; CHECK-NEXT:    .cfi_def_cfa sp, 256
-; CHECK-NEXT:    ld ra, 248(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 240(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 248(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
 ; CHECK-NEXT:    .cfi_restore s0
 ; CHECK-NEXT:    addi sp, sp, 256
@@ -291,8 +291,8 @@ define fastcc <32 x i32> @vector_arg_direct_stack(i32 %0, i32 %1, i32 %2, i32 %3
 ; CHECK-LABEL: vector_arg_direct_stack:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a0, 32
-; CHECK-NEXT:    addi a1, sp, 16
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m8, ta, ma
+; CHECK-NEXT:    addi a1, sp, 16
 ; CHECK-NEXT:    vle32.v v24, (a1)
 ; CHECK-NEXT:    vadd.vv v8, v8, v16
 ; CHECK-NEXT:    vadd.vv v8, v8, v24
@@ -318,22 +318,22 @@ define fastcc <32 x i32> @pass_vector_arg_direct_stack(<32 x i32> %x, <32 x i32>
 ; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    sd a0, 144(sp)
 ; CHECK-NEXT:    li a0, 13
-; CHECK-NEXT:    li t0, 12
-; CHECK-NEXT:    li a1, 1
-; CHECK-NEXT:    li a2, 2
-; CHECK-NEXT:    li a3, 3
-; CHECK-NEXT:    li a4, 4
-; CHECK-NEXT:    li a5, 5
-; CHECK-NEXT:    li a6, 6
-; CHECK-NEXT:    li a7, 7
-; CHECK-NEXT:    li t3, 8
-; CHECK-NEXT:    li t4, 9
-; CHECK-NEXT:    li t5, 10
-; CHECK-NEXT:    li t6, 11
-; CHECK-NEXT:    sd t0, 0(sp)
 ; CHECK-NEXT:    sd a0, 8(sp)
-; CHECK-NEXT:    li a0, 0
 ; CHECK-NEXT:    vmv.v.i v16, 0
+; CHECK-NEXT:    li a0, 0
+; CHECK-NEXT:    li t6, 11
+; CHECK-NEXT:    li t5, 10
+; CHECK-NEXT:    li t4, 9
+; CHECK-NEXT:    li t3, 8
+; CHECK-NEXT:    li a7, 7
+; CHECK-NEXT:    li a6, 6
+; CHECK-NEXT:    li a5, 5
+; CHECK-NEXT:    li a4, 4
+; CHECK-NEXT:    li a3, 3
+; CHECK-NEXT:    li a2, 2
+; CHECK-NEXT:    li a1, 1
+; CHECK-NEXT:    li t0, 12
+; CHECK-NEXT:    sd t0, 0(sp)
 ; CHECK-NEXT:    call vector_arg_direct_stack
 ; CHECK-NEXT:    ld ra, 152(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
@@ -349,8 +349,8 @@ define fastcc <32 x i32> @pass_vector_arg_direct_stack(<32 x i32> %x, <32 x i32>
 define fastcc <4 x i1> @vector_mask_arg_direct_stack(i32 %0, i32 %1, i32 %2, i32 %3, i32 %4, i32 %5, i32 %6, i32 %7, i32 %8, i32 %9, i32 %10, i32 %11, i32 %12, i32 %13, <32 x i32> %x, <32 x i32> %y, <32 x i32> %z, <4 x i1> %m1, <4 x i1> %m2, i32 %last) {
 ; CHECK-LABEL: vector_mask_arg_direct_stack:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, sp, 144
 ; CHECK-NEXT:    vsetivli zero, 4, e8, mf4, ta, ma
+; CHECK-NEXT:    addi a0, sp, 144
 ; CHECK-NEXT:    vlm.v v8, (a0)
 ; CHECK-NEXT:    vmxor.mm v0, v0, v8
 ; CHECK-NEXT:    ret

@@ -235,8 +235,8 @@ define i32 @fcmp_ole_q(float %a, float %b) nounwind strictfp {
 define i32 @fcmp_one_q(float %a, float %b) nounwind strictfp {
 ; CHECK-LABEL: fcmp_one_q:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fltq.s a0, fa0, fa1
 ; CHECK-NEXT:    fltq.s a1, fa1, fa0
+; CHECK-NEXT:    fltq.s a0, fa0, fa1
 ; CHECK-NEXT:    or a0, a1, a0
 ; CHECK-NEXT:    ret
   %1 = call i1 @llvm.experimental.constrained.fcmp.f32(float %a, float %b, metadata !"one", metadata !"fpexcept.strict") strictfp
@@ -247,8 +247,8 @@ define i32 @fcmp_one_q(float %a, float %b) nounwind strictfp {
 define i32 @fcmp_ueq_q(float %a, float %b) nounwind strictfp {
 ; CHECK-LABEL: fcmp_ueq_q:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fltq.s a0, fa0, fa1
 ; CHECK-NEXT:    fltq.s a1, fa1, fa0
+; CHECK-NEXT:    fltq.s a0, fa0, fa1
 ; CHECK-NEXT:    or a0, a1, a0
 ; CHECK-NEXT:    xori a0, a0, 1
 ; CHECK-NEXT:    ret
@@ -263,8 +263,8 @@ declare void @foo(float, float)
 define void @fli_remat() {
 ; CHECK-LABEL: fli_remat:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fli.s fa0, 1.0
 ; CHECK-NEXT:    fli.s fa1, 1.0
+; CHECK-NEXT:    fli.s fa0, 1.0
 ; CHECK-NEXT:    tail foo
   tail call void @foo(float 1.000000e+00, float 1.000000e+00)
   ret void
@@ -303,8 +303,8 @@ define float @fma_neg_multiplicand(float %x, float %y) nounwind {
 define float @fma_neg_addend_multiplicand(float %x) nounwind {
 ; CHECK-LABEL: fma_neg_addend_multiplicand:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fli.s fa5, 0.25
 ; CHECK-NEXT:    fli.s fa4, 0.5
+; CHECK-NEXT:    fli.s fa5, 0.25
 ; CHECK-NEXT:    fnmadd.s fa0, fa4, fa0, fa5
 ; CHECK-NEXT:    ret
   %a = call float @llvm.fma.f32(float %x, float -0.5, float -0.25)

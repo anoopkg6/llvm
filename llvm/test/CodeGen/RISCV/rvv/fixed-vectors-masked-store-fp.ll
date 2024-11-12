@@ -244,8 +244,8 @@ define void @masked_store_v32f64(<32 x double> %val, ptr %a, <32 x i1> %mask) {
 ; CHECK-NEXT:    vse64.v v8, (a0), v0.t
 ; CHECK-NEXT:    vsetivli zero, 2, e8, mf4, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v0, v0, 2
-; CHECK-NEXT:    addi a0, a0, 128
 ; CHECK-NEXT:    vsetivli zero, 16, e64, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, 128
 ; CHECK-NEXT:    vse64.v v16, (a0), v0.t
 ; CHECK-NEXT:    ret
   call void @llvm.masked.store.v32f64.p0(<32 x double> %val, ptr %a, i32 8, <32 x i1> %mask)
@@ -282,8 +282,8 @@ define void @masked_store_v64f32(<64 x float> %val, ptr %a, <64 x i1> %mask) {
 ; CHECK-NEXT:    vse32.v v8, (a0), v0.t
 ; CHECK-NEXT:    vsetivli zero, 4, e8, mf2, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v0, v0, 4
-; CHECK-NEXT:    addi a0, a0, 128
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, 128
 ; CHECK-NEXT:    vse32.v v16, (a0), v0.t
 ; CHECK-NEXT:    ret
   call void @llvm.masked.store.v64f32.p0(<64 x float> %val, ptr %a, i32 8, <64 x i1> %mask)
@@ -298,8 +298,8 @@ define void @masked_store_v128bf16(<128 x bfloat> %val, ptr %a, <128 x i1> %mask
 ; CHECK-NEXT:    vse16.v v8, (a0), v0.t
 ; CHECK-NEXT:    vsetivli zero, 8, e8, m1, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v0, v0, 8
-; CHECK-NEXT:    addi a0, a0, 128
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, 128
 ; CHECK-NEXT:    vse16.v v16, (a0), v0.t
 ; CHECK-NEXT:    ret
   call void @llvm.masked.store.v128bf16.p0(<128 x bfloat> %val, ptr %a, i32 8, <128 x i1> %mask)
@@ -314,8 +314,8 @@ define void @masked_store_v128f16(<128 x half> %val, ptr %a, <128 x i1> %mask) {
 ; CHECK-NEXT:    vse16.v v8, (a0), v0.t
 ; CHECK-NEXT:    vsetivli zero, 8, e8, m1, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v0, v0, 8
-; CHECK-NEXT:    addi a0, a0, 128
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, 128
 ; CHECK-NEXT:    vse16.v v16, (a0), v0.t
 ; CHECK-NEXT:    ret
   call void @llvm.masked.store.v128f16.p0(<128 x half> %val, ptr %a, i32 8, <128 x i1> %mask)

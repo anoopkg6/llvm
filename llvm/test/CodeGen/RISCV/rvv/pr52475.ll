@@ -9,8 +9,8 @@ define <128 x i32> @ret_split_v128i32(ptr %x) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e32, m4, ta, ma
 ; CHECK-NEXT:    vle32.v v8, (a1)
-; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    addi a2, a1, 448
+; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    vle32.v v8, (a2)
 ; CHECK-NEXT:    addi a2, a0, 448
 ; CHECK-NEXT:    vse32.v v8, (a2)
@@ -33,8 +33,8 @@ define <128 x i32> @ret_split_v128i32(ptr %x) {
 ; CHECK-NEXT:    addi a2, a1, 128
 ; CHECK-NEXT:    vle32.v v8, (a2)
 ; CHECK-NEXT:    addi a2, a0, 128
-; CHECK-NEXT:    vse32.v v8, (a2)
 ; CHECK-NEXT:    addi a1, a1, 64
+; CHECK-NEXT:    vse32.v v8, (a2)
 ; CHECK-NEXT:    vle32.v v8, (a1)
 ; CHECK-NEXT:    addi a0, a0, 64
 ; CHECK-NEXT:    vse32.v v8, (a0)

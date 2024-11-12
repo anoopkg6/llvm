@@ -27,8 +27,8 @@ define i32 @fcvt_wu_s(float %a) nounwind {
 define i32 @fcvt_wu_s_multiple_use(float %x, ptr %y) nounwind {
 ; RV32IF-LABEL: fcvt_wu_s_multiple_use:
 ; RV32IF:       # %bb.0:
-; RV32IF-NEXT:    fcvt.wu.s a1, fa0, rtz
 ; RV32IF-NEXT:    li a0, 1
+; RV32IF-NEXT:    fcvt.wu.s a1, fa0, rtz
 ; RV32IF-NEXT:    beqz a1, .LBB2_2
 ; RV32IF-NEXT:  # %bb.1:
 ; RV32IF-NEXT:    mv a0, a1
@@ -120,8 +120,8 @@ define float @fcvt_s_wu_load(ptr %p) nounwind {
 define float @fmv_w_x(i32 %a, i32 %b) nounwind {
 ; CHECKIF-LABEL: fmv_w_x:
 ; CHECKIF:       # %bb.0:
-; CHECKIF-NEXT:    fmv.w.x fa5, a0
 ; CHECKIF-NEXT:    fmv.w.x fa4, a1
+; CHECKIF-NEXT:    fmv.w.x fa5, a0
 ; CHECKIF-NEXT:    fadd.s fa0, fa5, fa4
 ; CHECKIF-NEXT:    ret
 ; Ensure fmv.w.x is generated even for a soft float calling convention
@@ -302,17 +302,17 @@ define signext i16 @fcvt_w_s_i16(float %a) nounwind {
 define zeroext i16 @fcvt_wu_s_i16(float %a) nounwind {
 ; RV32IF-LABEL: fcvt_wu_s_i16:
 ; RV32IF:       # %bb.0:
-; RV32IF-NEXT:    fcvt.wu.s a0, fa0, rtz
 ; RV32IF-NEXT:    lui a1, 16
 ; RV32IF-NEXT:    addi a1, a1, -1
+; RV32IF-NEXT:    fcvt.wu.s a0, fa0, rtz
 ; RV32IF-NEXT:    and a0, a0, a1
 ; RV32IF-NEXT:    ret
 ;
 ; RV64IF-LABEL: fcvt_wu_s_i16:
 ; RV64IF:       # %bb.0:
-; RV64IF-NEXT:    fcvt.wu.s a0, fa0, rtz
 ; RV64IF-NEXT:    lui a1, 16
 ; RV64IF-NEXT:    addiw a1, a1, -1
+; RV64IF-NEXT:    fcvt.wu.s a0, fa0, rtz
 ; RV64IF-NEXT:    and a0, a0, a1
 ; RV64IF-NEXT:    ret
   %1 = fptoui float %a to i16

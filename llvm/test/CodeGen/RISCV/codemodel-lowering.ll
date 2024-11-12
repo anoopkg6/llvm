@@ -68,31 +68,31 @@ define i32 @lower_global(i32 %a) nounwind {
 define void @lower_blockaddress() nounwind {
 ; RV32I-SMALL-LABEL: lower_blockaddress:
 ; RV32I-SMALL:       # %bb.0:
-; RV32I-SMALL-NEXT:    lui a0, %hi(addr)
 ; RV32I-SMALL-NEXT:    li a1, 1
+; RV32I-SMALL-NEXT:    lui a0, %hi(addr)
 ; RV32I-SMALL-NEXT:    sw a1, %lo(addr)(a0)
 ; RV32I-SMALL-NEXT:    ret
 ;
 ; RV32I-MEDIUM-LABEL: lower_blockaddress:
 ; RV32I-MEDIUM:       # %bb.0:
+; RV32I-MEDIUM-NEXT:    li a1, 1
 ; RV32I-MEDIUM-NEXT:  .Lpcrel_hi1:
 ; RV32I-MEDIUM-NEXT:    auipc a0, %pcrel_hi(addr)
-; RV32I-MEDIUM-NEXT:    li a1, 1
 ; RV32I-MEDIUM-NEXT:    sw a1, %pcrel_lo(.Lpcrel_hi1)(a0)
 ; RV32I-MEDIUM-NEXT:    ret
 ;
 ; RV64I-SMALL-LABEL: lower_blockaddress:
 ; RV64I-SMALL:       # %bb.0:
-; RV64I-SMALL-NEXT:    lui a0, %hi(addr)
 ; RV64I-SMALL-NEXT:    li a1, 1
+; RV64I-SMALL-NEXT:    lui a0, %hi(addr)
 ; RV64I-SMALL-NEXT:    sd a1, %lo(addr)(a0)
 ; RV64I-SMALL-NEXT:    ret
 ;
 ; RV64I-MEDIUM-LABEL: lower_blockaddress:
 ; RV64I-MEDIUM:       # %bb.0:
+; RV64I-MEDIUM-NEXT:    li a1, 1
 ; RV64I-MEDIUM-NEXT:  .Lpcrel_hi1:
 ; RV64I-MEDIUM-NEXT:    auipc a0, %pcrel_hi(addr)
-; RV64I-MEDIUM-NEXT:    li a1, 1
 ; RV64I-MEDIUM-NEXT:    sd a1, %pcrel_lo(.Lpcrel_hi1)(a0)
 ; RV64I-MEDIUM-NEXT:    ret
 ;
@@ -118,8 +118,8 @@ define signext i32 @lower_blockaddress_displ(i32 signext %w) nounwind {
 ; RV32I-SMALL:       # %bb.0: # %entry
 ; RV32I-SMALL-NEXT:    addi sp, sp, -16
 ; RV32I-SMALL-NEXT:    lui a1, %hi(.Ltmp0)
-; RV32I-SMALL-NEXT:    addi a1, a1, %lo(.Ltmp0)
 ; RV32I-SMALL-NEXT:    li a2, 101
+; RV32I-SMALL-NEXT:    addi a1, a1, %lo(.Ltmp0)
 ; RV32I-SMALL-NEXT:    sw a1, 8(sp)
 ; RV32I-SMALL-NEXT:    blt a0, a2, .LBB2_3
 ; RV32I-SMALL-NEXT:  # %bb.1: # %if.then
@@ -140,8 +140,8 @@ define signext i32 @lower_blockaddress_displ(i32 signext %w) nounwind {
 ; RV32I-MEDIUM-NEXT:    addi sp, sp, -16
 ; RV32I-MEDIUM-NEXT:  .Lpcrel_hi2:
 ; RV32I-MEDIUM-NEXT:    auipc a1, %pcrel_hi(.Ltmp0)
-; RV32I-MEDIUM-NEXT:    addi a1, a1, %pcrel_lo(.Lpcrel_hi2)
 ; RV32I-MEDIUM-NEXT:    li a2, 101
+; RV32I-MEDIUM-NEXT:    addi a1, a1, %pcrel_lo(.Lpcrel_hi2)
 ; RV32I-MEDIUM-NEXT:    sw a1, 8(sp)
 ; RV32I-MEDIUM-NEXT:    blt a0, a2, .LBB2_3
 ; RV32I-MEDIUM-NEXT:  # %bb.1: # %if.then
@@ -161,8 +161,8 @@ define signext i32 @lower_blockaddress_displ(i32 signext %w) nounwind {
 ; RV64I-SMALL:       # %bb.0: # %entry
 ; RV64I-SMALL-NEXT:    addi sp, sp, -16
 ; RV64I-SMALL-NEXT:    lui a1, %hi(.Ltmp0)
-; RV64I-SMALL-NEXT:    addi a1, a1, %lo(.Ltmp0)
 ; RV64I-SMALL-NEXT:    li a2, 101
+; RV64I-SMALL-NEXT:    addi a1, a1, %lo(.Ltmp0)
 ; RV64I-SMALL-NEXT:    sd a1, 8(sp)
 ; RV64I-SMALL-NEXT:    blt a0, a2, .LBB2_3
 ; RV64I-SMALL-NEXT:  # %bb.1: # %if.then
@@ -183,8 +183,8 @@ define signext i32 @lower_blockaddress_displ(i32 signext %w) nounwind {
 ; RV64I-MEDIUM-NEXT:    addi sp, sp, -16
 ; RV64I-MEDIUM-NEXT:  .Lpcrel_hi2:
 ; RV64I-MEDIUM-NEXT:    auipc a1, %pcrel_hi(.Ltmp0)
-; RV64I-MEDIUM-NEXT:    addi a1, a1, %pcrel_lo(.Lpcrel_hi2)
 ; RV64I-MEDIUM-NEXT:    li a2, 101
+; RV64I-MEDIUM-NEXT:    addi a1, a1, %pcrel_lo(.Lpcrel_hi2)
 ; RV64I-MEDIUM-NEXT:    sd a1, 8(sp)
 ; RV64I-MEDIUM-NEXT:    blt a0, a2, .LBB2_3
 ; RV64I-MEDIUM-NEXT:  # %bb.1: # %if.then
@@ -205,8 +205,8 @@ define signext i32 @lower_blockaddress_displ(i32 signext %w) nounwind {
 ; RV64I-LARGE-NEXT:    addi sp, sp, -16
 ; RV64I-LARGE-NEXT:  .Lpcrel_hi2:
 ; RV64I-LARGE-NEXT:    auipc a1, %pcrel_hi(.Ltmp0)
-; RV64I-LARGE-NEXT:    addi a1, a1, %pcrel_lo(.Lpcrel_hi2)
 ; RV64I-LARGE-NEXT:    li a2, 101
+; RV64I-LARGE-NEXT:    addi a1, a1, %pcrel_lo(.Lpcrel_hi2)
 ; RV64I-LARGE-NEXT:    sd a1, 8(sp)
 ; RV64I-LARGE-NEXT:    blt a0, a2, .LBB2_3
 ; RV64I-LARGE-NEXT:  # %bb.1: # %if.then

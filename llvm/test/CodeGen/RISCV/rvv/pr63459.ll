@@ -4,8 +4,8 @@
 define void @snork(ptr %arg, <vscale x 2 x i64> %arg1) {
 ; CHECK-LABEL: snork:
 ; CHECK:       # %bb.0: # %bb
-; CHECK-NEXT:    csrr a1, vlenb
 ; CHECK-NEXT:    vsetvli a2, zero, e64, m2, ta, ma
+; CHECK-NEXT:    csrr a1, vlenb
 ; CHECK-NEXT:    vmul.vx v8, v8, a1
 ; CHECK-NEXT:    vsetvli zero, zero, e32, m1, ta, ma
 ; CHECK-NEXT:    vmv.v.i v10, 1

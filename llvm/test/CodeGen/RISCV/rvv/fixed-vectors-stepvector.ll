@@ -163,8 +163,8 @@ declare <2 x i64> @llvm.stepvector.v2i64()
 define <2 x i64> @stepvector_v2i64() {
 ; RV32-LABEL: stepvector_v2i64:
 ; RV32:       # %bb.0:
-; RV32-NEXT:    lui a0, 16
 ; RV32-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
+; RV32-NEXT:    lui a0, 16
 ; RV32-NEXT:    vmv.s.x v9, a0
 ; RV32-NEXT:    vsext.vf4 v8, v9
 ; RV32-NEXT:    ret
@@ -184,8 +184,8 @@ define <4 x i64> @stepvector_v4i64() {
 ; RV32-LABEL: stepvector_v4i64:
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    lui a0, %hi(.LCPI14_0)
-; RV32-NEXT:    addi a0, a0, %lo(.LCPI14_0)
 ; RV32-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
+; RV32-NEXT:    addi a0, a0, %lo(.LCPI14_0)
 ; RV32-NEXT:    vle8.v v10, (a0)
 ; RV32-NEXT:    vsext.vf4 v8, v10
 ; RV32-NEXT:    ret
@@ -205,8 +205,8 @@ define <8 x i64> @stepvector_v8i64() {
 ; RV32-LABEL: stepvector_v8i64:
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    lui a0, %hi(.LCPI15_0)
-; RV32-NEXT:    addi a0, a0, %lo(.LCPI15_0)
 ; RV32-NEXT:    vsetivli zero, 16, e32, m4, ta, ma
+; RV32-NEXT:    addi a0, a0, %lo(.LCPI15_0)
 ; RV32-NEXT:    vle8.v v12, (a0)
 ; RV32-NEXT:    vsext.vf4 v8, v12
 ; RV32-NEXT:    ret
@@ -227,8 +227,8 @@ define <16 x i64> @stepvector_v16i64() {
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    li a0, 32
 ; RV32-NEXT:    lui a1, %hi(.LCPI16_0)
-; RV32-NEXT:    addi a1, a1, %lo(.LCPI16_0)
 ; RV32-NEXT:    vsetvli zero, a0, e32, m8, ta, ma
+; RV32-NEXT:    addi a1, a1, %lo(.LCPI16_0)
 ; RV32-NEXT:    vle8.v v16, (a1)
 ; RV32-NEXT:    vsext.vf4 v8, v16
 ; RV32-NEXT:    ret

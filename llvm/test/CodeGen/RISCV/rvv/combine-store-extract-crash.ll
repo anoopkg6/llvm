@@ -15,8 +15,8 @@ define void @test(ptr %ref_array, ptr %sad_array) {
 ; RV32-NEXT:    vmv.s.x v8, zero
 ; RV32-NEXT:    vredsum.vs v9, v12, v8
 ; RV32-NEXT:    vmv.x.s a0, v9
-; RV32-NEXT:    th.swia a0, (a1), 4, 0
 ; RV32-NEXT:    vsetivli zero, 4, e8, mf4, ta, ma
+; RV32-NEXT:    th.swia a0, (a1), 4, 0
 ; RV32-NEXT:    vle8.v v9, (a3)
 ; RV32-NEXT:    vmv.v.i v10, 0
 ; RV32-NEXT:    vsetivli zero, 8, e8, mf2, ta, ma
@@ -38,8 +38,8 @@ define void @test(ptr %ref_array, ptr %sad_array) {
 ; RV64-NEXT:    vmv.s.x v8, zero
 ; RV64-NEXT:    vredsum.vs v9, v12, v8
 ; RV64-NEXT:    vmv.x.s a0, v9
-; RV64-NEXT:    th.swia a0, (a1), 4, 0
 ; RV64-NEXT:    vsetivli zero, 4, e8, mf4, ta, ma
+; RV64-NEXT:    th.swia a0, (a1), 4, 0
 ; RV64-NEXT:    vle8.v v9, (a3)
 ; RV64-NEXT:    vmv.v.i v10, 0
 ; RV64-NEXT:    vsetivli zero, 8, e8, mf2, ta, ma

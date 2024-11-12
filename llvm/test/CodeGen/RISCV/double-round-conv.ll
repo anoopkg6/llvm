@@ -1173,8 +1173,8 @@ define double @test_floor_double(double %x) {
 ; RV64IZFINXZDINX-LABEL: test_floor_double:
 ; RV64IZFINXZDINX:       # %bb.0:
 ; RV64IZFINXZDINX-NEXT:    li a1, 1075
-; RV64IZFINXZDINX-NEXT:    slli a1, a1, 52
 ; RV64IZFINXZDINX-NEXT:    fabs.d a2, a0
+; RV64IZFINXZDINX-NEXT:    slli a1, a1, 52
 ; RV64IZFINXZDINX-NEXT:    flt.d a1, a2, a1
 ; RV64IZFINXZDINX-NEXT:    beqz a1, .LBB40_2
 ; RV64IZFINXZDINX-NEXT:  # %bb.1:
@@ -1222,8 +1222,8 @@ define double @test_ceil_double(double %x) {
 ; RV64IZFINXZDINX-LABEL: test_ceil_double:
 ; RV64IZFINXZDINX:       # %bb.0:
 ; RV64IZFINXZDINX-NEXT:    li a1, 1075
-; RV64IZFINXZDINX-NEXT:    slli a1, a1, 52
 ; RV64IZFINXZDINX-NEXT:    fabs.d a2, a0
+; RV64IZFINXZDINX-NEXT:    slli a1, a1, 52
 ; RV64IZFINXZDINX-NEXT:    flt.d a1, a2, a1
 ; RV64IZFINXZDINX-NEXT:    beqz a1, .LBB41_2
 ; RV64IZFINXZDINX-NEXT:  # %bb.1:
@@ -1271,8 +1271,8 @@ define double @test_trunc_double(double %x) {
 ; RV64IZFINXZDINX-LABEL: test_trunc_double:
 ; RV64IZFINXZDINX:       # %bb.0:
 ; RV64IZFINXZDINX-NEXT:    li a1, 1075
-; RV64IZFINXZDINX-NEXT:    slli a1, a1, 52
 ; RV64IZFINXZDINX-NEXT:    fabs.d a2, a0
+; RV64IZFINXZDINX-NEXT:    slli a1, a1, 52
 ; RV64IZFINXZDINX-NEXT:    flt.d a1, a2, a1
 ; RV64IZFINXZDINX-NEXT:    beqz a1, .LBB42_2
 ; RV64IZFINXZDINX-NEXT:  # %bb.1:
@@ -1320,8 +1320,8 @@ define double @test_round_double(double %x) {
 ; RV64IZFINXZDINX-LABEL: test_round_double:
 ; RV64IZFINXZDINX:       # %bb.0:
 ; RV64IZFINXZDINX-NEXT:    li a1, 1075
-; RV64IZFINXZDINX-NEXT:    slli a1, a1, 52
 ; RV64IZFINXZDINX-NEXT:    fabs.d a2, a0
+; RV64IZFINXZDINX-NEXT:    slli a1, a1, 52
 ; RV64IZFINXZDINX-NEXT:    flt.d a1, a2, a1
 ; RV64IZFINXZDINX-NEXT:    beqz a1, .LBB43_2
 ; RV64IZFINXZDINX-NEXT:  # %bb.1:
@@ -1369,8 +1369,8 @@ define double @test_roundeven_double(double %x) {
 ; RV64IZFINXZDINX-LABEL: test_roundeven_double:
 ; RV64IZFINXZDINX:       # %bb.0:
 ; RV64IZFINXZDINX-NEXT:    li a1, 1075
-; RV64IZFINXZDINX-NEXT:    slli a1, a1, 52
 ; RV64IZFINXZDINX-NEXT:    fabs.d a2, a0
+; RV64IZFINXZDINX-NEXT:    slli a1, a1, 52
 ; RV64IZFINXZDINX-NEXT:    flt.d a1, a2, a1
 ; RV64IZFINXZDINX-NEXT:    beqz a1, .LBB44_2
 ; RV64IZFINXZDINX-NEXT:  # %bb.1:

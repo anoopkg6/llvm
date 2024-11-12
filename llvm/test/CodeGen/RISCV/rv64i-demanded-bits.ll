@@ -168,8 +168,8 @@ define signext i32 @ori_sub_cse(i32 signext %0, i32 signext %1, ptr %2) {
 define signext i32 @andi_srliw(i32 signext %0, ptr %1, i32 signext %2) {
 ; CHECK-LABEL: andi_srliw:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    andi a3, a0, -8
 ; CHECK-NEXT:    srliw a4, a0, 3
+; CHECK-NEXT:    andi a3, a0, -8
 ; CHECK-NEXT:    addw a0, a3, a2
 ; CHECK-NEXT:    sw a4, 0(a1)
 ; CHECK-NEXT:    ret
@@ -196,8 +196,8 @@ entry:
 define i64 @and_allones(i32 signext %x) {
 ; CHECK-LABEL: and_allones:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    li a1, 1
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    sll a0, a1, a0
 ; CHECK-NEXT:    ret
 entry:

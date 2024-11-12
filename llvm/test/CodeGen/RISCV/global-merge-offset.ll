@@ -23,9 +23,9 @@ define void @f1(i32 %a) nounwind {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    lui a1, %hi(.L_MergedGlobals)
 ; CHECK-NEXT:    addi a2, a1, %lo(.L_MergedGlobals)
-; CHECK-NEXT:    sw a0, 2044(a2)
-; CHECK-NEXT:    sw a0, 404(a2)
 ; CHECK-NEXT:    sw a0, %lo(.L_MergedGlobals)(a1)
+; CHECK-NEXT:    sw a0, 404(a2)
+; CHECK-NEXT:    sw a0, 2044(a2)
 ; CHECK-NEXT:    ret
 ;
 ; CHECK-TOOBIG-LABEL: f1:
@@ -33,9 +33,9 @@ define void @f1(i32 %a) nounwind {
 ; CHECK-TOOBIG-NEXT:    lui a1, %hi(ga1+1640)
 ; CHECK-TOOBIG-NEXT:    lui a2, %hi(.L_MergedGlobals)
 ; CHECK-TOOBIG-NEXT:    addi a3, a2, %lo(.L_MergedGlobals)
-; CHECK-TOOBIG-NEXT:    sw a0, %lo(ga1+1640)(a1)
-; CHECK-TOOBIG-NEXT:    sw a0, 408(a3)
 ; CHECK-TOOBIG-NEXT:    sw a0, %lo(.L_MergedGlobals)(a2)
+; CHECK-TOOBIG-NEXT:    sw a0, 408(a3)
+; CHECK-TOOBIG-NEXT:    sw a0, %lo(ga1+1640)(a1)
 ; CHECK-TOOBIG-NEXT:    ret
   %ga1_end = getelementptr inbounds [410 x i32], ptr @ga1, i32 0, i64 410
   %ga2_end = getelementptr inbounds [ArrSize x i32], ptr @ga2, i32 0, i64 ArrSize

@@ -10,9 +10,9 @@ define dso_local void @zdinx_asm(ptr nocapture noundef writeonly %a, double noun
 ; CHECK-LABEL: zdinx_asm:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    mv a5, a4
-; CHECK-NEXT:    mv a7, a2
-; CHECK-NEXT:    mv a4, a3
 ; CHECK-NEXT:    mv a6, a1
+; CHECK-NEXT:    mv a4, a3
+; CHECK-NEXT:    mv a7, a2
 ; CHECK-NEXT:    #APP
 ; CHECK-NEXT:    fsgnjx.d a2, a6, a4
 ; CHECK-NEXT:    #NO_APP
@@ -60,8 +60,8 @@ define dso_local void @zdinx_asm_cr(ptr nocapture noundef writeonly %a, double n
 ; CHECK-LABEL: zdinx_asm_cr:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    addi sp, sp, -16
-; CHECK-NEXT:    sw s0, 12(sp) # 4-byte Folded Spill
 ; CHECK-NEXT:    sw s1, 8(sp) # 4-byte Folded Spill
+; CHECK-NEXT:    sw s0, 12(sp) # 4-byte Folded Spill
 ; CHECK-NEXT:    mv a5, a4
 ; CHECK-NEXT:    mv s1, a2
 ; CHECK-NEXT:    mv a4, a3
@@ -69,10 +69,10 @@ define dso_local void @zdinx_asm_cr(ptr nocapture noundef writeonly %a, double n
 ; CHECK-NEXT:    #APP
 ; CHECK-NEXT:    fsgnjx.d a2, s0, a4
 ; CHECK-NEXT:    #NO_APP
+; CHECK-NEXT:    lw s1, 8(sp) # 4-byte Folded Reload
+; CHECK-NEXT:    lw s0, 12(sp) # 4-byte Folded Reload
 ; CHECK-NEXT:    sw a2, 8(a0)
 ; CHECK-NEXT:    sw a3, 12(a0)
-; CHECK-NEXT:    lw s0, 12(sp) # 4-byte Folded Reload
-; CHECK-NEXT:    lw s1, 8(sp) # 4-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 16
 ; CHECK-NEXT:    ret
 entry:

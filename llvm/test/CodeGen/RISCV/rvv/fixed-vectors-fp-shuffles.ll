@@ -29,8 +29,8 @@ define <4 x half> @shuffle_v4f16(<4 x half> %x, <4 x half> %y) {
 define <8 x float> @shuffle_v8f32(<8 x float> %x, <8 x float> %y) {
 ; CHECK-LABEL: shuffle_v8f32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, -20
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
+; CHECK-NEXT:    li a0, -20
 ; CHECK-NEXT:    vmv.s.x v0, a0
 ; CHECK-NEXT:    vmerge.vvm v8, v10, v8, v0
 ; CHECK-NEXT:    ret
@@ -70,8 +70,8 @@ define <4 x double> @vrgather_permute_shuffle_vu_v4f64(<4 x double> %x) {
 ; CHECK-LABEL: vrgather_permute_shuffle_vu_v4f64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    lui a0, 4096
-; CHECK-NEXT:    addi a0, a0, 513
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, 513
 ; CHECK-NEXT:    vmv.s.x v10, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, mf2, ta, ma
 ; CHECK-NEXT:    vsext.vf2 v12, v10
@@ -87,8 +87,8 @@ define <4 x double> @vrgather_permute_shuffle_uv_v4f64(<4 x double> %x) {
 ; CHECK-LABEL: vrgather_permute_shuffle_uv_v4f64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    lui a0, 4096
-; CHECK-NEXT:    addi a0, a0, 513
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, 513
 ; CHECK-NEXT:    vmv.s.x v10, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, mf2, ta, ma
 ; CHECK-NEXT:    vsext.vf2 v12, v10
@@ -104,8 +104,8 @@ define <4 x double> @vrgather_shuffle_vv_v4f64(<4 x double> %x, <4 x double> %y)
 ; CHECK-LABEL: vrgather_shuffle_vv_v4f64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    lui a0, %hi(.LCPI7_0)
-; CHECK-NEXT:    addi a0, a0, %lo(.LCPI7_0)
 ; CHECK-NEXT:    vsetivli zero, 4, e16, mf2, ta, ma
+; CHECK-NEXT:    addi a0, a0, %lo(.LCPI7_0)
 ; CHECK-NEXT:    vle16.v v14, (a0)
 ; CHECK-NEXT:    vmv.v.i v0, 8
 ; CHECK-NEXT:    vsetvli zero, zero, e64, m2, ta, mu
@@ -124,8 +124,8 @@ define <4 x double> @vrgather_shuffle_xv_v4f64(<4 x double> %x) {
 ; CHECK-NEXT:    fld fa5, %lo(.LCPI8_0)(a0)
 ; CHECK-NEXT:    vsetivli zero, 4, e16, mf2, ta, ma
 ; CHECK-NEXT:    vid.v v10
-; CHECK-NEXT:    vrsub.vi v12, v10, 4
 ; CHECK-NEXT:    vmv.v.i v0, 12
+; CHECK-NEXT:    vrsub.vi v12, v10, 4
 ; CHECK-NEXT:    vsetvli zero, zero, e64, m2, ta, mu
 ; CHECK-NEXT:    vfmv.v.f v10, fa5
 ; CHECK-NEXT:    vrgatherei16.vv v10, v8, v12, v0.t
@@ -143,8 +143,8 @@ define <4 x double> @vrgather_shuffle_vx_v4f64(<4 x double> %x) {
 ; CHECK-NEXT:    lui a0, %hi(.LCPI9_0)
 ; CHECK-NEXT:    fld fa5, %lo(.LCPI9_0)(a0)
 ; CHECK-NEXT:    li a0, 3
-; CHECK-NEXT:    vmul.vx v12, v10, a0
 ; CHECK-NEXT:    vmv.v.i v0, 3
+; CHECK-NEXT:    vmul.vx v12, v10, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e64, m2, ta, mu
 ; CHECK-NEXT:    vfmv.v.f v10, fa5
 ; CHECK-NEXT:    vrgatherei16.vv v10, v8, v12, v0.t
@@ -312,8 +312,8 @@ define <4 x bfloat> @vrgather_permute_shuffle_vu_v4bf16(<4 x bfloat> %x) {
 ; CHECK-LABEL: vrgather_permute_shuffle_vu_v4bf16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    lui a0, 4096
-; CHECK-NEXT:    addi a0, a0, 513
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, 513
 ; CHECK-NEXT:    vmv.s.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, mf2, ta, ma
 ; CHECK-NEXT:    vsext.vf2 v10, v9
@@ -356,8 +356,8 @@ define <4 x half> @vrgather_permute_shuffle_vu_v4f16(<4 x half> %x) {
 ; CHECK-LABEL: vrgather_permute_shuffle_vu_v4f16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    lui a0, 4096
-; CHECK-NEXT:    addi a0, a0, 513
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, 513
 ; CHECK-NEXT:    vmv.s.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, mf2, ta, ma
 ; CHECK-NEXT:    vsext.vf2 v10, v9

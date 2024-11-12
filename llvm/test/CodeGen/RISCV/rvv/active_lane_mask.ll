@@ -28,8 +28,8 @@ define <vscale x 1 x i1> @constant_nonzero_index(ptr %p, i64 %tc) {
 ; CHECK-LABEL: constant_nonzero_index:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m1, ta, ma
-; CHECK-NEXT:    vid.v v8
 ; CHECK-NEXT:    li a0, 24
+; CHECK-NEXT:    vid.v v8
 ; CHECK-NEXT:    vsaddu.vx v8, v8, a0
 ; CHECK-NEXT:    vmsltu.vx v0, v8, a1
 ; CHECK-NEXT:    ret
@@ -42,8 +42,8 @@ define <vscale x 1 x i1> @constant_tripcount(ptr %p, i64 %index) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m1, ta, ma
 ; CHECK-NEXT:    vid.v v8
-; CHECK-NEXT:    vsaddu.vx v8, v8, a1
 ; CHECK-NEXT:    li a0, 1024
+; CHECK-NEXT:    vsaddu.vx v8, v8, a1
 ; CHECK-NEXT:    vmsltu.vx v0, v8, a0
 ; CHECK-NEXT:    ret
   %mask = call <vscale x 1 x i1> @llvm.get.active.lane.mask.nxv1i1.i64(i64 %index, i64 1024)
@@ -54,8 +54,8 @@ define <vscale x 1 x i1> @constant_both(ptr %p) {
 ; CHECK-LABEL: constant_both:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m1, ta, ma
-; CHECK-NEXT:    vid.v v8
 ; CHECK-NEXT:    li a0, 1024
+; CHECK-NEXT:    vid.v v8
 ; CHECK-NEXT:    vmsltu.vx v0, v8, a0
 ; CHECK-NEXT:    ret
   %mask = call <vscale x 1 x i1> @llvm.get.active.lane.mask.nxv1i1.i64(i64 0, i64 1024)
@@ -67,9 +67,9 @@ define <vscale x 1 x i1> @above_maxvl(ptr %p) {
 ; CHECK-LABEL: above_maxvl:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m1, ta, ma
-; CHECK-NEXT:    vid.v v8
 ; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    slli a0, a0, 11
+; CHECK-NEXT:    vid.v v8
 ; CHECK-NEXT:    vmsltu.vx v0, v8, a0
 ; CHECK-NEXT:    ret
   %mask = call <vscale x 1 x i1> @llvm.get.active.lane.mask.nxv1i1.i64(i64 0, i64 2048)
@@ -104,8 +104,8 @@ define <32 x i1> @fv32(ptr %p, i64 %index, i64 %tc) {
 ; CHECK-LABEL: fv32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    lui a0, %hi(.LCPI8_0)
-; CHECK-NEXT:    addi a0, a0, %lo(.LCPI8_0)
 ; CHECK-NEXT:    vsetivli zero, 16, e64, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, %lo(.LCPI8_0)
 ; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vid.v v16
 ; CHECK-NEXT:    vsaddu.vx v16, v16, a1
@@ -140,8 +140,8 @@ define <64 x i1> @fv64(ptr %p, i64 %index, i64 %tc) {
 ; CHECK-NEXT:    vsaddu.vx v16, v16, a1
 ; CHECK-NEXT:    lui a0, %hi(.LCPI9_2)
 ; CHECK-NEXT:    addi a0, a0, %lo(.LCPI9_2)
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vmsltu.vx v10, v16, a2
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vsetivli zero, 4, e8, mf2, tu, ma
 ; CHECK-NEXT:    vslideup.vi v0, v9, 2
 ; CHECK-NEXT:    vsetivli zero, 6, e8, mf2, tu, ma
@@ -205,8 +205,8 @@ define <128 x i1> @fv128(ptr %p, i64 %index, i64 %tc) {
 ; CHECK-NEXT:    vsetivli zero, 6, e8, mf2, tu, ma
 ; CHECK-NEXT:    vslideup.vi v10, v9, 4
 ; CHECK-NEXT:    lui a0, %hi(.LCPI10_6)
-; CHECK-NEXT:    addi a0, a0, %lo(.LCPI10_6)
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, %lo(.LCPI10_6)
 ; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vsetivli zero, 8, e8, mf2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v10, v11, 6

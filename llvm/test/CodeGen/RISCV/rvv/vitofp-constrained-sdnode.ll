@@ -423,8 +423,8 @@ declare <vscale x 1 x half> @llvm.experimental.constrained.uitofp.nxv1f16.nxv1i7
 define <vscale x 1 x half> @vuitofp_nxv1i7_nxv1f16(<vscale x 1 x i7> %va) strictfp {
 ; CHECK-LABEL: vuitofp_nxv1i7_nxv1f16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 127
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf8, ta, ma
+; CHECK-NEXT:    li a0, 127
 ; CHECK-NEXT:    vand.vx v9, v8, a0
 ; CHECK-NEXT:    vfwcvt.f.xu.v v8, v9
 ; CHECK-NEXT:    ret

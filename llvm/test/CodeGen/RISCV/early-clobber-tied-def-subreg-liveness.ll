@@ -57,9 +57,9 @@ define void @_Z3foov() {
 ; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    lui a0, 1048572
 ; CHECK-NEXT:    addi a0, a0, 928
+; CHECK-NEXT:    csrr a1, vlenb
 ; CHECK-NEXT:    vmsbc.vx v0, v8, a0
 ; CHECK-NEXT:    addi a0, sp, 16
-; CHECK-NEXT:    csrr a1, vlenb
 ; CHECK-NEXT:    slli a1, a1, 1
 ; CHECK-NEXT:    vl2r.v v8, (a0) # Unknown-size Folded Reload
 ; CHECK-NEXT:    add a0, a0, a1
@@ -74,9 +74,9 @@ define void @_Z3foov() {
 ; CHECK-NEXT:    addi a0, a0, 16
 ; CHECK-NEXT:    vl1r.v v14, (a0) # Unknown-size Folded Reload
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m2, tu, mu
-; CHECK-NEXT:    vsext.vf2 v8, v14, v0.t
 ; CHECK-NEXT:    lui a0, %hi(.L__const._Z3foov.var_44)
 ; CHECK-NEXT:    addi a0, a0, %lo(.L__const._Z3foov.var_44)
+; CHECK-NEXT:    vsext.vf2 v8, v14, v0.t
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m2, ta, ma
 ; CHECK-NEXT:    vle16.v v14, (a0)
 ; CHECK-NEXT:    lui a0, %hi(var_47)

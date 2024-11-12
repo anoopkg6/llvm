@@ -18,8 +18,8 @@ define dso_local signext i32 @undef_early_clobber_chain() {
 ; CHECK-NEXT:    addi sp, sp, -400
 ; CHECK-NEXT:    .cfi_def_cfa_offset 400
 ; CHECK-NEXT:    vsetivli zero, 0, e32, m1, ta, ma
-; CHECK-NEXT:    vrgather.vi v9, v8, 0
 ; CHECK-NEXT:    mv a0, sp
+; CHECK-NEXT:    vrgather.vi v9, v8, 0
 ; CHECK-NEXT:    vse32.v v9, (a0)
 ; CHECK-NEXT:    li a0, 0
 ; CHECK-NEXT:    addi sp, sp, 400
@@ -41,15 +41,15 @@ define internal void @SubRegLivenessUndefInPhi(i64 %cond) {
 ; CHECK-NEXT:  # %bb.1: # %Cond1
 ; CHECK-NEXT:    vsetvli a0, zero, e16, mf4, ta, ma
 ; CHECK-NEXT:    vid.v v8
-; CHECK-NEXT:    vadd.vi v10, v8, 1
 ; CHECK-NEXT:    vadd.vi v12, v8, 3
+; CHECK-NEXT:    vadd.vi v10, v8, 1
 ; CHECK-NEXT:    j .LBB2_3
 ; CHECK-NEXT:  .LBB2_2: # %Cond2
 ; CHECK-NEXT:    vsetvli a0, zero, e16, mf4, ta, ma
-; CHECK-NEXT:    vid.v v9
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
 ; CHECK-NEXT:    add a1, a0, a0
+; CHECK-NEXT:    vid.v v9
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v9, a0
 ; CHECK-NEXT:    vsetvli a2, zero, e16, mf4, ta, ma
@@ -114,8 +114,8 @@ define internal void @SubRegLivenessUndef() {
 ; CHECK:       # %bb.0: # %loopIR.preheader.i.i
 ; CHECK-NEXT:    vsetvli a0, zero, e16, mf4, ta, ma
 ; CHECK-NEXT:    vid.v v8
-; CHECK-NEXT:    vadd.vi v10, v8, 1
 ; CHECK-NEXT:    vadd.vi v12, v8, 3
+; CHECK-NEXT:    vadd.vi v10, v8, 1
 ; CHECK-NEXT:  .LBB3_1: # %loopIR3.i.i
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    vl1r.v v14, (zero)
@@ -162,8 +162,8 @@ declare <vscale x 8 x i8> @llvm.riscv.vrgatherei16.vv.nxv8i8.i64(<vscale x 8 x i
 define void @repeat_shuffle(<2 x double> %v, ptr noalias %q) {
 ; CHECK-LABEL: repeat_shuffle:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    vmv2r.v v10, v8
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; CHECK-NEXT:    vmv2r.v v10, v8
 ; CHECK-NEXT:    vslideup.vi v10, v8, 2
 ; CHECK-NEXT:    vse64.v v10, (a0)
 ; CHECK-NEXT:    ret

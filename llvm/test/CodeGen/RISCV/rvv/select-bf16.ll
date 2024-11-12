@@ -22,8 +22,8 @@ define <vscale x 1 x bfloat> @selectcc_nxv1bf16(bfloat %a, bfloat %b, <vscale x 
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
-; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf8, ta, ma
+; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    vmv.v.x v10, a0
 ; CHECK-NEXT:    vmsne.vi v0, v10, 0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, mf4, ta, ma
@@ -52,8 +52,8 @@ define <vscale x 2 x bfloat> @selectcc_nxv2bf16(bfloat %a, bfloat %b, <vscale x 
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
-; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf4, ta, ma
+; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    vmv.v.x v10, a0
 ; CHECK-NEXT:    vmsne.vi v0, v10, 0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, mf2, ta, ma
@@ -82,8 +82,8 @@ define <vscale x 4 x bfloat> @selectcc_nxv4bf16(bfloat %a, bfloat %b, <vscale x 
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
-; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf2, ta, ma
+; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    vmv.v.x v10, a0
 ; CHECK-NEXT:    vmsne.vi v0, v10, 0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m1, ta, ma
@@ -112,8 +112,8 @@ define <vscale x 8 x bfloat> @selectcc_nxv8bf16(bfloat %a, bfloat %b, <vscale x 
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
-; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m1, ta, ma
+; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    vmv.v.x v12, a0
 ; CHECK-NEXT:    vmsne.vi v0, v12, 0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m2, ta, ma
@@ -142,8 +142,8 @@ define <vscale x 16 x bfloat> @selectcc_nxv16bf16(bfloat %a, bfloat %b, <vscale 
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
-; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m2, ta, ma
+; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    vmv.v.x v16, a0
 ; CHECK-NEXT:    vmsne.vi v0, v16, 0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m4, ta, ma
@@ -172,8 +172,8 @@ define <vscale x 32 x bfloat> @selectcc_nxv32bf16(bfloat %a, bfloat %b, <vscale 
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
-; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m4, ta, ma
+; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    vmv.v.x v24, a0
 ; CHECK-NEXT:    vmsne.vi v0, v24, 0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m8, ta, ma

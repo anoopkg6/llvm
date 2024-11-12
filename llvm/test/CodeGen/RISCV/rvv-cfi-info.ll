@@ -14,8 +14,8 @@ define riscv_vector_cc <vscale x 1 x i32> @test_vector_callee_cfi(<vscale x 1 x 
 ; OMIT-FP-NEXT:    sub a0, a1, a0
 ; OMIT-FP-NEXT:    sub sp, sp, a0
 ; OMIT-FP-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x07, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 7 * vlenb
-; OMIT-FP-NEXT:    csrr a0, vlenb
 ; OMIT-FP-NEXT:    li a1, 6
+; OMIT-FP-NEXT:    csrr a0, vlenb
 ; OMIT-FP-NEXT:    mul a0, a0, a1
 ; OMIT-FP-NEXT:    add a0, sp, a0
 ; OMIT-FP-NEXT:    addi a0, a0, 16
@@ -34,13 +34,13 @@ define riscv_vector_cc <vscale x 1 x i32> @test_vector_callee_cfi(<vscale x 1 x 
 ; OMIT-FP-NEXT:    .cfi_escape 0x10, 0x65, 0x08, 0x11, 0x7a, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # $v5 @ cfa - 6 * vlenb
 ; OMIT-FP-NEXT:    .cfi_escape 0x10, 0x66, 0x08, 0x11, 0x7b, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # $v6 @ cfa - 5 * vlenb
 ; OMIT-FP-NEXT:    .cfi_escape 0x10, 0x67, 0x08, 0x11, 0x7c, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # $v7 @ cfa - 4 * vlenb
-; OMIT-FP-NEXT:    #APP
-; OMIT-FP-NEXT:    #NO_APP
-; OMIT-FP-NEXT:    csrr a0, vlenb
 ; OMIT-FP-NEXT:    li a1, 6
+; OMIT-FP-NEXT:    csrr a0, vlenb
 ; OMIT-FP-NEXT:    mul a0, a0, a1
 ; OMIT-FP-NEXT:    add a0, sp, a0
 ; OMIT-FP-NEXT:    addi a0, a0, 16
+; OMIT-FP-NEXT:    #APP
+; OMIT-FP-NEXT:    #NO_APP
 ; OMIT-FP-NEXT:    vl1r.v v1, (a0) # Unknown-size Folded Reload
 ; OMIT-FP-NEXT:    csrr a0, vlenb
 ; OMIT-FP-NEXT:    slli a0, a0, 2
@@ -69,8 +69,8 @@ define riscv_vector_cc <vscale x 1 x i32> @test_vector_callee_cfi(<vscale x 1 x 
 ; NO-OMIT-FP:       # %bb.0: # %entry
 ; NO-OMIT-FP-NEXT:    addi sp, sp, -32
 ; NO-OMIT-FP-NEXT:    .cfi_def_cfa_offset 32
-; NO-OMIT-FP-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; NO-OMIT-FP-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; NO-OMIT-FP-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; NO-OMIT-FP-NEXT:    .cfi_offset ra, -8
 ; NO-OMIT-FP-NEXT:    .cfi_offset s0, -16
 ; NO-OMIT-FP-NEXT:    addi s0, sp, 32
@@ -102,11 +102,11 @@ define riscv_vector_cc <vscale x 1 x i32> @test_vector_callee_cfi(<vscale x 1 x 
 ; NO-OMIT-FP-NEXT:    .cfi_escape 0x10, 0x65, 0x0b, 0x11, 0x60, 0x22, 0x11, 0x7a, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # $v5 @ cfa - 32 - 6 * vlenb
 ; NO-OMIT-FP-NEXT:    .cfi_escape 0x10, 0x66, 0x0b, 0x11, 0x60, 0x22, 0x11, 0x7b, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # $v6 @ cfa - 32 - 5 * vlenb
 ; NO-OMIT-FP-NEXT:    .cfi_escape 0x10, 0x67, 0x0b, 0x11, 0x60, 0x22, 0x11, 0x7c, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # $v7 @ cfa - 32 - 4 * vlenb
-; NO-OMIT-FP-NEXT:    #APP
-; NO-OMIT-FP-NEXT:    #NO_APP
 ; NO-OMIT-FP-NEXT:    csrr a0, vlenb
 ; NO-OMIT-FP-NEXT:    sub a0, s0, a0
 ; NO-OMIT-FP-NEXT:    addi a0, a0, -32
+; NO-OMIT-FP-NEXT:    #APP
+; NO-OMIT-FP-NEXT:    #NO_APP
 ; NO-OMIT-FP-NEXT:    vl1r.v v1, (a0) # Unknown-size Folded Reload
 ; NO-OMIT-FP-NEXT:    csrr a0, vlenb
 ; NO-OMIT-FP-NEXT:    slli a1, a0, 1
@@ -129,8 +129,8 @@ define riscv_vector_cc <vscale x 1 x i32> @test_vector_callee_cfi(<vscale x 1 x 
 ; NO-OMIT-FP-NEXT:    .cfi_restore v7
 ; NO-OMIT-FP-NEXT:    addi sp, s0, -32
 ; NO-OMIT-FP-NEXT:    .cfi_def_cfa sp, 32
-; NO-OMIT-FP-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; NO-OMIT-FP-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; NO-OMIT-FP-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; NO-OMIT-FP-NEXT:    .cfi_restore ra
 ; NO-OMIT-FP-NEXT:    .cfi_restore s0
 ; NO-OMIT-FP-NEXT:    addi sp, sp, 32

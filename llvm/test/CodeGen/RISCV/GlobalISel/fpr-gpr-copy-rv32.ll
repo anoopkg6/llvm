@@ -9,8 +9,8 @@
 define float @fadd(float %x, float %y) {
 ; RV32I-LABEL: fadd:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    fmv.w.x fa5, a0
 ; RV32I-NEXT:    fmv.w.x fa4, a1
+; RV32I-NEXT:    fmv.w.x fa5, a0
 ; RV32I-NEXT:    fadd.s fa5, fa5, fa4
 ; RV32I-NEXT:    fmv.x.w a0, fa5
 ; RV32I-NEXT:    ret

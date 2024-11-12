@@ -27,8 +27,8 @@ define <2 x i64> @test_vp_splice_v2i64(<2 x i64> %va, <2 x i64> %vb, i32 zeroext
 define <2 x i64> @test_vp_splice_v2i64_negative_offset(<2 x i64> %va, <2 x i64> %vb, i32 zeroext %evla, i32 zeroext %evlb) {
 ; CHECK-LABEL: test_vp_splice_v2i64_negative_offset:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vsetivli zero, 5, e64, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 5
@@ -68,8 +68,8 @@ define <4 x i32> @test_vp_splice_v4i32(<4 x i32> %va, <4 x i32> %vb, i32 zeroext
 define <4 x i32> @test_vp_splice_v4i32_negative_offset(<4 x i32> %va, <4 x i32> %vb, i32 zeroext %evla, i32 zeroext %evlb) {
 ; CHECK-LABEL: test_vp_splice_v4i32_negative_offset:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vsetivli zero, 5, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 5
@@ -109,8 +109,8 @@ define <8 x i16> @test_vp_splice_v8i16(<8 x i16> %va, <8 x i16> %vb, i32 zeroext
 define <8 x i16> @test_vp_splice_v8i16_negative_offset(<8 x i16> %va, <8 x i16> %vb, i32 zeroext %evla, i32 zeroext %evlb) {
 ; CHECK-LABEL: test_vp_splice_v8i16_negative_offset:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vsetivli zero, 5, e16, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 5
@@ -150,8 +150,8 @@ define <16 x i8> @test_vp_splice_v16i8(<16 x i8> %va, <16 x i8> %vb, i32 zeroext
 define <16 x i8> @test_vp_splice_v16i8_negative_offset(<16 x i8> %va, <16 x i8> %vb, i32 zeroext %evla, i32 zeroext %evlb) {
 ; CHECK-LABEL: test_vp_splice_v16i8_negative_offset:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vsetivli zero, 5, e8, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 5
@@ -191,8 +191,8 @@ define <2 x double> @test_vp_splice_v2f64(<2 x double> %va, <2 x double> %vb, i3
 define <2 x double> @test_vp_splice_v2f64_negative_offset(<2 x double> %va, <2 x double> %vb, i32 zeroext %evla, i32 zeroext %evlb) {
 ; CHECK-LABEL: test_vp_splice_v2f64_negative_offset:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vsetivli zero, 5, e64, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 5
@@ -232,8 +232,8 @@ define <4 x float> @test_vp_splice_v4f32(<4 x float> %va, <4 x float> %vb, i32 z
 define <4 x float> @test_vp_splice_v4f32_negative_offset(<4 x float> %va, <4 x float> %vb, i32 zeroext %evla, i32 zeroext %evlb) {
 ; CHECK-LABEL: test_vp_splice_v4f32_negative_offset:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vsetivli zero, 5, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -5
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 5

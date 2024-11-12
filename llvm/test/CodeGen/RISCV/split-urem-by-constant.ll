@@ -81,8 +81,8 @@ define iXLen2 @test_urem_7(iXLen2 %x) nounwind {
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
-; RV32-NEXT:    li a2, 7
 ; RV32-NEXT:    li a3, 0
+; RV32-NEXT:    li a2, 7
 ; RV32-NEXT:    call __umoddi3
 ; RV32-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32-NEXT:    addi sp, sp, 16
@@ -92,8 +92,8 @@ define iXLen2 @test_urem_7(iXLen2 %x) nounwind {
 ; RV64:       # %bb.0:
 ; RV64-NEXT:    addi sp, sp, -16
 ; RV64-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
-; RV64-NEXT:    li a2, 7
 ; RV64-NEXT:    li a3, 0
+; RV64-NEXT:    li a2, 7
 ; RV64-NEXT:    call __umodti3
 ; RV64-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64-NEXT:    addi sp, sp, 16
@@ -107,8 +107,8 @@ define iXLen2 @test_urem_9(iXLen2 %x) nounwind {
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
-; RV32-NEXT:    li a2, 9
 ; RV32-NEXT:    li a3, 0
+; RV32-NEXT:    li a2, 9
 ; RV32-NEXT:    call __umoddi3
 ; RV32-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32-NEXT:    addi sp, sp, 16
@@ -118,8 +118,8 @@ define iXLen2 @test_urem_9(iXLen2 %x) nounwind {
 ; RV64:       # %bb.0:
 ; RV64-NEXT:    addi sp, sp, -16
 ; RV64-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
-; RV64-NEXT:    li a2, 9
 ; RV64-NEXT:    li a3, 0
+; RV64-NEXT:    li a2, 9
 ; RV64-NEXT:    call __umodti3
 ; RV64-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64-NEXT:    addi sp, sp, 16
@@ -361,8 +361,8 @@ define iXLen2 @test_urem_12(iXLen2 %x) nounwind {
 ; RV32-NEXT:    andi a2, a2, -2
 ; RV32-NEXT:    add a2, a2, a3
 ; RV32-NEXT:    sub a1, a1, a2
-; RV32-NEXT:    slli a1, a1, 2
 ; RV32-NEXT:    andi a0, a0, 3
+; RV32-NEXT:    slli a1, a1, 2
 ; RV32-NEXT:    or a0, a1, a0
 ; RV32-NEXT:    li a1, 0
 ; RV32-NEXT:    ret
@@ -385,8 +385,8 @@ define iXLen2 @test_urem_12(iXLen2 %x) nounwind {
 ; RV64-NEXT:    andi a2, a2, -2
 ; RV64-NEXT:    add a2, a2, a3
 ; RV64-NEXT:    sub a1, a1, a2
-; RV64-NEXT:    slli a1, a1, 2
 ; RV64-NEXT:    andi a0, a0, 3
+; RV64-NEXT:    slli a1, a1, 2
 ; RV64-NEXT:    or a0, a1, a0
 ; RV64-NEXT:    li a1, 0
 ; RV64-NEXT:    ret

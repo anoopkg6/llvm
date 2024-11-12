@@ -14,8 +14,8 @@ define <vscale x 2 x i64> @vwsll_vv_nxv2i64_sext(<vscale x 2 x i32> %a, <vscale 
 ; CHECK-LABEL: vwsll_vv_nxv2i64_sext:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a1, zero, e64, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsext.vf2 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a0, e64, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -36,8 +36,8 @@ define <vscale x 2 x i64> @vwsll_vv_nxv2i64_zext(<vscale x 2 x i32> %a, <vscale 
 ; CHECK-LABEL: vwsll_vv_nxv2i64_zext:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a1, zero, e64, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vzext.vf2 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a0, e64, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -97,8 +97,8 @@ define <vscale x 2 x i64> @vwsll_vx_i32_nxv2i64_sext(<vscale x 2 x i32> %a, i32 
 ; CHECK-NEXT:    vsetvli a2, zero, e32, m1, ta, ma
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e64, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsext.vf2 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -123,8 +123,8 @@ define <vscale x 2 x i64> @vwsll_vx_i32_nxv2i64_zext(<vscale x 2 x i32> %a, i32 
 ; CHECK-NEXT:    vsetvli a2, zero, e32, m1, ta, ma
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e64, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vzext.vf2 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -149,8 +149,8 @@ define <vscale x 2 x i64> @vwsll_vx_i16_nxv2i64_sext(<vscale x 2 x i32> %a, i16 
 ; CHECK-NEXT:    vsetvli a2, zero, e16, mf2, ta, ma
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e64, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsext.vf4 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -175,8 +175,8 @@ define <vscale x 2 x i64> @vwsll_vx_i16_nxv2i64_zext(<vscale x 2 x i32> %a, i16 
 ; CHECK-NEXT:    vsetvli a2, zero, e16, mf2, ta, ma
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e64, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vzext.vf4 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -201,8 +201,8 @@ define <vscale x 2 x i64> @vwsll_vx_i8_nxv2i64_sext(<vscale x 2 x i32> %a, i8 %b
 ; CHECK-NEXT:    vsetvli a2, zero, e8, mf4, ta, ma
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e64, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsext.vf8 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -227,8 +227,8 @@ define <vscale x 2 x i64> @vwsll_vx_i8_nxv2i64_zext(<vscale x 2 x i32> %a, i8 %b
 ; CHECK-NEXT:    vsetvli a2, zero, e8, mf4, ta, ma
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e64, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vzext.vf8 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -277,8 +277,8 @@ define <vscale x 4 x i32> @vwsll_vv_nxv4i32_sext(<vscale x 4 x i16> %a, <vscale 
 ; CHECK-LABEL: vwsll_vv_nxv4i32_sext:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsext.vf2 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -299,8 +299,8 @@ define <vscale x 4 x i32> @vwsll_vv_nxv4i32_zext(<vscale x 4 x i16> %a, <vscale 
 ; CHECK-LABEL: vwsll_vv_nxv4i32_zext:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vzext.vf2 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -383,8 +383,8 @@ define <vscale x 4 x i32> @vwsll_vx_i16_nxv4i32_sext(<vscale x 4 x i16> %a, i16 
 ; CHECK-NEXT:    vsetvli a2, zero, e16, m1, ta, ma
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e32, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsext.vf2 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -409,8 +409,8 @@ define <vscale x 4 x i32> @vwsll_vx_i16_nxv4i32_zext(<vscale x 4 x i16> %a, i16 
 ; CHECK-NEXT:    vsetvli a2, zero, e16, m1, ta, ma
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e32, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vzext.vf2 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -435,8 +435,8 @@ define <vscale x 4 x i32> @vwsll_vx_i8_nxv4i32_sext(<vscale x 4 x i16> %a, i8 %b
 ; CHECK-NEXT:    vsetvli a2, zero, e8, mf2, ta, ma
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e32, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsext.vf4 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -461,8 +461,8 @@ define <vscale x 4 x i32> @vwsll_vx_i8_nxv4i32_zext(<vscale x 4 x i16> %a, i8 %b
 ; CHECK-NEXT:    vsetvli a2, zero, e8, mf2, ta, ma
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e32, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vzext.vf4 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -512,8 +512,8 @@ define <vscale x 8 x i16> @vwsll_vv_nxv8i16_sext(<vscale x 8 x i8> %a, <vscale x
 ; CHECK-LABEL: vwsll_vv_nxv8i16_sext:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsext.vf2 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a0, e16, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -534,8 +534,8 @@ define <vscale x 8 x i16> @vwsll_vv_nxv8i16_zext(<vscale x 8 x i8> %a, <vscale x
 ; CHECK-LABEL: vwsll_vv_nxv8i16_zext:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vzext.vf2 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a0, e16, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -641,8 +641,8 @@ define <vscale x 8 x i16> @vwsll_vx_i8_nxv8i16_sext(<vscale x 8 x i8> %a, i8 %b,
 ; CHECK-NEXT:    vsetvli a2, zero, e8, m1, ta, ma
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsext.vf2 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
@@ -667,8 +667,8 @@ define <vscale x 8 x i16> @vwsll_vx_i8_nxv8i16_zext(<vscale x 8 x i8> %a, i8 %b,
 ; CHECK-NEXT:    vsetvli a2, zero, e8, m1, ta, ma
 ; CHECK-NEXT:    vmv.v.x v9, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m2, ta, ma
-; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vzext.vf2 v12, v9
+; CHECK-NEXT:    vzext.vf2 v10, v8
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m2, ta, ma
 ; CHECK-NEXT:    vsll.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret

@@ -8,8 +8,8 @@
 define <8 x i32> @concat_2xv4i32(<4 x i32> %a, <4 x i32> %b) {
 ; VLA-LABEL: concat_2xv4i32:
 ; VLA:       # %bb.0:
-; VLA-NEXT:    vmv1r.v v10, v9
 ; VLA-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
+; VLA-NEXT:    vmv1r.v v10, v9
 ; VLA-NEXT:    vslideup.vi v8, v10, 4
 ; VLA-NEXT:    ret
 ;
@@ -35,8 +35,8 @@ define <8 x i32> @concat_4xv2i32(<2 x i32> %a, <2 x i32> %b, <2 x i32> %c, <2 x 
 ; VLS-NEXT:    vmv1r.v v13, v10
 ; VLS-NEXT:    vmv1r.v v12, v8
 ; VLS-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; VLS-NEXT:    vslideup.vi v13, v11, 2
 ; VLS-NEXT:    vslideup.vi v12, v9, 2
+; VLS-NEXT:    vslideup.vi v13, v11, 2
 ; VLS-NEXT:    vmv2r.v v8, v12
 ; VLS-NEXT:    ret
   %ab = shufflevector <2 x i32> %a, <2 x i32> %b, <4 x i32> <i32 0, i32 1, i32 2, i32 3>
@@ -72,8 +72,8 @@ define <8 x i32> @concat_8xv1i32(<1 x i32> %a, <1 x i32> %b, <1 x i32> %c, <1 x 
 ; VLS-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
 ; VLS-NEXT:    vslideup.vi v17, v14, 2
 ; VLS-NEXT:    vsetivli zero, 2, e32, mf2, ta, ma
-; VLS-NEXT:    vslideup.vi v10, v11, 1
 ; VLS-NEXT:    vslideup.vi v16, v9, 1
+; VLS-NEXT:    vslideup.vi v10, v11, 1
 ; VLS-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
 ; VLS-NEXT:    vslideup.vi v16, v10, 2
 ; VLS-NEXT:    vmv2r.v v8, v16
@@ -91,8 +91,8 @@ define <8 x i32> @concat_8xv1i32(<1 x i32> %a, <1 x i32> %b, <1 x i32> %c, <1 x 
 define <16 x i32> @concat_2xv8i32(<8 x i32> %a, <8 x i32> %b) {
 ; VLA-LABEL: concat_2xv8i32:
 ; VLA:       # %bb.0:
-; VLA-NEXT:    vmv2r.v v12, v10
 ; VLA-NEXT:    vsetivli zero, 16, e32, m4, ta, ma
+; VLA-NEXT:    vmv2r.v v12, v10
 ; VLA-NEXT:    vslideup.vi v8, v12, 8
 ; VLA-NEXT:    ret
 ;
@@ -149,10 +149,10 @@ define <16 x i32> @concat_8xv2i32(<2 x i32> %a, <2 x i32> %b, <2 x i32> %c, <2 x
 ; VLS-NEXT:    vmv1r.v v17, v10
 ; VLS-NEXT:    vmv1r.v v16, v8
 ; VLS-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; VLS-NEXT:    vslideup.vi v19, v15, 2
-; VLS-NEXT:    vslideup.vi v18, v13, 2
-; VLS-NEXT:    vslideup.vi v17, v11, 2
 ; VLS-NEXT:    vslideup.vi v16, v9, 2
+; VLS-NEXT:    vslideup.vi v17, v11, 2
+; VLS-NEXT:    vslideup.vi v18, v13, 2
+; VLS-NEXT:    vslideup.vi v19, v15, 2
 ; VLS-NEXT:    vmv4r.v v8, v16
 ; VLS-NEXT:    ret
   %ab = shufflevector <2 x i32> %a, <2 x i32> %b, <4 x i32> <i32 0, i32 1, i32 2, i32 3>
@@ -168,9 +168,9 @@ define <16 x i32> @concat_8xv2i32(<2 x i32> %a, <2 x i32> %b, <2 x i32> %c, <2 x
 define <32 x i32> @concat_2xv16i32(<16 x i32> %a, <16 x i32> %b) {
 ; VLA-LABEL: concat_2xv16i32:
 ; VLA:       # %bb.0:
-; VLA-NEXT:    vmv4r.v v16, v12
 ; VLA-NEXT:    li a0, 32
 ; VLA-NEXT:    vsetvli zero, a0, e32, m8, ta, ma
+; VLA-NEXT:    vmv4r.v v16, v12
 ; VLA-NEXT:    vslideup.vi v8, v16, 16
 ; VLA-NEXT:    ret
 ;

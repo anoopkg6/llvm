@@ -31,8 +31,8 @@ define <2 x i8> @ssub_v2i8_vx(<2 x i8> %va, i8 %b) {
 define <2 x i8> @ssub_v2i8_vi(<2 x i8> %va) {
 ; CHECK-LABEL: ssub_v2i8_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 2, e8, mf8, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <2 x i8> @llvm.ssub.sat.v2i8(<2 x i8> %va, <2 x i8> splat (i8 1))
@@ -66,8 +66,8 @@ define <4 x i8> @ssub_v4i8_vx(<4 x i8> %va, i8 %b) {
 define <4 x i8> @ssub_v4i8_vi(<4 x i8> %va) {
 ; CHECK-LABEL: ssub_v4i8_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 4, e8, mf4, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <4 x i8> @llvm.ssub.sat.v4i8(<4 x i8> %va, <4 x i8> splat (i8 1))
@@ -101,8 +101,8 @@ define <8 x i8> @ssub_v8i8_vx(<8 x i8> %va, i8 %b) {
 define <8 x i8> @ssub_v8i8_vi(<8 x i8> %va) {
 ; CHECK-LABEL: ssub_v8i8_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 8, e8, mf2, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <8 x i8> @llvm.ssub.sat.v8i8(<8 x i8> %va, <8 x i8> splat (i8 1))
@@ -136,8 +136,8 @@ define <16 x i8> @ssub_v16i8_vx(<16 x i8> %va, i8 %b) {
 define <16 x i8> @ssub_v16i8_vi(<16 x i8> %va) {
 ; CHECK-LABEL: ssub_v16i8_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <16 x i8> @llvm.ssub.sat.v16i8(<16 x i8> %va, <16 x i8> splat (i8 1))
@@ -171,8 +171,8 @@ define <2 x i16> @ssub_v2i16_vx(<2 x i16> %va, i16 %b) {
 define <2 x i16> @ssub_v2i16_vi(<2 x i16> %va) {
 ; CHECK-LABEL: ssub_v2i16_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 2, e16, mf4, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <2 x i16> @llvm.ssub.sat.v2i16(<2 x i16> %va, <2 x i16> splat (i16 1))
@@ -206,8 +206,8 @@ define <4 x i16> @ssub_v4i16_vx(<4 x i16> %va, i16 %b) {
 define <4 x i16> @ssub_v4i16_vi(<4 x i16> %va) {
 ; CHECK-LABEL: ssub_v4i16_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 4, e16, mf2, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <4 x i16> @llvm.ssub.sat.v4i16(<4 x i16> %va, <4 x i16> splat (i16 1))
@@ -241,8 +241,8 @@ define <8 x i16> @ssub_v8i16_vx(<8 x i16> %va, i16 %b) {
 define <8 x i16> @ssub_v8i16_vi(<8 x i16> %va) {
 ; CHECK-LABEL: ssub_v8i16_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <8 x i16> @llvm.ssub.sat.v8i16(<8 x i16> %va, <8 x i16> splat (i16 1))
@@ -276,8 +276,8 @@ define <16 x i16> @ssub_v16i16_vx(<16 x i16> %va, i16 %b) {
 define <16 x i16> @ssub_v16i16_vi(<16 x i16> %va) {
 ; CHECK-LABEL: ssub_v16i16_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <16 x i16> @llvm.ssub.sat.v16i16(<16 x i16> %va, <16 x i16> splat (i16 1))
@@ -311,8 +311,8 @@ define <2 x i32> @ssub_v2i32_vx(<2 x i32> %va, i32 %b) {
 define <2 x i32> @ssub_v2i32_vi(<2 x i32> %va) {
 ; CHECK-LABEL: ssub_v2i32_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 2, e32, mf2, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <2 x i32> @llvm.ssub.sat.v2i32(<2 x i32> %va, <2 x i32> splat (i32 1))
@@ -346,8 +346,8 @@ define <4 x i32> @ssub_v4i32_vx(<4 x i32> %va, i32 %b) {
 define <4 x i32> @ssub_v4i32_vi(<4 x i32> %va) {
 ; CHECK-LABEL: ssub_v4i32_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <4 x i32> @llvm.ssub.sat.v4i32(<4 x i32> %va, <4 x i32> splat (i32 1))
@@ -381,8 +381,8 @@ define <8 x i32> @ssub_v8i32_vx(<8 x i32> %va, i32 %b) {
 define <8 x i32> @ssub_v8i32_vi(<8 x i32> %va) {
 ; CHECK-LABEL: ssub_v8i32_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <8 x i32> @llvm.ssub.sat.v8i32(<8 x i32> %va, <8 x i32> splat (i32 1))
@@ -416,8 +416,8 @@ define <16 x i32> @ssub_v16i32_vx(<16 x i32> %va, i32 %b) {
 define <16 x i32> @ssub_v16i32_vi(<16 x i32> %va) {
 ; CHECK-LABEL: ssub_v16i32_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 16, e32, m4, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <16 x i32> @llvm.ssub.sat.v16i32(<16 x i32> %va, <16 x i32> splat (i32 1))
@@ -442,9 +442,9 @@ define <2 x i64> @ssub_v2i64_vx(<2 x i64> %va, i64 %b) {
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    .cfi_def_cfa_offset 16
 ; RV32-NEXT:    sw a0, 8(sp)
-; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
+; RV32-NEXT:    sw a1, 12(sp)
 ; RV32-NEXT:    vlse64.v v9, (a0), zero
 ; RV32-NEXT:    vssub.vv v8, v8, v9
 ; RV32-NEXT:    addi sp, sp, 16
@@ -465,8 +465,8 @@ define <2 x i64> @ssub_v2i64_vx(<2 x i64> %va, i64 %b) {
 define <2 x i64> @ssub_v2i64_vi(<2 x i64> %va) {
 ; CHECK-LABEL: ssub_v2i64_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <2 x i64> @llvm.ssub.sat.v2i64(<2 x i64> %va, <2 x i64> splat (i64 1))
@@ -491,9 +491,9 @@ define <4 x i64> @ssub_v4i64_vx(<4 x i64> %va, i64 %b) {
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    .cfi_def_cfa_offset 16
 ; RV32-NEXT:    sw a0, 8(sp)
-; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
+; RV32-NEXT:    sw a1, 12(sp)
 ; RV32-NEXT:    vlse64.v v10, (a0), zero
 ; RV32-NEXT:    vssub.vv v8, v8, v10
 ; RV32-NEXT:    addi sp, sp, 16
@@ -514,8 +514,8 @@ define <4 x i64> @ssub_v4i64_vx(<4 x i64> %va, i64 %b) {
 define <4 x i64> @ssub_v4i64_vi(<4 x i64> %va) {
 ; CHECK-LABEL: ssub_v4i64_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <4 x i64> @llvm.ssub.sat.v4i64(<4 x i64> %va, <4 x i64> splat (i64 1))
@@ -540,9 +540,9 @@ define <8 x i64> @ssub_v8i64_vx(<8 x i64> %va, i64 %b) {
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    .cfi_def_cfa_offset 16
 ; RV32-NEXT:    sw a0, 8(sp)
-; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetivli zero, 8, e64, m4, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
+; RV32-NEXT:    sw a1, 12(sp)
 ; RV32-NEXT:    vlse64.v v12, (a0), zero
 ; RV32-NEXT:    vssub.vv v8, v8, v12
 ; RV32-NEXT:    addi sp, sp, 16
@@ -563,8 +563,8 @@ define <8 x i64> @ssub_v8i64_vx(<8 x i64> %va, i64 %b) {
 define <8 x i64> @ssub_v8i64_vi(<8 x i64> %va) {
 ; CHECK-LABEL: ssub_v8i64_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 8, e64, m4, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <8 x i64> @llvm.ssub.sat.v8i64(<8 x i64> %va, <8 x i64> splat (i64 1))
@@ -589,9 +589,9 @@ define <16 x i64> @ssub_v16i64_vx(<16 x i64> %va, i64 %b) {
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    .cfi_def_cfa_offset 16
 ; RV32-NEXT:    sw a0, 8(sp)
-; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetivli zero, 16, e64, m8, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
+; RV32-NEXT:    sw a1, 12(sp)
 ; RV32-NEXT:    vlse64.v v16, (a0), zero
 ; RV32-NEXT:    vssub.vv v8, v8, v16
 ; RV32-NEXT:    addi sp, sp, 16
@@ -612,8 +612,8 @@ define <16 x i64> @ssub_v16i64_vx(<16 x i64> %va, i64 %b) {
 define <16 x i64> @ssub_v16i64_vi(<16 x i64> %va) {
 ; CHECK-LABEL: ssub_v16i64_vi:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vsetivli zero, 16, e64, m8, ta, ma
+; CHECK-NEXT:    li a0, 1
 ; CHECK-NEXT:    vssub.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %v = call <16 x i64> @llvm.ssub.sat.v16i64(<16 x i64> %va, <16 x i64> splat (i64 1))

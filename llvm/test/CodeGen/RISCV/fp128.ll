@@ -24,18 +24,18 @@ define i32 @test_load_and_cmp() nounwind {
 ; RV32I-NEXT:    lw a7, %lo(y+8)(a0)
 ; RV32I-NEXT:    lw a0, %lo(y+12)(a0)
 ; RV32I-NEXT:    sw a1, 8(sp)
-; RV32I-NEXT:    sw a6, 12(sp)
-; RV32I-NEXT:    sw a7, 16(sp)
+; RV32I-NEXT:    sw a5, 36(sp)
+; RV32I-NEXT:    sw a4, 32(sp)
+; RV32I-NEXT:    sw a3, 28(sp)
+; RV32I-NEXT:    sw a2, 24(sp)
+; RV32I-NEXT:    addi a1, sp, 8
 ; RV32I-NEXT:    sw a0, 20(sp)
 ; RV32I-NEXT:    addi a0, sp, 24
-; RV32I-NEXT:    addi a1, sp, 8
-; RV32I-NEXT:    sw a2, 24(sp)
-; RV32I-NEXT:    sw a3, 28(sp)
-; RV32I-NEXT:    sw a4, 32(sp)
-; RV32I-NEXT:    sw a5, 36(sp)
+; RV32I-NEXT:    sw a7, 16(sp)
+; RV32I-NEXT:    sw a6, 12(sp)
 ; RV32I-NEXT:    call __netf2
-; RV32I-NEXT:    snez a0, a0
 ; RV32I-NEXT:    lw ra, 44(sp) # 4-byte Folded Reload
+; RV32I-NEXT:    snez a0, a0
 ; RV32I-NEXT:    addi sp, sp, 48
 ; RV32I-NEXT:    ret
   %1 = load fp128, ptr @x, align 16
@@ -62,25 +62,25 @@ define i32 @test_add_and_fptosi() nounwind {
 ; RV32I-NEXT:    lw a0, %lo(y+12)(a0)
 ; RV32I-NEXT:    sw a1, 24(sp)
 ; RV32I-NEXT:    sw a2, 28(sp)
-; RV32I-NEXT:    sw a7, 32(sp)
+; RV32I-NEXT:    sw a6, 52(sp)
+; RV32I-NEXT:    sw a5, 48(sp)
+; RV32I-NEXT:    sw a4, 44(sp)
+; RV32I-NEXT:    sw a3, 40(sp)
+; RV32I-NEXT:    addi a2, sp, 24
+; RV32I-NEXT:    addi a1, sp, 40
 ; RV32I-NEXT:    sw a0, 36(sp)
 ; RV32I-NEXT:    addi a0, sp, 56
-; RV32I-NEXT:    addi a1, sp, 40
-; RV32I-NEXT:    addi a2, sp, 24
-; RV32I-NEXT:    sw a3, 40(sp)
-; RV32I-NEXT:    sw a4, 44(sp)
-; RV32I-NEXT:    sw a5, 48(sp)
-; RV32I-NEXT:    sw a6, 52(sp)
+; RV32I-NEXT:    sw a7, 32(sp)
 ; RV32I-NEXT:    call __addtf3
 ; RV32I-NEXT:    lw a1, 56(sp)
 ; RV32I-NEXT:    lw a2, 60(sp)
 ; RV32I-NEXT:    lw a3, 64(sp)
 ; RV32I-NEXT:    lw a4, 68(sp)
 ; RV32I-NEXT:    addi a0, sp, 8
-; RV32I-NEXT:    sw a1, 8(sp)
 ; RV32I-NEXT:    sw a2, 12(sp)
 ; RV32I-NEXT:    sw a3, 16(sp)
 ; RV32I-NEXT:    sw a4, 20(sp)
+; RV32I-NEXT:    sw a1, 8(sp)
 ; RV32I-NEXT:    call __fixtfsi
 ; RV32I-NEXT:    lw ra, 76(sp) # 4-byte Folded Reload
 ; RV32I-NEXT:    addi sp, sp, 80

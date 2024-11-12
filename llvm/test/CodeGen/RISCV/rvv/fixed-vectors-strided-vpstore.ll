@@ -459,8 +459,8 @@ declare void @llvm.experimental.vp.strided.store.v3f32.p0.i32(<3 x float>, ptr ,
 define void @strided_store_v32f64(<32 x double> %v, ptr %ptr, i32 signext %stride, <32 x i1> %mask, i32 zeroext %evl) {
 ; CHECK-LABEL: strided_store_v32f64:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a4, 16
 ; CHECK-NEXT:    mv a3, a2
+; CHECK-NEXT:    li a4, 16
 ; CHECK-NEXT:    bltu a2, a4, .LBB38_2
 ; CHECK-NEXT:  # %bb.1:
 ; CHECK-NEXT:    li a3, 16
@@ -473,8 +473,8 @@ define void @strided_store_v32f64(<32 x double> %v, ptr %ptr, i32 signext %strid
 ; CHECK-NEXT:    sltu a2, a2, a3
 ; CHECK-NEXT:    addi a2, a2, -1
 ; CHECK-NEXT:    vsetivli zero, 2, e8, mf4, ta, ma
-; CHECK-NEXT:    vslidedown.vi v0, v0, 2
 ; CHECK-NEXT:    and a2, a2, a3
+; CHECK-NEXT:    vslidedown.vi v0, v0, 2
 ; CHECK-NEXT:    vsetvli zero, a2, e64, m8, ta, ma
 ; CHECK-NEXT:    vsse64.v v16, (a0), a1, v0.t
 ; CHECK-NEXT:    ret
@@ -485,15 +485,15 @@ define void @strided_store_v32f64(<32 x double> %v, ptr %ptr, i32 signext %strid
 define void @strided_store_v32f64_allones_mask(<32 x double> %v, ptr %ptr, i32 signext %stride, i32 zeroext %evl) {
 ; CHECK-LABEL: strided_store_v32f64_allones_mask:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a4, 16
 ; CHECK-NEXT:    mv a3, a2
+; CHECK-NEXT:    li a4, 16
 ; CHECK-NEXT:    bltu a2, a4, .LBB39_2
 ; CHECK-NEXT:  # %bb.1:
 ; CHECK-NEXT:    li a3, 16
 ; CHECK-NEXT:  .LBB39_2:
 ; CHECK-NEXT:    vsetvli zero, a3, e64, m8, ta, ma
-; CHECK-NEXT:    vsse64.v v8, (a0), a1
 ; CHECK-NEXT:    mul a3, a3, a1
+; CHECK-NEXT:    vsse64.v v8, (a0), a1
 ; CHECK-NEXT:    add a0, a0, a3
 ; CHECK-NEXT:    addi a3, a2, -16
 ; CHECK-NEXT:    sltu a2, a2, a3

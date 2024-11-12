@@ -206,8 +206,8 @@ define i1 @extractelt_v64i1(ptr %x, i64 %idx) nounwind {
 ; RV32-NEXT:    li a2, 64
 ; RV32-NEXT:    vsetvli zero, a2, e8, m4, ta, ma
 ; RV32-NEXT:    vle8.v v8, (a0)
-; RV32-NEXT:    vmseq.vi v12, v8, 0
 ; RV32-NEXT:    srli a0, a1, 5
+; RV32-NEXT:    vmseq.vi v12, v8, 0
 ; RV32-NEXT:    vsetivli zero, 1, e32, mf2, ta, ma
 ; RV32-NEXT:    vslidedown.vx v8, v12, a0
 ; RV32-NEXT:    vmv.x.s a0, v8
@@ -232,8 +232,8 @@ define i1 @extractelt_v64i1(ptr %x, i64 %idx) nounwind {
 ; RV32ZBS-NEXT:    li a2, 64
 ; RV32ZBS-NEXT:    vsetvli zero, a2, e8, m4, ta, ma
 ; RV32ZBS-NEXT:    vle8.v v8, (a0)
-; RV32ZBS-NEXT:    vmseq.vi v12, v8, 0
 ; RV32ZBS-NEXT:    srli a0, a1, 5
+; RV32ZBS-NEXT:    vmseq.vi v12, v8, 0
 ; RV32ZBS-NEXT:    vsetivli zero, 1, e32, mf2, ta, ma
 ; RV32ZBS-NEXT:    vslidedown.vx v8, v12, a0
 ; RV32ZBS-NEXT:    vmv.x.s a0, v8
@@ -262,8 +262,8 @@ define i1 @extractelt_v128i1(ptr %x, i64 %idx) nounwind {
 ; RV32-NEXT:    li a2, 128
 ; RV32-NEXT:    vsetvli zero, a2, e8, m8, ta, ma
 ; RV32-NEXT:    vle8.v v8, (a0)
-; RV32-NEXT:    vmseq.vi v16, v8, 0
 ; RV32-NEXT:    srli a0, a1, 5
+; RV32-NEXT:    vmseq.vi v16, v8, 0
 ; RV32-NEXT:    vsetivli zero, 1, e32, m1, ta, ma
 ; RV32-NEXT:    vslidedown.vx v8, v16, a0
 ; RV32-NEXT:    vmv.x.s a0, v8
@@ -276,8 +276,8 @@ define i1 @extractelt_v128i1(ptr %x, i64 %idx) nounwind {
 ; RV64-NEXT:    li a2, 128
 ; RV64-NEXT:    vsetvli zero, a2, e8, m8, ta, ma
 ; RV64-NEXT:    vle8.v v8, (a0)
-; RV64-NEXT:    vmseq.vi v16, v8, 0
 ; RV64-NEXT:    srli a0, a1, 6
+; RV64-NEXT:    vmseq.vi v16, v8, 0
 ; RV64-NEXT:    vsetivli zero, 1, e64, m1, ta, ma
 ; RV64-NEXT:    vslidedown.vx v8, v16, a0
 ; RV64-NEXT:    vmv.x.s a0, v8
@@ -290,8 +290,8 @@ define i1 @extractelt_v128i1(ptr %x, i64 %idx) nounwind {
 ; RV32ZBS-NEXT:    li a2, 128
 ; RV32ZBS-NEXT:    vsetvli zero, a2, e8, m8, ta, ma
 ; RV32ZBS-NEXT:    vle8.v v8, (a0)
-; RV32ZBS-NEXT:    vmseq.vi v16, v8, 0
 ; RV32ZBS-NEXT:    srli a0, a1, 5
+; RV32ZBS-NEXT:    vmseq.vi v16, v8, 0
 ; RV32ZBS-NEXT:    vsetivli zero, 1, e32, m1, ta, ma
 ; RV32ZBS-NEXT:    vslidedown.vx v8, v16, a0
 ; RV32ZBS-NEXT:    vmv.x.s a0, v8
@@ -303,8 +303,8 @@ define i1 @extractelt_v128i1(ptr %x, i64 %idx) nounwind {
 ; RV64ZBS-NEXT:    li a2, 128
 ; RV64ZBS-NEXT:    vsetvli zero, a2, e8, m8, ta, ma
 ; RV64ZBS-NEXT:    vle8.v v8, (a0)
-; RV64ZBS-NEXT:    vmseq.vi v16, v8, 0
 ; RV64ZBS-NEXT:    srli a0, a1, 6
+; RV64ZBS-NEXT:    vmseq.vi v16, v8, 0
 ; RV64ZBS-NEXT:    vsetivli zero, 1, e64, m1, ta, ma
 ; RV64ZBS-NEXT:    vslidedown.vx v8, v16, a0
 ; RV64ZBS-NEXT:    vmv.x.s a0, v8
@@ -320,8 +320,8 @@ define i1 @extractelt_v256i1(ptr %x, i64 %idx) nounwind {
 ; RV32-LABEL: extractelt_v256i1:
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    addi sp, sp, -384
-; RV32-NEXT:    sw ra, 380(sp) # 4-byte Folded Spill
 ; RV32-NEXT:    sw s0, 376(sp) # 4-byte Folded Spill
+; RV32-NEXT:    sw ra, 380(sp) # 4-byte Folded Spill
 ; RV32-NEXT:    addi s0, sp, 384
 ; RV32-NEXT:    andi sp, sp, -128
 ; RV32-NEXT:    andi a1, a1, 255
@@ -338,21 +338,21 @@ define i1 @extractelt_v256i1(ptr %x, i64 %idx) nounwind {
 ; RV32-NEXT:    vmerge.vim v24, v16, 1, v0
 ; RV32-NEXT:    vse8.v v24, (a0)
 ; RV32-NEXT:    vmv1r.v v0, v8
-; RV32-NEXT:    vmerge.vim v8, v16, 1, v0
 ; RV32-NEXT:    addi a0, sp, 128
+; RV32-NEXT:    vmerge.vim v8, v16, 1, v0
 ; RV32-NEXT:    vse8.v v8, (a0)
 ; RV32-NEXT:    lbu a0, 0(a1)
 ; RV32-NEXT:    addi sp, s0, -384
-; RV32-NEXT:    lw ra, 380(sp) # 4-byte Folded Reload
 ; RV32-NEXT:    lw s0, 376(sp) # 4-byte Folded Reload
+; RV32-NEXT:    lw ra, 380(sp) # 4-byte Folded Reload
 ; RV32-NEXT:    addi sp, sp, 384
 ; RV32-NEXT:    ret
 ;
 ; RV64-LABEL: extractelt_v256i1:
 ; RV64:       # %bb.0:
 ; RV64-NEXT:    addi sp, sp, -384
-; RV64-NEXT:    sd ra, 376(sp) # 8-byte Folded Spill
 ; RV64-NEXT:    sd s0, 368(sp) # 8-byte Folded Spill
+; RV64-NEXT:    sd ra, 376(sp) # 8-byte Folded Spill
 ; RV64-NEXT:    addi s0, sp, 384
 ; RV64-NEXT:    andi sp, sp, -128
 ; RV64-NEXT:    andi a1, a1, 255
@@ -369,21 +369,21 @@ define i1 @extractelt_v256i1(ptr %x, i64 %idx) nounwind {
 ; RV64-NEXT:    vmerge.vim v24, v16, 1, v0
 ; RV64-NEXT:    vse8.v v24, (a0)
 ; RV64-NEXT:    vmv1r.v v0, v8
-; RV64-NEXT:    vmerge.vim v8, v16, 1, v0
 ; RV64-NEXT:    addi a0, sp, 128
+; RV64-NEXT:    vmerge.vim v8, v16, 1, v0
 ; RV64-NEXT:    vse8.v v8, (a0)
 ; RV64-NEXT:    lbu a0, 0(a1)
 ; RV64-NEXT:    addi sp, s0, -384
-; RV64-NEXT:    ld ra, 376(sp) # 8-byte Folded Reload
 ; RV64-NEXT:    ld s0, 368(sp) # 8-byte Folded Reload
+; RV64-NEXT:    ld ra, 376(sp) # 8-byte Folded Reload
 ; RV64-NEXT:    addi sp, sp, 384
 ; RV64-NEXT:    ret
 ;
 ; RV32ZBS-LABEL: extractelt_v256i1:
 ; RV32ZBS:       # %bb.0:
 ; RV32ZBS-NEXT:    addi sp, sp, -384
-; RV32ZBS-NEXT:    sw ra, 380(sp) # 4-byte Folded Spill
 ; RV32ZBS-NEXT:    sw s0, 376(sp) # 4-byte Folded Spill
+; RV32ZBS-NEXT:    sw ra, 380(sp) # 4-byte Folded Spill
 ; RV32ZBS-NEXT:    addi s0, sp, 384
 ; RV32ZBS-NEXT:    andi sp, sp, -128
 ; RV32ZBS-NEXT:    andi a1, a1, 255
@@ -400,21 +400,21 @@ define i1 @extractelt_v256i1(ptr %x, i64 %idx) nounwind {
 ; RV32ZBS-NEXT:    vmerge.vim v24, v16, 1, v0
 ; RV32ZBS-NEXT:    vse8.v v24, (a0)
 ; RV32ZBS-NEXT:    vmv1r.v v0, v8
-; RV32ZBS-NEXT:    vmerge.vim v8, v16, 1, v0
 ; RV32ZBS-NEXT:    addi a0, sp, 128
+; RV32ZBS-NEXT:    vmerge.vim v8, v16, 1, v0
 ; RV32ZBS-NEXT:    vse8.v v8, (a0)
 ; RV32ZBS-NEXT:    lbu a0, 0(a1)
 ; RV32ZBS-NEXT:    addi sp, s0, -384
-; RV32ZBS-NEXT:    lw ra, 380(sp) # 4-byte Folded Reload
 ; RV32ZBS-NEXT:    lw s0, 376(sp) # 4-byte Folded Reload
+; RV32ZBS-NEXT:    lw ra, 380(sp) # 4-byte Folded Reload
 ; RV32ZBS-NEXT:    addi sp, sp, 384
 ; RV32ZBS-NEXT:    ret
 ;
 ; RV64ZBS-LABEL: extractelt_v256i1:
 ; RV64ZBS:       # %bb.0:
 ; RV64ZBS-NEXT:    addi sp, sp, -384
-; RV64ZBS-NEXT:    sd ra, 376(sp) # 8-byte Folded Spill
 ; RV64ZBS-NEXT:    sd s0, 368(sp) # 8-byte Folded Spill
+; RV64ZBS-NEXT:    sd ra, 376(sp) # 8-byte Folded Spill
 ; RV64ZBS-NEXT:    addi s0, sp, 384
 ; RV64ZBS-NEXT:    andi sp, sp, -128
 ; RV64ZBS-NEXT:    andi a1, a1, 255
@@ -431,13 +431,13 @@ define i1 @extractelt_v256i1(ptr %x, i64 %idx) nounwind {
 ; RV64ZBS-NEXT:    vmerge.vim v24, v16, 1, v0
 ; RV64ZBS-NEXT:    vse8.v v24, (a0)
 ; RV64ZBS-NEXT:    vmv1r.v v0, v8
-; RV64ZBS-NEXT:    vmerge.vim v8, v16, 1, v0
 ; RV64ZBS-NEXT:    addi a0, sp, 128
+; RV64ZBS-NEXT:    vmerge.vim v8, v16, 1, v0
 ; RV64ZBS-NEXT:    vse8.v v8, (a0)
 ; RV64ZBS-NEXT:    lbu a0, 0(a1)
 ; RV64ZBS-NEXT:    addi sp, s0, -384
-; RV64ZBS-NEXT:    ld ra, 376(sp) # 8-byte Folded Reload
 ; RV64ZBS-NEXT:    ld s0, 368(sp) # 8-byte Folded Reload
+; RV64ZBS-NEXT:    ld ra, 376(sp) # 8-byte Folded Reload
 ; RV64ZBS-NEXT:    addi sp, sp, 384
 ; RV64ZBS-NEXT:    ret
   %a = load <256 x i8>, ptr %x

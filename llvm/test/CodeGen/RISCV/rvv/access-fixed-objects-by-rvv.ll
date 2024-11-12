@@ -42,8 +42,8 @@ define <vscale x 1 x i64> @access_fixed_and_vector_objects(ptr %val) {
 ; RV64IV-NEXT:    vl1re64.v v9, (a0)
 ; RV64IV-NEXT:    ld a0, 520(sp)
 ; RV64IV-NEXT:    vsetvli zero, a0, e64, m1, ta, ma
-; RV64IV-NEXT:    vadd.vv v8, v8, v9
 ; RV64IV-NEXT:    csrr a0, vlenb
+; RV64IV-NEXT:    vadd.vv v8, v8, v9
 ; RV64IV-NEXT:    add sp, sp, a0
 ; RV64IV-NEXT:    .cfi_def_cfa sp, 528
 ; RV64IV-NEXT:    addi sp, sp, 528

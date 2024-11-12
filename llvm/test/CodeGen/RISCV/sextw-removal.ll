@@ -10,11 +10,11 @@ define void @test1(i32 signext %arg, i32 signext %arg1) nounwind {
 ; CHECK-LABEL: test1:
 ; CHECK:       # %bb.0: # %bb
 ; CHECK-NEXT:    addi sp, sp, -32
-; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    mv s0, a1
+; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sraw s1, a0, a1
+; CHECK-NEXT:    mv s0, a1
 ; CHECK-NEXT:  .LBB0_1: # %bb2
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    mv a0, s1
@@ -22,20 +22,20 @@ define void @test1(i32 signext %arg, i32 signext %arg1) nounwind {
 ; CHECK-NEXT:    sllw s1, s1, s0
 ; CHECK-NEXT:    bnez a0, .LBB0_1
 ; CHECK-NEXT:  # %bb.2: # %bb7
-; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 32
 ; CHECK-NEXT:    ret
 ;
 ; NOREMOVAL-LABEL: test1:
 ; NOREMOVAL:       # %bb.0: # %bb
 ; NOREMOVAL-NEXT:    addi sp, sp, -32
-; NOREMOVAL-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; NOREMOVAL-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
-; NOREMOVAL-NEXT:    mv s0, a1
+; NOREMOVAL-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; NOREMOVAL-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    sraw s1, a0, a1
+; NOREMOVAL-NEXT:    mv s0, a1
 ; NOREMOVAL-NEXT:  .LBB0_1: # %bb2
 ; NOREMOVAL-NEXT:    # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    sext.w a0, s1
@@ -43,9 +43,9 @@ define void @test1(i32 signext %arg, i32 signext %arg1) nounwind {
 ; NOREMOVAL-NEXT:    sllw s1, s1, s0
 ; NOREMOVAL-NEXT:    bnez a0, .LBB0_1
 ; NOREMOVAL-NEXT:  # %bb.2: # %bb7
-; NOREMOVAL-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; NOREMOVAL-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; NOREMOVAL-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; NOREMOVAL-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    addi sp, sp, 32
 ; NOREMOVAL-NEXT:    ret
 bb:
@@ -170,11 +170,11 @@ define void @test5(i32 signext %arg, i32 signext %arg1) nounwind {
 ; RV64I-LABEL: test5:
 ; RV64I:       # %bb.0: # %bb
 ; RV64I-NEXT:    addi sp, sp, -48
-; RV64I-NEXT:    sd ra, 40(sp) # 8-byte Folded Spill
-; RV64I-NEXT:    sd s0, 32(sp) # 8-byte Folded Spill
-; RV64I-NEXT:    sd s1, 24(sp) # 8-byte Folded Spill
-; RV64I-NEXT:    sd s2, 16(sp) # 8-byte Folded Spill
 ; RV64I-NEXT:    sd s3, 8(sp) # 8-byte Folded Spill
+; RV64I-NEXT:    sd s2, 16(sp) # 8-byte Folded Spill
+; RV64I-NEXT:    sd s1, 24(sp) # 8-byte Folded Spill
+; RV64I-NEXT:    sd s0, 32(sp) # 8-byte Folded Spill
+; RV64I-NEXT:    sd ra, 40(sp) # 8-byte Folded Spill
 ; RV64I-NEXT:    sraw a0, a0, a1
 ; RV64I-NEXT:    lui a1, 349525
 ; RV64I-NEXT:    addiw s0, a1, 1365
@@ -202,11 +202,11 @@ define void @test5(i32 signext %arg, i32 signext %arg1) nounwind {
 ; RV64I-NEXT:    srliw a0, a0, 24
 ; RV64I-NEXT:    bnez a1, .LBB4_1
 ; RV64I-NEXT:  # %bb.2: # %bb7
-; RV64I-NEXT:    ld ra, 40(sp) # 8-byte Folded Reload
-; RV64I-NEXT:    ld s0, 32(sp) # 8-byte Folded Reload
-; RV64I-NEXT:    ld s1, 24(sp) # 8-byte Folded Reload
-; RV64I-NEXT:    ld s2, 16(sp) # 8-byte Folded Reload
 ; RV64I-NEXT:    ld s3, 8(sp) # 8-byte Folded Reload
+; RV64I-NEXT:    ld s2, 16(sp) # 8-byte Folded Reload
+; RV64I-NEXT:    ld s1, 24(sp) # 8-byte Folded Reload
+; RV64I-NEXT:    ld s0, 32(sp) # 8-byte Folded Reload
+; RV64I-NEXT:    ld ra, 40(sp) # 8-byte Folded Reload
 ; RV64I-NEXT:    addi sp, sp, 48
 ; RV64I-NEXT:    ret
 ;
@@ -262,39 +262,39 @@ define void @test6(i32 signext %arg, i32 signext %arg1) nounwind {
 ; CHECK-LABEL: test6:
 ; CHECK:       # %bb.0: # %bb
 ; CHECK-NEXT:    addi sp, sp, -16
-; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    fsw fs0, 4(sp) # 4-byte Folded Spill
-; CHECK-NEXT:    sraw a0, a0, a1
+; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    fmv.w.x fs0, zero
+; CHECK-NEXT:    sraw a0, a0, a1
 ; CHECK-NEXT:  .LBB5_1: # %bb2
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    call baz
-; CHECK-NEXT:    feq.s a1, fa0, fs0
 ; CHECK-NEXT:    fcvt.w.s a0, fa0, rtz
+; CHECK-NEXT:    feq.s a1, fa0, fs0
 ; CHECK-NEXT:    beqz a1, .LBB5_1
 ; CHECK-NEXT:  # %bb.2: # %bb7
-; CHECK-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    flw fs0, 4(sp) # 4-byte Folded Reload
+; CHECK-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 16
 ; CHECK-NEXT:    ret
 ;
 ; NOREMOVAL-LABEL: test6:
 ; NOREMOVAL:       # %bb.0: # %bb
 ; NOREMOVAL-NEXT:    addi sp, sp, -16
-; NOREMOVAL-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    fsw fs0, 4(sp) # 4-byte Folded Spill
-; NOREMOVAL-NEXT:    sraw a0, a0, a1
+; NOREMOVAL-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    fmv.w.x fs0, zero
+; NOREMOVAL-NEXT:    sraw a0, a0, a1
 ; NOREMOVAL-NEXT:  .LBB5_1: # %bb2
 ; NOREMOVAL-NEXT:    # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    sext.w a0, a0
 ; NOREMOVAL-NEXT:    call baz
-; NOREMOVAL-NEXT:    feq.s a1, fa0, fs0
 ; NOREMOVAL-NEXT:    fcvt.w.s a0, fa0, rtz
+; NOREMOVAL-NEXT:    feq.s a1, fa0, fs0
 ; NOREMOVAL-NEXT:    beqz a1, .LBB5_1
 ; NOREMOVAL-NEXT:  # %bb.2: # %bb7
-; NOREMOVAL-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    flw fs0, 4(sp) # 4-byte Folded Reload
+; NOREMOVAL-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    addi sp, sp, 16
 ; NOREMOVAL-NEXT:    ret
 bb:
@@ -317,11 +317,11 @@ define void @test7(i32 signext %arg, i32 signext %arg1) nounwind {
 ; RV64I-LABEL: test7:
 ; RV64I:       # %bb.0: # %bb
 ; RV64I-NEXT:    addi sp, sp, -48
-; RV64I-NEXT:    sd ra, 40(sp) # 8-byte Folded Spill
-; RV64I-NEXT:    sd s0, 32(sp) # 8-byte Folded Spill
-; RV64I-NEXT:    sd s1, 24(sp) # 8-byte Folded Spill
-; RV64I-NEXT:    sd s2, 16(sp) # 8-byte Folded Spill
 ; RV64I-NEXT:    sd s3, 8(sp) # 8-byte Folded Spill
+; RV64I-NEXT:    sd s2, 16(sp) # 8-byte Folded Spill
+; RV64I-NEXT:    sd s1, 24(sp) # 8-byte Folded Spill
+; RV64I-NEXT:    sd s0, 32(sp) # 8-byte Folded Spill
+; RV64I-NEXT:    sd ra, 40(sp) # 8-byte Folded Spill
 ; RV64I-NEXT:    sraw a0, a0, a1
 ; RV64I-NEXT:    lui a1, 349525
 ; RV64I-NEXT:    addiw s0, a1, 1365
@@ -356,11 +356,11 @@ define void @test7(i32 signext %arg, i32 signext %arg1) nounwind {
 ; RV64I-NEXT:    srli a0, a0, 56
 ; RV64I-NEXT:    bnez a0, .LBB6_1
 ; RV64I-NEXT:  # %bb.2: # %bb7
-; RV64I-NEXT:    ld ra, 40(sp) # 8-byte Folded Reload
-; RV64I-NEXT:    ld s0, 32(sp) # 8-byte Folded Reload
-; RV64I-NEXT:    ld s1, 24(sp) # 8-byte Folded Reload
-; RV64I-NEXT:    ld s2, 16(sp) # 8-byte Folded Reload
 ; RV64I-NEXT:    ld s3, 8(sp) # 8-byte Folded Reload
+; RV64I-NEXT:    ld s2, 16(sp) # 8-byte Folded Reload
+; RV64I-NEXT:    ld s1, 24(sp) # 8-byte Folded Reload
+; RV64I-NEXT:    ld s0, 32(sp) # 8-byte Folded Reload
+; RV64I-NEXT:    ld ra, 40(sp) # 8-byte Folded Reload
 ; RV64I-NEXT:    addi sp, sp, 48
 ; RV64I-NEXT:    ret
 ;
@@ -465,10 +465,10 @@ define void @test9(i32 signext %arg, i32 signext %arg1) nounwind {
 ; CHECK-LABEL: test9:
 ; CHECK:       # %bb.0: # %bb
 ; CHECK-NEXT:    addi sp, sp, -16
-; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 0(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sraw a0, a0, a1
+; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    li s0, 254
+; CHECK-NEXT:    sraw a0, a0, a1
 ; CHECK-NEXT:  .LBB8_1: # %bb2
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    call bar
@@ -476,18 +476,18 @@ define void @test9(i32 signext %arg, i32 signext %arg1) nounwind {
 ; CHECK-NEXT:    slti a0, a0, 255
 ; CHECK-NEXT:    blt s0, a1, .LBB8_1
 ; CHECK-NEXT:  # %bb.2: # %bb7
-; CHECK-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 0(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 16
 ; CHECK-NEXT:    ret
 ;
 ; NOREMOVAL-LABEL: test9:
 ; NOREMOVAL:       # %bb.0: # %bb
 ; NOREMOVAL-NEXT:    addi sp, sp, -16
-; NOREMOVAL-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    sd s0, 0(sp) # 8-byte Folded Spill
-; NOREMOVAL-NEXT:    sraw a1, a0, a1
+; NOREMOVAL-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    li s0, 254
+; NOREMOVAL-NEXT:    sraw a1, a0, a1
 ; NOREMOVAL-NEXT:  .LBB8_1: # %bb2
 ; NOREMOVAL-NEXT:    # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    sext.w a0, a1
@@ -495,8 +495,8 @@ define void @test9(i32 signext %arg, i32 signext %arg1) nounwind {
 ; NOREMOVAL-NEXT:    slti a1, a0, 255
 ; NOREMOVAL-NEXT:    blt s0, a0, .LBB8_1
 ; NOREMOVAL-NEXT:  # %bb.2: # %bb7
-; NOREMOVAL-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    ld s0, 0(sp) # 8-byte Folded Reload
+; NOREMOVAL-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    addi sp, sp, 16
 ; NOREMOVAL-NEXT:    ret
 bb:
@@ -519,39 +519,39 @@ define void @test10(i32 signext %arg, i32 signext %arg1) nounwind {
 ; CHECK-LABEL: test10:
 ; CHECK:       # %bb.0: # %bb
 ; CHECK-NEXT:    addi sp, sp, -16
-; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    fsw fs0, 4(sp) # 4-byte Folded Spill
-; CHECK-NEXT:    sraw a0, a0, a1
+; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    fmv.w.x fs0, zero
+; CHECK-NEXT:    sraw a0, a0, a1
 ; CHECK-NEXT:  .LBB9_1: # %bb2
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    call baz
-; CHECK-NEXT:    feq.s a1, fa0, fs0
 ; CHECK-NEXT:    fmv.x.w a0, fa0
+; CHECK-NEXT:    feq.s a1, fa0, fs0
 ; CHECK-NEXT:    beqz a1, .LBB9_1
 ; CHECK-NEXT:  # %bb.2: # %bb7
-; CHECK-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    flw fs0, 4(sp) # 4-byte Folded Reload
+; CHECK-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 16
 ; CHECK-NEXT:    ret
 ;
 ; NOREMOVAL-LABEL: test10:
 ; NOREMOVAL:       # %bb.0: # %bb
 ; NOREMOVAL-NEXT:    addi sp, sp, -16
-; NOREMOVAL-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    fsw fs0, 4(sp) # 4-byte Folded Spill
-; NOREMOVAL-NEXT:    sraw a0, a0, a1
+; NOREMOVAL-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    fmv.w.x fs0, zero
+; NOREMOVAL-NEXT:    sraw a0, a0, a1
 ; NOREMOVAL-NEXT:  .LBB9_1: # %bb2
 ; NOREMOVAL-NEXT:    # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    sext.w a0, a0
 ; NOREMOVAL-NEXT:    call baz
-; NOREMOVAL-NEXT:    feq.s a1, fa0, fs0
 ; NOREMOVAL-NEXT:    fmv.x.w a0, fa0
+; NOREMOVAL-NEXT:    feq.s a1, fa0, fs0
 ; NOREMOVAL-NEXT:    beqz a1, .LBB9_1
 ; NOREMOVAL-NEXT:  # %bb.2: # %bb7
-; NOREMOVAL-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    flw fs0, 4(sp) # 4-byte Folded Reload
+; NOREMOVAL-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    addi sp, sp, 16
 ; NOREMOVAL-NEXT:    ret
 bb:
@@ -573,26 +573,26 @@ bb7:                                              ; preds = %bb2
 define signext i32 @test11(i64 %arg1, i64 %arg2, i64 %arg3)  {
 ; CHECK-LABEL: test11:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    addi a2, a2, -1
 ; CHECK-NEXT:    li a3, 256
+; CHECK-NEXT:    addi a2, a2, -1
 ; CHECK-NEXT:  .LBB10_1: # %bb2
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    andi a0, a0, 1234
-; CHECK-NEXT:    addi a2, a2, 1
 ; CHECK-NEXT:    addw a0, a0, a1
+; CHECK-NEXT:    addi a2, a2, 1
 ; CHECK-NEXT:    bltu a2, a3, .LBB10_1
 ; CHECK-NEXT:  # %bb.2: # %bb7
 ; CHECK-NEXT:    ret
 ;
 ; NOREMOVAL-LABEL: test11:
 ; NOREMOVAL:       # %bb.0: # %entry
-; NOREMOVAL-NEXT:    addi a2, a2, -1
 ; NOREMOVAL-NEXT:    li a3, 256
+; NOREMOVAL-NEXT:    addi a2, a2, -1
 ; NOREMOVAL-NEXT:  .LBB10_1: # %bb2
 ; NOREMOVAL-NEXT:    # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    andi a0, a0, 1234
-; NOREMOVAL-NEXT:    addi a2, a2, 1
 ; NOREMOVAL-NEXT:    add a0, a0, a1
+; NOREMOVAL-NEXT:    addi a2, a2, 1
 ; NOREMOVAL-NEXT:    bltu a2, a3, .LBB10_1
 ; NOREMOVAL-NEXT:  # %bb.2: # %bb7
 ; NOREMOVAL-NEXT:    sext.w a0, a0
@@ -618,16 +618,16 @@ bb7:                                              ; preds = %bb2
 define signext i32 @test12(i64 %arg1, i64 %arg2, i64 %arg3)  {
 ; CHECK-LABEL: test12:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    addi a3, a2, -1
 ; CHECK-NEXT:    li a4, 256
+; CHECK-NEXT:    addi a3, a2, -1
 ; CHECK-NEXT:  .LBB11_1: # %bb2
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    xor a0, a0, a1
 ; CHECK-NEXT:    mulw a2, a0, a1
 ; CHECK-NEXT:    addw a0, a0, a2
 ; CHECK-NEXT:    and a2, a2, a0
-; CHECK-NEXT:    addi a3, a3, 1
 ; CHECK-NEXT:    add a0, a2, a1
+; CHECK-NEXT:    addi a3, a3, 1
 ; CHECK-NEXT:    bltu a3, a4, .LBB11_1
 ; CHECK-NEXT:  # %bb.2: # %bb7
 ; CHECK-NEXT:    mv a0, a2
@@ -635,16 +635,16 @@ define signext i32 @test12(i64 %arg1, i64 %arg2, i64 %arg3)  {
 ;
 ; NOREMOVAL-LABEL: test12:
 ; NOREMOVAL:       # %bb.0: # %entry
-; NOREMOVAL-NEXT:    addi a2, a2, -1
 ; NOREMOVAL-NEXT:    li a3, 256
+; NOREMOVAL-NEXT:    addi a2, a2, -1
 ; NOREMOVAL-NEXT:  .LBB11_1: # %bb2
 ; NOREMOVAL-NEXT:    # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    xor a0, a0, a1
 ; NOREMOVAL-NEXT:    mul a4, a0, a1
 ; NOREMOVAL-NEXT:    add a0, a0, a4
 ; NOREMOVAL-NEXT:    and a4, a4, a0
-; NOREMOVAL-NEXT:    addi a2, a2, 1
 ; NOREMOVAL-NEXT:    add a0, a4, a1
+; NOREMOVAL-NEXT:    addi a2, a2, 1
 ; NOREMOVAL-NEXT:    bltu a2, a3, .LBB11_1
 ; NOREMOVAL-NEXT:  # %bb.2: # %bb7
 ; NOREMOVAL-NEXT:    sext.w a0, a4
@@ -673,13 +673,13 @@ bb7:                                              ; preds = %bb2
 define signext i32 @test13(i64 %arg1, i64 %arg2, i64 %arg3)  {
 ; CHECK-LABEL: test13:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    addi a2, a2, -1
 ; CHECK-NEXT:    li a3, 256
+; CHECK-NEXT:    addi a2, a2, -1
 ; CHECK-NEXT:  .LBB12_1: # %bb2
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    div a0, a0, a1
-; CHECK-NEXT:    addi a2, a2, 1
 ; CHECK-NEXT:    add a0, a0, a1
+; CHECK-NEXT:    addi a2, a2, 1
 ; CHECK-NEXT:    bltu a2, a3, .LBB12_1
 ; CHECK-NEXT:  # %bb.2: # %bb7
 ; CHECK-NEXT:    sext.w a0, a0
@@ -687,13 +687,13 @@ define signext i32 @test13(i64 %arg1, i64 %arg2, i64 %arg3)  {
 ;
 ; NOREMOVAL-LABEL: test13:
 ; NOREMOVAL:       # %bb.0: # %entry
-; NOREMOVAL-NEXT:    addi a2, a2, -1
 ; NOREMOVAL-NEXT:    li a3, 256
+; NOREMOVAL-NEXT:    addi a2, a2, -1
 ; NOREMOVAL-NEXT:  .LBB12_1: # %bb2
 ; NOREMOVAL-NEXT:    # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    div a0, a0, a1
-; NOREMOVAL-NEXT:    addi a2, a2, 1
 ; NOREMOVAL-NEXT:    add a0, a0, a1
+; NOREMOVAL-NEXT:    addi a2, a2, 1
 ; NOREMOVAL-NEXT:    bltu a2, a3, .LBB12_1
 ; NOREMOVAL-NEXT:  # %bb.2: # %bb7
 ; NOREMOVAL-NEXT:    sext.w a0, a0
@@ -733,8 +733,8 @@ define signext i32 @test14(i32 signext %0, i32 signext %1) {
 ; CHECK-NEXT:    li a2, 2
 ; CHECK-NEXT:    blt a1, a2, .LBB13_4
 ; CHECK-NEXT:  # %bb.1: # %.preheader
-; CHECK-NEXT:    li a2, 1
 ; CHECK-NEXT:    li a3, 1000
+; CHECK-NEXT:    li a2, 1
 ; CHECK-NEXT:  .LBB13_2: # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    blt a3, a0, .LBB13_5
 ; CHECK-NEXT:  # %bb.3: # in Loop: Header=BB13_2 Depth=1
@@ -752,8 +752,8 @@ define signext i32 @test14(i32 signext %0, i32 signext %1) {
 ; NOREMOVAL-NEXT:    li a2, 2
 ; NOREMOVAL-NEXT:    blt a1, a2, .LBB13_4
 ; NOREMOVAL-NEXT:  # %bb.1: # %.preheader
-; NOREMOVAL-NEXT:    li a2, 1
 ; NOREMOVAL-NEXT:    li a3, 1000
+; NOREMOVAL-NEXT:    li a2, 1
 ; NOREMOVAL-NEXT:  .LBB13_2: # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    sext.w a4, a0
 ; NOREMOVAL-NEXT:    blt a3, a4, .LBB13_5
@@ -794,8 +794,8 @@ define signext i32 @test14b(i32 %0, i32 signext %1) {
 ; CHECK-NEXT:    li a2, 2
 ; CHECK-NEXT:    blt a1, a2, .LBB14_4
 ; CHECK-NEXT:  # %bb.1: # %.preheader
-; CHECK-NEXT:    li a2, 1
 ; CHECK-NEXT:    li a3, 1000
+; CHECK-NEXT:    li a2, 1
 ; CHECK-NEXT:  .LBB14_2: # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    sext.w a4, a0
 ; CHECK-NEXT:    blt a3, a4, .LBB14_5
@@ -816,8 +816,8 @@ define signext i32 @test14b(i32 %0, i32 signext %1) {
 ; NOREMOVAL-NEXT:    li a2, 2
 ; NOREMOVAL-NEXT:    blt a1, a2, .LBB14_4
 ; NOREMOVAL-NEXT:  # %bb.1: # %.preheader
-; NOREMOVAL-NEXT:    li a2, 1
 ; NOREMOVAL-NEXT:    li a3, 1000
+; NOREMOVAL-NEXT:    li a2, 1
 ; NOREMOVAL-NEXT:  .LBB14_2: # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    sext.w a4, a0
 ; NOREMOVAL-NEXT:    blt a3, a4, .LBB14_5
@@ -860,8 +860,8 @@ define signext i32 @test14c(i32 zeroext %0, i32 signext %1) {
 ; CHECK-NEXT:    li a2, 2
 ; CHECK-NEXT:    blt a1, a2, .LBB15_4
 ; CHECK-NEXT:  # %bb.1: # %.preheader
-; CHECK-NEXT:    li a2, 1
 ; CHECK-NEXT:    li a3, 1000
+; CHECK-NEXT:    li a2, 1
 ; CHECK-NEXT:  .LBB15_2: # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    sext.w a4, a0
 ; CHECK-NEXT:    blt a3, a4, .LBB15_5
@@ -882,8 +882,8 @@ define signext i32 @test14c(i32 zeroext %0, i32 signext %1) {
 ; NOREMOVAL-NEXT:    li a2, 2
 ; NOREMOVAL-NEXT:    blt a1, a2, .LBB15_4
 ; NOREMOVAL-NEXT:  # %bb.1: # %.preheader
-; NOREMOVAL-NEXT:    li a2, 1
 ; NOREMOVAL-NEXT:    li a3, 1000
+; NOREMOVAL-NEXT:    li a2, 1
 ; NOREMOVAL-NEXT:  .LBB15_2: # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    sext.w a4, a0
 ; NOREMOVAL-NEXT:    blt a3, a4, .LBB15_5
@@ -926,8 +926,8 @@ define signext i32 @test14d(i31 zeroext %0, i32 signext %1) {
 ; CHECK-NEXT:    li a2, 2
 ; CHECK-NEXT:    blt a1, a2, .LBB16_4
 ; CHECK-NEXT:  # %bb.1: # %.preheader
-; CHECK-NEXT:    li a2, 1
 ; CHECK-NEXT:    li a3, 1000
+; CHECK-NEXT:    li a2, 1
 ; CHECK-NEXT:  .LBB16_2: # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    blt a3, a0, .LBB16_5
 ; CHECK-NEXT:  # %bb.3: # in Loop: Header=BB16_2 Depth=1
@@ -945,8 +945,8 @@ define signext i32 @test14d(i31 zeroext %0, i32 signext %1) {
 ; NOREMOVAL-NEXT:    li a2, 2
 ; NOREMOVAL-NEXT:    blt a1, a2, .LBB16_4
 ; NOREMOVAL-NEXT:  # %bb.1: # %.preheader
-; NOREMOVAL-NEXT:    li a2, 1
 ; NOREMOVAL-NEXT:    li a3, 1000
+; NOREMOVAL-NEXT:    li a2, 1
 ; NOREMOVAL-NEXT:  .LBB16_2: # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    sext.w a4, a0
 ; NOREMOVAL-NEXT:    blt a3, a4, .LBB16_5
@@ -983,13 +983,13 @@ define signext i32 @test14d(i31 zeroext %0, i32 signext %1) {
 define signext i32 @test15(i64 %arg1, i64 %arg2, i64 %arg3, ptr %arg4)  {
 ; CHECK-LABEL: test15:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    addi a2, a2, -1
 ; CHECK-NEXT:    li a4, 256
+; CHECK-NEXT:    addi a2, a2, -1
 ; CHECK-NEXT:  .LBB17_1: # %bb2
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    andi a0, a0, 1234
-; CHECK-NEXT:    addw a0, a0, a1
 ; CHECK-NEXT:    addi a2, a2, 1
+; CHECK-NEXT:    addw a0, a0, a1
 ; CHECK-NEXT:    sw a0, 0(a3)
 ; CHECK-NEXT:    bltu a2, a4, .LBB17_1
 ; CHECK-NEXT:  # %bb.2: # %bb7
@@ -997,13 +997,13 @@ define signext i32 @test15(i64 %arg1, i64 %arg2, i64 %arg3, ptr %arg4)  {
 ;
 ; NOREMOVAL-LABEL: test15:
 ; NOREMOVAL:       # %bb.0: # %entry
-; NOREMOVAL-NEXT:    addi a2, a2, -1
 ; NOREMOVAL-NEXT:    li a4, 256
+; NOREMOVAL-NEXT:    addi a2, a2, -1
 ; NOREMOVAL-NEXT:  .LBB17_1: # %bb2
 ; NOREMOVAL-NEXT:    # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    andi a0, a0, 1234
-; NOREMOVAL-NEXT:    add a0, a0, a1
 ; NOREMOVAL-NEXT:    addi a2, a2, 1
+; NOREMOVAL-NEXT:    add a0, a0, a1
 ; NOREMOVAL-NEXT:    sw a0, 0(a3)
 ; NOREMOVAL-NEXT:    bltu a2, a4, .LBB17_1
 ; NOREMOVAL-NEXT:  # %bb.2: # %bb7
@@ -1063,9 +1063,9 @@ define signext i32 @bug(i32 signext %x) {
 ; CHECK-NEXT:    sllw a1, a1, a3
 ; CHECK-NEXT:    negw a2, a2
 ; CHECK-NEXT:    andi a2, a2, -2
-; CHECK-NEXT:    add a0, a0, a2
 ; CHECK-NEXT:    not a1, a1
 ; CHECK-NEXT:    srli a1, a1, 31
+; CHECK-NEXT:    add a0, a0, a2
 ; CHECK-NEXT:    addw a0, a0, a1
 ; CHECK-NEXT:  .LBB18_4: # %cleanup
 ; CHECK-NEXT:    ret
@@ -1103,9 +1103,9 @@ define signext i32 @bug(i32 signext %x) {
 ; NOREMOVAL-NEXT:    sllw a1, a1, a3
 ; NOREMOVAL-NEXT:    negw a2, a2
 ; NOREMOVAL-NEXT:    andi a2, a2, -2
-; NOREMOVAL-NEXT:    add a0, a0, a2
 ; NOREMOVAL-NEXT:    not a1, a1
 ; NOREMOVAL-NEXT:    srli a1, a1, 31
+; NOREMOVAL-NEXT:    add a0, a0, a2
 ; NOREMOVAL-NEXT:    addw a0, a0, a1
 ; NOREMOVAL-NEXT:  .LBB18_4: # %cleanup
 ; NOREMOVAL-NEXT:    ret
@@ -1147,9 +1147,9 @@ define void @test16(i32 signext %arg, i32 signext %arg1) nounwind {
 ; CHECK-LABEL: test16:
 ; CHECK:       # %bb.0: # %bb
 ; CHECK-NEXT:    addi sp, sp, -32
-; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    mv s0, a1
 ; CHECK-NEXT:    call bar
 ; CHECK-NEXT:    mv s1, a0
@@ -1160,18 +1160,18 @@ define void @test16(i32 signext %arg, i32 signext %arg1) nounwind {
 ; CHECK-NEXT:    sllw s1, s1, s0
 ; CHECK-NEXT:    bnez a0, .LBB19_1
 ; CHECK-NEXT:  # %bb.2: # %bb7
-; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 32
 ; CHECK-NEXT:    ret
 ;
 ; NOREMOVAL-LABEL: test16:
 ; NOREMOVAL:       # %bb.0: # %bb
 ; NOREMOVAL-NEXT:    addi sp, sp, -32
-; NOREMOVAL-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; NOREMOVAL-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
+; NOREMOVAL-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; NOREMOVAL-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    mv s0, a1
 ; NOREMOVAL-NEXT:    call bar
 ; NOREMOVAL-NEXT:    mv s1, a0
@@ -1182,9 +1182,9 @@ define void @test16(i32 signext %arg, i32 signext %arg1) nounwind {
 ; NOREMOVAL-NEXT:    sllw s1, s1, s0
 ; NOREMOVAL-NEXT:    bnez a0, .LBB19_1
 ; NOREMOVAL-NEXT:  # %bb.2: # %bb7
-; NOREMOVAL-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; NOREMOVAL-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; NOREMOVAL-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; NOREMOVAL-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    addi sp, sp, 32
 ; NOREMOVAL-NEXT:    ret
 bb:
@@ -1206,9 +1206,9 @@ define void @test17(i32 signext %arg, i32 signext %arg1) nounwind {
 ; CHECK-LABEL: test17:
 ; CHECK:       # %bb.0: # %bb
 ; CHECK-NEXT:    addi sp, sp, -32
-; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    mv s0, a1
 ; CHECK-NEXT:    call bat
 ; CHECK-NEXT:    mv s1, a0
@@ -1219,18 +1219,18 @@ define void @test17(i32 signext %arg, i32 signext %arg1) nounwind {
 ; CHECK-NEXT:    sllw s1, s1, s0
 ; CHECK-NEXT:    bnez a0, .LBB20_1
 ; CHECK-NEXT:  # %bb.2: # %bb7
-; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 32
 ; CHECK-NEXT:    ret
 ;
 ; NOREMOVAL-LABEL: test17:
 ; NOREMOVAL:       # %bb.0: # %bb
 ; NOREMOVAL-NEXT:    addi sp, sp, -32
-; NOREMOVAL-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; NOREMOVAL-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
+; NOREMOVAL-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; NOREMOVAL-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    mv s0, a1
 ; NOREMOVAL-NEXT:    call bat
 ; NOREMOVAL-NEXT:    mv s1, a0
@@ -1241,9 +1241,9 @@ define void @test17(i32 signext %arg, i32 signext %arg1) nounwind {
 ; NOREMOVAL-NEXT:    sllw s1, s1, s0
 ; NOREMOVAL-NEXT:    bnez a0, .LBB20_1
 ; NOREMOVAL-NEXT:  # %bb.2: # %bb7
-; NOREMOVAL-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; NOREMOVAL-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; NOREMOVAL-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; NOREMOVAL-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    addi sp, sp, 32
 ; NOREMOVAL-NEXT:    ret
 bb:
@@ -1267,11 +1267,11 @@ define void @test18(i32 signext %arg, i32 signext %arg1) nounwind {
 ; CHECK-LABEL: test18:
 ; CHECK:       # %bb.0: # %bb
 ; CHECK-NEXT:    addi sp, sp, -32
-; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    mv s0, a1
+; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sha256sig0 s1, a1
+; CHECK-NEXT:    mv s0, a1
 ; CHECK-NEXT:  .LBB21_1: # %bb2
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    mv a0, s1
@@ -1279,20 +1279,20 @@ define void @test18(i32 signext %arg, i32 signext %arg1) nounwind {
 ; CHECK-NEXT:    sllw s1, s1, s0
 ; CHECK-NEXT:    bnez a0, .LBB21_1
 ; CHECK-NEXT:  # %bb.2: # %bb7
-; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 32
 ; CHECK-NEXT:    ret
 ;
 ; NOREMOVAL-LABEL: test18:
 ; NOREMOVAL:       # %bb.0: # %bb
 ; NOREMOVAL-NEXT:    addi sp, sp, -32
-; NOREMOVAL-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; NOREMOVAL-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
-; NOREMOVAL-NEXT:    mv s0, a1
+; NOREMOVAL-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; NOREMOVAL-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    sha256sig0 s1, a1
+; NOREMOVAL-NEXT:    mv s0, a1
 ; NOREMOVAL-NEXT:  .LBB21_1: # %bb2
 ; NOREMOVAL-NEXT:    # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    sext.w a0, s1
@@ -1300,9 +1300,9 @@ define void @test18(i32 signext %arg, i32 signext %arg1) nounwind {
 ; NOREMOVAL-NEXT:    sllw s1, s1, s0
 ; NOREMOVAL-NEXT:    bnez a0, .LBB21_1
 ; NOREMOVAL-NEXT:  # %bb.2: # %bb7
-; NOREMOVAL-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; NOREMOVAL-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; NOREMOVAL-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; NOREMOVAL-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    addi sp, sp, 32
 ; NOREMOVAL-NEXT:    ret
 bb:
@@ -1373,8 +1373,8 @@ define signext i32 @test19(i64 %arg, i1 zeroext %c1, i1 zeroext %c2, ptr %p) nou
 ; CHECK-LABEL: test19:
 ; CHECK:       # %bb.0: # %bb
 ; CHECK-NEXT:    addi sp, sp, -16
-; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 0(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    neg a0, a1
 ; CHECK-NEXT:    li a1, 1
 ; CHECK-NEXT:    slli a1, a1, 32
@@ -1389,16 +1389,16 @@ define signext i32 @test19(i64 %arg, i1 zeroext %c1, i1 zeroext %c2, ptr %p) nou
 ; CHECK-NEXT:  .LBB23_2: # %bb7
 ; CHECK-NEXT:    call side_effect
 ; CHECK-NEXT:    sext.w a0, s0
-; CHECK-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 0(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 16
 ; CHECK-NEXT:    ret
 ;
 ; NOREMOVAL-LABEL: test19:
 ; NOREMOVAL:       # %bb.0: # %bb
 ; NOREMOVAL-NEXT:    addi sp, sp, -16
-; NOREMOVAL-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    sd s0, 0(sp) # 8-byte Folded Spill
+; NOREMOVAL-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    neg a0, a1
 ; NOREMOVAL-NEXT:    li a1, 1
 ; NOREMOVAL-NEXT:    slli a1, a1, 32
@@ -1413,8 +1413,8 @@ define signext i32 @test19(i64 %arg, i1 zeroext %c1, i1 zeroext %c2, ptr %p) nou
 ; NOREMOVAL-NEXT:  .LBB23_2: # %bb7
 ; NOREMOVAL-NEXT:    call side_effect
 ; NOREMOVAL-NEXT:    sext.w a0, s0
-; NOREMOVAL-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    ld s0, 0(sp) # 8-byte Folded Reload
+; NOREMOVAL-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    addi sp, sp, 16
 ; NOREMOVAL-NEXT:    ret
 bb:
@@ -1440,12 +1440,12 @@ define void @test20(<vscale x 1 x i32> %arg, i32 signext %arg1) nounwind {
 ; CHECK-LABEL: test20:
 ; CHECK:       # %bb.0: # %bb
 ; CHECK-NEXT:    addi sp, sp, -32
-; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    mv s0, a0
+; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m1, ta, ma
 ; CHECK-NEXT:    vmv.x.s s1, v8
+; CHECK-NEXT:    mv s0, a0
 ; CHECK-NEXT:  .LBB24_1: # %bb2
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    mv a0, s1
@@ -1453,21 +1453,21 @@ define void @test20(<vscale x 1 x i32> %arg, i32 signext %arg1) nounwind {
 ; CHECK-NEXT:    sllw s1, s1, s0
 ; CHECK-NEXT:    bnez a0, .LBB24_1
 ; CHECK-NEXT:  # %bb.2: # %bb7
-; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 32
 ; CHECK-NEXT:    ret
 ;
 ; NOREMOVAL-LABEL: test20:
 ; NOREMOVAL:       # %bb.0: # %bb
 ; NOREMOVAL-NEXT:    addi sp, sp, -32
-; NOREMOVAL-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; NOREMOVAL-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
-; NOREMOVAL-NEXT:    mv s0, a0
+; NOREMOVAL-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; NOREMOVAL-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; NOREMOVAL-NEXT:    vsetivli zero, 1, e32, m1, ta, ma
 ; NOREMOVAL-NEXT:    vmv.x.s s1, v8
+; NOREMOVAL-NEXT:    mv s0, a0
 ; NOREMOVAL-NEXT:  .LBB24_1: # %bb2
 ; NOREMOVAL-NEXT:    # =>This Inner Loop Header: Depth=1
 ; NOREMOVAL-NEXT:    sext.w a0, s1
@@ -1475,9 +1475,9 @@ define void @test20(<vscale x 1 x i32> %arg, i32 signext %arg1) nounwind {
 ; NOREMOVAL-NEXT:    sllw s1, s1, s0
 ; NOREMOVAL-NEXT:    bnez a0, .LBB24_1
 ; NOREMOVAL-NEXT:  # %bb.2: # %bb7
-; NOREMOVAL-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; NOREMOVAL-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; NOREMOVAL-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; NOREMOVAL-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; NOREMOVAL-NEXT:    addi sp, sp, 32
 ; NOREMOVAL-NEXT:    ret
 bb:

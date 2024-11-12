@@ -79,8 +79,8 @@ define i64 @smax_i64(i64 %a, i64 %b) {
 ; RV32I-NEXT:    sltu a4, a2, a0
 ; RV32I-NEXT:    bnez a4, .LBB3_4
 ; RV32I-NEXT:  .LBB3_3:
-; RV32I-NEXT:    mv a0, a2
 ; RV32I-NEXT:    mv a1, a3
+; RV32I-NEXT:    mv a0, a2
 ; RV32I-NEXT:  .LBB3_4:
 ; RV32I-NEXT:    ret
 ;
@@ -103,8 +103,8 @@ define i64 @smax_i64(i64 %a, i64 %b) {
 ; RV32ZBB-NEXT:    sltu a4, a2, a0
 ; RV32ZBB-NEXT:    bnez a4, .LBB3_4
 ; RV32ZBB-NEXT:  .LBB3_3:
-; RV32ZBB-NEXT:    mv a0, a2
 ; RV32ZBB-NEXT:    mv a1, a3
+; RV32ZBB-NEXT:    mv a0, a2
 ; RV32ZBB-NEXT:  .LBB3_4:
 ; RV32ZBB-NEXT:    ret
 ;
@@ -187,8 +187,8 @@ define i64 @smin_i64(i64 %a, i64 %b) {
 ; RV32I-NEXT:    sltu a4, a0, a2
 ; RV32I-NEXT:    bnez a4, .LBB7_4
 ; RV32I-NEXT:  .LBB7_3:
-; RV32I-NEXT:    mv a0, a2
 ; RV32I-NEXT:    mv a1, a3
+; RV32I-NEXT:    mv a0, a2
 ; RV32I-NEXT:  .LBB7_4:
 ; RV32I-NEXT:    ret
 ;
@@ -211,8 +211,8 @@ define i64 @smin_i64(i64 %a, i64 %b) {
 ; RV32ZBB-NEXT:    sltu a4, a0, a2
 ; RV32ZBB-NEXT:    bnez a4, .LBB7_4
 ; RV32ZBB-NEXT:  .LBB7_3:
-; RV32ZBB-NEXT:    mv a0, a2
 ; RV32ZBB-NEXT:    mv a1, a3
+; RV32ZBB-NEXT:    mv a0, a2
 ; RV32ZBB-NEXT:  .LBB7_4:
 ; RV32ZBB-NEXT:    ret
 ;
@@ -295,8 +295,8 @@ define i64 @umax_i64(i64 %a, i64 %b) {
 ; RV32I-NEXT:    sltu a4, a2, a0
 ; RV32I-NEXT:    bnez a4, .LBB11_4
 ; RV32I-NEXT:  .LBB11_3:
-; RV32I-NEXT:    mv a0, a2
 ; RV32I-NEXT:    mv a1, a3
+; RV32I-NEXT:    mv a0, a2
 ; RV32I-NEXT:  .LBB11_4:
 ; RV32I-NEXT:    ret
 ;
@@ -319,8 +319,8 @@ define i64 @umax_i64(i64 %a, i64 %b) {
 ; RV32ZBB-NEXT:    sltu a4, a2, a0
 ; RV32ZBB-NEXT:    bnez a4, .LBB11_4
 ; RV32ZBB-NEXT:  .LBB11_3:
-; RV32ZBB-NEXT:    mv a0, a2
 ; RV32ZBB-NEXT:    mv a1, a3
+; RV32ZBB-NEXT:    mv a0, a2
 ; RV32ZBB-NEXT:  .LBB11_4:
 ; RV32ZBB-NEXT:    ret
 ;
@@ -403,8 +403,8 @@ define i64 @umin_i64(i64 %a, i64 %b) {
 ; RV32I-NEXT:    sltu a4, a0, a2
 ; RV32I-NEXT:    bnez a4, .LBB15_4
 ; RV32I-NEXT:  .LBB15_3:
-; RV32I-NEXT:    mv a0, a2
 ; RV32I-NEXT:    mv a1, a3
+; RV32I-NEXT:    mv a0, a2
 ; RV32I-NEXT:  .LBB15_4:
 ; RV32I-NEXT:    ret
 ;
@@ -427,8 +427,8 @@ define i64 @umin_i64(i64 %a, i64 %b) {
 ; RV32ZBB-NEXT:    sltu a4, a0, a2
 ; RV32ZBB-NEXT:    bnez a4, .LBB15_4
 ; RV32ZBB-NEXT:  .LBB15_3:
-; RV32ZBB-NEXT:    mv a0, a2
 ; RV32ZBB-NEXT:    mv a1, a3
+; RV32ZBB-NEXT:    mv a0, a2
 ; RV32ZBB-NEXT:  .LBB15_4:
 ; RV32ZBB-NEXT:    ret
 ;
@@ -602,8 +602,8 @@ define signext i32 @smax_i32_pos_constant(i32 signext %a) {
 define signext i32 @smax_i32_pos_constant_trailing_zeros(i32 signext %a) {
 ; NOZBB-LABEL: smax_i32_pos_constant_trailing_zeros:
 ; NOZBB:       # %bb.0:
-; NOZBB-NEXT:    andi a0, a0, -8
 ; NOZBB-NEXT:    li a1, 16
+; NOZBB-NEXT:    andi a0, a0, -8
 ; NOZBB-NEXT:    blt a1, a0, .LBB25_2
 ; NOZBB-NEXT:  # %bb.1:
 ; NOZBB-NEXT:    li a0, 16
@@ -612,8 +612,8 @@ define signext i32 @smax_i32_pos_constant_trailing_zeros(i32 signext %a) {
 ;
 ; ZBB-LABEL: smax_i32_pos_constant_trailing_zeros:
 ; ZBB:       # %bb.0:
-; ZBB-NEXT:    andi a0, a0, -8
 ; ZBB-NEXT:    li a1, 16
+; ZBB-NEXT:    andi a0, a0, -8
 ; ZBB-NEXT:    max a0, a0, a1
 ; ZBB-NEXT:    ret
   %b = and i32 %a, -8
@@ -701,8 +701,8 @@ define i64 @umax_i64_one(i64 %a, i64 %b) {
 ;
 ; RV32ZBB-LABEL: umax_i64_one:
 ; RV32ZBB:       # %bb.0:
-; RV32ZBB-NEXT:    mv a2, a0
 ; RV32ZBB-NEXT:    li a3, 1
+; RV32ZBB-NEXT:    mv a2, a0
 ; RV32ZBB-NEXT:    beqz a1, .LBB28_3
 ; RV32ZBB-NEXT:  # %bb.1:
 ; RV32ZBB-NEXT:    beqz a1, .LBB28_4

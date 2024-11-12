@@ -9,8 +9,8 @@ define <512 x i8> @single_source(<512 x i8> %a) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    addi sp, sp, -1536
 ; CHECK-NEXT:    .cfi_def_cfa_offset 1536
-; CHECK-NEXT:    sd ra, 1528(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 1520(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 1528(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    .cfi_offset s0, -16
 ; CHECK-NEXT:    addi s0, sp, 1536
@@ -24,11 +24,11 @@ define <512 x i8> @single_source(<512 x i8> %a) {
 ; CHECK-NEXT:    lbu a0, 770(sp)
 ; CHECK-NEXT:    vmv.x.s a1, v16
 ; CHECK-NEXT:    vmv.v.x v8, a1
+; CHECK-NEXT:    li a1, 431
 ; CHECK-NEXT:    vslide1down.vx v8, v8, a0
 ; CHECK-NEXT:    vsetivli zero, 1, e8, m1, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v24, v16, 5
 ; CHECK-NEXT:    li a0, 432
-; CHECK-NEXT:    li a1, 431
 ; CHECK-NEXT:    vsetvli zero, a0, e8, m8, tu, ma
 ; CHECK-NEXT:    vslideup.vx v8, v24, a1
 ; CHECK-NEXT:    vsetivli zero, 1, e8, m1, ta, ma
@@ -40,13 +40,13 @@ define <512 x i8> @single_source(<512 x i8> %a) {
 ; CHECK-NEXT:    vslideup.vx v8, v16, a1
 ; CHECK-NEXT:    vmv.s.x v16, a2
 ; CHECK-NEXT:    li a0, 501
-; CHECK-NEXT:    li a1, 500
 ; CHECK-NEXT:    vsetvli zero, a0, e8, m8, tu, ma
+; CHECK-NEXT:    li a1, 500
 ; CHECK-NEXT:    vslideup.vx v8, v16, a1
 ; CHECK-NEXT:    addi sp, s0, -1536
 ; CHECK-NEXT:    .cfi_def_cfa sp, 1536
-; CHECK-NEXT:    ld ra, 1528(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 1520(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 1528(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
 ; CHECK-NEXT:    .cfi_restore s0
 ; CHECK-NEXT:    addi sp, sp, 1536
@@ -80,8 +80,8 @@ define <512 x i8> @range_restriction(<512 x i8> %a) {
 ; CHECK-NEXT:    li a1, 44
 ; CHECK-NEXT:    vmv.s.x v16, a1
 ; CHECK-NEXT:    li a1, 501
-; CHECK-NEXT:    li a2, 500
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m8, tu, ma
+; CHECK-NEXT:    li a2, 500
 ; CHECK-NEXT:    vslideup.vx v24, v16, a2
 ; CHECK-NEXT:    vsetvli zero, a0, e8, m8, ta, ma
 ; CHECK-NEXT:    vrgather.vv v16, v8, v24
@@ -97,8 +97,8 @@ define <512 x i8> @two_source(<512 x i8> %a, <512 x i8> %b) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    addi sp, sp, -1536
 ; CHECK-NEXT:    .cfi_def_cfa_offset 1536
-; CHECK-NEXT:    sd ra, 1528(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 1520(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 1528(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    .cfi_offset s0, -16
 ; CHECK-NEXT:    addi s0, sp, 1536
@@ -124,8 +124,8 @@ define <512 x i8> @two_source(<512 x i8> %a, <512 x i8> %b) {
 ; CHECK-NEXT:    li a2, 465
 ; CHECK-NEXT:    lbu a3, 985(sp)
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m8, tu, ma
-; CHECK-NEXT:    vslideup.vx v8, v24, a2
 ; CHECK-NEXT:    lbu a1, 1012(sp)
+; CHECK-NEXT:    vslideup.vx v8, v24, a2
 ; CHECK-NEXT:    vmv.s.x v24, a3
 ; CHECK-NEXT:    li a2, 478
 ; CHECK-NEXT:    li a3, 477
@@ -140,7 +140,6 @@ define <512 x i8> @two_source(<512 x i8> %a, <512 x i8> %b) {
 ; CHECK-NEXT:    slli a1, a1, 25
 ; CHECK-NEXT:    addi a1, a1, 501
 ; CHECK-NEXT:    slli a1, a1, 13
-; CHECK-NEXT:    addi a1, a1, 512
 ; CHECK-NEXT:    vsetivli zero, 8, e64, m1, ta, ma
 ; CHECK-NEXT:    vmv.v.i v24, 0
 ; CHECK-NEXT:    lui a2, 1047552
@@ -151,17 +150,18 @@ define <512 x i8> @two_source(<512 x i8> %a, <512 x i8> %b) {
 ; CHECK-NEXT:    vslide1down.vx v0, v24, a2
 ; CHECK-NEXT:    lui a2, 4
 ; CHECK-NEXT:    vmv.s.x v24, a2
-; CHECK-NEXT:    li a2, 64
 ; CHECK-NEXT:    vsetivli zero, 7, e64, m1, tu, ma
 ; CHECK-NEXT:    vslideup.vi v0, v24, 6
+; CHECK-NEXT:    li a2, 64
 ; CHECK-NEXT:    vsetvli zero, a2, e64, m8, ta, ma
+; CHECK-NEXT:    addi a1, a1, 512
 ; CHECK-NEXT:    vmv.v.x v24, a1
 ; CHECK-NEXT:    vsetvli zero, a0, e8, m8, ta, mu
 ; CHECK-NEXT:    vrgather.vv v8, v16, v24, v0.t
 ; CHECK-NEXT:    addi sp, s0, -1536
 ; CHECK-NEXT:    .cfi_def_cfa sp, 1536
-; CHECK-NEXT:    ld ra, 1528(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 1520(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 1528(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
 ; CHECK-NEXT:    .cfi_restore s0
 ; CHECK-NEXT:    addi sp, sp, 1536

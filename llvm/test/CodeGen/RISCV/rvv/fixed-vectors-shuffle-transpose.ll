@@ -7,8 +7,8 @@ target datalayout = "e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128"
 define <8 x i8> @trn1.v8i8(<8 x i8> %v0, <8 x i8> %v1) {
 ; CHECK-LABEL: trn1.v8i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 170
 ; CHECK-NEXT:    vsetivli zero, 8, e8, mf2, ta, mu
+; CHECK-NEXT:    li a0, 170
 ; CHECK-NEXT:    vmv.s.x v0, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1, v0.t
 ; CHECK-NEXT:    ret
@@ -19,8 +19,8 @@ define <8 x i8> @trn1.v8i8(<8 x i8> %v0, <8 x i8> %v1) {
 define <8 x i8> @trn2.v8i8(<8 x i8> %v0, <8 x i8> %v1) {
 ; CHECK-LABEL: trn2.v8i8:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 85
 ; CHECK-NEXT:    vsetivli zero, 8, e8, mf2, ta, mu
+; CHECK-NEXT:    li a0, 85
 ; CHECK-NEXT:    vmv.s.x v0, a0
 ; CHECK-NEXT:    vslidedown.vi v9, v8, 1, v0.t
 ; CHECK-NEXT:    vmv1r.v v8, v9
@@ -33,8 +33,8 @@ define <16 x i8> @trn1.v16i8(<16 x i8> %v0, <16 x i8> %v1) {
 ; CHECK-LABEL: trn1.v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    lui a0, 11
-; CHECK-NEXT:    addi a0, a0, -1366
 ; CHECK-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1366
 ; CHECK-NEXT:    vmv.s.x v0, a0
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, mu
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1, v0.t
@@ -47,8 +47,8 @@ define <16 x i8> @trn2.v16i8(<16 x i8> %v0, <16 x i8> %v1) {
 ; CHECK-LABEL: trn2.v16i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    lui a0, 5
-; CHECK-NEXT:    addi a0, a0, 1365
 ; CHECK-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, 1365
 ; CHECK-NEXT:    vmv.s.x v0, a0
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, mu
 ; CHECK-NEXT:    vslidedown.vi v9, v8, 1, v0.t
@@ -84,8 +84,8 @@ define <4 x i16> @trn2.v4i16(<4 x i16> %v0, <4 x i16> %v1) {
 define <8 x i16> @trn1.v8i16(<8 x i16> %v0, <8 x i16> %v1) {
 ; CHECK-LABEL: trn1.v8i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 170
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, mu
+; CHECK-NEXT:    li a0, 170
 ; CHECK-NEXT:    vmv.s.x v0, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1, v0.t
 ; CHECK-NEXT:    ret
@@ -96,8 +96,8 @@ define <8 x i16> @trn1.v8i16(<8 x i16> %v0, <8 x i16> %v1) {
 define <8 x i16> @trn2.v8i16(<8 x i16> %v0, <8 x i16> %v1) {
 ; CHECK-LABEL: trn2.v8i16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 85
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, mu
+; CHECK-NEXT:    li a0, 85
 ; CHECK-NEXT:    vmv.s.x v0, a0
 ; CHECK-NEXT:    vslidedown.vi v9, v8, 1, v0.t
 ; CHECK-NEXT:    vmv.v.v v8, v9
@@ -266,8 +266,8 @@ define <4 x half> @trn2.v4f16(<4 x half> %v0, <4 x half> %v1) {
 define <8 x half> @trn1.v8f16(<8 x half> %v0, <8 x half> %v1) {
 ; CHECK-LABEL: trn1.v8f16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 170
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, mu
+; CHECK-NEXT:    li a0, 170
 ; CHECK-NEXT:    vmv.s.x v0, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1, v0.t
 ; CHECK-NEXT:    ret
@@ -278,8 +278,8 @@ define <8 x half> @trn1.v8f16(<8 x half> %v0, <8 x half> %v1) {
 define <8 x half> @trn2.v8f16(<8 x half> %v0, <8 x half> %v1) {
 ; CHECK-LABEL: trn2.v8f16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 85
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, mu
+; CHECK-NEXT:    li a0, 85
 ; CHECK-NEXT:    vmv.s.x v0, a0
 ; CHECK-NEXT:    vslidedown.vi v9, v8, 1, v0.t
 ; CHECK-NEXT:    vmv.v.v v8, v9

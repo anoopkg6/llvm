@@ -109,8 +109,8 @@ define zeroext i32 @zext_fptoui(half %a) nounwind {
 define i16 @bcvt_f16_to_aext_i16(half %a, half %b) nounwind {
 ; RV64IZFHMIN-LABEL: bcvt_f16_to_aext_i16:
 ; RV64IZFHMIN:       # %bb.0:
-; RV64IZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; RV64IZFHMIN-NEXT:    fcvt.s.h fa4, fa0
+; RV64IZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; RV64IZFHMIN-NEXT:    fadd.s fa5, fa4, fa5
 ; RV64IZFHMIN-NEXT:    fcvt.h.s fa5, fa5
 ; RV64IZFHMIN-NEXT:    fmv.x.h a0, fa5
@@ -118,8 +118,8 @@ define i16 @bcvt_f16_to_aext_i16(half %a, half %b) nounwind {
 ;
 ; RV64IZHINXMIN-LABEL: bcvt_f16_to_aext_i16:
 ; RV64IZHINXMIN:       # %bb.0:
-; RV64IZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; RV64IZHINXMIN-NEXT:    fcvt.s.h a0, a0
+; RV64IZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; RV64IZHINXMIN-NEXT:    fadd.s a0, a0, a1
 ; RV64IZHINXMIN-NEXT:    fcvt.h.s a0, a0
 ; RV64IZHINXMIN-NEXT:    ret
@@ -131,8 +131,8 @@ define i16 @bcvt_f16_to_aext_i16(half %a, half %b) nounwind {
 define signext i16 @bcvt_f16_to_sext_i16(half %a, half %b) nounwind {
 ; RV64IZFHMIN-LABEL: bcvt_f16_to_sext_i16:
 ; RV64IZFHMIN:       # %bb.0:
-; RV64IZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; RV64IZFHMIN-NEXT:    fcvt.s.h fa4, fa0
+; RV64IZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; RV64IZFHMIN-NEXT:    fadd.s fa5, fa4, fa5
 ; RV64IZFHMIN-NEXT:    fcvt.h.s fa5, fa5
 ; RV64IZFHMIN-NEXT:    fmv.x.h a0, fa5
@@ -140,8 +140,8 @@ define signext i16 @bcvt_f16_to_sext_i16(half %a, half %b) nounwind {
 ;
 ; RV64IZHINXMIN-LABEL: bcvt_f16_to_sext_i16:
 ; RV64IZHINXMIN:       # %bb.0:
-; RV64IZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; RV64IZHINXMIN-NEXT:    fcvt.s.h a0, a0
+; RV64IZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; RV64IZHINXMIN-NEXT:    fadd.s a0, a0, a1
 ; RV64IZHINXMIN-NEXT:    fcvt.h.s a0, a0
 ; RV64IZHINXMIN-NEXT:    slli a0, a0, 48
@@ -155,8 +155,8 @@ define signext i16 @bcvt_f16_to_sext_i16(half %a, half %b) nounwind {
 define zeroext i16 @bcvt_f16_to_zext_i16(half %a, half %b) nounwind {
 ; RV64IZFHMIN-LABEL: bcvt_f16_to_zext_i16:
 ; RV64IZFHMIN:       # %bb.0:
-; RV64IZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; RV64IZFHMIN-NEXT:    fcvt.s.h fa4, fa0
+; RV64IZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; RV64IZFHMIN-NEXT:    fadd.s fa5, fa4, fa5
 ; RV64IZFHMIN-NEXT:    fcvt.h.s fa5, fa5
 ; RV64IZFHMIN-NEXT:    fmv.x.h a0, fa5
@@ -166,8 +166,8 @@ define zeroext i16 @bcvt_f16_to_zext_i16(half %a, half %b) nounwind {
 ;
 ; RV64IZHINXMIN-LABEL: bcvt_f16_to_zext_i16:
 ; RV64IZHINXMIN:       # %bb.0:
-; RV64IZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; RV64IZHINXMIN-NEXT:    fcvt.s.h a0, a0
+; RV64IZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; RV64IZHINXMIN-NEXT:    fadd.s a0, a0, a1
 ; RV64IZHINXMIN-NEXT:    fcvt.h.s a0, a0
 ; RV64IZHINXMIN-NEXT:    slli a0, a0, 48
@@ -183,16 +183,16 @@ define half @bcvt_i64_to_f16_via_i16(i64 %a, i64 %b) nounwind {
 ; RV64IZFHMIN:       # %bb.0:
 ; RV64IZFHMIN-NEXT:    fmv.h.x fa5, a0
 ; RV64IZFHMIN-NEXT:    fmv.h.x fa4, a1
-; RV64IZFHMIN-NEXT:    fcvt.s.h fa4, fa4
 ; RV64IZFHMIN-NEXT:    fcvt.s.h fa5, fa5
+; RV64IZFHMIN-NEXT:    fcvt.s.h fa4, fa4
 ; RV64IZFHMIN-NEXT:    fadd.s fa5, fa5, fa4
 ; RV64IZFHMIN-NEXT:    fcvt.h.s fa0, fa5
 ; RV64IZFHMIN-NEXT:    ret
 ;
 ; RV64IZHINXMIN-LABEL: bcvt_i64_to_f16_via_i16:
 ; RV64IZHINXMIN:       # %bb.0:
-; RV64IZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; RV64IZHINXMIN-NEXT:    fcvt.s.h a0, a0
+; RV64IZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; RV64IZHINXMIN-NEXT:    fadd.s a0, a0, a1
 ; RV64IZHINXMIN-NEXT:    fcvt.h.s a0, a0
 ; RV64IZHINXMIN-NEXT:    ret

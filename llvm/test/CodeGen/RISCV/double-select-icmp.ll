@@ -22,11 +22,11 @@ define double @select_icmp_eq(i32 signext %a, i32 signext %b, double %c, double 
 ; RV32ZDINX:       # %bb.0:
 ; RV32ZDINX-NEXT:    beq a0, a1, .LBB0_2
 ; RV32ZDINX-NEXT:  # %bb.1:
-; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:    mv a3, a5
+; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:  .LBB0_2:
-; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    mv a1, a3
+; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    ret
 ;
 ; RV64ZDINX-LABEL: select_icmp_eq:
@@ -55,11 +55,11 @@ define double @select_icmp_ne(i32 signext %a, i32 signext %b, double %c, double 
 ; RV32ZDINX:       # %bb.0:
 ; RV32ZDINX-NEXT:    bne a0, a1, .LBB1_2
 ; RV32ZDINX-NEXT:  # %bb.1:
-; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:    mv a3, a5
+; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:  .LBB1_2:
-; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    mv a1, a3
+; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    ret
 ;
 ; RV64ZDINX-LABEL: select_icmp_ne:
@@ -88,11 +88,11 @@ define double @select_icmp_ugt(i32 signext %a, i32 signext %b, double %c, double
 ; RV32ZDINX:       # %bb.0:
 ; RV32ZDINX-NEXT:    bltu a1, a0, .LBB2_2
 ; RV32ZDINX-NEXT:  # %bb.1:
-; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:    mv a3, a5
+; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:  .LBB2_2:
-; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    mv a1, a3
+; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    ret
 ;
 ; RV64ZDINX-LABEL: select_icmp_ugt:
@@ -121,11 +121,11 @@ define double @select_icmp_uge(i32 signext %a, i32 signext %b, double %c, double
 ; RV32ZDINX:       # %bb.0:
 ; RV32ZDINX-NEXT:    bgeu a0, a1, .LBB3_2
 ; RV32ZDINX-NEXT:  # %bb.1:
-; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:    mv a3, a5
+; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:  .LBB3_2:
-; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    mv a1, a3
+; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    ret
 ;
 ; RV64ZDINX-LABEL: select_icmp_uge:
@@ -154,11 +154,11 @@ define double @select_icmp_ult(i32 signext %a, i32 signext %b, double %c, double
 ; RV32ZDINX:       # %bb.0:
 ; RV32ZDINX-NEXT:    bltu a0, a1, .LBB4_2
 ; RV32ZDINX-NEXT:  # %bb.1:
-; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:    mv a3, a5
+; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:  .LBB4_2:
-; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    mv a1, a3
+; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    ret
 ;
 ; RV64ZDINX-LABEL: select_icmp_ult:
@@ -187,11 +187,11 @@ define double @select_icmp_ule(i32 signext %a, i32 signext %b, double %c, double
 ; RV32ZDINX:       # %bb.0:
 ; RV32ZDINX-NEXT:    bgeu a1, a0, .LBB5_2
 ; RV32ZDINX-NEXT:  # %bb.1:
-; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:    mv a3, a5
+; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:  .LBB5_2:
-; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    mv a1, a3
+; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    ret
 ;
 ; RV64ZDINX-LABEL: select_icmp_ule:
@@ -220,11 +220,11 @@ define double @select_icmp_sgt(i32 signext %a, i32 signext %b, double %c, double
 ; RV32ZDINX:       # %bb.0:
 ; RV32ZDINX-NEXT:    blt a1, a0, .LBB6_2
 ; RV32ZDINX-NEXT:  # %bb.1:
-; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:    mv a3, a5
+; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:  .LBB6_2:
-; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    mv a1, a3
+; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    ret
 ;
 ; RV64ZDINX-LABEL: select_icmp_sgt:
@@ -253,11 +253,11 @@ define double @select_icmp_sge(i32 signext %a, i32 signext %b, double %c, double
 ; RV32ZDINX:       # %bb.0:
 ; RV32ZDINX-NEXT:    bge a0, a1, .LBB7_2
 ; RV32ZDINX-NEXT:  # %bb.1:
-; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:    mv a3, a5
+; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:  .LBB7_2:
-; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    mv a1, a3
+; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    ret
 ;
 ; RV64ZDINX-LABEL: select_icmp_sge:
@@ -286,11 +286,11 @@ define double @select_icmp_slt(i32 signext %a, i32 signext %b, double %c, double
 ; RV32ZDINX:       # %bb.0:
 ; RV32ZDINX-NEXT:    blt a0, a1, .LBB8_2
 ; RV32ZDINX-NEXT:  # %bb.1:
-; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:    mv a3, a5
+; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:  .LBB8_2:
-; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    mv a1, a3
+; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    ret
 ;
 ; RV64ZDINX-LABEL: select_icmp_slt:
@@ -319,11 +319,11 @@ define double @select_icmp_sle(i32 signext %a, i32 signext %b, double %c, double
 ; RV32ZDINX:       # %bb.0:
 ; RV32ZDINX-NEXT:    bge a1, a0, .LBB9_2
 ; RV32ZDINX-NEXT:  # %bb.1:
-; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:    mv a3, a5
+; RV32ZDINX-NEXT:    mv a2, a4
 ; RV32ZDINX-NEXT:  .LBB9_2:
-; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    mv a1, a3
+; RV32ZDINX-NEXT:    mv a0, a2
 ; RV32ZDINX-NEXT:    ret
 ;
 ; RV64ZDINX-LABEL: select_icmp_sle:

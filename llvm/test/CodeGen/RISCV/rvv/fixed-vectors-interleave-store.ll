@@ -18,8 +18,8 @@ define void @vector_interleave_store_v32i1_v16i1(<16 x i1> %a, <16 x i1> %b, ptr
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m2, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v10, v8, 16
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vwaddu.vv v12, v8, v10
 ; CHECK-NEXT:    li a2, -1
+; CHECK-NEXT:    vwaddu.vv v12, v8, v10
 ; CHECK-NEXT:    vwmaccu.vx v12, a2, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m2, ta, ma
 ; CHECK-NEXT:    vmsne.vi v8, v12, 0
@@ -35,8 +35,8 @@ define void @vector_interleave_store_v16i16_v8i16_align1(<8 x i16> %a, <8 x i16>
 ; CHECK-LABEL: vector_interleave_store_v16i16_v8i16_align1:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vwaddu.vv v10, v8, v9
 ; CHECK-NEXT:    li a1, -1
+; CHECK-NEXT:    vwaddu.vv v10, v8, v9
 ; CHECK-NEXT:    vwmaccu.vx v10, a1, v9
 ; CHECK-NEXT:    li a1, 32
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m2, ta, ma

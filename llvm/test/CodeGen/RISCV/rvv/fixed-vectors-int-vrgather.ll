@@ -53,8 +53,8 @@ define void @gather_const_v4i32(ptr %x) {
 define void @gather_const_v2i64(ptr %x) {
 ; RV32-LABEL: gather_const_v2i64:
 ; RV32:       # %bb.0:
-; RV32-NEXT:    addi a1, a0, 8
 ; RV32-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
+; RV32-NEXT:    addi a1, a0, 8
 ; RV32-NEXT:    vlse64.v v8, (a1), zero
 ; RV32-NEXT:    vse64.v v8, (a0)
 ; RV32-NEXT:    ret
@@ -127,8 +127,8 @@ define void @gather_const_v16i32(ptr %x) {
 define void @gather_const_v8i64(ptr %x) {
 ; RV32-LABEL: gather_const_v8i64:
 ; RV32:       # %bb.0:
-; RV32-NEXT:    addi a1, a0, 24
 ; RV32-NEXT:    vsetivli zero, 8, e64, m4, ta, ma
+; RV32-NEXT:    addi a1, a0, 24
 ; RV32-NEXT:    vlse64.v v8, (a1), zero
 ; RV32-NEXT:    vse64.v v8, (a0)
 ; RV32-NEXT:    ret

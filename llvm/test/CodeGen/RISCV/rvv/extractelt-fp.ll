@@ -10,8 +10,8 @@ define bfloat @extractelt_nxv1bf16_0(<vscale x 1 x bfloat> %v) {
 ; NOZFMIN-LABEL: extractelt_nxv1bf16_0:
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -31,8 +31,8 @@ define bfloat @extractelt_nxv1bf16_imm(<vscale x 1 x bfloat> %v) {
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, mf4, ta, ma
 ; NOZFMIN-NEXT:    vslidedown.vi v8, v8, 2
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -53,8 +53,8 @@ define bfloat @extractelt_nxv1bf16_idx(<vscale x 1 x bfloat> %v, i32 zeroext %id
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, mf4, ta, ma
 ; NOZFMIN-NEXT:    vslidedown.vx v8, v8, a0
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -74,8 +74,8 @@ define bfloat @extractelt_nxv2bf16_0(<vscale x 2 x bfloat> %v) {
 ; NOZFMIN-LABEL: extractelt_nxv2bf16_0:
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -95,8 +95,8 @@ define bfloat @extractelt_nxv2bf16_imm(<vscale x 2 x bfloat> %v) {
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, mf2, ta, ma
 ; NOZFMIN-NEXT:    vslidedown.vi v8, v8, 2
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -117,8 +117,8 @@ define bfloat @extractelt_nxv2bf16_idx(<vscale x 2 x bfloat> %v, i32 zeroext %id
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, mf2, ta, ma
 ; NOZFMIN-NEXT:    vslidedown.vx v8, v8, a0
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -138,8 +138,8 @@ define bfloat @extractelt_nxv4bf16_0(<vscale x 4 x bfloat> %v) {
 ; NOZFMIN-LABEL: extractelt_nxv4bf16_0:
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -159,8 +159,8 @@ define bfloat @extractelt_nxv4bf16_imm(<vscale x 4 x bfloat> %v) {
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
 ; NOZFMIN-NEXT:    vslidedown.vi v8, v8, 2
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -181,8 +181,8 @@ define bfloat @extractelt_nxv4bf16_idx(<vscale x 4 x bfloat> %v, i32 zeroext %id
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
 ; NOZFMIN-NEXT:    vslidedown.vx v8, v8, a0
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -202,8 +202,8 @@ define bfloat @extractelt_nxv8bf16_0(<vscale x 8 x bfloat> %v) {
 ; NOZFMIN-LABEL: extractelt_nxv8bf16_0:
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -223,8 +223,8 @@ define bfloat @extractelt_nxv8bf16_imm(<vscale x 8 x bfloat> %v) {
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
 ; NOZFMIN-NEXT:    vslidedown.vi v8, v8, 2
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -245,8 +245,8 @@ define bfloat @extractelt_nxv8bf16_idx(<vscale x 8 x bfloat> %v, i32 zeroext %id
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m2, ta, ma
 ; NOZFMIN-NEXT:    vslidedown.vx v8, v8, a0
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -266,8 +266,8 @@ define bfloat @extractelt_nxv16bf16_0(<vscale x 16 x bfloat> %v) {
 ; NOZFMIN-LABEL: extractelt_nxv16bf16_0:
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -287,8 +287,8 @@ define bfloat @extractelt_nxv16bf16_imm(<vscale x 16 x bfloat> %v) {
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
 ; NOZFMIN-NEXT:    vslidedown.vi v8, v8, 2
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -309,8 +309,8 @@ define bfloat @extractelt_nxv16bf16_idx(<vscale x 16 x bfloat> %v, i32 zeroext %
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m4, ta, ma
 ; NOZFMIN-NEXT:    vslidedown.vx v8, v8, a0
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -330,8 +330,8 @@ define bfloat @extractelt_nxv32bf16_0(<vscale x 32 x bfloat> %v) {
 ; NOZFMIN-LABEL: extractelt_nxv32bf16_0:
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -351,8 +351,8 @@ define bfloat @extractelt_nxv32bf16_imm(<vscale x 32 x bfloat> %v) {
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
 ; NOZFMIN-NEXT:    vslidedown.vi v8, v8, 2
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -373,8 +373,8 @@ define bfloat @extractelt_nxv32bf16_idx(<vscale x 32 x bfloat> %v, i32 zeroext %
 ; NOZFMIN:       # %bb.0:
 ; NOZFMIN-NEXT:    vsetivli zero, 1, e16, m8, ta, ma
 ; NOZFMIN-NEXT:    vslidedown.vx v8, v8, a0
-; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    lui a1, 1048560
+; NOZFMIN-NEXT:    vmv.x.s a0, v8
 ; NOZFMIN-NEXT:    or a0, a0, a1
 ; NOZFMIN-NEXT:    fmv.w.x fa0, a0
 ; NOZFMIN-NEXT:    ret
@@ -400,8 +400,8 @@ define half @extractelt_nxv1f16_0(<vscale x 1 x half> %v) {
 ; ZVFHMIN-LABEL: extractelt_nxv1f16_0:
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -428,8 +428,8 @@ define half @extractelt_nxv1f16_imm(<vscale x 1 x half> %v) {
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, mf4, ta, ma
 ; ZVFHMIN-NEXT:    vslidedown.vi v8, v8, 2
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -457,8 +457,8 @@ define half @extractelt_nxv1f16_idx(<vscale x 1 x half> %v, i32 zeroext %idx) {
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, mf4, ta, ma
 ; ZVFHMIN-NEXT:    vslidedown.vx v8, v8, a0
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -484,8 +484,8 @@ define half @extractelt_nxv2f16_0(<vscale x 2 x half> %v) {
 ; ZVFHMIN-LABEL: extractelt_nxv2f16_0:
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -512,8 +512,8 @@ define half @extractelt_nxv2f16_imm(<vscale x 2 x half> %v) {
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, mf2, ta, ma
 ; ZVFHMIN-NEXT:    vslidedown.vi v8, v8, 2
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -541,8 +541,8 @@ define half @extractelt_nxv2f16_idx(<vscale x 2 x half> %v, i32 zeroext %idx) {
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, mf2, ta, ma
 ; ZVFHMIN-NEXT:    vslidedown.vx v8, v8, a0
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -568,8 +568,8 @@ define half @extractelt_nxv4f16_0(<vscale x 4 x half> %v) {
 ; ZVFHMIN-LABEL: extractelt_nxv4f16_0:
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -596,8 +596,8 @@ define half @extractelt_nxv4f16_imm(<vscale x 4 x half> %v) {
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
 ; ZVFHMIN-NEXT:    vslidedown.vi v8, v8, 2
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -625,8 +625,8 @@ define half @extractelt_nxv4f16_idx(<vscale x 4 x half> %v, i32 zeroext %idx) {
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
 ; ZVFHMIN-NEXT:    vslidedown.vx v8, v8, a0
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -652,8 +652,8 @@ define half @extractelt_nxv8f16_0(<vscale x 8 x half> %v) {
 ; ZVFHMIN-LABEL: extractelt_nxv8f16_0:
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -680,8 +680,8 @@ define half @extractelt_nxv8f16_imm(<vscale x 8 x half> %v) {
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
 ; ZVFHMIN-NEXT:    vslidedown.vi v8, v8, 2
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -709,8 +709,8 @@ define half @extractelt_nxv8f16_idx(<vscale x 8 x half> %v, i32 zeroext %idx) {
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m2, ta, ma
 ; ZVFHMIN-NEXT:    vslidedown.vx v8, v8, a0
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -736,8 +736,8 @@ define half @extractelt_nxv16f16_0(<vscale x 16 x half> %v) {
 ; ZVFHMIN-LABEL: extractelt_nxv16f16_0:
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -764,8 +764,8 @@ define half @extractelt_nxv16f16_imm(<vscale x 16 x half> %v) {
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
 ; ZVFHMIN-NEXT:    vslidedown.vi v8, v8, 2
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -793,8 +793,8 @@ define half @extractelt_nxv16f16_idx(<vscale x 16 x half> %v, i32 zeroext %idx) 
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m4, ta, ma
 ; ZVFHMIN-NEXT:    vslidedown.vx v8, v8, a0
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -820,8 +820,8 @@ define half @extractelt_nxv32f16_0(<vscale x 32 x half> %v) {
 ; ZVFHMIN-LABEL: extractelt_nxv32f16_0:
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -848,8 +848,8 @@ define half @extractelt_nxv32f16_imm(<vscale x 32 x half> %v) {
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m1, ta, ma
 ; ZVFHMIN-NEXT:    vslidedown.vi v8, v8, 2
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -877,8 +877,8 @@ define half @extractelt_nxv32f16_idx(<vscale x 32 x half> %v, i32 zeroext %idx) 
 ; ZVFHMIN:       # %bb.0:
 ; ZVFHMIN-NEXT:    vsetivli zero, 1, e16, m8, ta, ma
 ; ZVFHMIN-NEXT:    vslidedown.vx v8, v8, a0
-; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    lui a1, 1048560
+; ZVFHMIN-NEXT:    vmv.x.s a0, v8
 ; ZVFHMIN-NEXT:    or a0, a0, a1
 ; ZVFHMIN-NEXT:    fmv.w.x fa0, a0
 ; ZVFHMIN-NEXT:    ret
@@ -1216,9 +1216,9 @@ define float @extractelt_fadd_nxv4f32_splat(<vscale x 4 x float> %x) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m1, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v8, v8, 2
-; CHECK-NEXT:    vfmv.f.s fa5, v8
 ; CHECK-NEXT:    lui a0, 263168
 ; CHECK-NEXT:    fmv.w.x fa4, a0
+; CHECK-NEXT:    vfmv.f.s fa5, v8
 ; CHECK-NEXT:    fadd.s fa0, fa5, fa4
 ; CHECK-NEXT:    ret
   %bo = fadd <vscale x 4 x float> %x, splat (float 3.0)
@@ -1231,9 +1231,9 @@ define float @extractelt_fsub_nxv4f32_splat(<vscale x 4 x float> %x) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m1, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v8, v8, 1
-; CHECK-NEXT:    vfmv.f.s fa5, v8
 ; CHECK-NEXT:    lui a0, 263168
 ; CHECK-NEXT:    fmv.w.x fa4, a0
+; CHECK-NEXT:    vfmv.f.s fa5, v8
 ; CHECK-NEXT:    fsub.s fa0, fa4, fa5
 ; CHECK-NEXT:    ret
   %bo = fsub <vscale x 4 x float> splat (float 3.0), %x
@@ -1246,9 +1246,9 @@ define float @extractelt_fmul_nxv4f32_splat(<vscale x 4 x float> %x) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m1, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v8, v8, 3
-; CHECK-NEXT:    vfmv.f.s fa5, v8
 ; CHECK-NEXT:    lui a0, 263168
 ; CHECK-NEXT:    fmv.w.x fa4, a0
+; CHECK-NEXT:    vfmv.f.s fa5, v8
 ; CHECK-NEXT:    fmul.s fa0, fa5, fa4
 ; CHECK-NEXT:    ret
   %bo = fmul <vscale x 4 x float> %x, splat (float 3.0)
@@ -1260,9 +1260,9 @@ define float @extractelt_fdiv_nxv4f32_splat(<vscale x 4 x float> %x) {
 ; CHECK-LABEL: extractelt_fdiv_nxv4f32_splat:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m1, ta, ma
-; CHECK-NEXT:    vfmv.f.s fa5, v8
 ; CHECK-NEXT:    lui a0, 263168
 ; CHECK-NEXT:    fmv.w.x fa4, a0
+; CHECK-NEXT:    vfmv.f.s fa5, v8
 ; CHECK-NEXT:    fdiv.s fa0, fa5, fa4
 ; CHECK-NEXT:    ret
   %bo = fdiv <vscale x 4 x float> %x, splat (float 3.0)
@@ -1285,8 +1285,8 @@ define double @extractelt_nxv16f64_neg1(<vscale x 16 x double> %v) {
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    addi sp, sp, -80
 ; RV32-NEXT:    .cfi_def_cfa_offset 80
-; RV32-NEXT:    sw ra, 76(sp) # 4-byte Folded Spill
 ; RV32-NEXT:    sw s0, 72(sp) # 4-byte Folded Spill
+; RV32-NEXT:    sw ra, 76(sp) # 4-byte Folded Spill
 ; RV32-NEXT:    .cfi_offset ra, -4
 ; RV32-NEXT:    .cfi_offset s0, -8
 ; RV32-NEXT:    addi s0, sp, 80
@@ -1300,14 +1300,14 @@ define double @extractelt_nxv16f64_neg1(<vscale x 16 x double> %v) {
 ; RV32-NEXT:    csrr a1, vlenb
 ; RV32-NEXT:    slli a2, a1, 3
 ; RV32-NEXT:    add a2, a0, a2
-; RV32-NEXT:    vs8r.v v16, (a2)
 ; RV32-NEXT:    slli a1, a1, 4
 ; RV32-NEXT:    add a0, a1, a0
+; RV32-NEXT:    vs8r.v v16, (a2)
 ; RV32-NEXT:    fld fa0, -8(a0)
 ; RV32-NEXT:    addi sp, s0, -80
 ; RV32-NEXT:    .cfi_def_cfa sp, 80
-; RV32-NEXT:    lw ra, 76(sp) # 4-byte Folded Reload
 ; RV32-NEXT:    lw s0, 72(sp) # 4-byte Folded Reload
+; RV32-NEXT:    lw ra, 76(sp) # 4-byte Folded Reload
 ; RV32-NEXT:    .cfi_restore ra
 ; RV32-NEXT:    .cfi_restore s0
 ; RV32-NEXT:    addi sp, sp, 80
@@ -1318,8 +1318,8 @@ define double @extractelt_nxv16f64_neg1(<vscale x 16 x double> %v) {
 ; RV64:       # %bb.0:
 ; RV64-NEXT:    addi sp, sp, -80
 ; RV64-NEXT:    .cfi_def_cfa_offset 80
-; RV64-NEXT:    sd ra, 72(sp) # 8-byte Folded Spill
 ; RV64-NEXT:    sd s0, 64(sp) # 8-byte Folded Spill
+; RV64-NEXT:    sd ra, 72(sp) # 8-byte Folded Spill
 ; RV64-NEXT:    .cfi_offset ra, -8
 ; RV64-NEXT:    .cfi_offset s0, -16
 ; RV64-NEXT:    addi s0, sp, 80
@@ -1329,14 +1329,14 @@ define double @extractelt_nxv16f64_neg1(<vscale x 16 x double> %v) {
 ; RV64-NEXT:    sub sp, sp, a0
 ; RV64-NEXT:    andi sp, sp, -64
 ; RV64-NEXT:    addi a0, sp, 64
-; RV64-NEXT:    vs8r.v v8, (a0)
 ; RV64-NEXT:    csrr a2, vlenb
 ; RV64-NEXT:    slli a1, a2, 3
 ; RV64-NEXT:    add a3, a0, a1
 ; RV64-NEXT:    li a1, -1
-; RV64-NEXT:    srli a1, a1, 32
 ; RV64-NEXT:    slli a2, a2, 1
 ; RV64-NEXT:    addi a2, a2, -1
+; RV64-NEXT:    srli a1, a1, 32
+; RV64-NEXT:    vs8r.v v8, (a0)
 ; RV64-NEXT:    vs8r.v v16, (a3)
 ; RV64-NEXT:    bltu a2, a1, .LBB70_2
 ; RV64-NEXT:  # %bb.1:
@@ -1347,8 +1347,8 @@ define double @extractelt_nxv16f64_neg1(<vscale x 16 x double> %v) {
 ; RV64-NEXT:    fld fa0, 0(a0)
 ; RV64-NEXT:    addi sp, s0, -80
 ; RV64-NEXT:    .cfi_def_cfa sp, 80
-; RV64-NEXT:    ld ra, 72(sp) # 8-byte Folded Reload
 ; RV64-NEXT:    ld s0, 64(sp) # 8-byte Folded Reload
+; RV64-NEXT:    ld ra, 72(sp) # 8-byte Folded Reload
 ; RV64-NEXT:    .cfi_restore ra
 ; RV64-NEXT:    .cfi_restore s0
 ; RV64-NEXT:    addi sp, sp, 80
@@ -1381,8 +1381,8 @@ define double @extractelt_nxv16f64_idx(<vscale x 16 x double> %v, i32 zeroext %i
 ; RV32-NEXT:  .LBB72_2:
 ; RV32-NEXT:    addi sp, sp, -80
 ; RV32-NEXT:    .cfi_def_cfa_offset 80
-; RV32-NEXT:    sw ra, 76(sp) # 4-byte Folded Spill
 ; RV32-NEXT:    sw s0, 72(sp) # 4-byte Folded Spill
+; RV32-NEXT:    sw ra, 76(sp) # 4-byte Folded Spill
 ; RV32-NEXT:    .cfi_offset ra, -4
 ; RV32-NEXT:    .cfi_offset s0, -8
 ; RV32-NEXT:    addi s0, sp, 80
@@ -1393,16 +1393,16 @@ define double @extractelt_nxv16f64_idx(<vscale x 16 x double> %v, i32 zeroext %i
 ; RV32-NEXT:    andi sp, sp, -64
 ; RV32-NEXT:    slli a0, a0, 3
 ; RV32-NEXT:    addi a2, sp, 64
-; RV32-NEXT:    add a0, a2, a0
-; RV32-NEXT:    vs8r.v v8, (a2)
 ; RV32-NEXT:    slli a1, a1, 3
 ; RV32-NEXT:    add a1, a2, a1
+; RV32-NEXT:    vs8r.v v8, (a2)
 ; RV32-NEXT:    vs8r.v v16, (a1)
+; RV32-NEXT:    add a0, a2, a0
 ; RV32-NEXT:    fld fa0, 0(a0)
 ; RV32-NEXT:    addi sp, s0, -80
 ; RV32-NEXT:    .cfi_def_cfa sp, 80
-; RV32-NEXT:    lw ra, 76(sp) # 4-byte Folded Reload
 ; RV32-NEXT:    lw s0, 72(sp) # 4-byte Folded Reload
+; RV32-NEXT:    lw ra, 76(sp) # 4-byte Folded Reload
 ; RV32-NEXT:    .cfi_restore ra
 ; RV32-NEXT:    .cfi_restore s0
 ; RV32-NEXT:    addi sp, sp, 80
@@ -1420,8 +1420,8 @@ define double @extractelt_nxv16f64_idx(<vscale x 16 x double> %v, i32 zeroext %i
 ; RV64-NEXT:  .LBB72_2:
 ; RV64-NEXT:    addi sp, sp, -80
 ; RV64-NEXT:    .cfi_def_cfa_offset 80
-; RV64-NEXT:    sd ra, 72(sp) # 8-byte Folded Spill
 ; RV64-NEXT:    sd s0, 64(sp) # 8-byte Folded Spill
+; RV64-NEXT:    sd ra, 72(sp) # 8-byte Folded Spill
 ; RV64-NEXT:    .cfi_offset ra, -8
 ; RV64-NEXT:    .cfi_offset s0, -16
 ; RV64-NEXT:    addi s0, sp, 80
@@ -1432,16 +1432,16 @@ define double @extractelt_nxv16f64_idx(<vscale x 16 x double> %v, i32 zeroext %i
 ; RV64-NEXT:    andi sp, sp, -64
 ; RV64-NEXT:    slli a0, a0, 3
 ; RV64-NEXT:    addi a2, sp, 64
-; RV64-NEXT:    add a0, a2, a0
-; RV64-NEXT:    vs8r.v v8, (a2)
 ; RV64-NEXT:    slli a1, a1, 3
 ; RV64-NEXT:    add a1, a2, a1
+; RV64-NEXT:    vs8r.v v8, (a2)
 ; RV64-NEXT:    vs8r.v v16, (a1)
+; RV64-NEXT:    add a0, a2, a0
 ; RV64-NEXT:    fld fa0, 0(a0)
 ; RV64-NEXT:    addi sp, s0, -80
 ; RV64-NEXT:    .cfi_def_cfa sp, 80
-; RV64-NEXT:    ld ra, 72(sp) # 8-byte Folded Reload
 ; RV64-NEXT:    ld s0, 64(sp) # 8-byte Folded Reload
+; RV64-NEXT:    ld ra, 72(sp) # 8-byte Folded Reload
 ; RV64-NEXT:    .cfi_restore ra
 ; RV64-NEXT:    .cfi_restore s0
 ; RV64-NEXT:    addi sp, sp, 80

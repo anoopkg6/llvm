@@ -10,8 +10,8 @@ define void @func() sspreq nounwind {
 ; LINUX-RISCV64-LABEL: func:
 ; LINUX-RISCV64:       # %bb.0:
 ; LINUX-RISCV64-NEXT:    addi sp, sp, -32
-; LINUX-RISCV64-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; LINUX-RISCV64-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; LINUX-RISCV64-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; LINUX-RISCV64-NEXT:    lui s0, %hi(__stack_chk_guard)
 ; LINUX-RISCV64-NEXT:    ld a0, %lo(__stack_chk_guard)(s0)
 ; LINUX-RISCV64-NEXT:    sd a0, 8(sp)
@@ -21,8 +21,8 @@ define void @func() sspreq nounwind {
 ; LINUX-RISCV64-NEXT:    ld a1, 8(sp)
 ; LINUX-RISCV64-NEXT:    bne a0, a1, .LBB0_2
 ; LINUX-RISCV64-NEXT:  # %bb.1:
-; LINUX-RISCV64-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; LINUX-RISCV64-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; LINUX-RISCV64-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; LINUX-RISCV64-NEXT:    addi sp, sp, 32
 ; LINUX-RISCV64-NEXT:    ret
 ; LINUX-RISCV64-NEXT:  .LBB0_2:

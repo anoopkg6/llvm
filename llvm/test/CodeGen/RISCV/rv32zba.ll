@@ -45,8 +45,8 @@ define i64 @sh3add(i64 %0, ptr %1) {
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    slli a0, a0, 3
 ; RV32I-NEXT:    add a2, a2, a0
-; RV32I-NEXT:    lw a0, 0(a2)
 ; RV32I-NEXT:    lw a1, 4(a2)
+; RV32I-NEXT:    lw a0, 0(a2)
 ; RV32I-NEXT:    ret
 ;
 ; RV32ZBA-LABEL: sh3add:
@@ -596,8 +596,8 @@ define i32 @add8192(i32 %a) {
 define i32 @addshl_5_6(i32 %a, i32 %b) {
 ; RV32I-LABEL: addshl_5_6:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    slli a0, a0, 5
 ; RV32I-NEXT:    slli a1, a1, 6
+; RV32I-NEXT:    slli a0, a0, 5
 ; RV32I-NEXT:    add a0, a0, a1
 ; RV32I-NEXT:    ret
 ;
@@ -615,8 +615,8 @@ define i32 @addshl_5_6(i32 %a, i32 %b) {
 define i32 @addshl_5_7(i32 %a, i32 %b) {
 ; RV32I-LABEL: addshl_5_7:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    slli a0, a0, 5
 ; RV32I-NEXT:    slli a1, a1, 7
+; RV32I-NEXT:    slli a0, a0, 5
 ; RV32I-NEXT:    add a0, a0, a1
 ; RV32I-NEXT:    ret
 ;
@@ -634,8 +634,8 @@ define i32 @addshl_5_7(i32 %a, i32 %b) {
 define i32 @addshl_5_8(i32 %a, i32 %b) {
 ; RV32I-LABEL: addshl_5_8:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    slli a0, a0, 5
 ; RV32I-NEXT:    slli a1, a1, 8
+; RV32I-NEXT:    slli a0, a0, 5
 ; RV32I-NEXT:    add a0, a0, a1
 ; RV32I-NEXT:    ret
 ;

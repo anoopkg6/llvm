@@ -110,8 +110,8 @@ declare <vscale x 1 x i8> @llvm.riscv.vaadd.rm.nxv1i8.nxv1i8(
 define <vscale x 1 x i8> @intrinsic_vaadd_vv_nxv1i8_nxv1i8_nxv1i8(<vscale x 1 x i8> %0, <vscale x 1 x i8> %1, <vscale x 1 x i8> %2, iXLen %3) nounwind {
 ; CHECK-LABEL: intrinsic_vaadd_vv_nxv1i8_nxv1i8_nxv1i8:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, mf8, tu, ma
+; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vaadd.vv v8, v9, v10
 ; CHECK-NEXT:    ret
 entry:
@@ -133,8 +133,8 @@ declare <vscale x 1 x i8> @llvm.riscv.vaaddu.rm.nxv1i8.nxv1i8(
 define <vscale x 1 x i8> @intrinsic_vaaddu_vv_nxv1i8_nxv1i8_nxv1i8(<vscale x 1 x i8> %0, <vscale x 1 x i8> %1, <vscale x 1 x i8> %2, iXLen %3) nounwind {
 ; CHECK-LABEL: intrinsic_vaaddu_vv_nxv1i8_nxv1i8_nxv1i8:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, mf8, tu, ma
+; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vaaddu.vv v8, v9, v10
 ; CHECK-NEXT:    ret
 entry:
@@ -199,8 +199,8 @@ declare <vscale x 1 x i8> @llvm.riscv.vasub.rm.nxv1i8.nxv1i8(
 define <vscale x 1 x i8> @intrinsic_vasub_vv_nxv1i8_nxv1i8_nxv1i8(<vscale x 1 x i8> %0, <vscale x 1 x i8> %1, <vscale x 1 x i8> %2, iXLen %3) nounwind {
 ; CHECK-LABEL: intrinsic_vasub_vv_nxv1i8_nxv1i8_nxv1i8:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, mf8, tu, ma
+; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vasub.vv v8, v9, v10
 ; CHECK-NEXT:    ret
 entry:
@@ -222,8 +222,8 @@ declare <vscale x 1 x i8> @llvm.riscv.vasubu.rm.nxv1i8.nxv1i8(
 define <vscale x 1 x i8> @intrinsic_vasubu_vv_nxv1i8_nxv1i8_nxv1i8(<vscale x 1 x i8> %0, <vscale x 1 x i8> %1, <vscale x 1 x i8> %2, iXLen %3) nounwind {
 ; CHECK-LABEL: intrinsic_vasubu_vv_nxv1i8_nxv1i8_nxv1i8:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, mf8, tu, ma
+; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vasubu.vv v8, v9, v10
 ; CHECK-NEXT:    ret
 entry:
@@ -711,8 +711,8 @@ define <vscale x 1 x i64> @intrinsic_vslide1down_vx_nxv1i64_nxv1i64_i64(<vscale 
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    vsetvli a2, a2, e64, m1, ta, ma
 ; RV32-NEXT:    slli a2, a2, 1
-; RV32-NEXT:    vmv1r.v v10, v8
 ; RV32-NEXT:    vsetvli zero, a2, e32, m1, tu, ma
+; RV32-NEXT:    vmv1r.v v10, v8
 ; RV32-NEXT:    vslide1down.vx v10, v9, a0
 ; RV32-NEXT:    vslide1down.vx v8, v10, a1
 ; RV32-NEXT:    ret
@@ -743,8 +743,8 @@ define <vscale x 1 x i64> @intrinsic_vslide1up_vx_nxv1i64_nxv1i64_i64(<vscale x 
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    vsetvli a2, a2, e64, m1, ta, ma
 ; RV32-NEXT:    slli a2, a2, 1
-; RV32-NEXT:    vmv1r.v v10, v8
 ; RV32-NEXT:    vsetvli zero, a2, e32, m1, tu, ma
+; RV32-NEXT:    vmv1r.v v10, v8
 ; RV32-NEXT:    vslide1up.vx v10, v9, a1
 ; RV32-NEXT:    vslide1up.vx v8, v10, a0
 ; RV32-NEXT:    ret
@@ -950,8 +950,8 @@ declare <vscale x 1 x i8> @llvm.riscv.vnclip.nxv1i8.nxv1i16.nxv1i8(
 define <vscale x 1 x i8> @intrinsic_vnclip_wv_nxv1i8_nxv1i16_nxv1i8(<vscale x 1 x i8> %0, <vscale x 1 x i16> %1, <vscale x 1 x i8> %2, iXLen %3) nounwind {
 ; CHECK-LABEL: intrinsic_vnclip_wv_nxv1i8_nxv1i16_nxv1i8:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, mf8, tu, ma
+; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vnclip.wv v8, v9, v10
 ; CHECK-NEXT:    ret
 entry:
@@ -974,8 +974,8 @@ declare <vscale x 1 x i8> @llvm.riscv.vnclipu.nxv1i8.nxv1i16.nxv1i8(
 define <vscale x 1 x i8> @intrinsic_vnclipu_wv_nxv1i8_nxv1i16_nxv1i8(<vscale x 1 x i8> %0, <vscale x 1 x i16> %1, <vscale x 1 x i8> %2, iXLen %3) nounwind {
 ; CHECK-LABEL: intrinsic_vnclipu_wv_nxv1i8_nxv1i16_nxv1i8:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, mf8, tu, ma
+; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vnclipu.wv v8, v9, v10
 ; CHECK-NEXT:    ret
 entry:
@@ -1158,9 +1158,9 @@ define <vscale x 1 x i64> @intrinsic_vrsub_vx_nxv1i64_nxv1i64_i64(<vscale x 1 x 
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    sw a0, 8(sp)
-; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetvli zero, a2, e64, m1, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
+; RV32-NEXT:    sw a1, 12(sp)
 ; RV32-NEXT:    vlse64.v v10, (a0), zero
 ; RV32-NEXT:    vsetvli zero, zero, e64, m1, tu, ma
 ; RV32-NEXT:    vsub.vv v8, v10, v9
@@ -1193,9 +1193,9 @@ define <vscale x 1 x i64> @intrinsic_vsadd_vx_nxv1i64_nxv1i64_i64(<vscale x 1 x 
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    sw a0, 8(sp)
-; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetvli zero, a2, e64, m1, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
+; RV32-NEXT:    sw a1, 12(sp)
 ; RV32-NEXT:    vlse64.v v10, (a0), zero
 ; RV32-NEXT:    vsetvli zero, zero, e64, m1, tu, ma
 ; RV32-NEXT:    vsadd.vv v8, v9, v10
@@ -1271,8 +1271,8 @@ declare <vscale x 1 x i8> @llvm.riscv.vsmul.nxv1i8.nxv1i8(
 define <vscale x 1 x i8> @intrinsic_vsmul_vv_nxv1i8_nxv1i8_nxv1i8(<vscale x 1 x i8> %0, <vscale x 1 x i8> %1, <vscale x 1 x i8> %2, iXLen %3) nounwind {
 ; CHECK-LABEL: intrinsic_vsmul_vv_nxv1i8_nxv1i8_nxv1i8:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, mf8, tu, ma
+; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vsmul.vv v8, v9, v10
 ; CHECK-NEXT:    ret
 entry:
@@ -1301,16 +1301,16 @@ define <vscale x 1 x i64> @intrinsic_vsmul_vx_nxv1i64_nxv1i64_i64(<vscale x 1 x 
 ; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetvli zero, a2, e64, m1, ta, ma
 ; RV32-NEXT:    vlse64.v v10, (a0), zero
-; RV32-NEXT:    csrwi vxrm, 0
 ; RV32-NEXT:    vsetvli zero, zero, e64, m1, tu, ma
+; RV32-NEXT:    csrwi vxrm, 0
 ; RV32-NEXT:    vsmul.vv v8, v9, v10
 ; RV32-NEXT:    addi sp, sp, 16
 ; RV32-NEXT:    ret
 ;
 ; RV64-LABEL: intrinsic_vsmul_vx_nxv1i64_nxv1i64_i64:
 ; RV64:       # %bb.0: # %entry
-; RV64-NEXT:    csrwi vxrm, 0
 ; RV64-NEXT:    vsetvli zero, a1, e64, m1, tu, ma
+; RV64-NEXT:    csrwi vxrm, 0
 ; RV64-NEXT:    vsmul.vx v8, v9, a0
 ; RV64-NEXT:    ret
 entry:
@@ -1376,8 +1376,8 @@ declare <vscale x 1 x i8> @llvm.riscv.vssra.nxv1i8.nxv1i8(
 define <vscale x 1 x i8> @intrinsic_vssra_vv_nxv1i8_nxv1i8_nxv1i8(<vscale x 1 x i8> %0, <vscale x 1 x i8> %1, <vscale x 1 x i8> %2, iXLen %3) nounwind {
 ; CHECK-LABEL: intrinsic_vssra_vv_nxv1i8_nxv1i8_nxv1i8:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, mf8, tu, ma
+; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vssra.vv v8, v9, v10
 ; CHECK-NEXT:    ret
 entry:
@@ -1400,8 +1400,8 @@ declare <vscale x 1 x i8> @llvm.riscv.vssrl.nxv1i8.nxv1i8(
 define <vscale x 1 x i8> @intrinsic_vssrl_vv_nxv1i8_nxv1i8_nxv1i8(<vscale x 1 x i8> %0, <vscale x 1 x i8> %1, <vscale x 1 x i8> %2, iXLen %3) nounwind {
 ; CHECK-LABEL: intrinsic_vssrl_vv_nxv1i8_nxv1i8_nxv1i8:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, mf8, tu, ma
+; CHECK-NEXT:    csrwi vxrm, 0
 ; CHECK-NEXT:    vssrl.vv v8, v9, v10
 ; CHECK-NEXT:    ret
 entry:
@@ -1469,9 +1469,9 @@ define <vscale x 1 x i64> @intrinsic_vssub_vx_nxv1i64_nxv1i64_i64(<vscale x 1 x 
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    sw a0, 8(sp)
-; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetvli zero, a2, e64, m1, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
+; RV32-NEXT:    sw a1, 12(sp)
 ; RV32-NEXT:    vlse64.v v10, (a0), zero
 ; RV32-NEXT:    vsetvli zero, zero, e64, m1, tu, ma
 ; RV32-NEXT:    vssub.vv v8, v9, v10
@@ -1504,9 +1504,9 @@ define <vscale x 1 x i64> @intrinsic_vssubu_vx_nxv1i64_nxv1i64_i64(<vscale x 1 x
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    sw a0, 8(sp)
-; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetvli zero, a2, e64, m1, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
+; RV32-NEXT:    sw a1, 12(sp)
 ; RV32-NEXT:    vlse64.v v10, (a0), zero
 ; RV32-NEXT:    vsetvli zero, zero, e64, m1, tu, ma
 ; RV32-NEXT:    vssubu.vv v8, v9, v10
@@ -2493,9 +2493,9 @@ define <vscale x 8 x i64> @intrinsic_vmerge_vxm_nxv8i64_nxv8i64_i64(<vscale x 8 
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    sw a0, 8(sp)
-; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetvli zero, a2, e64, m8, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
+; RV32-NEXT:    sw a1, 12(sp)
 ; RV32-NEXT:    vlse64.v v24, (a0), zero
 ; RV32-NEXT:    vsetvli zero, zero, e64, m8, tu, ma
 ; RV32-NEXT:    vmerge.vvm v8, v16, v24, v0
@@ -2524,10 +2524,10 @@ define <vscale x 8 x i64> @intrinsic_vmerge_vim_nxv8i64_nxv8i64_i64(<vscale x 8 
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    li a1, 15
 ; RV32-NEXT:    li a2, -1
-; RV32-NEXT:    sw a2, 8(sp)
 ; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a1, sp, 8
 ; RV32-NEXT:    vsetvli zero, a0, e64, m8, ta, ma
+; RV32-NEXT:    addi a1, sp, 8
+; RV32-NEXT:    sw a2, 8(sp)
 ; RV32-NEXT:    vlse64.v v24, (a1), zero
 ; RV32-NEXT:    vsetvli zero, zero, e64, m8, tu, ma
 ; RV32-NEXT:    vmerge.vvm v8, v16, v24, v0
@@ -2537,8 +2537,8 @@ define <vscale x 8 x i64> @intrinsic_vmerge_vim_nxv8i64_nxv8i64_i64(<vscale x 8 
 ; RV64-LABEL: intrinsic_vmerge_vim_nxv8i64_nxv8i64_i64:
 ; RV64:       # %bb.0: # %entry
 ; RV64-NEXT:    li a1, -1
-; RV64-NEXT:    srli a1, a1, 28
 ; RV64-NEXT:    vsetvli zero, a0, e64, m8, tu, ma
+; RV64-NEXT:    srli a1, a1, 28
 ; RV64-NEXT:    vmerge.vxm v8, v16, a1, v0
 ; RV64-NEXT:    ret
 entry:
@@ -2674,9 +2674,9 @@ define <vscale x 1 x i64> @intrinsic_vmv.v.x_x_nxv1i64(<vscale x 1 x i64> %0, i6
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    addi sp, sp, -16
 ; RV32-NEXT:    sw a0, 8(sp)
-; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetvli zero, a2, e64, m1, tu, ma
+; RV32-NEXT:    addi a0, sp, 8
+; RV32-NEXT:    sw a1, 12(sp)
 ; RV32-NEXT:    vlse64.v v8, (a0), zero
 ; RV32-NEXT:    addi sp, sp, 16
 ; RV32-NEXT:    ret

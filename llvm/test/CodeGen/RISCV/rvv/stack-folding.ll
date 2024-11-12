@@ -13,8 +13,8 @@ define i64 @i64(<vscale x 1 x i64> %v, i1 %c) {
 ; RV32-NEXT:    sub sp, sp, a1
 ; RV32-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x01, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 1 * vlenb
 ; RV32-NEXT:    addi a1, sp, 16
-; RV32-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; RV32-NEXT:    andi a0, a0, 1
+; RV32-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; RV32-NEXT:    #APP
 ; RV32-NEXT:    #NO_APP
 ; RV32-NEXT:    beqz a0, .LBB0_2
@@ -23,8 +23,8 @@ define i64 @i64(<vscale x 1 x i64> %v, i1 %c) {
 ; RV32-NEXT:    vl1r.v v9, (a1) # Unknown-size Folded Reload
 ; RV32-NEXT:    vsetivli zero, 1, e64, m1, ta, ma
 ; RV32-NEXT:    vsrl.vx v8, v9, a0
-; RV32-NEXT:    vmv.x.s a1, v8
 ; RV32-NEXT:    vmv.x.s a0, v9
+; RV32-NEXT:    vmv.x.s a1, v8
 ; RV32-NEXT:    j .LBB0_3
 ; RV32-NEXT:  .LBB0_2: # %falsebb
 ; RV32-NEXT:    li a1, 0
@@ -44,8 +44,8 @@ define i64 @i64(<vscale x 1 x i64> %v, i1 %c) {
 ; RV64-NEXT:    sub sp, sp, a1
 ; RV64-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x01, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 1 * vlenb
 ; RV64-NEXT:    addi a1, sp, 16
-; RV64-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; RV64-NEXT:    andi a0, a0, 1
+; RV64-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; RV64-NEXT:    #APP
 ; RV64-NEXT:    #NO_APP
 ; RV64-NEXT:    beqz a0, .LBB0_2
@@ -76,8 +76,8 @@ define i32 @i32(<vscale x 2 x i32> %v, i1 %c) {
 ; CHECK-NEXT:    sub sp, sp, a1
 ; CHECK-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x01, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 1 * vlenb
 ; CHECK-NEXT:    addi a1, sp, 16
-; CHECK-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; CHECK-NEXT:    andi a0, a0, 1
+; CHECK-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; CHECK-NEXT:    #APP
 ; CHECK-NEXT:    #NO_APP
 ; CHECK-NEXT:    beqz a0, .LBB1_2
@@ -108,8 +108,8 @@ define i16 @i16(<vscale x 4 x i16> %v, i1 %c) {
 ; CHECK-NEXT:    sub sp, sp, a1
 ; CHECK-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x01, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 1 * vlenb
 ; CHECK-NEXT:    addi a1, sp, 16
-; CHECK-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; CHECK-NEXT:    andi a0, a0, 1
+; CHECK-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; CHECK-NEXT:    #APP
 ; CHECK-NEXT:    #NO_APP
 ; CHECK-NEXT:    beqz a0, .LBB2_2
@@ -140,8 +140,8 @@ define i8 @i8(<vscale x 8 x i8> %v, i1 %c) {
 ; CHECK-NEXT:    sub sp, sp, a1
 ; CHECK-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x01, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 1 * vlenb
 ; CHECK-NEXT:    addi a1, sp, 16
-; CHECK-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; CHECK-NEXT:    andi a0, a0, 1
+; CHECK-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; CHECK-NEXT:    #APP
 ; CHECK-NEXT:    #NO_APP
 ; CHECK-NEXT:    beqz a0, .LBB3_2
@@ -172,8 +172,8 @@ define double @f64(<vscale x 1 x double> %v, i1 %c) {
 ; RV32-NEXT:    sub sp, sp, a1
 ; RV32-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x01, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 1 * vlenb
 ; RV32-NEXT:    addi a1, sp, 16
-; RV32-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; RV32-NEXT:    andi a0, a0, 1
+; RV32-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; RV32-NEXT:    #APP
 ; RV32-NEXT:    #NO_APP
 ; RV32-NEXT:    beqz a0, .LBB4_2
@@ -198,8 +198,8 @@ define double @f64(<vscale x 1 x double> %v, i1 %c) {
 ; RV64-NEXT:    sub sp, sp, a1
 ; RV64-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x01, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 1 * vlenb
 ; RV64-NEXT:    addi a1, sp, 16
-; RV64-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; RV64-NEXT:    andi a0, a0, 1
+; RV64-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; RV64-NEXT:    #APP
 ; RV64-NEXT:    #NO_APP
 ; RV64-NEXT:    beqz a0, .LBB4_2
@@ -233,8 +233,8 @@ define float @f32(<vscale x 2 x float> %v, i1 %c) {
 ; CHECK-NEXT:    sub sp, sp, a1
 ; CHECK-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x01, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 1 * vlenb
 ; CHECK-NEXT:    addi a1, sp, 16
-; CHECK-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; CHECK-NEXT:    andi a0, a0, 1
+; CHECK-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; CHECK-NEXT:    #APP
 ; CHECK-NEXT:    #NO_APP
 ; CHECK-NEXT:    beqz a0, .LBB5_2
@@ -268,8 +268,8 @@ define half @f16(<vscale x 1 x half> %v, i1 %c) {
 ; ZFMIN-NEXT:    sub sp, sp, a1
 ; ZFMIN-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x01, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 1 * vlenb
 ; ZFMIN-NEXT:    addi a1, sp, 16
-; ZFMIN-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; ZFMIN-NEXT:    andi a0, a0, 1
+; ZFMIN-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; ZFMIN-NEXT:    #APP
 ; ZFMIN-NEXT:    #NO_APP
 ; ZFMIN-NEXT:    beqz a0, .LBB6_2
@@ -294,8 +294,8 @@ define half @f16(<vscale x 1 x half> %v, i1 %c) {
 ; NOZFMIN-NEXT:    sub sp, sp, a1
 ; NOZFMIN-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x01, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 1 * vlenb
 ; NOZFMIN-NEXT:    addi a1, sp, 16
-; NOZFMIN-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; NOZFMIN-NEXT:    andi a0, a0, 1
+; NOZFMIN-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; NOZFMIN-NEXT:    #APP
 ; NOZFMIN-NEXT:    #NO_APP
 ; NOZFMIN-NEXT:    beqz a0, .LBB6_2
@@ -332,8 +332,8 @@ define bfloat @bf16(<vscale x 2 x bfloat> %v, i1 %c) {
 ; ZFMIN-NEXT:    sub sp, sp, a1
 ; ZFMIN-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x01, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 1 * vlenb
 ; ZFMIN-NEXT:    addi a1, sp, 16
-; ZFMIN-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; ZFMIN-NEXT:    andi a0, a0, 1
+; ZFMIN-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; ZFMIN-NEXT:    #APP
 ; ZFMIN-NEXT:    #NO_APP
 ; ZFMIN-NEXT:    beqz a0, .LBB7_2
@@ -359,8 +359,8 @@ define bfloat @bf16(<vscale x 2 x bfloat> %v, i1 %c) {
 ; NOZFMIN-NEXT:    sub sp, sp, a1
 ; NOZFMIN-NEXT:    .cfi_escape 0x0f, 0x0d, 0x72, 0x00, 0x11, 0x10, 0x22, 0x11, 0x01, 0x92, 0xa2, 0x38, 0x00, 0x1e, 0x22 # sp + 16 + 1 * vlenb
 ; NOZFMIN-NEXT:    addi a1, sp, 16
-; NOZFMIN-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; NOZFMIN-NEXT:    andi a0, a0, 1
+; NOZFMIN-NEXT:    vs1r.v v8, (a1) # Unknown-size Folded Spill
 ; NOZFMIN-NEXT:    #APP
 ; NOZFMIN-NEXT:    #NO_APP
 ; NOZFMIN-NEXT:    beqz a0, .LBB7_2

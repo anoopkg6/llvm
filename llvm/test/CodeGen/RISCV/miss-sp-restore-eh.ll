@@ -16,9 +16,9 @@ define signext i32 @foo() #1 personality ptr @__gxx_personality_v0 {
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    addi sp, sp, -32
 ; CHECK-NEXT:    .cfi_def_cfa_offset 32
-; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    .cfi_offset s0, -16
 ; CHECK-NEXT:    .cfi_offset s1, -24
@@ -27,22 +27,22 @@ define signext i32 @foo() #1 personality ptr @__gxx_personality_v0 {
 ; CHECK-NEXT:    .cfi_remember_state
 ; CHECK-NEXT:  .Ltmp0:
 ; CHECK-NEXT:    addi sp, sp, -32
-; CHECK-NEXT:    li a0, 0
-; CHECK-NEXT:    li a1, 0
-; CHECK-NEXT:    li a2, 0
-; CHECK-NEXT:    li a3, 0
-; CHECK-NEXT:    li a4, 0
-; CHECK-NEXT:    li a5, 0
-; CHECK-NEXT:    li a6, 0
 ; CHECK-NEXT:    li a7, 0
+; CHECK-NEXT:    li a6, 0
+; CHECK-NEXT:    li a5, 0
+; CHECK-NEXT:    li a4, 0
+; CHECK-NEXT:    li a3, 0
+; CHECK-NEXT:    li a2, 0
+; CHECK-NEXT:    li a1, 0
+; CHECK-NEXT:    li a0, 0
 ; CHECK-NEXT:    call _Z3fooiiiiiiiiiiPi
 ; CHECK-NEXT:    addi sp, sp, 32
 ; CHECK-NEXT:  .Ltmp1:
 ; CHECK-NEXT:  # %bb.1: # %try.cont.unreachable
 ; CHECK-NEXT:  .LBB0_2: # %lpad
 ; CHECK-NEXT:  .Ltmp2:
-; CHECK-NEXT:    sext.w a1, a1
 ; CHECK-NEXT:    li a2, 1
+; CHECK-NEXT:    sext.w a1, a1
 ; CHECK-NEXT:    bne a1, a2, .LBB0_4
 ; CHECK-NEXT:  # %bb.3: # %catch
 ; CHECK-NEXT:    call __cxa_begin_catch
@@ -51,9 +51,9 @@ define signext i32 @foo() #1 personality ptr @__gxx_personality_v0 {
 ; CHECK-NEXT:    mv a0, s1
 ; CHECK-NEXT:    addi sp, s0, -32
 ; CHECK-NEXT:    .cfi_def_cfa sp, 32
-; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
 ; CHECK-NEXT:    .cfi_restore s0
 ; CHECK-NEXT:    .cfi_restore s1

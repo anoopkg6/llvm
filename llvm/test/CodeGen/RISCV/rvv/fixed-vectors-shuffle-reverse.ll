@@ -30,9 +30,9 @@ define <4 x i1> @reverse_v4i1(<4 x i1> %a) {
 ; NO-ZVBB:       # %bb.0:
 ; NO-ZVBB-NEXT:    vsetivli zero, 4, e8, mf4, ta, ma
 ; NO-ZVBB-NEXT:    vmv.v.i v8, 0
-; NO-ZVBB-NEXT:    vmerge.vim v8, v8, 1, v0
 ; NO-ZVBB-NEXT:    vid.v v9
 ; NO-ZVBB-NEXT:    vrsub.vi v9, v9, 3
+; NO-ZVBB-NEXT:    vmerge.vim v8, v8, 1, v0
 ; NO-ZVBB-NEXT:    vrgather.vv v10, v8, v9
 ; NO-ZVBB-NEXT:    vmsne.vi v0, v10, 0
 ; NO-ZVBB-NEXT:    ret
@@ -52,9 +52,9 @@ define <8 x i1> @reverse_v8i1(<8 x i1> %a) {
 ; NO-ZVBB:       # %bb.0:
 ; NO-ZVBB-NEXT:    vsetivli zero, 8, e8, mf2, ta, ma
 ; NO-ZVBB-NEXT:    vmv.v.i v8, 0
-; NO-ZVBB-NEXT:    vmerge.vim v8, v8, 1, v0
 ; NO-ZVBB-NEXT:    vid.v v9
 ; NO-ZVBB-NEXT:    vrsub.vi v9, v9, 7
+; NO-ZVBB-NEXT:    vmerge.vim v8, v8, 1, v0
 ; NO-ZVBB-NEXT:    vrgather.vv v10, v8, v9
 ; NO-ZVBB-NEXT:    vmsne.vi v0, v10, 0
 ; NO-ZVBB-NEXT:    ret
@@ -73,9 +73,9 @@ define <16 x i1> @reverse_v16i1(<16 x i1> %a) {
 ; NO-ZVBB:       # %bb.0:
 ; NO-ZVBB-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
 ; NO-ZVBB-NEXT:    vmv.v.i v8, 0
-; NO-ZVBB-NEXT:    vmerge.vim v8, v8, 1, v0
 ; NO-ZVBB-NEXT:    vid.v v9
 ; NO-ZVBB-NEXT:    vrsub.vi v9, v9, 15
+; NO-ZVBB-NEXT:    vmerge.vim v8, v8, 1, v0
 ; NO-ZVBB-NEXT:    vrgather.vv v10, v8, v9
 ; NO-ZVBB-NEXT:    vmsne.vi v0, v10, 0
 ; NO-ZVBB-NEXT:    ret
@@ -105,8 +105,8 @@ define <32 x i1> @reverse_v32i1(<32 x i1> %a) {
 ; NO-ZVBB-NEXT:    vrgatherei16.vv v13, v8, v10
 ; NO-ZVBB-NEXT:    vrgatherei16.vv v12, v9, v10
 ; NO-ZVBB-NEXT:    slli a1, a1, 1
-; NO-ZVBB-NEXT:    addi a1, a1, -32
 ; NO-ZVBB-NEXT:    vsetvli zero, a0, e8, m2, ta, ma
+; NO-ZVBB-NEXT:    addi a1, a1, -32
 ; NO-ZVBB-NEXT:    vslidedown.vx v8, v12, a1
 ; NO-ZVBB-NEXT:    vmsne.vi v0, v8, 0
 ; NO-ZVBB-NEXT:    ret
@@ -138,8 +138,8 @@ define <64 x i1> @reverse_v64i1(<64 x i1> %a) {
 ; NO-ZVBB-NEXT:    vrgatherei16.vv v9, v14, v16
 ; NO-ZVBB-NEXT:    vrgatherei16.vv v8, v15, v16
 ; NO-ZVBB-NEXT:    slli a1, a1, 2
-; NO-ZVBB-NEXT:    addi a1, a1, -64
 ; NO-ZVBB-NEXT:    vsetvli zero, a0, e8, m4, ta, ma
+; NO-ZVBB-NEXT:    addi a1, a1, -64
 ; NO-ZVBB-NEXT:    vslidedown.vx v8, v8, a1
 ; NO-ZVBB-NEXT:    vmsne.vi v0, v8, 0
 ; NO-ZVBB-NEXT:    ret
@@ -175,8 +175,8 @@ define <128 x i1> @reverse_v128i1(<128 x i1> %a) {
 ; CHECK-NEXT:    vrgatherei16.vv v9, v22, v24
 ; CHECK-NEXT:    vrgatherei16.vv v8, v23, v24
 ; CHECK-NEXT:    slli a1, a1, 3
-; CHECK-NEXT:    addi a1, a1, -128
 ; CHECK-NEXT:    vsetvli zero, a0, e8, m8, ta, ma
+; CHECK-NEXT:    addi a1, a1, -128
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a1
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -261,9 +261,9 @@ define <32 x i8> @reverse_v32i8(<32 x i8> %a) {
 ; CHECK-NEXT:    vrgatherei16.vv v13, v8, v10
 ; CHECK-NEXT:    vrgatherei16.vv v12, v9, v10
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    li a1, 32
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <32 x i8> %a, <32 x i8> poison, <32 x i32> <i32 31, i32 30, i32 29, i32 28, i32 27, i32 26, i32 25, i32 24, i32 23, i32 22, i32 21, i32 20, i32 19, i32 18, i32 17, i32 16, i32 15, i32 14, i32 13, i32 12, i32 11, i32 10, i32 9, i32 8, i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -284,9 +284,9 @@ define <64 x i8> @reverse_v64i8(<64 x i8> %a) {
 ; CHECK-NEXT:    vrgatherei16.vv v13, v10, v16
 ; CHECK-NEXT:    vrgatherei16.vv v12, v11, v16
 ; CHECK-NEXT:    slli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -64
 ; CHECK-NEXT:    li a1, 64
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -64
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <64 x i8> %a, <64 x i8> poison, <64 x i32> <i32 63, i32 62, i32 61, i32 60, i32 59, i32 58, i32 57, i32 56, i32 55, i32 54, i32 53, i32 52, i32 51, i32 50, i32 49, i32 48, i32 47, i32 46, i32 45, i32 44, i32 43, i32 42, i32 41, i32 40, i32 39, i32 38, i32 37, i32 36, i32 35, i32 34, i32 33, i32 32, i32 31, i32 30, i32 29, i32 28, i32 27, i32 26, i32 25, i32 24, i32 23, i32 22, i32 21, i32 20, i32 19, i32 18, i32 17, i32 16, i32 15, i32 14, i32 13, i32 12, i32 11, i32 10, i32 9, i32 8, i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -356,8 +356,8 @@ define <16 x i16> @reverse_v16i16(<16 x i16> %a) {
 ; CHECK-NEXT:    vrsub.vx v10, v10, a1
 ; CHECK-NEXT:    vrgather.vv v13, v8, v10
 ; CHECK-NEXT:    vrgather.vv v12, v9, v10
-; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <16 x i16> %a, <16 x i16> poison, <16 x i32> <i32 15, i32 14, i32 13, i32 12, i32 11, i32 10, i32 9, i32 8, i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -378,9 +378,9 @@ define <32 x i16> @reverse_v32i16(<32 x i16> %a) {
 ; CHECK-NEXT:    vrgather.vv v13, v10, v16
 ; CHECK-NEXT:    vrgather.vv v12, v11, v16
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    li a1, 32
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <32 x i16> %a, <32 x i16> poison, <32 x i32> <i32 31, i32 30, i32 29, i32 28, i32 27, i32 26, i32 25, i32 24, i32 23, i32 22, i32 21, i32 20, i32 19, i32 18, i32 17, i32 16, i32 15, i32 14, i32 13, i32 12, i32 11, i32 10, i32 9, i32 8, i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -438,8 +438,8 @@ define <8 x i32> @reverse_v8i32(<8 x i32> %a) {
 ; CHECK-NEXT:    vrgather.vv v13, v8, v10
 ; CHECK-NEXT:    vrgather.vv v12, v9, v10
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <8 x i32> %a, <8 x i32> poison, <8 x i32> <i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -459,8 +459,8 @@ define <16 x i32> @reverse_v16i32(<16 x i32> %a) {
 ; CHECK-NEXT:    vrgather.vv v14, v9, v16
 ; CHECK-NEXT:    vrgather.vv v13, v10, v16
 ; CHECK-NEXT:    vrgather.vv v12, v11, v16
-; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vsetivli zero, 16, e32, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <16 x i32> %a, <16 x i32> poison, <16 x i32> <i32 15, i32 14, i32 13, i32 12, i32 11, i32 10, i32 9, i32 8, i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -499,8 +499,8 @@ define <4 x i64> @reverse_v4i64(<4 x i64> %a) {
 ; CHECK-NEXT:    vrgather.vv v13, v8, v10
 ; CHECK-NEXT:    vrgather.vv v12, v9, v10
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <4 x i64> %a, <4 x i64> poison, <4 x i32> <i32 3, i32 2, i32 1, i32 0>
@@ -521,8 +521,8 @@ define <8 x i64> @reverse_v8i64(<8 x i64> %a) {
 ; CHECK-NEXT:    vrgather.vv v13, v10, v16
 ; CHECK-NEXT:    vrgather.vv v12, v11, v16
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vsetivli zero, 8, e64, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <8 x i64> %a, <8 x i64> poison, <8 x i32> <i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -593,8 +593,8 @@ define <16 x half> @reverse_v16f16(<16 x half> %a) {
 ; CHECK-NEXT:    vrsub.vx v10, v10, a1
 ; CHECK-NEXT:    vrgather.vv v13, v8, v10
 ; CHECK-NEXT:    vrgather.vv v12, v9, v10
-; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <16 x half> %a, <16 x half> poison, <16 x i32> <i32 15, i32 14, i32 13, i32 12, i32 11, i32 10, i32 9, i32 8, i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -615,9 +615,9 @@ define <32 x half> @reverse_v32f16(<32 x half> %a) {
 ; CHECK-NEXT:    vrgather.vv v13, v10, v16
 ; CHECK-NEXT:    vrgather.vv v12, v11, v16
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    li a1, 32
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <32 x half> %a, <32 x half> poison, <32 x i32> <i32 31, i32 30, i32 29, i32 28, i32 27, i32 26, i32 25, i32 24, i32 23, i32 22, i32 21, i32 20, i32 19, i32 18, i32 17, i32 16, i32 15, i32 14, i32 13, i32 12, i32 11, i32 10, i32 9, i32 8, i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -675,8 +675,8 @@ define <8 x float> @reverse_v8f32(<8 x float> %a) {
 ; CHECK-NEXT:    vrgather.vv v13, v8, v10
 ; CHECK-NEXT:    vrgather.vv v12, v9, v10
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <8 x float> %a, <8 x float> poison, <8 x i32> <i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -696,8 +696,8 @@ define <16 x float> @reverse_v16f32(<16 x float> %a) {
 ; CHECK-NEXT:    vrgather.vv v14, v9, v16
 ; CHECK-NEXT:    vrgather.vv v13, v10, v16
 ; CHECK-NEXT:    vrgather.vv v12, v11, v16
-; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vsetivli zero, 16, e32, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <16 x float> %a, <16 x float> poison, <16 x i32> <i32 15, i32 14, i32 13, i32 12, i32 11, i32 10, i32 9, i32 8, i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -736,8 +736,8 @@ define <4 x double> @reverse_v4f64(<4 x double> %a) {
 ; CHECK-NEXT:    vrgather.vv v13, v8, v10
 ; CHECK-NEXT:    vrgather.vv v12, v9, v10
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <4 x double> %a, <4 x double> poison, <4 x i32> <i32 3, i32 2, i32 1, i32 0>
@@ -758,8 +758,8 @@ define <8 x double> @reverse_v8f64(<8 x double> %a) {
 ; CHECK-NEXT:    vrgather.vv v13, v10, v16
 ; CHECK-NEXT:    vrgather.vv v12, v11, v16
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vsetivli zero, 8, e64, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <8 x double> %a, <8 x double> poison, <8 x i32> <i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -771,8 +771,8 @@ define <3 x i64> @reverse_v3i64(<3 x i64> %a) {
 ; RV32-LABEL: reverse_v3i64:
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    lui a0, %hi(.LCPI44_0)
-; RV32-NEXT:    addi a0, a0, %lo(.LCPI44_0)
 ; RV32-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
+; RV32-NEXT:    addi a0, a0, %lo(.LCPI44_0)
 ; RV32-NEXT:    vle16.v v12, (a0)
 ; RV32-NEXT:    vrgatherei16.vv v10, v8, v12
 ; RV32-NEXT:    vmv.v.v v8, v10
@@ -791,8 +791,8 @@ define <3 x i64> @reverse_v3i64(<3 x i64> %a) {
 ; RV32-ZVBB-LABEL: reverse_v3i64:
 ; RV32-ZVBB:       # %bb.0:
 ; RV32-ZVBB-NEXT:    lui a0, %hi(.LCPI44_0)
-; RV32-ZVBB-NEXT:    addi a0, a0, %lo(.LCPI44_0)
 ; RV32-ZVBB-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
+; RV32-ZVBB-NEXT:    addi a0, a0, %lo(.LCPI44_0)
 ; RV32-ZVBB-NEXT:    vle16.v v12, (a0)
 ; RV32-ZVBB-NEXT:    vrgatherei16.vv v10, v8, v12
 ; RV32-ZVBB-NEXT:    vmv.v.v v8, v10
@@ -815,8 +815,8 @@ define <6 x i64> @reverse_v6i64(<6 x i64> %a) {
 ; RV32-LABEL: reverse_v6i64:
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    lui a0, %hi(.LCPI45_0)
-; RV32-NEXT:    addi a0, a0, %lo(.LCPI45_0)
 ; RV32-NEXT:    vsetivli zero, 16, e32, m4, ta, ma
+; RV32-NEXT:    addi a0, a0, %lo(.LCPI45_0)
 ; RV32-NEXT:    vle16.v v16, (a0)
 ; RV32-NEXT:    vrgatherei16.vv v12, v8, v16
 ; RV32-NEXT:    vmv.v.v v8, v12
@@ -835,8 +835,8 @@ define <6 x i64> @reverse_v6i64(<6 x i64> %a) {
 ; RV32-ZVBB-LABEL: reverse_v6i64:
 ; RV32-ZVBB:       # %bb.0:
 ; RV32-ZVBB-NEXT:    lui a0, %hi(.LCPI45_0)
-; RV32-ZVBB-NEXT:    addi a0, a0, %lo(.LCPI45_0)
 ; RV32-ZVBB-NEXT:    vsetivli zero, 16, e32, m4, ta, ma
+; RV32-ZVBB-NEXT:    addi a0, a0, %lo(.LCPI45_0)
 ; RV32-ZVBB-NEXT:    vle16.v v16, (a0)
 ; RV32-ZVBB-NEXT:    vrgatherei16.vv v12, v8, v16
 ; RV32-ZVBB-NEXT:    vmv.v.v v8, v12
@@ -860,8 +860,8 @@ define <12 x i64> @reverse_v12i64(<12 x i64> %a) {
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    li a0, 32
 ; RV32-NEXT:    lui a1, %hi(.LCPI46_0)
-; RV32-NEXT:    addi a1, a1, %lo(.LCPI46_0)
 ; RV32-NEXT:    vsetvli zero, a0, e32, m8, ta, ma
+; RV32-NEXT:    addi a1, a1, %lo(.LCPI46_0)
 ; RV32-NEXT:    vle16.v v24, (a1)
 ; RV32-NEXT:    vrgatherei16.vv v16, v8, v24
 ; RV32-NEXT:    vmv.v.v v8, v16
@@ -881,8 +881,8 @@ define <12 x i64> @reverse_v12i64(<12 x i64> %a) {
 ; RV32-ZVBB:       # %bb.0:
 ; RV32-ZVBB-NEXT:    li a0, 32
 ; RV32-ZVBB-NEXT:    lui a1, %hi(.LCPI46_0)
-; RV32-ZVBB-NEXT:    addi a1, a1, %lo(.LCPI46_0)
 ; RV32-ZVBB-NEXT:    vsetvli zero, a0, e32, m8, ta, ma
+; RV32-ZVBB-NEXT:    addi a1, a1, %lo(.LCPI46_0)
 ; RV32-ZVBB-NEXT:    vle16.v v24, (a1)
 ; RV32-ZVBB-NEXT:    vrgatherei16.vv v16, v8, v24
 ; RV32-ZVBB-NEXT:    vmv.v.v v8, v16
@@ -932,8 +932,8 @@ define <8 x i8> @reverse_v8i8_2(<4 x i8> %a, <4 x i8> %b) {
 ; CHECK-NEXT:    vid.v v11
 ; CHECK-NEXT:    vrsub.vi v12, v11, 7
 ; CHECK-NEXT:    vrgather.vv v10, v8, v12
-; CHECK-NEXT:    vmv.v.i v0, 15
 ; CHECK-NEXT:    vrsub.vi v8, v11, 3
+; CHECK-NEXT:    vmv.v.i v0, 15
 ; CHECK-NEXT:    vrgather.vv v10, v9, v8, v0.t
 ; CHECK-NEXT:    vmv1r.v v8, v10
 ; CHECK-NEXT:    ret
@@ -948,8 +948,8 @@ define <16 x i8> @reverse_v16i8_2(<8 x i8> %a, <8 x i8> %b) {
 ; CHECK-NEXT:    vid.v v11
 ; CHECK-NEXT:    vrsub.vi v12, v11, 15
 ; CHECK-NEXT:    vrgather.vv v10, v8, v12
-; CHECK-NEXT:    li a0, 255
 ; CHECK-NEXT:    vsetvli zero, zero, e16, m2, ta, ma
+; CHECK-NEXT:    li a0, 255
 ; CHECK-NEXT:    vmv.s.x v0, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e8, m1, ta, mu
 ; CHECK-NEXT:    vrsub.vi v8, v11, 7
@@ -980,8 +980,8 @@ define <32 x i8> @reverse_v32i8_2(<16 x i8> %a, <16 x i8> %b) {
 ; CHECK-NEXT:    vid.v v12
 ; CHECK-NEXT:    vrsub.vi v12, v12, 15
 ; CHECK-NEXT:    lui a0, 16
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli zero, zero, e32, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vmv.s.x v0, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e8, m2, ta, mu
 ; CHECK-NEXT:    vrgather.vv v8, v10, v12, v0.t
@@ -1021,8 +1021,8 @@ define <8 x i16> @reverse_v8i16_2(<4 x i16> %a, <4 x i16> %b) {
 ; CHECK-NEXT:    vid.v v11
 ; CHECK-NEXT:    vrsub.vi v12, v11, 7
 ; CHECK-NEXT:    vrgather.vv v10, v8, v12
-; CHECK-NEXT:    vmv.v.i v0, 15
 ; CHECK-NEXT:    vrsub.vi v8, v11, 3
+; CHECK-NEXT:    vmv.v.i v0, 15
 ; CHECK-NEXT:    vrgather.vv v10, v9, v8, v0.t
 ; CHECK-NEXT:    vmv.v.v v8, v10
 ; CHECK-NEXT:    ret
@@ -1046,9 +1046,9 @@ define <16 x i16> @reverse_v16i16_2(<8 x i16> %a, <8 x i16> %b) {
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, mu
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    vid.v v12
-; CHECK-NEXT:    vrsub.vi v12, v12, 7
 ; CHECK-NEXT:    li a0, 255
 ; CHECK-NEXT:    vmv.s.x v0, a0
+; CHECK-NEXT:    vrsub.vi v12, v12, 7
 ; CHECK-NEXT:    vrgather.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
   %res = shufflevector <8 x i16> %a, <8 x i16> %b,  <16 x i32> <i32 15, i32 14, i32 13, i32 12, i32 11, i32 10, i32 9, i32 8, i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -1277,8 +1277,8 @@ define <8 x half> @reverse_v8f16_2(<4 x half> %a, <4 x half> %b) {
 ; CHECK-NEXT:    vid.v v11
 ; CHECK-NEXT:    vrsub.vi v12, v11, 7
 ; CHECK-NEXT:    vrgather.vv v10, v8, v12
-; CHECK-NEXT:    vmv.v.i v0, 15
 ; CHECK-NEXT:    vrsub.vi v8, v11, 3
+; CHECK-NEXT:    vmv.v.i v0, 15
 ; CHECK-NEXT:    vrgather.vv v10, v9, v8, v0.t
 ; CHECK-NEXT:    vmv.v.v v8, v10
 ; CHECK-NEXT:    ret
@@ -1302,9 +1302,9 @@ define <16 x half> @reverse_v16f16_2(<8 x half> %a, <8 x half> %b) {
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, mu
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    vid.v v12
-; CHECK-NEXT:    vrsub.vi v12, v12, 7
 ; CHECK-NEXT:    li a0, 255
 ; CHECK-NEXT:    vmv.s.x v0, a0
+; CHECK-NEXT:    vrsub.vi v12, v12, 7
 ; CHECK-NEXT:    vrgather.vv v8, v10, v12, v0.t
 ; CHECK-NEXT:    ret
   %res = shufflevector <8 x half> %a, <8 x half> %b,  <16 x i32> <i32 15, i32 14, i32 13, i32 12, i32 11, i32 10, i32 9, i32 8, i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -1325,9 +1325,9 @@ define <32 x half> @reverse_v32f16_2(<16 x half> %a) {
 ; CHECK-NEXT:    vrgather.vv v12, v8, v10
 ; CHECK-NEXT:    vmv.v.v v13, v12
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    li a1, 32
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a0
 ; CHECK-NEXT:    ret
   %res = shufflevector <16 x half> %a, <16 x half> poison,  <32 x i32> <i32 31, i32 30, i32 29, i32 28, i32 27, i32 26, i32 25, i32 24, i32 23, i32 22, i32 21, i32 20, i32 19, i32 18, i32 17, i32 16, i32 15, i32 14, i32 13, i32 12, i32 11, i32 10, i32 9, i32 8, i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -1476,8 +1476,8 @@ define <256 x i1> @reverse_v256i1(<256 x i1> %a) vscale_range(16, 1024) {
 ; CHECK-NEXT:    vrgatherei16.vv v13, v8, v10
 ; CHECK-NEXT:    vrgatherei16.vv v12, v9, v10
 ; CHECK-NEXT:    slli a1, a1, 1
-; CHECK-NEXT:    addi a1, a1, -256
 ; CHECK-NEXT:    vsetvli zero, a0, e8, m2, ta, ma
+; CHECK-NEXT:    addi a1, a1, -256
 ; CHECK-NEXT:    vslidedown.vx v8, v12, a1
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -1491,8 +1491,8 @@ define <8 x i32> @reverse_v8i32_exact_vlen_128(<8 x i32> %a) vscale_range(2, 2) 
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
 ; CHECK-NEXT:    vid.v v10
 ; CHECK-NEXT:    vrsub.vi v12, v10, 3
-; CHECK-NEXT:    vrgather.vv v11, v8, v12
 ; CHECK-NEXT:    vrgather.vv v10, v9, v12
+; CHECK-NEXT:    vrgather.vv v11, v8, v12
 ; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    ret
   %res = shufflevector <8 x i32> %a, <8 x i32> poison, <8 x i32> <i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>
@@ -1505,8 +1505,8 @@ define <16 x i32> @reverse_v16i32_exact_vlen_256(<16 x i32> %a) vscale_range(4, 
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m1, ta, ma
 ; CHECK-NEXT:    vid.v v10
 ; CHECK-NEXT:    vrsub.vi v12, v10, 7
-; CHECK-NEXT:    vrgather.vv v11, v8, v12
 ; CHECK-NEXT:    vrgather.vv v10, v9, v12
+; CHECK-NEXT:    vrgather.vv v11, v8, v12
 ; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    ret
   %res = shufflevector <16 x i32> %a, <16 x i32> poison, <16 x i32> <i32 15, i32 14, i32 13, i32 12, i32 11, i32 10, i32 9, i32 8, i32 7, i32 6, i32 5, i32 4, i32 3, i32 2, i32 1, i32 0>

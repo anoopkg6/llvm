@@ -11,15 +11,15 @@
 define <vscale x 8 x bfloat> @vsplat_nxv8bf16(bfloat %f) {
 ; CHECK-LABEL: vsplat_nxv8bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; CHECK-NEXT:    fmv.x.h a0, fa0
 ; CHECK-NEXT:    vmv.v.x v8, a0
 ; CHECK-NEXT:    ret
 ;
 ; NOZFBFMIN-LABEL: vsplat_nxv8bf16:
 ; NOZFBFMIN:       # %bb.0:
-; NOZFBFMIN-NEXT:    fmv.x.w a0, fa0
 ; NOZFBFMIN-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; NOZFBFMIN-NEXT:    fmv.x.w a0, fa0
 ; NOZFBFMIN-NEXT:    vmv.v.x v8, a0
 ; NOZFBFMIN-NEXT:    ret
   %head = insertelement <vscale x 8 x bfloat> poison, bfloat %f, i32 0
@@ -45,15 +45,15 @@ define <vscale x 8 x bfloat> @vsplat_zero_nxv8bf16() {
 define <vscale x 8 x bfloat> @vsplat_negzero_nxv8bf16() {
 ; CHECK-LABEL: vsplat_negzero_nxv8bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a0, 1048568
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; CHECK-NEXT:    lui a0, 1048568
 ; CHECK-NEXT:    vmv.v.x v8, a0
 ; CHECK-NEXT:    ret
 ;
 ; NOZFBFMIN-LABEL: vsplat_negzero_nxv8bf16:
 ; NOZFBFMIN:       # %bb.0:
-; NOZFBFMIN-NEXT:    lui a0, 1048568
 ; NOZFBFMIN-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; NOZFBFMIN-NEXT:    lui a0, 1048568
 ; NOZFBFMIN-NEXT:    vmv.v.x v8, a0
 ; NOZFBFMIN-NEXT:    ret
   ret <vscale x 8 x bfloat> splat (bfloat -0.0)

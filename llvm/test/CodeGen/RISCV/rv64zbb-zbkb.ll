@@ -336,8 +336,8 @@ define void @rori_i32_fshr_nosext(i32 signext %a, ptr %x) nounwind {
 define signext i32 @not_rori_i32(i32 signext %x, i32 signext %y) nounwind {
 ; CHECK-LABEL: not_rori_i32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    slliw a0, a0, 31
 ; CHECK-NEXT:    srliw a1, a1, 1
+; CHECK-NEXT:    slliw a0, a0, 31
 ; CHECK-NEXT:    or a0, a0, a1
 ; CHECK-NEXT:    ret
   %a = shl i32 %x, 31
@@ -352,8 +352,8 @@ define signext i32 @not_rori_i32(i32 signext %x, i32 signext %y) nounwind {
 define i64 @roriw_bug(i64 %x) nounwind {
 ; CHECK-LABEL: roriw_bug:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    slli a1, a0, 31
 ; CHECK-NEXT:    andi a2, a0, -2
+; CHECK-NEXT:    slli a1, a0, 31
 ; CHECK-NEXT:    srli a0, a0, 1
 ; CHECK-NEXT:    or a0, a1, a0
 ; CHECK-NEXT:    sext.w a0, a0

@@ -240,81 +240,81 @@ define float @sincos_f32(float %a) nounwind strictfp {
 ; RV32IF-LABEL: sincos_f32:
 ; RV32IF:       # %bb.0:
 ; RV32IF-NEXT:    addi sp, sp, -16
-; RV32IF-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
-; RV32IF-NEXT:    fsw fs0, 8(sp) # 4-byte Folded Spill
 ; RV32IF-NEXT:    fsw fs1, 4(sp) # 4-byte Folded Spill
+; RV32IF-NEXT:    fsw fs0, 8(sp) # 4-byte Folded Spill
+; RV32IF-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
 ; RV32IF-NEXT:    fmv.s fs0, fa0
 ; RV32IF-NEXT:    call sinf
 ; RV32IF-NEXT:    fmv.s fs1, fa0
 ; RV32IF-NEXT:    fmv.s fa0, fs0
 ; RV32IF-NEXT:    call cosf
 ; RV32IF-NEXT:    fadd.s fa0, fs1, fa0
-; RV32IF-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
-; RV32IF-NEXT:    flw fs0, 8(sp) # 4-byte Folded Reload
 ; RV32IF-NEXT:    flw fs1, 4(sp) # 4-byte Folded Reload
+; RV32IF-NEXT:    flw fs0, 8(sp) # 4-byte Folded Reload
+; RV32IF-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32IF-NEXT:    addi sp, sp, 16
 ; RV32IF-NEXT:    ret
 ;
 ; RV64IF-LABEL: sincos_f32:
 ; RV64IF:       # %bb.0:
 ; RV64IF-NEXT:    addi sp, sp, -16
-; RV64IF-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
-; RV64IF-NEXT:    fsw fs0, 4(sp) # 4-byte Folded Spill
 ; RV64IF-NEXT:    fsw fs1, 0(sp) # 4-byte Folded Spill
+; RV64IF-NEXT:    fsw fs0, 4(sp) # 4-byte Folded Spill
+; RV64IF-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; RV64IF-NEXT:    fmv.s fs0, fa0
 ; RV64IF-NEXT:    call sinf
 ; RV64IF-NEXT:    fmv.s fs1, fa0
 ; RV64IF-NEXT:    fmv.s fa0, fs0
 ; RV64IF-NEXT:    call cosf
 ; RV64IF-NEXT:    fadd.s fa0, fs1, fa0
-; RV64IF-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
-; RV64IF-NEXT:    flw fs0, 4(sp) # 4-byte Folded Reload
 ; RV64IF-NEXT:    flw fs1, 0(sp) # 4-byte Folded Reload
+; RV64IF-NEXT:    flw fs0, 4(sp) # 4-byte Folded Reload
+; RV64IF-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64IF-NEXT:    addi sp, sp, 16
 ; RV64IF-NEXT:    ret
 ;
 ; RV32IZFINX-LABEL: sincos_f32:
 ; RV32IZFINX:       # %bb.0:
 ; RV32IZFINX-NEXT:    addi sp, sp, -16
-; RV32IZFINX-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
-; RV32IZFINX-NEXT:    sw s0, 8(sp) # 4-byte Folded Spill
 ; RV32IZFINX-NEXT:    sw s1, 4(sp) # 4-byte Folded Spill
+; RV32IZFINX-NEXT:    sw s0, 8(sp) # 4-byte Folded Spill
+; RV32IZFINX-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
 ; RV32IZFINX-NEXT:    mv s0, a0
 ; RV32IZFINX-NEXT:    call sinf
 ; RV32IZFINX-NEXT:    mv s1, a0
 ; RV32IZFINX-NEXT:    mv a0, s0
 ; RV32IZFINX-NEXT:    call cosf
 ; RV32IZFINX-NEXT:    fadd.s a0, s1, a0
-; RV32IZFINX-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
-; RV32IZFINX-NEXT:    lw s0, 8(sp) # 4-byte Folded Reload
 ; RV32IZFINX-NEXT:    lw s1, 4(sp) # 4-byte Folded Reload
+; RV32IZFINX-NEXT:    lw s0, 8(sp) # 4-byte Folded Reload
+; RV32IZFINX-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32IZFINX-NEXT:    addi sp, sp, 16
 ; RV32IZFINX-NEXT:    ret
 ;
 ; RV64IZFINX-LABEL: sincos_f32:
 ; RV64IZFINX:       # %bb.0:
 ; RV64IZFINX-NEXT:    addi sp, sp, -32
-; RV64IZFINX-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; RV64IZFINX-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
 ; RV64IZFINX-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
+; RV64IZFINX-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; RV64IZFINX-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; RV64IZFINX-NEXT:    mv s0, a0
 ; RV64IZFINX-NEXT:    call sinf
 ; RV64IZFINX-NEXT:    mv s1, a0
 ; RV64IZFINX-NEXT:    mv a0, s0
 ; RV64IZFINX-NEXT:    call cosf
 ; RV64IZFINX-NEXT:    fadd.s a0, s1, a0
-; RV64IZFINX-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; RV64IZFINX-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; RV64IZFINX-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; RV64IZFINX-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; RV64IZFINX-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; RV64IZFINX-NEXT:    addi sp, sp, 32
 ; RV64IZFINX-NEXT:    ret
 ;
 ; RV32I-LABEL: sincos_f32:
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    addi sp, sp, -16
-; RV32I-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
-; RV32I-NEXT:    sw s0, 8(sp) # 4-byte Folded Spill
 ; RV32I-NEXT:    sw s1, 4(sp) # 4-byte Folded Spill
+; RV32I-NEXT:    sw s0, 8(sp) # 4-byte Folded Spill
+; RV32I-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
 ; RV32I-NEXT:    mv s0, a0
 ; RV32I-NEXT:    call sinf
 ; RV32I-NEXT:    mv s1, a0
@@ -323,18 +323,18 @@ define float @sincos_f32(float %a) nounwind strictfp {
 ; RV32I-NEXT:    mv a1, a0
 ; RV32I-NEXT:    mv a0, s1
 ; RV32I-NEXT:    call __addsf3
-; RV32I-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
-; RV32I-NEXT:    lw s0, 8(sp) # 4-byte Folded Reload
 ; RV32I-NEXT:    lw s1, 4(sp) # 4-byte Folded Reload
+; RV32I-NEXT:    lw s0, 8(sp) # 4-byte Folded Reload
+; RV32I-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32I-NEXT:    addi sp, sp, 16
 ; RV32I-NEXT:    ret
 ;
 ; RV64I-LABEL: sincos_f32:
 ; RV64I:       # %bb.0:
 ; RV64I-NEXT:    addi sp, sp, -32
-; RV64I-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; RV64I-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
 ; RV64I-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
+; RV64I-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; RV64I-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; RV64I-NEXT:    mv s0, a0
 ; RV64I-NEXT:    call sinf
 ; RV64I-NEXT:    mv s1, a0
@@ -343,9 +343,9 @@ define float @sincos_f32(float %a) nounwind strictfp {
 ; RV64I-NEXT:    mv a1, a0
 ; RV64I-NEXT:    mv a0, s1
 ; RV64I-NEXT:    call __addsf3
-; RV64I-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; RV64I-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
 ; RV64I-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; RV64I-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; RV64I-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; RV64I-NEXT:    addi sp, sp, 32
 ; RV64I-NEXT:    ret
   %1 = call float @llvm.experimental.constrained.sin.f32(float %a, metadata !"round.dynamic", metadata !"fpexcept.strict") strictfp
@@ -824,28 +824,28 @@ define float @fmuladd_f32(float %a, float %b, float %c) nounwind strictfp {
 ; RV32I-LABEL: fmuladd_f32:
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    addi sp, sp, -16
-; RV32I-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
 ; RV32I-NEXT:    sw s0, 8(sp) # 4-byte Folded Spill
+; RV32I-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
 ; RV32I-NEXT:    mv s0, a2
 ; RV32I-NEXT:    call __mulsf3
 ; RV32I-NEXT:    mv a1, s0
 ; RV32I-NEXT:    call __addsf3
-; RV32I-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32I-NEXT:    lw s0, 8(sp) # 4-byte Folded Reload
+; RV32I-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32I-NEXT:    addi sp, sp, 16
 ; RV32I-NEXT:    ret
 ;
 ; RV64I-LABEL: fmuladd_f32:
 ; RV64I:       # %bb.0:
 ; RV64I-NEXT:    addi sp, sp, -16
-; RV64I-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; RV64I-NEXT:    sd s0, 0(sp) # 8-byte Folded Spill
+; RV64I-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; RV64I-NEXT:    mv s0, a2
 ; RV64I-NEXT:    call __mulsf3
 ; RV64I-NEXT:    mv a1, s0
 ; RV64I-NEXT:    call __addsf3
-; RV64I-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64I-NEXT:    ld s0, 0(sp) # 8-byte Folded Reload
+; RV64I-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64I-NEXT:    addi sp, sp, 16
 ; RV64I-NEXT:    ret
   %1 = call float @llvm.experimental.constrained.fmuladd.f32(float %a, float %b, float %c, metadata !"round.dynamic", metadata !"fpexcept.strict") strictfp

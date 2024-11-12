@@ -17,8 +17,8 @@ define bfloat @select_fcmp_false(bfloat %a, bfloat %b) nounwind {
 define bfloat @select_fcmp_oeq(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: select_fcmp_oeq:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    bnez a0, .LBB1_2
 ; CHECK-NEXT:  # %bb.1:
@@ -33,8 +33,8 @@ define bfloat @select_fcmp_oeq(bfloat %a, bfloat %b) nounwind {
 define bfloat @select_fcmp_ogt(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: select_fcmp_ogt:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa1
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    bnez a0, .LBB2_2
 ; CHECK-NEXT:  # %bb.1:
@@ -49,8 +49,8 @@ define bfloat @select_fcmp_ogt(bfloat %a, bfloat %b) nounwind {
 define bfloat @select_fcmp_oge(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: select_fcmp_oge:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa1
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    fle.s a0, fa4, fa5
 ; CHECK-NEXT:    bnez a0, .LBB3_2
 ; CHECK-NEXT:  # %bb.1:
@@ -65,8 +65,8 @@ define bfloat @select_fcmp_oge(bfloat %a, bfloat %b) nounwind {
 define bfloat @select_fcmp_olt(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: select_fcmp_olt:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    bnez a0, .LBB4_2
 ; CHECK-NEXT:  # %bb.1:
@@ -81,8 +81,8 @@ define bfloat @select_fcmp_olt(bfloat %a, bfloat %b) nounwind {
 define bfloat @select_fcmp_ole(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: select_fcmp_ole:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fle.s a0, fa4, fa5
 ; CHECK-NEXT:    bnez a0, .LBB5_2
 ; CHECK-NEXT:  # %bb.1:
@@ -99,8 +99,8 @@ define bfloat @select_fcmp_one(bfloat %a, bfloat %b) nounwind {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
-; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    flt.s a1, fa5, fa4
+; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    or a0, a1, a0
 ; CHECK-NEXT:    bnez a0, .LBB6_2
 ; CHECK-NEXT:  # %bb.1:
@@ -135,8 +135,8 @@ define bfloat @select_fcmp_ueq(bfloat %a, bfloat %b) nounwind {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
-; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    flt.s a1, fa5, fa4
+; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    or a0, a1, a0
 ; CHECK-NEXT:    beqz a0, .LBB8_2
 ; CHECK-NEXT:  # %bb.1:
@@ -151,8 +151,8 @@ define bfloat @select_fcmp_ueq(bfloat %a, bfloat %b) nounwind {
 define bfloat @select_fcmp_ugt(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: select_fcmp_ugt:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fle.s a0, fa4, fa5
 ; CHECK-NEXT:    beqz a0, .LBB9_2
 ; CHECK-NEXT:  # %bb.1:
@@ -167,8 +167,8 @@ define bfloat @select_fcmp_ugt(bfloat %a, bfloat %b) nounwind {
 define bfloat @select_fcmp_uge(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: select_fcmp_uge:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    beqz a0, .LBB10_2
 ; CHECK-NEXT:  # %bb.1:
@@ -183,8 +183,8 @@ define bfloat @select_fcmp_uge(bfloat %a, bfloat %b) nounwind {
 define bfloat @select_fcmp_ult(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: select_fcmp_ult:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa1
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    fle.s a0, fa4, fa5
 ; CHECK-NEXT:    beqz a0, .LBB11_2
 ; CHECK-NEXT:  # %bb.1:
@@ -199,8 +199,8 @@ define bfloat @select_fcmp_ult(bfloat %a, bfloat %b) nounwind {
 define bfloat @select_fcmp_ule(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: select_fcmp_ule:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa1
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    beqz a0, .LBB12_2
 ; CHECK-NEXT:  # %bb.1:
@@ -215,8 +215,8 @@ define bfloat @select_fcmp_ule(bfloat %a, bfloat %b) nounwind {
 define bfloat @select_fcmp_une(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: select_fcmp_une:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    beqz a0, .LBB13_2
 ; CHECK-NEXT:  # %bb.1:
@@ -259,8 +259,8 @@ define bfloat @select_fcmp_true(bfloat %a, bfloat %b) nounwind {
 define i32 @i32_select_fcmp_oeq(bfloat %a, bfloat %b, i32 %c, i32 %d) nounwind {
 ; CHECK-LABEL: i32_select_fcmp_oeq:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    feq.s a2, fa4, fa5
 ; CHECK-NEXT:    bnez a2, .LBB16_2
 ; CHECK-NEXT:  # %bb.1:
@@ -277,8 +277,8 @@ define i32 @select_fcmp_oeq_1_2(bfloat %a, bfloat %b) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
-; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    li a1, 2
+; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    sub a0, a1, a0
 ; CHECK-NEXT:    ret
   %1 = fcmp fast oeq bfloat %a, %b
@@ -289,8 +289,8 @@ define i32 @select_fcmp_oeq_1_2(bfloat %a, bfloat %b) {
 define signext i32 @select_fcmp_uge_negone_zero(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: select_fcmp_uge_negone_zero:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fle.s a0, fa4, fa5
 ; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    ret
@@ -302,8 +302,8 @@ define signext i32 @select_fcmp_uge_negone_zero(bfloat %a, bfloat %b) nounwind {
 define signext i32 @select_fcmp_uge_1_2(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: select_fcmp_uge_1_2:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fle.s a0, fa4, fa5
 ; CHECK-NEXT:    addi a0, a0, 1
 ; CHECK-NEXT:    ret

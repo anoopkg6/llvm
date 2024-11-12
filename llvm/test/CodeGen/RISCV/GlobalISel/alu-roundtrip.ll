@@ -25,18 +25,18 @@ define i32 @add_i8_signext_i32(i8 %a, i8 %b) {
 ; RV32IM-LABEL: add_i8_signext_i32:
 ; RV32IM:       # %bb.0: # %entry
 ; RV32IM-NEXT:    slli a0, a0, 24
-; RV32IM-NEXT:    srai a0, a0, 24
 ; RV32IM-NEXT:    slli a1, a1, 24
 ; RV32IM-NEXT:    srai a1, a1, 24
+; RV32IM-NEXT:    srai a0, a0, 24
 ; RV32IM-NEXT:    add a0, a0, a1
 ; RV32IM-NEXT:    ret
 ;
 ; RV64IM-LABEL: add_i8_signext_i32:
 ; RV64IM:       # %bb.0: # %entry
 ; RV64IM-NEXT:    slli a0, a0, 56
-; RV64IM-NEXT:    srai a0, a0, 56
 ; RV64IM-NEXT:    slli a1, a1, 56
 ; RV64IM-NEXT:    srai a1, a1, 56
+; RV64IM-NEXT:    srai a0, a0, 56
 ; RV64IM-NEXT:    add a0, a0, a1
 ; RV64IM-NEXT:    ret
 entry:
@@ -49,15 +49,15 @@ entry:
 define i32 @add_i8_zeroext_i32(i8 %a, i8 %b) {
 ; RV32IM-LABEL: add_i8_zeroext_i32:
 ; RV32IM:       # %bb.0: # %entry
-; RV32IM-NEXT:    andi a0, a0, 255
 ; RV32IM-NEXT:    andi a1, a1, 255
+; RV32IM-NEXT:    andi a0, a0, 255
 ; RV32IM-NEXT:    add a0, a0, a1
 ; RV32IM-NEXT:    ret
 ;
 ; RV64IM-LABEL: add_i8_zeroext_i32:
 ; RV64IM:       # %bb.0: # %entry
-; RV64IM-NEXT:    andi a0, a0, 255
 ; RV64IM-NEXT:    andi a1, a1, 255
+; RV64IM-NEXT:    andi a0, a0, 255
 ; RV64IM-NEXT:    add a0, a0, a1
 ; RV64IM-NEXT:    ret
 entry:
@@ -404,8 +404,8 @@ define i64 @add_i64(i64 %a, i64 %b) {
 ; RV32IM-LABEL: add_i64:
 ; RV32IM:       # %bb.0: # %entry
 ; RV32IM-NEXT:    add a0, a0, a2
-; RV32IM-NEXT:    sltu a2, a0, a2
 ; RV32IM-NEXT:    add a1, a1, a3
+; RV32IM-NEXT:    sltu a2, a0, a2
 ; RV32IM-NEXT:    add a1, a1, a2
 ; RV32IM-NEXT:    ret
 ;
@@ -439,8 +439,8 @@ define i64 @sub_i64(i64 %a, i64 %b) {
 ; RV32IM-LABEL: sub_i64:
 ; RV32IM:       # %bb.0: # %entry
 ; RV32IM-NEXT:    sub a4, a0, a2
-; RV32IM-NEXT:    sltu a0, a0, a2
 ; RV32IM-NEXT:    sub a1, a1, a3
+; RV32IM-NEXT:    sltu a0, a0, a2
 ; RV32IM-NEXT:    sub a1, a1, a0
 ; RV32IM-NEXT:    mv a0, a4
 ; RV32IM-NEXT:    ret
@@ -460,8 +460,8 @@ define i64 @subi_i64(i64 %a) {
 ; RV32IM-NEXT:    lui a2, 1048275
 ; RV32IM-NEXT:    addi a2, a2, -1548
 ; RV32IM-NEXT:    add a0, a0, a2
-; RV32IM-NEXT:    sltu a2, a0, a2
 ; RV32IM-NEXT:    addi a1, a1, -1
+; RV32IM-NEXT:    sltu a2, a0, a2
 ; RV32IM-NEXT:    add a1, a1, a2
 ; RV32IM-NEXT:    ret
 ;
@@ -480,8 +480,8 @@ define i64 @neg_i64(i64 %a) {
 ; RV32IM-LABEL: neg_i64:
 ; RV32IM:       # %bb.0: # %entry
 ; RV32IM-NEXT:    neg a2, a0
-; RV32IM-NEXT:    snez a0, a0
 ; RV32IM-NEXT:    neg a1, a1
+; RV32IM-NEXT:    snez a0, a0
 ; RV32IM-NEXT:    sub a1, a1, a0
 ; RV32IM-NEXT:    mv a0, a2
 ; RV32IM-NEXT:    ret
@@ -500,8 +500,8 @@ entry:
 define i64 @and_i64(i64 %a, i64 %b) {
 ; RV32IM-LABEL: and_i64:
 ; RV32IM:       # %bb.0: # %entry
-; RV32IM-NEXT:    and a0, a0, a2
 ; RV32IM-NEXT:    and a1, a1, a3
+; RV32IM-NEXT:    and a0, a0, a2
 ; RV32IM-NEXT:    ret
 ;
 ; RV64IM-LABEL: and_i64:
@@ -516,8 +516,8 @@ entry:
 define i64 @andi_i64(i64 %a) {
 ; RV32IM-LABEL: andi_i64:
 ; RV32IM:       # %bb.0: # %entry
-; RV32IM-NEXT:    andi a0, a0, 1234
 ; RV32IM-NEXT:    li a1, 0
+; RV32IM-NEXT:    andi a0, a0, 1234
 ; RV32IM-NEXT:    ret
 ;
 ; RV64IM-LABEL: andi_i64:
@@ -532,8 +532,8 @@ entry:
 define i64 @or_i64(i64 %a, i64 %b) {
 ; RV32IM-LABEL: or_i64:
 ; RV32IM:       # %bb.0: # %entry
-; RV32IM-NEXT:    or a0, a0, a2
 ; RV32IM-NEXT:    or a1, a1, a3
+; RV32IM-NEXT:    or a0, a0, a2
 ; RV32IM-NEXT:    ret
 ;
 ; RV64IM-LABEL: or_i64:
@@ -563,8 +563,8 @@ entry:
 define i64 @xor_i64(i64 %a, i64 %b) {
 ; RV32IM-LABEL: xor_i64:
 ; RV32IM:       # %bb.0: # %entry
-; RV32IM-NEXT:    xor a0, a0, a2
 ; RV32IM-NEXT:    xor a1, a1, a3
+; RV32IM-NEXT:    xor a0, a0, a2
 ; RV32IM-NEXT:    ret
 ;
 ; RV64IM-LABEL: xor_i64:
@@ -597,8 +597,8 @@ define i64 @mul_i64(i64 %a, i64 %b) {
 ; RV32IM-NEXT:    mul a4, a0, a2
 ; RV32IM-NEXT:    mul a1, a1, a2
 ; RV32IM-NEXT:    mul a3, a0, a3
-; RV32IM-NEXT:    mulhu a0, a0, a2
 ; RV32IM-NEXT:    add a1, a1, a3
+; RV32IM-NEXT:    mulhu a0, a0, a2
 ; RV32IM-NEXT:    add a1, a1, a0
 ; RV32IM-NEXT:    mv a0, a4
 ; RV32IM-NEXT:    ret

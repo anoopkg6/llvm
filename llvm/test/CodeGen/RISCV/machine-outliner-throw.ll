@@ -8,18 +8,18 @@ define i32 @func1(i32 %x) #0 {
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    addi sp, sp, -16
 ; CHECK-NEXT:    .cfi_def_cfa_offset 16
-; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 0(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    .cfi_offset s0, -16
 ; CHECK-NEXT:    mul a0, a0, a0
 ; CHECK-NEXT:    addi s0, a0, 1
 ; CHECK-NEXT:    li a0, 4
 ; CHECK-NEXT:    call __cxa_allocate_exception
-; CHECK-NEXT:    sw s0, 0(a0)
 ; CHECK-NEXT:    lui a1, %hi(_ZTIi)
-; CHECK-NEXT:    addi a1, a1, %lo(_ZTIi)
 ; CHECK-NEXT:    li a2, 0
+; CHECK-NEXT:    addi a1, a1, %lo(_ZTIi)
+; CHECK-NEXT:    sw s0, 0(a0)
 ; CHECK-NEXT:    call __cxa_throw
 entry:
   %mul = mul i32 %x, %x
@@ -35,18 +35,18 @@ define i32 @func2(i32 %x) #0 {
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    addi sp, sp, -16
 ; CHECK-NEXT:    .cfi_def_cfa_offset 16
-; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 0(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    .cfi_offset s0, -16
 ; CHECK-NEXT:    mul a0, a0, a0
 ; CHECK-NEXT:    addi s0, a0, 1
 ; CHECK-NEXT:    li a0, 4
 ; CHECK-NEXT:    call __cxa_allocate_exception
-; CHECK-NEXT:    sw s0, 0(a0)
 ; CHECK-NEXT:    lui a1, %hi(_ZTIi)
-; CHECK-NEXT:    addi a1, a1, %lo(_ZTIi)
 ; CHECK-NEXT:    li a2, 0
+; CHECK-NEXT:    addi a1, a1, %lo(_ZTIi)
+; CHECK-NEXT:    sw s0, 0(a0)
 ; CHECK-NEXT:    call __cxa_throw
 entry:
   %mul = mul i32 %x, %x

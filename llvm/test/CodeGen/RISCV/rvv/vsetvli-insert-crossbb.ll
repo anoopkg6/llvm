@@ -129,10 +129,10 @@ define <vscale x 1 x double> @test4(i64 %avl, i8 zeroext %cond, <vscale x 1 x do
 ; CHECK-NEXT:    fld fa4, %lo(.LCPI3_1)(a1)
 ; CHECK-NEXT:    vsetvli zero, a0, e64, m1, ta, ma
 ; CHECK-NEXT:    vfmv.v.f v10, fa5
-; CHECK-NEXT:    vfmv.v.f v11, fa4
-; CHECK-NEXT:    vfadd.vv v10, v10, v11
 ; CHECK-NEXT:    lui a1, %hi(scratch)
+; CHECK-NEXT:    vfmv.v.f v11, fa4
 ; CHECK-NEXT:    addi a1, a1, %lo(scratch)
+; CHECK-NEXT:    vfadd.vv v10, v10, v11
 ; CHECK-NEXT:    vse64.v v10, (a1)
 ; CHECK-NEXT:    j .LBB3_3
 ; CHECK-NEXT:  .LBB3_2: # %if.else
@@ -141,9 +141,9 @@ define <vscale x 1 x double> @test4(i64 %avl, i8 zeroext %cond, <vscale x 1 x do
 ; CHECK-NEXT:    vmv.v.x v10, a1
 ; CHECK-NEXT:    lui a1, 262144
 ; CHECK-NEXT:    vmv.v.x v11, a1
-; CHECK-NEXT:    vfadd.vv v10, v10, v11
 ; CHECK-NEXT:    lui a1, %hi(scratch)
 ; CHECK-NEXT:    addi a1, a1, %lo(scratch)
+; CHECK-NEXT:    vfadd.vv v10, v10, v11
 ; CHECK-NEXT:    vse32.v v10, (a1)
 ; CHECK-NEXT:  .LBB3_3: # %if.end
 ; CHECK-NEXT:    vsetvli zero, a0, e64, m1, ta, ma
@@ -246,11 +246,11 @@ define <vscale x 1 x double> @test6(i64 %avl, i8 zeroext %cond, <vscale x 1 x do
 ; CHECK-NEXT:    fld fa5, %lo(.LCPI5_0)(a1)
 ; CHECK-NEXT:    lui a1, %hi(.LCPI5_1)
 ; CHECK-NEXT:    fld fa4, %lo(.LCPI5_1)(a1)
+; CHECK-NEXT:    lui a1, %hi(scratch)
 ; CHECK-NEXT:    vfmv.v.f v9, fa5
+; CHECK-NEXT:    addi a1, a1, %lo(scratch)
 ; CHECK-NEXT:    vfmv.v.f v10, fa4
 ; CHECK-NEXT:    vfadd.vv v9, v9, v10
-; CHECK-NEXT:    lui a1, %hi(scratch)
-; CHECK-NEXT:    addi a1, a1, %lo(scratch)
 ; CHECK-NEXT:    vse64.v v9, (a1)
 ; CHECK-NEXT:    j .LBB5_5
 ; CHECK-NEXT:  .LBB5_3: # %if.then
@@ -263,9 +263,9 @@ define <vscale x 1 x double> @test6(i64 %avl, i8 zeroext %cond, <vscale x 1 x do
 ; CHECK-NEXT:    vmv.v.x v9, a1
 ; CHECK-NEXT:    lui a1, 262144
 ; CHECK-NEXT:    vmv.v.x v10, a1
-; CHECK-NEXT:    vfadd.vv v9, v9, v10
 ; CHECK-NEXT:    lui a1, %hi(scratch)
 ; CHECK-NEXT:    addi a1, a1, %lo(scratch)
+; CHECK-NEXT:    vfadd.vv v9, v9, v10
 ; CHECK-NEXT:    vse32.v v9, (a1)
 ; CHECK-NEXT:  .LBB5_5: # %if.end10
 ; CHECK-NEXT:    vsetvli zero, a0, e64, m1, ta, ma
@@ -329,8 +329,8 @@ define <vscale x 1 x double> @test8(i64 %avl, i8 zeroext %cond, <vscale x 1 x do
 ; CHECK-NEXT:    ret
 ; CHECK-NEXT:  .LBB6_2: # %if.else
 ; CHECK-NEXT:    addi sp, sp, -32
-; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    csrr a1, vlenb
 ; CHECK-NEXT:    slli a1, a1, 1
 ; CHECK-NEXT:    sub sp, sp, a1
@@ -348,13 +348,13 @@ define <vscale x 1 x double> @test8(i64 %avl, i8 zeroext %cond, <vscale x 1 x do
 ; CHECK-NEXT:    vl1r.v v8, (a0) # Unknown-size Folded Reload
 ; CHECK-NEXT:    addi a0, sp, 16
 ; CHECK-NEXT:    vl1r.v v9, (a0) # Unknown-size Folded Reload
-; CHECK-NEXT:    vsetvli zero, s0, e64, m1, ta, ma
-; CHECK-NEXT:    vfsub.vv v8, v9, v8
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
+; CHECK-NEXT:    vsetvli zero, s0, e64, m1, ta, ma
+; CHECK-NEXT:    vfsub.vv v8, v9, v8
 ; CHECK-NEXT:    add sp, sp, a0
-; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 32
 ; CHECK-NEXT:    ret
 entry:
@@ -382,8 +382,8 @@ define <vscale x 1 x double> @test9(i64 %avl, i8 zeroext %cond, <vscale x 1 x do
 ; CHECK-LABEL: test9:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    addi sp, sp, -32
-; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    csrr a2, vlenb
 ; CHECK-NEXT:    slli a2, a2, 1
 ; CHECK-NEXT:    sub sp, sp, a2
@@ -391,8 +391,8 @@ define <vscale x 1 x double> @test9(i64 %avl, i8 zeroext %cond, <vscale x 1 x do
 ; CHECK-NEXT:    vsetvli zero, a0, e64, m1, ta, ma
 ; CHECK-NEXT:    beqz a1, .LBB7_2
 ; CHECK-NEXT:  # %bb.1: # %if.then
-; CHECK-NEXT:    vfadd.vv v9, v8, v9
 ; CHECK-NEXT:    addi a0, sp, 16
+; CHECK-NEXT:    vfadd.vv v9, v8, v9
 ; CHECK-NEXT:    vs1r.v v9, (a0) # Unknown-size Folded Spill
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    add a0, a0, sp
@@ -409,13 +409,13 @@ define <vscale x 1 x double> @test9(i64 %avl, i8 zeroext %cond, <vscale x 1 x do
 ; CHECK-NEXT:  .LBB7_2: # %if.else
 ; CHECK-NEXT:    vfsub.vv v9, v8, v9
 ; CHECK-NEXT:  .LBB7_3: # %if.end
-; CHECK-NEXT:    vsetvli zero, s0, e64, m1, ta, ma
-; CHECK-NEXT:    vfmul.vv v8, v9, v8
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
+; CHECK-NEXT:    vsetvli zero, s0, e64, m1, ta, ma
+; CHECK-NEXT:    vfmul.vv v8, v9, v8
 ; CHECK-NEXT:    add sp, sp, a0
-; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 32
 ; CHECK-NEXT:    ret
 entry:
@@ -448,13 +448,13 @@ define void @saxpy_vec(i64 %n, float %a, ptr nocapture readonly %x, ptr nocaptur
 ; CHECK-NEXT:    vle32.v v8, (a1)
 ; CHECK-NEXT:    vle32.v v16, (a2)
 ; CHECK-NEXT:    slli a4, a3, 2
-; CHECK-NEXT:    add a1, a1, a4
 ; CHECK-NEXT:    vsetvli zero, zero, e32, m8, tu, ma
+; CHECK-NEXT:    sub a0, a0, a3
 ; CHECK-NEXT:    vfmacc.vf v16, fa0, v8
 ; CHECK-NEXT:    vse32.v v16, (a2)
-; CHECK-NEXT:    sub a0, a0, a3
-; CHECK-NEXT:    vsetvli a3, a0, e32, m8, ta, ma
 ; CHECK-NEXT:    add a2, a2, a4
+; CHECK-NEXT:    vsetvli a3, a0, e32, m8, ta, ma
+; CHECK-NEXT:    add a1, a1, a4
 ; CHECK-NEXT:    bnez a3, .LBB8_1
 ; CHECK-NEXT:  .LBB8_2: # %for.end
 ; CHECK-NEXT:    ret
@@ -496,13 +496,13 @@ define void @saxpy_vec_demanded_fields(i64 %n, float %a, ptr nocapture readonly 
 ; CHECK-NEXT:    vle32.v v8, (a1)
 ; CHECK-NEXT:    vle32.v v16, (a2)
 ; CHECK-NEXT:    slli a4, a3, 2
-; CHECK-NEXT:    add a1, a1, a4
 ; CHECK-NEXT:    vsetvli zero, zero, e32, m8, tu, ma
+; CHECK-NEXT:    sub a0, a0, a3
 ; CHECK-NEXT:    vfmacc.vf v16, fa0, v8
 ; CHECK-NEXT:    vse32.v v16, (a2)
-; CHECK-NEXT:    sub a0, a0, a3
-; CHECK-NEXT:    vsetvli a3, a0, e16, m4, ta, ma
 ; CHECK-NEXT:    add a2, a2, a4
+; CHECK-NEXT:    vsetvli a3, a0, e16, m4, ta, ma
+; CHECK-NEXT:    add a1, a1, a4
 ; CHECK-NEXT:    bnez a3, .LBB9_1
 ; CHECK-NEXT:  .LBB9_2: # %for.end
 ; CHECK-NEXT:    ret
@@ -633,19 +633,19 @@ define void @vlmax(i64 %N, ptr %c, ptr %a, ptr %b) {
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    blez a0, .LBB12_3
 ; CHECK-NEXT:  # %bb.1: # %for.body.preheader
-; CHECK-NEXT:    li a4, 0
 ; CHECK-NEXT:    vsetvli a6, zero, e64, m1, ta, ma
 ; CHECK-NEXT:    slli a5, a6, 3
+; CHECK-NEXT:    li a4, 0
 ; CHECK-NEXT:  .LBB12_2: # %for.body
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    vle64.v v8, (a2)
 ; CHECK-NEXT:    vle64.v v9, (a3)
+; CHECK-NEXT:    add a2, a2, a5
+; CHECK-NEXT:    add a3, a3, a5
 ; CHECK-NEXT:    vfadd.vv v8, v8, v9
 ; CHECK-NEXT:    vse64.v v8, (a1)
-; CHECK-NEXT:    add a4, a4, a6
 ; CHECK-NEXT:    add a1, a1, a5
-; CHECK-NEXT:    add a3, a3, a5
-; CHECK-NEXT:    add a2, a2, a5
+; CHECK-NEXT:    add a4, a4, a6
 ; CHECK-NEXT:    blt a4, a0, .LBB12_2
 ; CHECK-NEXT:  .LBB12_3: # %for.end
 ; CHECK-NEXT:    ret
@@ -680,15 +680,15 @@ define void @vector_init_vlmax(i64 %N, ptr %c) {
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    blez a0, .LBB13_3
 ; CHECK-NEXT:  # %bb.1: # %for.body.preheader
-; CHECK-NEXT:    li a2, 0
 ; CHECK-NEXT:    vsetvli a3, zero, e64, m1, ta, ma
-; CHECK-NEXT:    slli a4, a3, 3
 ; CHECK-NEXT:    vmv.v.i v8, 0
+; CHECK-NEXT:    slli a4, a3, 3
+; CHECK-NEXT:    li a2, 0
 ; CHECK-NEXT:  .LBB13_2: # %for.body
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    vse64.v v8, (a1)
-; CHECK-NEXT:    add a2, a2, a3
 ; CHECK-NEXT:    add a1, a1, a4
+; CHECK-NEXT:    add a2, a2, a3
 ; CHECK-NEXT:    blt a2, a0, .LBB13_2
 ; CHECK-NEXT:  .LBB13_3: # %for.end
 ; CHECK-NEXT:    ret
@@ -716,15 +716,15 @@ define void @vector_init_vsetvli_N(i64 %N, ptr %c) {
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    blez a0, .LBB14_3
 ; CHECK-NEXT:  # %bb.1: # %for.body.preheader
-; CHECK-NEXT:    li a2, 0
 ; CHECK-NEXT:    vsetvli a3, a0, e64, m1, ta, ma
-; CHECK-NEXT:    slli a4, a3, 3
 ; CHECK-NEXT:    vmv.v.i v8, 0
+; CHECK-NEXT:    slli a4, a3, 3
+; CHECK-NEXT:    li a2, 0
 ; CHECK-NEXT:  .LBB14_2: # %for.body
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    vse64.v v8, (a1)
-; CHECK-NEXT:    add a2, a2, a3
 ; CHECK-NEXT:    add a1, a1, a4
+; CHECK-NEXT:    add a2, a2, a3
 ; CHECK-NEXT:    blt a2, a0, .LBB14_2
 ; CHECK-NEXT:  .LBB14_3: # %for.end
 ; CHECK-NEXT:    ret
@@ -750,15 +750,15 @@ for.end:                                          ; preds = %for.body, %entry
 define void @vector_init_vsetvli_fv(i64 %N, ptr %c) {
 ; CHECK-LABEL: vector_init_vsetvli_fv:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    li a2, 0
 ; CHECK-NEXT:    vsetivli a3, 4, e64, m1, ta, ma
-; CHECK-NEXT:    slli a4, a3, 3
 ; CHECK-NEXT:    vmv.v.i v8, 0
+; CHECK-NEXT:    slli a4, a3, 3
+; CHECK-NEXT:    li a2, 0
 ; CHECK-NEXT:  .LBB15_1: # %for.body
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    vse64.v v8, (a1)
-; CHECK-NEXT:    add a2, a2, a3
 ; CHECK-NEXT:    add a1, a1, a4
+; CHECK-NEXT:    add a2, a2, a3
 ; CHECK-NEXT:    blt a2, a0, .LBB15_1
 ; CHECK-NEXT:  # %bb.2: # %for.end
 ; CHECK-NEXT:    ret
@@ -784,14 +784,14 @@ for.end:                                          ; preds = %for.body
 define void @vector_init_vsetvli_fv2(i64 %N, ptr %c) {
 ; CHECK-LABEL: vector_init_vsetvli_fv2:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    li a2, 0
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m1, ta, ma
 ; CHECK-NEXT:    vmv.v.i v8, 0
+; CHECK-NEXT:    li a2, 0
 ; CHECK-NEXT:  .LBB16_1: # %for.body
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    vse64.v v8, (a1)
-; CHECK-NEXT:    addi a2, a2, 4
 ; CHECK-NEXT:    addi a1, a1, 32
+; CHECK-NEXT:    addi a2, a2, 4
 ; CHECK-NEXT:    blt a2, a0, .LBB16_1
 ; CHECK-NEXT:  # %bb.2: # %for.end
 ; CHECK-NEXT:    ret
@@ -817,14 +817,14 @@ for.end:                                          ; preds = %for.body
 define void @vector_init_vsetvli_fv3(i64 %N, ptr %c) {
 ; CHECK-LABEL: vector_init_vsetvli_fv3:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    li a2, 0
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m1, ta, ma
 ; CHECK-NEXT:    vmv.v.i v8, 0
+; CHECK-NEXT:    li a2, 0
 ; CHECK-NEXT:  .LBB17_1: # %for.body
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    vse64.v v8, (a1)
-; CHECK-NEXT:    addi a2, a2, 4
 ; CHECK-NEXT:    addi a1, a1, 32
+; CHECK-NEXT:    addi a2, a2, 4
 ; CHECK-NEXT:    blt a2, a0, .LBB17_1
 ; CHECK-NEXT:  # %bb.2: # %for.end
 ; CHECK-NEXT:    ret
@@ -872,11 +872,11 @@ fallthrough:
 define <vscale x 2 x i32> @pre_lmul(<vscale x 2 x i32> %x, <vscale x 2 x i32> %y, i1 %cond) nounwind {
 ; CHECK-LABEL: pre_lmul:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    vsetvli a1, zero, e64, m1, ta, ma
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, ma
 ; CHECK-NEXT:    vadd.vv v8, v8, v9
 ; CHECK-NEXT:    vadd.vv v8, v8, v9
+; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    ret
 entry:
   %vl = tail call i64 @llvm.riscv.vsetvlimax.i64(i64 3, i64 0)
@@ -897,9 +897,9 @@ if.end:
 define <vscale x 1 x double> @compat_store_consistency(i1 %cond, <vscale x 1 x double> %a, <vscale x 1 x double> %b, ptr %p1, <vscale x 1 x float> %c, ptr %p2) {
 ; CHECK-LABEL: compat_store_consistency:
 ; CHECK:       # %bb.0: # %entry
-; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    vsetvli a3, zero, e64, m1, ta, ma
 ; CHECK-NEXT:    vfadd.vv v8, v8, v9
+; CHECK-NEXT:    andi a0, a0, 1
 ; CHECK-NEXT:    vs1r.v v8, (a1)
 ; CHECK-NEXT:    beqz a0, .LBB20_2
 ; CHECK-NEXT:  # %bb.1: # %if.then
@@ -1125,9 +1125,9 @@ exit:
 define <vscale x 4 x i32> @clobbered_forwarded_avl(i64 %n, <vscale x 4 x i32> %v, i1 %cmp) {
 ; CHECK-LABEL: clobbered_forwarded_avl:
 ; CHECK:       # %bb.0: # %entry
+; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:    mv a2, a0
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m2, ta, ma
-; CHECK-NEXT:    andi a1, a1, 1
 ; CHECK-NEXT:  .LBB27_1: # %for.body
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    addi a0, a0, 1

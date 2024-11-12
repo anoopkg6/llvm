@@ -280,8 +280,8 @@ define i32 @fcmp_ole_q(double %a, double %b) nounwind strictfp {
 define i32 @fcmp_one_q(double %a, double %b) nounwind strictfp {
 ; CHECK-LABEL: fcmp_one_q:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fltq.d a0, fa0, fa1
 ; CHECK-NEXT:    fltq.d a1, fa1, fa0
+; CHECK-NEXT:    fltq.d a0, fa0, fa1
 ; CHECK-NEXT:    or a0, a1, a0
 ; CHECK-NEXT:    ret
   %1 = call i1 @llvm.experimental.constrained.fcmp.f64(double %a, double %b, metadata !"one", metadata !"fpexcept.strict") strictfp
@@ -292,8 +292,8 @@ define i32 @fcmp_one_q(double %a, double %b) nounwind strictfp {
 define i32 @fcmp_ueq_q(double %a, double %b) nounwind strictfp {
 ; CHECK-LABEL: fcmp_ueq_q:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fltq.d a0, fa0, fa1
 ; CHECK-NEXT:    fltq.d a1, fa1, fa0
+; CHECK-NEXT:    fltq.d a0, fa0, fa1
 ; CHECK-NEXT:    or a0, a1, a0
 ; CHECK-NEXT:    xori a0, a0, 1
 ; CHECK-NEXT:    ret
@@ -305,8 +305,8 @@ define i32 @fcmp_ueq_q(double %a, double %b) nounwind strictfp {
 define i64 @fmvh_x_d(double %fa) {
 ; RV32IDZFA-LABEL: fmvh_x_d:
 ; RV32IDZFA:       # %bb.0:
-; RV32IDZFA-NEXT:    fmv.x.w a0, fa0
 ; RV32IDZFA-NEXT:    fmvh.x.d a1, fa0
+; RV32IDZFA-NEXT:    fmv.x.w a0, fa0
 ; RV32IDZFA-NEXT:    ret
 ;
 ; RV64DZFA-LABEL: fmvh_x_d:
@@ -364,8 +364,8 @@ define double @fma_neg_multiplicand(double %x, double %y) nounwind {
 define double @fma_neg_addend_multiplicand(double %x) nounwind {
 ; CHECK-LABEL: fma_neg_addend_multiplicand:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fli.d fa5, 0.25
 ; CHECK-NEXT:    fli.d fa4, 0.5
+; CHECK-NEXT:    fli.d fa5, 0.25
 ; CHECK-NEXT:    fnmadd.d fa0, fa4, fa0, fa5
 ; CHECK-NEXT:    ret
   %a = call double @llvm.fma.f32(double %x, double -0.5, double -0.25)

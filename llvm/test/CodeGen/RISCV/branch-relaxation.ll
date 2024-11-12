@@ -87,19 +87,19 @@ define void @relax_jal_spill_32() {
 ; CHECK-RV32:       # %bb.0:
 ; CHECK-RV32-NEXT:    addi sp, sp, -64
 ; CHECK-RV32-NEXT:    .cfi_def_cfa_offset 64
-; CHECK-RV32-NEXT:    sw ra, 60(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s0, 56(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s1, 52(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s2, 48(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s3, 44(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s4, 40(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s5, 36(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s6, 32(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s7, 28(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s8, 24(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s9, 20(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s10, 16(sp) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    sw s11, 12(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s10, 16(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s9, 20(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s8, 24(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s7, 28(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s6, 32(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s5, 36(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s4, 40(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s3, 44(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s2, 48(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s1, 52(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s0, 56(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw ra, 60(sp) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    .cfi_offset ra, -4
 ; CHECK-RV32-NEXT:    .cfi_offset s0, -8
 ; CHECK-RV32-NEXT:    .cfi_offset s1, -12
@@ -293,19 +293,19 @@ define void @relax_jal_spill_32() {
 ; CHECK-RV32-NEXT:    #APP
 ; CHECK-RV32-NEXT:    # reg use t6
 ; CHECK-RV32-NEXT:    #NO_APP
-; CHECK-RV32-NEXT:    lw ra, 60(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s0, 56(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s1, 52(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s2, 48(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s3, 44(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s4, 40(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s5, 36(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s6, 32(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s7, 28(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s8, 24(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s9, 20(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s10, 16(sp) # 4-byte Folded Reload
 ; CHECK-RV32-NEXT:    lw s11, 12(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s10, 16(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s9, 20(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s8, 24(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s7, 28(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s6, 32(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s5, 36(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s4, 40(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s3, 44(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s2, 48(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s1, 52(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s0, 56(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw ra, 60(sp) # 4-byte Folded Reload
 ; CHECK-RV32-NEXT:    .cfi_restore ra
 ; CHECK-RV32-NEXT:    .cfi_restore s0
 ; CHECK-RV32-NEXT:    .cfi_restore s1
@@ -327,19 +327,19 @@ define void @relax_jal_spill_32() {
 ; CHECK-RV64:       # %bb.0:
 ; CHECK-RV64-NEXT:    addi sp, sp, -128
 ; CHECK-RV64-NEXT:    .cfi_def_cfa_offset 128
-; CHECK-RV64-NEXT:    sd ra, 120(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s0, 112(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s1, 104(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s2, 96(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s3, 88(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s4, 80(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s5, 72(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s6, 64(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s7, 56(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s8, 48(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s9, 40(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s10, 32(sp) # 8-byte Folded Spill
 ; CHECK-RV64-NEXT:    sd s11, 24(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s10, 32(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s9, 40(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s8, 48(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s7, 56(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s6, 64(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s5, 72(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s4, 80(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s3, 88(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s2, 96(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s1, 104(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s0, 112(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd ra, 120(sp) # 8-byte Folded Spill
 ; CHECK-RV64-NEXT:    .cfi_offset ra, -8
 ; CHECK-RV64-NEXT:    .cfi_offset s0, -16
 ; CHECK-RV64-NEXT:    .cfi_offset s1, -24
@@ -435,12 +435,12 @@ define void @relax_jal_spill_32() {
 ; CHECK-RV64-NEXT:    li t5, 30
 ; CHECK-RV64-NEXT:    #NO_APP
 ; CHECK-RV64-NEXT:    sd t5, 16(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sext.w t5, t5
 ; CHECK-RV64-NEXT:    #APP
 ; CHECK-RV64-NEXT:    li t6, 31
 ; CHECK-RV64-NEXT:    #NO_APP
 ; CHECK-RV64-NEXT:    sd t6, 8(sp) # 8-byte Folded Spill
 ; CHECK-RV64-NEXT:    sext.w t6, t6
+; CHECK-RV64-NEXT:    sext.w t5, t5
 ; CHECK-RV64-NEXT:    beq t5, t6, .LBB2_1
 ; CHECK-RV64-NEXT:  # %bb.3:
 ; CHECK-RV64-NEXT:    jump .LBB2_2, t5
@@ -535,19 +535,19 @@ define void @relax_jal_spill_32() {
 ; CHECK-RV64-NEXT:    #APP
 ; CHECK-RV64-NEXT:    # reg use t6
 ; CHECK-RV64-NEXT:    #NO_APP
-; CHECK-RV64-NEXT:    ld ra, 120(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s0, 112(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s1, 104(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s2, 96(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s3, 88(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s4, 80(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s5, 72(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s6, 64(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s7, 56(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s8, 48(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s9, 40(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s10, 32(sp) # 8-byte Folded Reload
 ; CHECK-RV64-NEXT:    ld s11, 24(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s10, 32(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s9, 40(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s8, 48(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s7, 56(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s6, 64(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s5, 72(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s4, 80(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s3, 88(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s2, 96(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s1, 104(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s0, 112(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld ra, 120(sp) # 8-byte Folded Reload
 ; CHECK-RV64-NEXT:    .cfi_restore ra
 ; CHECK-RV64-NEXT:    .cfi_restore s0
 ; CHECK-RV64-NEXT:    .cfi_restore s1
@@ -639,19 +639,19 @@ define void @relax_jal_spill_32_adjust_spill_slot() {
 ; CHECK-RV32:       # %bb.0:
 ; CHECK-RV32-NEXT:    addi sp, sp, -2032
 ; CHECK-RV32-NEXT:    .cfi_def_cfa_offset 2032
-; CHECK-RV32-NEXT:    sw ra, 2028(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s0, 2024(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s1, 2020(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s2, 2016(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s3, 2012(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s4, 2008(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s5, 2004(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s6, 2000(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s7, 1996(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s8, 1992(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s9, 1988(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s10, 1984(sp) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    sw s11, 1980(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s10, 1984(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s9, 1988(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s8, 1992(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s7, 1996(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s6, 2000(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s5, 2004(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s4, 2008(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s3, 2012(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s2, 2016(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s1, 2020(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s0, 2024(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw ra, 2028(sp) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    .cfi_offset ra, -4
 ; CHECK-RV32-NEXT:    .cfi_offset s0, -8
 ; CHECK-RV32-NEXT:    .cfi_offset s1, -12
@@ -854,19 +854,19 @@ define void @relax_jal_spill_32_adjust_spill_slot() {
 ; CHECK-RV32-NEXT:    #NO_APP
 ; CHECK-RV32-NEXT:    addi sp, s0, -2032
 ; CHECK-RV32-NEXT:    .cfi_def_cfa sp, 2032
-; CHECK-RV32-NEXT:    lw ra, 2028(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s0, 2024(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s1, 2020(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s2, 2016(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s3, 2012(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s4, 2008(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s5, 2004(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s6, 2000(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s7, 1996(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s8, 1992(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s9, 1988(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s10, 1984(sp) # 4-byte Folded Reload
 ; CHECK-RV32-NEXT:    lw s11, 1980(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s10, 1984(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s9, 1988(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s8, 1992(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s7, 1996(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s6, 2000(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s5, 2004(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s4, 2008(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s3, 2012(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s2, 2016(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s1, 2020(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s0, 2024(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw ra, 2028(sp) # 4-byte Folded Reload
 ; CHECK-RV32-NEXT:    .cfi_restore ra
 ; CHECK-RV32-NEXT:    .cfi_restore s0
 ; CHECK-RV32-NEXT:    .cfi_restore s1
@@ -888,19 +888,19 @@ define void @relax_jal_spill_32_adjust_spill_slot() {
 ; CHECK-RV64:       # %bb.0:
 ; CHECK-RV64-NEXT:    addi sp, sp, -2032
 ; CHECK-RV64-NEXT:    .cfi_def_cfa_offset 2032
-; CHECK-RV64-NEXT:    sd ra, 2024(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s0, 2016(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s1, 2008(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s2, 2000(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s3, 1992(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s4, 1984(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s5, 1976(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s6, 1968(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s7, 1960(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s8, 1952(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s9, 1944(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s10, 1936(sp) # 8-byte Folded Spill
 ; CHECK-RV64-NEXT:    sd s11, 1928(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s10, 1936(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s9, 1944(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s8, 1952(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s7, 1960(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s6, 1968(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s5, 1976(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s4, 1984(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s3, 1992(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s2, 2000(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s1, 2008(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s0, 2016(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd ra, 2024(sp) # 8-byte Folded Spill
 ; CHECK-RV64-NEXT:    .cfi_offset ra, -8
 ; CHECK-RV64-NEXT:    .cfi_offset s0, -16
 ; CHECK-RV64-NEXT:    .cfi_offset s1, -24
@@ -1006,15 +1006,15 @@ define void @relax_jal_spill_32_adjust_spill_slot() {
 ; CHECK-RV64-NEXT:    lui t0, 1
 ; CHECK-RV64-NEXT:    add t0, sp, t0
 ; CHECK-RV64-NEXT:    sd t5, -8(t0) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sext.w t5, t5
+; CHECK-RV64-NEXT:    lui t0, 1
+; CHECK-RV64-NEXT:    add t0, sp, t0
 ; CHECK-RV64-NEXT:    #APP
 ; CHECK-RV64-NEXT:    li t6, 31
 ; CHECK-RV64-NEXT:    #NO_APP
-; CHECK-RV64-NEXT:    lui t0, 1
-; CHECK-RV64-NEXT:    add t0, sp, t0
 ; CHECK-RV64-NEXT:    sd t6, -16(t0) # 8-byte Folded Spill
 ; CHECK-RV64-NEXT:    ld t0, 0(sp)
 ; CHECK-RV64-NEXT:    sext.w t6, t6
+; CHECK-RV64-NEXT:    sext.w t5, t5
 ; CHECK-RV64-NEXT:    beq t5, t6, .LBB3_1
 ; CHECK-RV64-NEXT:  # %bb.3:
 ; CHECK-RV64-NEXT:    jump .LBB3_2, t5
@@ -1104,30 +1104,30 @@ define void @relax_jal_spill_32_adjust_spill_slot() {
 ; CHECK-RV64-NEXT:    lui a0, 1
 ; CHECK-RV64-NEXT:    add a0, sp, a0
 ; CHECK-RV64-NEXT:    ld t5, -8(a0) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    lui a0, 1
+; CHECK-RV64-NEXT:    add a0, sp, a0
 ; CHECK-RV64-NEXT:    #APP
 ; CHECK-RV64-NEXT:    # reg use t5
 ; CHECK-RV64-NEXT:    #NO_APP
-; CHECK-RV64-NEXT:    lui a0, 1
-; CHECK-RV64-NEXT:    add a0, sp, a0
 ; CHECK-RV64-NEXT:    ld t6, -16(a0) # 8-byte Folded Reload
 ; CHECK-RV64-NEXT:    #APP
 ; CHECK-RV64-NEXT:    # reg use t6
 ; CHECK-RV64-NEXT:    #NO_APP
 ; CHECK-RV64-NEXT:    addi sp, s0, -2032
 ; CHECK-RV64-NEXT:    .cfi_def_cfa sp, 2032
-; CHECK-RV64-NEXT:    ld ra, 2024(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s0, 2016(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s1, 2008(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s2, 2000(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s3, 1992(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s4, 1984(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s5, 1976(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s6, 1968(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s7, 1960(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s8, 1952(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s9, 1944(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s10, 1936(sp) # 8-byte Folded Reload
 ; CHECK-RV64-NEXT:    ld s11, 1928(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s10, 1936(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s9, 1944(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s8, 1952(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s7, 1960(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s6, 1968(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s5, 1976(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s4, 1984(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s3, 1992(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s2, 2000(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s1, 2008(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s0, 2016(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld ra, 2024(sp) # 8-byte Folded Reload
 ; CHECK-RV64-NEXT:    .cfi_restore ra
 ; CHECK-RV64-NEXT:    .cfi_restore s0
 ; CHECK-RV64-NEXT:    .cfi_restore s1
@@ -1224,19 +1224,19 @@ define void @relax_jal_spill_64() {
 ; CHECK-RV32:       # %bb.0:
 ; CHECK-RV32-NEXT:    addi sp, sp, -272
 ; CHECK-RV32-NEXT:    .cfi_def_cfa_offset 272
-; CHECK-RV32-NEXT:    sw ra, 268(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s0, 264(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s1, 260(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s2, 256(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s3, 252(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s4, 248(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s5, 244(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s6, 240(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s7, 236(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s8, 232(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s9, 228(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s10, 224(sp) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    sw s11, 220(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s10, 224(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s9, 228(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s8, 232(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s7, 236(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s6, 240(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s5, 244(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s4, 248(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s3, 252(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s2, 256(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s1, 260(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s0, 264(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw ra, 268(sp) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    .cfi_offset ra, -4
 ; CHECK-RV32-NEXT:    .cfi_offset s0, -8
 ; CHECK-RV32-NEXT:    .cfi_offset s1, -12
@@ -1384,12 +1384,12 @@ define void @relax_jal_spill_64() {
 ; CHECK-RV32-NEXT:    li t6, 31
 ; CHECK-RV32-NEXT:    #NO_APP
 ; CHECK-RV32-NEXT:    sw a1, 24(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s0, 12(sp) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    xor a1, a1, s0
-; CHECK-RV32-NEXT:    sw t6, 20(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw t5, 16(sp) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    xor a2, t5, t6
 ; CHECK-RV32-NEXT:    or a1, a2, a1
+; CHECK-RV32-NEXT:    sw t5, 16(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw t6, 20(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s0, 12(sp) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    beqz a1, .LBB4_1
 ; CHECK-RV32-NEXT:  # %bb.3:
 ; CHECK-RV32-NEXT:    jump .LBB4_2, a1
@@ -1534,19 +1534,19 @@ define void @relax_jal_spill_64() {
 ; CHECK-RV32-NEXT:    #APP
 ; CHECK-RV32-NEXT:    # reg use t6
 ; CHECK-RV32-NEXT:    #NO_APP
-; CHECK-RV32-NEXT:    lw ra, 268(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s0, 264(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s1, 260(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s2, 256(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s3, 252(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s4, 248(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s5, 244(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s6, 240(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s7, 236(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s8, 232(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s9, 228(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s10, 224(sp) # 4-byte Folded Reload
 ; CHECK-RV32-NEXT:    lw s11, 220(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s10, 224(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s9, 228(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s8, 232(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s7, 236(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s6, 240(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s5, 244(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s4, 248(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s3, 252(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s2, 256(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s1, 260(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s0, 264(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw ra, 268(sp) # 4-byte Folded Reload
 ; CHECK-RV32-NEXT:    .cfi_restore ra
 ; CHECK-RV32-NEXT:    .cfi_restore s0
 ; CHECK-RV32-NEXT:    .cfi_restore s1
@@ -1568,19 +1568,19 @@ define void @relax_jal_spill_64() {
 ; CHECK-RV64:       # %bb.0:
 ; CHECK-RV64-NEXT:    addi sp, sp, -112
 ; CHECK-RV64-NEXT:    .cfi_def_cfa_offset 112
-; CHECK-RV64-NEXT:    sd ra, 104(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s0, 96(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s1, 88(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s2, 80(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s3, 72(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s4, 64(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s5, 56(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s6, 48(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s7, 40(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s8, 32(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s9, 24(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s10, 16(sp) # 8-byte Folded Spill
 ; CHECK-RV64-NEXT:    sd s11, 8(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s10, 16(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s9, 24(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s8, 32(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s7, 40(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s6, 48(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s5, 56(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s4, 64(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s3, 72(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s2, 80(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s1, 88(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s0, 96(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd ra, 104(sp) # 8-byte Folded Spill
 ; CHECK-RV64-NEXT:    .cfi_offset ra, -8
 ; CHECK-RV64-NEXT:    .cfi_offset s0, -16
 ; CHECK-RV64-NEXT:    .cfi_offset s1, -24
@@ -1774,19 +1774,19 @@ define void @relax_jal_spill_64() {
 ; CHECK-RV64-NEXT:    #APP
 ; CHECK-RV64-NEXT:    # reg use t6
 ; CHECK-RV64-NEXT:    #NO_APP
-; CHECK-RV64-NEXT:    ld ra, 104(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s0, 96(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s1, 88(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s2, 80(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s3, 72(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s4, 64(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s5, 56(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s6, 48(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s7, 40(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s8, 32(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s9, 24(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s10, 16(sp) # 8-byte Folded Reload
 ; CHECK-RV64-NEXT:    ld s11, 8(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s10, 16(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s9, 24(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s8, 32(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s7, 40(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s6, 48(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s5, 56(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s4, 64(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s3, 72(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s2, 80(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s1, 88(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s0, 96(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld ra, 104(sp) # 8-byte Folded Reload
 ; CHECK-RV64-NEXT:    .cfi_restore ra
 ; CHECK-RV64-NEXT:    .cfi_restore s0
 ; CHECK-RV64-NEXT:    .cfi_restore s1
@@ -1878,19 +1878,19 @@ define void @relax_jal_spill_64_adjust_spill_slot() {
 ; CHECK-RV32:       # %bb.0:
 ; CHECK-RV32-NEXT:    addi sp, sp, -2032
 ; CHECK-RV32-NEXT:    .cfi_def_cfa_offset 2032
-; CHECK-RV32-NEXT:    sw ra, 2028(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s0, 2024(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s1, 2020(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s2, 2016(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s3, 2012(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s4, 2008(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s5, 2004(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s6, 2000(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s7, 1996(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s8, 1992(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s9, 1988(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s10, 1984(sp) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    sw s11, 1980(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s10, 1984(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s9, 1988(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s8, 1992(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s7, 1996(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s6, 2000(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s5, 2004(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s4, 2008(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s3, 2012(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s2, 2016(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s1, 2020(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s0, 2024(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw ra, 2028(sp) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    .cfi_offset ra, -4
 ; CHECK-RV32-NEXT:    .cfi_offset s0, -8
 ; CHECK-RV32-NEXT:    .cfi_offset s1, -12
@@ -2146,7 +2146,6 @@ define void @relax_jal_spill_64_adjust_spill_slot() {
 ; CHECK-RV32-NEXT:    lui a2, 1
 ; CHECK-RV32-NEXT:    add a2, sp, a2
 ; CHECK-RV32-NEXT:    sw a1, -196(a2) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    xor a1, a1, s0
 ; CHECK-RV32-NEXT:    lui a2, 1
 ; CHECK-RV32-NEXT:    add a2, sp, a2
 ; CHECK-RV32-NEXT:    sw t6, -200(a2) # 4-byte Folded Spill
@@ -2154,6 +2153,7 @@ define void @relax_jal_spill_64_adjust_spill_slot() {
 ; CHECK-RV32-NEXT:    add a2, sp, a2
 ; CHECK-RV32-NEXT:    sw t5, -204(a2) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    xor a2, t5, t6
+; CHECK-RV32-NEXT:    xor a1, a1, s0
 ; CHECK-RV32-NEXT:    or a1, a2, a1
 ; CHECK-RV32-NEXT:    beqz a1, .LBB5_1
 ; CHECK-RV32-NEXT:  # %bb.3:
@@ -2391,11 +2391,11 @@ define void @relax_jal_spill_64_adjust_spill_slot() {
 ; CHECK-RV32-NEXT:    lui a0, 1
 ; CHECK-RV32-NEXT:    add a0, sp, a0
 ; CHECK-RV32-NEXT:    lw t6, -196(a0) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lui a0, 1
+; CHECK-RV32-NEXT:    add a0, sp, a0
 ; CHECK-RV32-NEXT:    #APP
 ; CHECK-RV32-NEXT:    # reg use t5
 ; CHECK-RV32-NEXT:    #NO_APP
-; CHECK-RV32-NEXT:    lui a0, 1
-; CHECK-RV32-NEXT:    add a0, sp, a0
 ; CHECK-RV32-NEXT:    lw s0, -208(a0) # 4-byte Folded Reload
 ; CHECK-RV32-NEXT:    lui a0, 1
 ; CHECK-RV32-NEXT:    add a0, sp, a0
@@ -2405,19 +2405,19 @@ define void @relax_jal_spill_64_adjust_spill_slot() {
 ; CHECK-RV32-NEXT:    #NO_APP
 ; CHECK-RV32-NEXT:    addi sp, s0, -2032
 ; CHECK-RV32-NEXT:    .cfi_def_cfa sp, 2032
-; CHECK-RV32-NEXT:    lw ra, 2028(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s0, 2024(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s1, 2020(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s2, 2016(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s3, 2012(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s4, 2008(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s5, 2004(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s6, 2000(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s7, 1996(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s8, 1992(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s9, 1988(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s10, 1984(sp) # 4-byte Folded Reload
 ; CHECK-RV32-NEXT:    lw s11, 1980(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s10, 1984(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s9, 1988(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s8, 1992(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s7, 1996(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s6, 2000(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s5, 2004(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s4, 2008(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s3, 2012(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s2, 2016(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s1, 2020(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s0, 2024(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw ra, 2028(sp) # 4-byte Folded Reload
 ; CHECK-RV32-NEXT:    .cfi_restore ra
 ; CHECK-RV32-NEXT:    .cfi_restore s0
 ; CHECK-RV32-NEXT:    .cfi_restore s1
@@ -2439,19 +2439,19 @@ define void @relax_jal_spill_64_adjust_spill_slot() {
 ; CHECK-RV64:       # %bb.0:
 ; CHECK-RV64-NEXT:    addi sp, sp, -2032
 ; CHECK-RV64-NEXT:    .cfi_def_cfa_offset 2032
-; CHECK-RV64-NEXT:    sd ra, 2024(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s0, 2016(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s1, 2008(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s2, 2000(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s3, 1992(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s4, 1984(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s5, 1976(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s6, 1968(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s7, 1960(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s8, 1952(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s9, 1944(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s10, 1936(sp) # 8-byte Folded Spill
 ; CHECK-RV64-NEXT:    sd s11, 1928(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s10, 1936(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s9, 1944(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s8, 1952(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s7, 1960(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s6, 1968(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s5, 1976(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s4, 1984(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s3, 1992(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s2, 2000(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s1, 2008(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s0, 2016(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd ra, 2024(sp) # 8-byte Folded Spill
 ; CHECK-RV64-NEXT:    .cfi_offset ra, -8
 ; CHECK-RV64-NEXT:    .cfi_offset s0, -16
 ; CHECK-RV64-NEXT:    .cfi_offset s1, -24
@@ -2654,19 +2654,19 @@ define void @relax_jal_spill_64_adjust_spill_slot() {
 ; CHECK-RV64-NEXT:    #NO_APP
 ; CHECK-RV64-NEXT:    addi sp, s0, -2032
 ; CHECK-RV64-NEXT:    .cfi_def_cfa sp, 2032
-; CHECK-RV64-NEXT:    ld ra, 2024(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s0, 2016(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s1, 2008(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s2, 2000(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s3, 1992(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s4, 1984(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s5, 1976(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s6, 1968(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s7, 1960(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s8, 1952(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s9, 1944(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s10, 1936(sp) # 8-byte Folded Reload
 ; CHECK-RV64-NEXT:    ld s11, 1928(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s10, 1936(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s9, 1944(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s8, 1952(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s7, 1960(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s6, 1968(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s5, 1976(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s4, 1984(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s3, 1992(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s2, 2000(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s1, 2008(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s0, 2016(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld ra, 2024(sp) # 8-byte Folded Reload
 ; CHECK-RV64-NEXT:    .cfi_restore ra
 ; CHECK-RV64-NEXT:    .cfi_restore s0
 ; CHECK-RV64-NEXT:    .cfi_restore s1
@@ -2763,19 +2763,19 @@ define void @relax_jal_spill_32_restore_block_correspondence() {
 ; CHECK-RV32:       # %bb.0: # %entry
 ; CHECK-RV32-NEXT:    addi sp, sp, -64
 ; CHECK-RV32-NEXT:    .cfi_def_cfa_offset 64
-; CHECK-RV32-NEXT:    sw ra, 60(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s0, 56(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s1, 52(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s2, 48(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s3, 44(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s4, 40(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s5, 36(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s6, 32(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s7, 28(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s8, 24(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s9, 20(sp) # 4-byte Folded Spill
-; CHECK-RV32-NEXT:    sw s10, 16(sp) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    sw s11, 12(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s10, 16(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s9, 20(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s8, 24(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s7, 28(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s6, 32(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s5, 36(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s4, 40(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s3, 44(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s2, 48(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s1, 52(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw s0, 56(sp) # 4-byte Folded Spill
+; CHECK-RV32-NEXT:    sw ra, 60(sp) # 4-byte Folded Spill
 ; CHECK-RV32-NEXT:    .cfi_offset ra, -4
 ; CHECK-RV32-NEXT:    .cfi_offset s0, -8
 ; CHECK-RV32-NEXT:    .cfi_offset s1, -12
@@ -2977,19 +2977,19 @@ define void @relax_jal_spill_32_restore_block_correspondence() {
 ; CHECK-RV32-NEXT:    #APP
 ; CHECK-RV32-NEXT:    # reg use t6
 ; CHECK-RV32-NEXT:    #NO_APP
-; CHECK-RV32-NEXT:    lw ra, 60(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s0, 56(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s1, 52(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s2, 48(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s3, 44(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s4, 40(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s5, 36(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s6, 32(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s7, 28(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s8, 24(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s9, 20(sp) # 4-byte Folded Reload
-; CHECK-RV32-NEXT:    lw s10, 16(sp) # 4-byte Folded Reload
 ; CHECK-RV32-NEXT:    lw s11, 12(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s10, 16(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s9, 20(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s8, 24(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s7, 28(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s6, 32(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s5, 36(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s4, 40(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s3, 44(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s2, 48(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s1, 52(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw s0, 56(sp) # 4-byte Folded Reload
+; CHECK-RV32-NEXT:    lw ra, 60(sp) # 4-byte Folded Reload
 ; CHECK-RV32-NEXT:    .cfi_restore ra
 ; CHECK-RV32-NEXT:    .cfi_restore s0
 ; CHECK-RV32-NEXT:    .cfi_restore s1
@@ -3021,19 +3021,19 @@ define void @relax_jal_spill_32_restore_block_correspondence() {
 ; CHECK-RV64:       # %bb.0: # %entry
 ; CHECK-RV64-NEXT:    addi sp, sp, -128
 ; CHECK-RV64-NEXT:    .cfi_def_cfa_offset 128
-; CHECK-RV64-NEXT:    sd ra, 120(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s0, 112(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s1, 104(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s2, 96(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s3, 88(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s4, 80(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s5, 72(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s6, 64(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s7, 56(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s8, 48(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s9, 40(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sd s10, 32(sp) # 8-byte Folded Spill
 ; CHECK-RV64-NEXT:    sd s11, 24(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s10, 32(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s9, 40(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s8, 48(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s7, 56(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s6, 64(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s5, 72(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s4, 80(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s3, 88(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s2, 96(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s1, 104(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd s0, 112(sp) # 8-byte Folded Spill
+; CHECK-RV64-NEXT:    sd ra, 120(sp) # 8-byte Folded Spill
 ; CHECK-RV64-NEXT:    .cfi_offset ra, -8
 ; CHECK-RV64-NEXT:    .cfi_offset s0, -16
 ; CHECK-RV64-NEXT:    .cfi_offset s1, -24
@@ -3133,9 +3133,9 @@ define void @relax_jal_spill_32_restore_block_correspondence() {
 ; CHECK-RV64-NEXT:    li t6, 31
 ; CHECK-RV64-NEXT:    #NO_APP
 ; CHECK-RV64-NEXT:    sd t6, 8(sp) # 8-byte Folded Spill
-; CHECK-RV64-NEXT:    sext.w t6, t6
 ; CHECK-RV64-NEXT:    sd t5, 16(sp) # 8-byte Folded Spill
 ; CHECK-RV64-NEXT:    sext.w t5, t5
+; CHECK-RV64-NEXT:    sext.w t6, t6
 ; CHECK-RV64-NEXT:    bne t5, t6, .LBB6_2
 ; CHECK-RV64-NEXT:  .LBB6_1: # %dest_1
 ; CHECK-RV64-NEXT:    #APP
@@ -3143,8 +3143,8 @@ define void @relax_jal_spill_32_restore_block_correspondence() {
 ; CHECK-RV64-NEXT:    #NO_APP
 ; CHECK-RV64-NEXT:    j .LBB6_3
 ; CHECK-RV64-NEXT:  .LBB6_2: # %cond_2
-; CHECK-RV64-NEXT:    sext.w t5, t4
 ; CHECK-RV64-NEXT:    sext.w t6, t3
+; CHECK-RV64-NEXT:    sext.w t5, t4
 ; CHECK-RV64-NEXT:    bne t6, t5, .LBB6_5
 ; CHECK-RV64-NEXT:  .LBB6_3: # %dest_2
 ; CHECK-RV64-NEXT:    #APP
@@ -3240,19 +3240,19 @@ define void @relax_jal_spill_32_restore_block_correspondence() {
 ; CHECK-RV64-NEXT:    #APP
 ; CHECK-RV64-NEXT:    # reg use t6
 ; CHECK-RV64-NEXT:    #NO_APP
-; CHECK-RV64-NEXT:    ld ra, 120(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s0, 112(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s1, 104(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s2, 96(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s3, 88(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s4, 80(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s5, 72(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s6, 64(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s7, 56(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s8, 48(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s9, 40(sp) # 8-byte Folded Reload
-; CHECK-RV64-NEXT:    ld s10, 32(sp) # 8-byte Folded Reload
 ; CHECK-RV64-NEXT:    ld s11, 24(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s10, 32(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s9, 40(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s8, 48(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s7, 56(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s6, 64(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s5, 72(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s4, 80(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s3, 88(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s2, 96(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s1, 104(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld s0, 112(sp) # 8-byte Folded Reload
+; CHECK-RV64-NEXT:    ld ra, 120(sp) # 8-byte Folded Reload
 ; CHECK-RV64-NEXT:    .cfi_restore ra
 ; CHECK-RV64-NEXT:    .cfi_restore s0
 ; CHECK-RV64-NEXT:    .cfi_restore s1
@@ -3271,8 +3271,8 @@ define void @relax_jal_spill_32_restore_block_correspondence() {
 ; CHECK-RV64-NEXT:    ret
 ; CHECK-RV64-NEXT:  .LBB6_5: # %cond_3
 ; CHECK-RV64-NEXT:    .cfi_restore_state
-; CHECK-RV64-NEXT:    sext.w t5, t2
 ; CHECK-RV64-NEXT:    sext.w t6, t1
+; CHECK-RV64-NEXT:    sext.w t5, t2
 ; CHECK-RV64-NEXT:    beq t6, t5, .LBB6_4
 ; CHECK-RV64-NEXT:  # %bb.6: # %space
 ; CHECK-RV64-NEXT:    #APP

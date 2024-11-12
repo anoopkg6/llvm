@@ -15,8 +15,8 @@
 define <vscale x 1 x bfloat> @nxv1bf16(<vscale x 1 x bfloat> %va) {
 ; CHECK-LABEL: nxv1bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a0, 8
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf4, ta, ma
+; CHECK-NEXT:    lui a0, 8
 ; CHECK-NEXT:    vxor.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %vb = fneg <vscale x 1 x bfloat> %va
@@ -26,8 +26,8 @@ define <vscale x 1 x bfloat> @nxv1bf16(<vscale x 1 x bfloat> %va) {
 define <vscale x 2 x bfloat> @nxv2bf16(<vscale x 2 x bfloat> %va) {
 ; CHECK-LABEL: nxv2bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a0, 8
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf2, ta, ma
+; CHECK-NEXT:    lui a0, 8
 ; CHECK-NEXT:    vxor.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %vb = fneg <vscale x 2 x bfloat> %va
@@ -37,8 +37,8 @@ define <vscale x 2 x bfloat> @nxv2bf16(<vscale x 2 x bfloat> %va) {
 define <vscale x 4 x bfloat> @nxv4bf16(<vscale x 4 x bfloat> %va) {
 ; CHECK-LABEL: nxv4bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a0, 8
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m1, ta, ma
+; CHECK-NEXT:    lui a0, 8
 ; CHECK-NEXT:    vxor.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %vb = fneg <vscale x 4 x bfloat> %va
@@ -48,8 +48,8 @@ define <vscale x 4 x bfloat> @nxv4bf16(<vscale x 4 x bfloat> %va) {
 define <vscale x 8 x bfloat> @nxv8bf16(<vscale x 8 x bfloat> %va) {
 ; CHECK-LABEL: nxv8bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a0, 8
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; CHECK-NEXT:    lui a0, 8
 ; CHECK-NEXT:    vxor.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %vb = fneg <vscale x 8 x bfloat> %va
@@ -59,8 +59,8 @@ define <vscale x 8 x bfloat> @nxv8bf16(<vscale x 8 x bfloat> %va) {
 define <vscale x 16 x bfloat> @nxv16bf16(<vscale x 16 x bfloat> %va) {
 ; CHECK-LABEL: nxv16bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a0, 8
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m4, ta, ma
+; CHECK-NEXT:    lui a0, 8
 ; CHECK-NEXT:    vxor.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %vb = fneg <vscale x 16 x bfloat> %va
@@ -70,8 +70,8 @@ define <vscale x 16 x bfloat> @nxv16bf16(<vscale x 16 x bfloat> %va) {
 define <vscale x 32 x bfloat> @nxv32bf16(<vscale x 32 x bfloat> %va) {
 ; CHECK-LABEL: nxv32bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a0, 8
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m8, ta, ma
+; CHECK-NEXT:    lui a0, 8
 ; CHECK-NEXT:    vxor.vx v8, v8, a0
 ; CHECK-NEXT:    ret
   %vb = fneg <vscale x 32 x bfloat> %va
@@ -87,8 +87,8 @@ define <vscale x 1 x half> @vfneg_vv_nxv1f16(<vscale x 1 x half> %va) {
 ;
 ; ZVFHMIN-LABEL: vfneg_vv_nxv1f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a0, 8
 ; ZVFHMIN-NEXT:    vsetvli a1, zero, e16, mf4, ta, ma
+; ZVFHMIN-NEXT:    lui a0, 8
 ; ZVFHMIN-NEXT:    vxor.vx v8, v8, a0
 ; ZVFHMIN-NEXT:    ret
   %vb = fneg <vscale x 1 x half> %va
@@ -104,8 +104,8 @@ define <vscale x 2 x half> @vfneg_vv_nxv2f16(<vscale x 2 x half> %va) {
 ;
 ; ZVFHMIN-LABEL: vfneg_vv_nxv2f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a0, 8
 ; ZVFHMIN-NEXT:    vsetvli a1, zero, e16, mf2, ta, ma
+; ZVFHMIN-NEXT:    lui a0, 8
 ; ZVFHMIN-NEXT:    vxor.vx v8, v8, a0
 ; ZVFHMIN-NEXT:    ret
   %vb = fneg <vscale x 2 x half> %va
@@ -121,8 +121,8 @@ define <vscale x 4 x half> @vfneg_vv_nxv4f16(<vscale x 4 x half> %va) {
 ;
 ; ZVFHMIN-LABEL: vfneg_vv_nxv4f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a0, 8
 ; ZVFHMIN-NEXT:    vsetvli a1, zero, e16, m1, ta, ma
+; ZVFHMIN-NEXT:    lui a0, 8
 ; ZVFHMIN-NEXT:    vxor.vx v8, v8, a0
 ; ZVFHMIN-NEXT:    ret
   %vb = fneg <vscale x 4 x half> %va
@@ -138,8 +138,8 @@ define <vscale x 8 x half> @vfneg_vv_nxv8f16(<vscale x 8 x half> %va) {
 ;
 ; ZVFHMIN-LABEL: vfneg_vv_nxv8f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a0, 8
 ; ZVFHMIN-NEXT:    vsetvli a1, zero, e16, m2, ta, ma
+; ZVFHMIN-NEXT:    lui a0, 8
 ; ZVFHMIN-NEXT:    vxor.vx v8, v8, a0
 ; ZVFHMIN-NEXT:    ret
   %vb = fneg <vscale x 8 x half> %va
@@ -155,8 +155,8 @@ define <vscale x 16 x half> @vfneg_vv_nxv16f16(<vscale x 16 x half> %va) {
 ;
 ; ZVFHMIN-LABEL: vfneg_vv_nxv16f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a0, 8
 ; ZVFHMIN-NEXT:    vsetvli a1, zero, e16, m4, ta, ma
+; ZVFHMIN-NEXT:    lui a0, 8
 ; ZVFHMIN-NEXT:    vxor.vx v8, v8, a0
 ; ZVFHMIN-NEXT:    ret
   %vb = fneg <vscale x 16 x half> %va
@@ -172,8 +172,8 @@ define <vscale x 32 x half> @vfneg_vv_nxv32f16(<vscale x 32 x half> %va) {
 ;
 ; ZVFHMIN-LABEL: vfneg_vv_nxv32f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    lui a0, 8
 ; ZVFHMIN-NEXT:    vsetvli a1, zero, e16, m8, ta, ma
+; ZVFHMIN-NEXT:    lui a0, 8
 ; ZVFHMIN-NEXT:    vxor.vx v8, v8, a0
 ; ZVFHMIN-NEXT:    ret
   %vb = fneg <vscale x 32 x half> %va

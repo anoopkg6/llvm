@@ -134,8 +134,8 @@ define i64 @reduce_umax2(<4 x i64> %v) {
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
 ; CHECK-NEXT:    vredmaxu.vs v8, v8, v8
-; CHECK-NEXT:    vmv.x.s a0, v8
 ; CHECK-NEXT:    li a1, 8
+; CHECK-NEXT:    vmv.x.s a0, v8
 ; CHECK-NEXT:    maxu a0, a0, a1
 ; CHECK-NEXT:    ret
 entry:
@@ -163,8 +163,8 @@ define i64 @reduce_umin2(<4 x i64> %v) {
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
 ; CHECK-NEXT:    vredminu.vs v8, v8, v8
-; CHECK-NEXT:    vmv.x.s a0, v8
 ; CHECK-NEXT:    li a1, 8
+; CHECK-NEXT:    vmv.x.s a0, v8
 ; CHECK-NEXT:    minu a0, a0, a1
 ; CHECK-NEXT:    ret
 entry:
@@ -192,8 +192,8 @@ define i64 @reduce_smax2(<4 x i64> %v) {
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
 ; CHECK-NEXT:    vredmax.vs v8, v8, v8
-; CHECK-NEXT:    vmv.x.s a0, v8
 ; CHECK-NEXT:    li a1, 8
+; CHECK-NEXT:    vmv.x.s a0, v8
 ; CHECK-NEXT:    max a0, a0, a1
 ; CHECK-NEXT:    ret
 entry:
@@ -221,8 +221,8 @@ define i64 @reduce_smin2(<4 x i64> %v) {
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
 ; CHECK-NEXT:    vredmin.vs v8, v8, v8
-; CHECK-NEXT:    vmv.x.s a0, v8
 ; CHECK-NEXT:    li a1, 8
+; CHECK-NEXT:    vmv.x.s a0, v8
 ; CHECK-NEXT:    min a0, a0, a1
 ; CHECK-NEXT:    ret
 entry:
@@ -265,8 +265,8 @@ define float @reduce_fadd3(float %x, <4 x float> %v, ptr %rdxptr) {
 ; CHECK-NEXT:    vmv.s.x v9, zero
 ; CHECK-NEXT:    vfredusum.vs v8, v8, v9
 ; CHECK-NEXT:    vfmv.f.s fa5, v8
-; CHECK-NEXT:    fadd.s fa0, fa5, fa0
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m1, ta, ma
+; CHECK-NEXT:    fadd.s fa0, fa5, fa0
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
 entry:
@@ -350,8 +350,8 @@ define void @crash(<2 x i32> %0) {
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m1, ta, ma
 ; CHECK-NEXT:    vmv.x.s a0, v8
 ; CHECK-NEXT:    vsetivli zero, 4, e16, mf2, ta, ma
-; CHECK-NEXT:    vmv.v.i v8, 0
 ; CHECK-NEXT:    vmv.s.x v9, a0
+; CHECK-NEXT:    vmv.v.i v8, 0
 ; CHECK-NEXT:    vredsum.vs v8, v8, v9
 ; CHECK-NEXT:    vmv.x.s a0, v8
 ; CHECK-NEXT:    sb a0, 0(zero)
@@ -408,8 +408,8 @@ define i64 @two_reduce_scalar_bypass_zext(<4 x i64> %v, <4 x i32> %v2) {
 ; CHECK-NEXT:    vredsum.vs v10, v10, v11
 ; CHECK-NEXT:    vmv.x.s a0, v10
 ; CHECK-NEXT:    slli a0, a0, 32
-; CHECK-NEXT:    srli a0, a0, 32
 ; CHECK-NEXT:    vsetvli zero, zero, e64, m2, ta, ma
+; CHECK-NEXT:    srli a0, a0, 32
 ; CHECK-NEXT:    vmv.s.x v10, a0
 ; CHECK-NEXT:    vredsum.vs v8, v8, v10
 ; CHECK-NEXT:    vmv.x.s a0, v8

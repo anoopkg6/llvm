@@ -35,15 +35,15 @@ define void @bswap_v4i32(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
 ; CHECK-NEXT:    vle32.v v8, (a0)
-; CHECK-NEXT:    vsrl.vi v9, v8, 8
 ; CHECK-NEXT:    lui a1, 16
 ; CHECK-NEXT:    addi a1, a1, -256
+; CHECK-NEXT:    vsrl.vi v9, v8, 8
 ; CHECK-NEXT:    vand.vx v9, v9, a1
 ; CHECK-NEXT:    vsrl.vi v10, v8, 24
 ; CHECK-NEXT:    vor.vv v9, v9, v10
 ; CHECK-NEXT:    vand.vx v10, v8, a1
-; CHECK-NEXT:    vsll.vi v10, v10, 8
 ; CHECK-NEXT:    vsll.vi v8, v8, 24
+; CHECK-NEXT:    vsll.vi v10, v10, 8
 ; CHECK-NEXT:    vor.vv v8, v8, v10
 ; CHECK-NEXT:    vor.vv v8, v8, v9
 ; CHECK-NEXT:    vse32.v v8, (a0)
@@ -96,9 +96,9 @@ define void @bswap_v2i64(ptr %x, ptr %y) {
 ; RV32-NEXT:    vsll.vx v12, v12, a2
 ; RV32-NEXT:    vor.vv v10, v10, v12
 ; RV32-NEXT:    vand.vx v12, v8, a4
-; RV32-NEXT:    vsll.vi v12, v12, 24
 ; RV32-NEXT:    vand.vv v8, v8, v11
 ; RV32-NEXT:    vsll.vi v8, v8, 8
+; RV32-NEXT:    vsll.vi v12, v12, 24
 ; RV32-NEXT:    vor.vv v8, v12, v8
 ; RV32-NEXT:    vor.vv v8, v10, v8
 ; RV32-NEXT:    vor.vv v8, v8, v9
@@ -112,10 +112,10 @@ define void @bswap_v2i64(ptr %x, ptr %y) {
 ; RV64-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
 ; RV64-NEXT:    vle64.v v8, (a0)
 ; RV64-NEXT:    li a1, 56
-; RV64-NEXT:    vsrl.vx v9, v8, a1
 ; RV64-NEXT:    li a2, 40
-; RV64-NEXT:    vsrl.vx v10, v8, a2
 ; RV64-NEXT:    lui a3, 16
+; RV64-NEXT:    vsrl.vx v9, v8, a1
+; RV64-NEXT:    vsrl.vx v10, v8, a2
 ; RV64-NEXT:    addiw a3, a3, -256
 ; RV64-NEXT:    vand.vx v10, v10, a3
 ; RV64-NEXT:    vor.vv v9, v10, v9
@@ -129,9 +129,9 @@ define void @bswap_v2i64(ptr %x, ptr %y) {
 ; RV64-NEXT:    vor.vv v10, v11, v10
 ; RV64-NEXT:    vor.vv v9, v10, v9
 ; RV64-NEXT:    vand.vx v10, v8, a5
-; RV64-NEXT:    vsll.vi v10, v10, 8
 ; RV64-NEXT:    vand.vx v11, v8, a4
 ; RV64-NEXT:    vsll.vi v11, v11, 24
+; RV64-NEXT:    vsll.vi v10, v10, 8
 ; RV64-NEXT:    vor.vv v10, v11, v10
 ; RV64-NEXT:    vsll.vx v11, v8, a1
 ; RV64-NEXT:    vand.vx v8, v8, a3
@@ -188,15 +188,15 @@ define void @bswap_v8i32(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
 ; CHECK-NEXT:    vle32.v v8, (a0)
-; CHECK-NEXT:    vsrl.vi v10, v8, 8
 ; CHECK-NEXT:    lui a1, 16
 ; CHECK-NEXT:    addi a1, a1, -256
+; CHECK-NEXT:    vsrl.vi v10, v8, 8
 ; CHECK-NEXT:    vand.vx v10, v10, a1
 ; CHECK-NEXT:    vsrl.vi v12, v8, 24
 ; CHECK-NEXT:    vor.vv v10, v10, v12
 ; CHECK-NEXT:    vand.vx v12, v8, a1
-; CHECK-NEXT:    vsll.vi v12, v12, 8
 ; CHECK-NEXT:    vsll.vi v8, v8, 24
+; CHECK-NEXT:    vsll.vi v12, v12, 8
 ; CHECK-NEXT:    vor.vv v8, v8, v12
 ; CHECK-NEXT:    vor.vv v8, v8, v10
 ; CHECK-NEXT:    vse32.v v8, (a0)
@@ -249,9 +249,9 @@ define void @bswap_v4i64(ptr %x, ptr %y) {
 ; RV32-NEXT:    vsll.vx v16, v16, a2
 ; RV32-NEXT:    vor.vv v12, v12, v16
 ; RV32-NEXT:    vand.vx v16, v8, a4
-; RV32-NEXT:    vsll.vi v16, v16, 24
 ; RV32-NEXT:    vand.vv v8, v8, v14
 ; RV32-NEXT:    vsll.vi v8, v8, 8
+; RV32-NEXT:    vsll.vi v16, v16, 24
 ; RV32-NEXT:    vor.vv v8, v16, v8
 ; RV32-NEXT:    vor.vv v8, v12, v8
 ; RV32-NEXT:    vor.vv v8, v8, v10
@@ -265,10 +265,10 @@ define void @bswap_v4i64(ptr %x, ptr %y) {
 ; RV64-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
 ; RV64-NEXT:    vle64.v v8, (a0)
 ; RV64-NEXT:    li a1, 56
-; RV64-NEXT:    vsrl.vx v10, v8, a1
 ; RV64-NEXT:    li a2, 40
-; RV64-NEXT:    vsrl.vx v12, v8, a2
 ; RV64-NEXT:    lui a3, 16
+; RV64-NEXT:    vsrl.vx v10, v8, a1
+; RV64-NEXT:    vsrl.vx v12, v8, a2
 ; RV64-NEXT:    addiw a3, a3, -256
 ; RV64-NEXT:    vand.vx v12, v12, a3
 ; RV64-NEXT:    vor.vv v10, v12, v10
@@ -282,9 +282,9 @@ define void @bswap_v4i64(ptr %x, ptr %y) {
 ; RV64-NEXT:    vor.vv v12, v14, v12
 ; RV64-NEXT:    vor.vv v10, v12, v10
 ; RV64-NEXT:    vand.vx v12, v8, a5
-; RV64-NEXT:    vsll.vi v12, v12, 8
 ; RV64-NEXT:    vand.vx v14, v8, a4
 ; RV64-NEXT:    vsll.vi v14, v14, 24
+; RV64-NEXT:    vsll.vi v12, v12, 8
 ; RV64-NEXT:    vor.vv v12, v14, v12
 ; RV64-NEXT:    vsll.vx v14, v8, a1
 ; RV64-NEXT:    vand.vx v8, v8, a3

@@ -61,8 +61,8 @@ define <2 x float> @si2fp_v2i7_v2f32(<2 x i7> %x) {
 define <2 x float> @ui2fp_v2i7_v2f32(<2 x i7> %x) {
 ; CHECK-LABEL: ui2fp_v2i7_v2f32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    li a0, 127
 ; CHECK-NEXT:    vsetivli zero, 2, e8, mf8, ta, ma
+; CHECK-NEXT:    li a0, 127
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli zero, zero, e16, mf4, ta, ma
 ; CHECK-NEXT:    vzext.vf2 v9, v8
@@ -208,8 +208,8 @@ define <3 x float> @ui2fp_v3i7_v3f32(<3 x i7> %x) {
 ; ZVFH32-NEXT:    vmv.v.x v8, a1
 ; ZVFH32-NEXT:    vslide1down.vx v8, v8, a2
 ; ZVFH32-NEXT:    vslide1down.vx v8, v8, a0
-; ZVFH32-NEXT:    vslidedown.vi v8, v8, 1
 ; ZVFH32-NEXT:    li a0, 127
+; ZVFH32-NEXT:    vslidedown.vi v8, v8, 1
 ; ZVFH32-NEXT:    vand.vx v8, v8, a0
 ; ZVFH32-NEXT:    vsetvli zero, zero, e16, mf2, ta, ma
 ; ZVFH32-NEXT:    vzext.vf2 v9, v8
@@ -225,8 +225,8 @@ define <3 x float> @ui2fp_v3i7_v3f32(<3 x i7> %x) {
 ; ZVFH64-NEXT:    vmv.v.x v8, a1
 ; ZVFH64-NEXT:    vslide1down.vx v8, v8, a2
 ; ZVFH64-NEXT:    vslide1down.vx v8, v8, a0
-; ZVFH64-NEXT:    vslidedown.vi v8, v8, 1
 ; ZVFH64-NEXT:    li a0, 127
+; ZVFH64-NEXT:    vslidedown.vi v8, v8, 1
 ; ZVFH64-NEXT:    vand.vx v8, v8, a0
 ; ZVFH64-NEXT:    vsetvli zero, zero, e16, mf2, ta, ma
 ; ZVFH64-NEXT:    vzext.vf2 v9, v8
@@ -242,8 +242,8 @@ define <3 x float> @ui2fp_v3i7_v3f32(<3 x i7> %x) {
 ; ZVFHMIN32-NEXT:    vmv.v.x v8, a1
 ; ZVFHMIN32-NEXT:    vslide1down.vx v8, v8, a2
 ; ZVFHMIN32-NEXT:    vslide1down.vx v8, v8, a0
-; ZVFHMIN32-NEXT:    vslidedown.vi v8, v8, 1
 ; ZVFHMIN32-NEXT:    li a0, 127
+; ZVFHMIN32-NEXT:    vslidedown.vi v8, v8, 1
 ; ZVFHMIN32-NEXT:    vand.vx v8, v8, a0
 ; ZVFHMIN32-NEXT:    vsetvli zero, zero, e16, mf2, ta, ma
 ; ZVFHMIN32-NEXT:    vzext.vf2 v9, v8
@@ -259,8 +259,8 @@ define <3 x float> @ui2fp_v3i7_v3f32(<3 x i7> %x) {
 ; ZVFHMIN64-NEXT:    vmv.v.x v8, a1
 ; ZVFHMIN64-NEXT:    vslide1down.vx v8, v8, a2
 ; ZVFHMIN64-NEXT:    vslide1down.vx v8, v8, a0
-; ZVFHMIN64-NEXT:    vslidedown.vi v8, v8, 1
 ; ZVFHMIN64-NEXT:    li a0, 127
+; ZVFHMIN64-NEXT:    vslidedown.vi v8, v8, 1
 ; ZVFHMIN64-NEXT:    vand.vx v8, v8, a0
 ; ZVFHMIN64-NEXT:    vsetvli zero, zero, e16, mf2, ta, ma
 ; ZVFHMIN64-NEXT:    vzext.vf2 v9, v8

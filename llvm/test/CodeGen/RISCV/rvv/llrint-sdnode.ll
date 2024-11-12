@@ -56,8 +56,8 @@ define <vscale x 16 x i64> @llrint_nxv16i64_nxv16f32(<vscale x 16 x float> %x) {
 ; CHECK-LABEL: llrint_nxv16i64_nxv16f32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m4, ta, ma
-; CHECK-NEXT:    vfwcvt.x.f.v v24, v8
 ; CHECK-NEXT:    vfwcvt.x.f.v v16, v12
+; CHECK-NEXT:    vfwcvt.x.f.v v24, v8
 ; CHECK-NEXT:    vmv8r.v v8, v24
 ; CHECK-NEXT:    ret
   %a = call <vscale x 16 x i64> @llvm.llrint.nxv16i64.nxv16f32(<vscale x 16 x float> %x)

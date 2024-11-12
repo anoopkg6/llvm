@@ -62,8 +62,8 @@ define half @select_fcmp_oeq(half %a, half %b) nounwind {
 ;
 ; CHECKIZFHMIN-LABEL: select_fcmp_oeq:
 ; CHECKIZFHMIN:       # %bb.0:
-; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa0
+; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    feq.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    bnez a0, .LBB1_2
 ; CHECKIZFHMIN-NEXT:  # %bb.1:
@@ -73,8 +73,8 @@ define half @select_fcmp_oeq(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_oeq:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a0
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    feq.s a2, a3, a2
 ; CHECKIZHINXMIN-NEXT:    bnez a2, .LBB1_2
 ; CHECKIZHINXMIN-NEXT:  # %bb.1:
@@ -107,8 +107,8 @@ define half @select_fcmp_ogt(half %a, half %b) nounwind {
 ;
 ; CHECKIZFHMIN-LABEL: select_fcmp_ogt:
 ; CHECKIZFHMIN:       # %bb.0:
-; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa0
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa1
+; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa0
 ; CHECKIZFHMIN-NEXT:    flt.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    bnez a0, .LBB2_2
 ; CHECKIZFHMIN-NEXT:  # %bb.1:
@@ -118,8 +118,8 @@ define half @select_fcmp_ogt(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_ogt:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a0
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a1
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a0
 ; CHECKIZHINXMIN-NEXT:    flt.s a2, a3, a2
 ; CHECKIZHINXMIN-NEXT:    bnez a2, .LBB2_2
 ; CHECKIZHINXMIN-NEXT:  # %bb.1:
@@ -152,8 +152,8 @@ define half @select_fcmp_oge(half %a, half %b) nounwind {
 ;
 ; CHECKIZFHMIN-LABEL: select_fcmp_oge:
 ; CHECKIZFHMIN:       # %bb.0:
-; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa0
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa1
+; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa0
 ; CHECKIZFHMIN-NEXT:    fle.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    bnez a0, .LBB3_2
 ; CHECKIZFHMIN-NEXT:  # %bb.1:
@@ -163,8 +163,8 @@ define half @select_fcmp_oge(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_oge:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a0
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a1
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a0
 ; CHECKIZHINXMIN-NEXT:    fle.s a2, a3, a2
 ; CHECKIZHINXMIN-NEXT:    bnez a2, .LBB3_2
 ; CHECKIZHINXMIN-NEXT:  # %bb.1:
@@ -197,8 +197,8 @@ define half @select_fcmp_olt(half %a, half %b) nounwind {
 ;
 ; CHECKIZFHMIN-LABEL: select_fcmp_olt:
 ; CHECKIZFHMIN:       # %bb.0:
-; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa0
+; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    flt.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    bnez a0, .LBB4_2
 ; CHECKIZFHMIN-NEXT:  # %bb.1:
@@ -208,8 +208,8 @@ define half @select_fcmp_olt(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_olt:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a0
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    flt.s a2, a3, a2
 ; CHECKIZHINXMIN-NEXT:    bnez a2, .LBB4_2
 ; CHECKIZHINXMIN-NEXT:  # %bb.1:
@@ -242,8 +242,8 @@ define half @select_fcmp_ole(half %a, half %b) nounwind {
 ;
 ; CHECKIZFHMIN-LABEL: select_fcmp_ole:
 ; CHECKIZFHMIN:       # %bb.0:
-; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa0
+; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fle.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    bnez a0, .LBB5_2
 ; CHECKIZFHMIN-NEXT:  # %bb.1:
@@ -253,8 +253,8 @@ define half @select_fcmp_ole(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_ole:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a0
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    fle.s a2, a3, a2
 ; CHECKIZHINXMIN-NEXT:    bnez a2, .LBB5_2
 ; CHECKIZHINXMIN-NEXT:  # %bb.1:
@@ -269,8 +269,8 @@ define half @select_fcmp_ole(half %a, half %b) nounwind {
 define half @select_fcmp_one(half %a, half %b) nounwind {
 ; CHECK-LABEL: select_fcmp_one:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    flt.h a0, fa0, fa1
 ; CHECK-NEXT:    flt.h a1, fa1, fa0
+; CHECK-NEXT:    flt.h a0, fa0, fa1
 ; CHECK-NEXT:    or a0, a1, a0
 ; CHECK-NEXT:    bnez a0, .LBB6_2
 ; CHECK-NEXT:  # %bb.1:
@@ -280,8 +280,8 @@ define half @select_fcmp_one(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINX-LABEL: select_fcmp_one:
 ; CHECKIZHINX:       # %bb.0:
-; CHECKIZHINX-NEXT:    flt.h a2, a0, a1
 ; CHECKIZHINX-NEXT:    flt.h a3, a1, a0
+; CHECKIZHINX-NEXT:    flt.h a2, a0, a1
 ; CHECKIZHINX-NEXT:    or a2, a3, a2
 ; CHECKIZHINX-NEXT:    bnez a2, .LBB6_2
 ; CHECKIZHINX-NEXT:  # %bb.1:
@@ -293,8 +293,8 @@ define half @select_fcmp_one(half %a, half %b) nounwind {
 ; CHECKIZFHMIN:       # %bb.0:
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa0
-; CHECKIZFHMIN-NEXT:    flt.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    flt.s a1, fa5, fa4
+; CHECKIZFHMIN-NEXT:    flt.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    or a0, a1, a0
 ; CHECKIZFHMIN-NEXT:    bnez a0, .LBB6_2
 ; CHECKIZFHMIN-NEXT:  # %bb.1:
@@ -304,8 +304,8 @@ define half @select_fcmp_one(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_one:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a0
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    flt.s a4, a3, a2
 ; CHECKIZHINXMIN-NEXT:    flt.s a2, a2, a3
 ; CHECKIZHINXMIN-NEXT:    or a2, a2, a4
@@ -322,8 +322,8 @@ define half @select_fcmp_one(half %a, half %b) nounwind {
 define half @select_fcmp_ord(half %a, half %b) nounwind {
 ; CHECK-LABEL: select_fcmp_ord:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    feq.h a0, fa1, fa1
 ; CHECK-NEXT:    feq.h a1, fa0, fa0
+; CHECK-NEXT:    feq.h a0, fa1, fa1
 ; CHECK-NEXT:    and a0, a1, a0
 ; CHECK-NEXT:    bnez a0, .LBB7_2
 ; CHECK-NEXT:  # %bb.1:
@@ -333,8 +333,8 @@ define half @select_fcmp_ord(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINX-LABEL: select_fcmp_ord:
 ; CHECKIZHINX:       # %bb.0:
-; CHECKIZHINX-NEXT:    feq.h a2, a1, a1
 ; CHECKIZHINX-NEXT:    feq.h a3, a0, a0
+; CHECKIZHINX-NEXT:    feq.h a2, a1, a1
 ; CHECKIZHINX-NEXT:    and a2, a3, a2
 ; CHECKIZHINX-NEXT:    bnez a2, .LBB7_2
 ; CHECKIZHINX-NEXT:  # %bb.1:
@@ -358,9 +358,9 @@ define half @select_fcmp_ord(half %a, half %b) nounwind {
 ; CHECKIZHINXMIN-LABEL: select_fcmp_ord:
 ; CHECKIZHINXMIN:       # %bb.0:
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
-; CHECKIZHINXMIN-NEXT:    feq.s a2, a2, a2
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a0
 ; CHECKIZHINXMIN-NEXT:    feq.s a3, a3, a3
+; CHECKIZHINXMIN-NEXT:    feq.s a2, a2, a2
 ; CHECKIZHINXMIN-NEXT:    and a2, a3, a2
 ; CHECKIZHINXMIN-NEXT:    bnez a2, .LBB7_2
 ; CHECKIZHINXMIN-NEXT:  # %bb.1:
@@ -375,8 +375,8 @@ define half @select_fcmp_ord(half %a, half %b) nounwind {
 define half @select_fcmp_ueq(half %a, half %b) nounwind {
 ; CHECK-LABEL: select_fcmp_ueq:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    flt.h a0, fa0, fa1
 ; CHECK-NEXT:    flt.h a1, fa1, fa0
+; CHECK-NEXT:    flt.h a0, fa0, fa1
 ; CHECK-NEXT:    or a0, a1, a0
 ; CHECK-NEXT:    beqz a0, .LBB8_2
 ; CHECK-NEXT:  # %bb.1:
@@ -386,8 +386,8 @@ define half @select_fcmp_ueq(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINX-LABEL: select_fcmp_ueq:
 ; CHECKIZHINX:       # %bb.0:
-; CHECKIZHINX-NEXT:    flt.h a2, a0, a1
 ; CHECKIZHINX-NEXT:    flt.h a3, a1, a0
+; CHECKIZHINX-NEXT:    flt.h a2, a0, a1
 ; CHECKIZHINX-NEXT:    or a2, a3, a2
 ; CHECKIZHINX-NEXT:    beqz a2, .LBB8_2
 ; CHECKIZHINX-NEXT:  # %bb.1:
@@ -399,8 +399,8 @@ define half @select_fcmp_ueq(half %a, half %b) nounwind {
 ; CHECKIZFHMIN:       # %bb.0:
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa0
-; CHECKIZFHMIN-NEXT:    flt.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    flt.s a1, fa5, fa4
+; CHECKIZFHMIN-NEXT:    flt.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    or a0, a1, a0
 ; CHECKIZFHMIN-NEXT:    beqz a0, .LBB8_2
 ; CHECKIZFHMIN-NEXT:  # %bb.1:
@@ -410,8 +410,8 @@ define half @select_fcmp_ueq(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_ueq:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a0
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    flt.s a4, a3, a2
 ; CHECKIZHINXMIN-NEXT:    flt.s a2, a2, a3
 ; CHECKIZHINXMIN-NEXT:    or a2, a2, a4
@@ -446,8 +446,8 @@ define half @select_fcmp_ugt(half %a, half %b) nounwind {
 ;
 ; CHECKIZFHMIN-LABEL: select_fcmp_ugt:
 ; CHECKIZFHMIN:       # %bb.0:
-; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa0
+; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fle.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    beqz a0, .LBB9_2
 ; CHECKIZFHMIN-NEXT:  # %bb.1:
@@ -457,8 +457,8 @@ define half @select_fcmp_ugt(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_ugt:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a0
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    fle.s a2, a3, a2
 ; CHECKIZHINXMIN-NEXT:    beqz a2, .LBB9_2
 ; CHECKIZHINXMIN-NEXT:  # %bb.1:
@@ -491,8 +491,8 @@ define half @select_fcmp_uge(half %a, half %b) nounwind {
 ;
 ; CHECKIZFHMIN-LABEL: select_fcmp_uge:
 ; CHECKIZFHMIN:       # %bb.0:
-; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa0
+; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    flt.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    beqz a0, .LBB10_2
 ; CHECKIZFHMIN-NEXT:  # %bb.1:
@@ -502,8 +502,8 @@ define half @select_fcmp_uge(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_uge:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a0
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    flt.s a2, a3, a2
 ; CHECKIZHINXMIN-NEXT:    beqz a2, .LBB10_2
 ; CHECKIZHINXMIN-NEXT:  # %bb.1:
@@ -536,8 +536,8 @@ define half @select_fcmp_ult(half %a, half %b) nounwind {
 ;
 ; CHECKIZFHMIN-LABEL: select_fcmp_ult:
 ; CHECKIZFHMIN:       # %bb.0:
-; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa0
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa1
+; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa0
 ; CHECKIZFHMIN-NEXT:    fle.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    beqz a0, .LBB11_2
 ; CHECKIZFHMIN-NEXT:  # %bb.1:
@@ -547,8 +547,8 @@ define half @select_fcmp_ult(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_ult:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a0
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a1
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a0
 ; CHECKIZHINXMIN-NEXT:    fle.s a2, a3, a2
 ; CHECKIZHINXMIN-NEXT:    beqz a2, .LBB11_2
 ; CHECKIZHINXMIN-NEXT:  # %bb.1:
@@ -581,8 +581,8 @@ define half @select_fcmp_ule(half %a, half %b) nounwind {
 ;
 ; CHECKIZFHMIN-LABEL: select_fcmp_ule:
 ; CHECKIZFHMIN:       # %bb.0:
-; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa0
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa1
+; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa0
 ; CHECKIZFHMIN-NEXT:    flt.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    beqz a0, .LBB12_2
 ; CHECKIZFHMIN-NEXT:  # %bb.1:
@@ -592,8 +592,8 @@ define half @select_fcmp_ule(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_ule:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a0
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a1
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a0
 ; CHECKIZHINXMIN-NEXT:    flt.s a2, a3, a2
 ; CHECKIZHINXMIN-NEXT:    beqz a2, .LBB12_2
 ; CHECKIZHINXMIN-NEXT:  # %bb.1:
@@ -626,8 +626,8 @@ define half @select_fcmp_une(half %a, half %b) nounwind {
 ;
 ; CHECKIZFHMIN-LABEL: select_fcmp_une:
 ; CHECKIZFHMIN:       # %bb.0:
-; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa0
+; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    feq.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    beqz a0, .LBB13_2
 ; CHECKIZFHMIN-NEXT:  # %bb.1:
@@ -637,8 +637,8 @@ define half @select_fcmp_une(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_une:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a0
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
 ; CHECKIZHINXMIN-NEXT:    feq.s a2, a3, a2
 ; CHECKIZHINXMIN-NEXT:    beqz a2, .LBB13_2
 ; CHECKIZHINXMIN-NEXT:  # %bb.1:
@@ -653,8 +653,8 @@ define half @select_fcmp_une(half %a, half %b) nounwind {
 define half @select_fcmp_uno(half %a, half %b) nounwind {
 ; CHECK-LABEL: select_fcmp_uno:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    feq.h a0, fa1, fa1
 ; CHECK-NEXT:    feq.h a1, fa0, fa0
+; CHECK-NEXT:    feq.h a0, fa1, fa1
 ; CHECK-NEXT:    and a0, a1, a0
 ; CHECK-NEXT:    beqz a0, .LBB14_2
 ; CHECK-NEXT:  # %bb.1:
@@ -664,8 +664,8 @@ define half @select_fcmp_uno(half %a, half %b) nounwind {
 ;
 ; CHECKIZHINX-LABEL: select_fcmp_uno:
 ; CHECKIZHINX:       # %bb.0:
-; CHECKIZHINX-NEXT:    feq.h a2, a1, a1
 ; CHECKIZHINX-NEXT:    feq.h a3, a0, a0
+; CHECKIZHINX-NEXT:    feq.h a2, a1, a1
 ; CHECKIZHINX-NEXT:    and a2, a3, a2
 ; CHECKIZHINX-NEXT:    beqz a2, .LBB14_2
 ; CHECKIZHINX-NEXT:  # %bb.1:
@@ -689,9 +689,9 @@ define half @select_fcmp_uno(half %a, half %b) nounwind {
 ; CHECKIZHINXMIN-LABEL: select_fcmp_uno:
 ; CHECKIZHINXMIN:       # %bb.0:
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a2, a1
-; CHECKIZHINXMIN-NEXT:    feq.s a2, a2, a2
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a3, a0
 ; CHECKIZHINXMIN-NEXT:    feq.s a3, a3, a3
+; CHECKIZHINXMIN-NEXT:    feq.s a2, a2, a2
 ; CHECKIZHINXMIN-NEXT:    and a2, a3, a2
 ; CHECKIZHINXMIN-NEXT:    beqz a2, .LBB14_2
 ; CHECKIZHINXMIN-NEXT:  # %bb.1:
@@ -747,8 +747,8 @@ define i32 @i32_select_fcmp_oeq(half %a, half %b, i32 %c, i32 %d) nounwind {
 ;
 ; CHECKIZFHMIN-LABEL: i32_select_fcmp_oeq:
 ; CHECKIZFHMIN:       # %bb.0:
-; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa0
+; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    feq.s a2, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    bnez a2, .LBB16_2
 ; CHECKIZFHMIN-NEXT:  # %bb.1:
@@ -758,8 +758,8 @@ define i32 @i32_select_fcmp_oeq(half %a, half %b, i32 %c, i32 %d) nounwind {
 ;
 ; CHECKIZHINXMIN-LABEL: i32_select_fcmp_oeq:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a0, a0
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; CHECKIZHINXMIN-NEXT:    feq.s a1, a0, a1
 ; CHECKIZHINXMIN-NEXT:    mv a0, a2
 ; CHECKIZHINXMIN-NEXT:    bnez a1, .LBB16_2
@@ -775,8 +775,8 @@ define i32 @i32_select_fcmp_oeq(half %a, half %b, i32 %c, i32 %d) nounwind {
 define i32 @select_fcmp_oeq_1_2(half %a, half %b) {
 ; CHECK-LABEL: select_fcmp_oeq_1_2:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    feq.h a0, fa0, fa1
 ; CHECK-NEXT:    li a1, 2
+; CHECK-NEXT:    feq.h a0, fa0, fa1
 ; CHECK-NEXT:    sub a0, a1, a0
 ; CHECK-NEXT:    ret
 ;
@@ -791,15 +791,15 @@ define i32 @select_fcmp_oeq_1_2(half %a, half %b) {
 ; CHECKIZFHMIN:       # %bb.0:
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa0
-; CHECKIZFHMIN-NEXT:    feq.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    li a1, 2
+; CHECKIZFHMIN-NEXT:    feq.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    sub a0, a1, a0
 ; CHECKIZFHMIN-NEXT:    ret
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_oeq_1_2:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a0, a0
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; CHECKIZHINXMIN-NEXT:    feq.s a0, a0, a1
 ; CHECKIZHINXMIN-NEXT:    li a1, 2
 ; CHECKIZHINXMIN-NEXT:    sub a0, a1, a0
@@ -824,16 +824,16 @@ define signext i32 @select_fcmp_uge_negone_zero(half %a, half %b) nounwind {
 ;
 ; CHECKIZFHMIN-LABEL: select_fcmp_uge_negone_zero:
 ; CHECKIZFHMIN:       # %bb.0:
-; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa0
+; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fle.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    addi a0, a0, -1
 ; CHECKIZFHMIN-NEXT:    ret
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_uge_negone_zero:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a0, a0
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; CHECKIZHINXMIN-NEXT:    fle.s a0, a0, a1
 ; CHECKIZHINXMIN-NEXT:    addi a0, a0, -1
 ; CHECKIZHINXMIN-NEXT:    ret
@@ -857,16 +857,16 @@ define signext i32 @select_fcmp_uge_1_2(half %a, half %b) nounwind {
 ;
 ; CHECKIZFHMIN-LABEL: select_fcmp_uge_1_2:
 ; CHECKIZFHMIN:       # %bb.0:
-; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fcvt.s.h fa4, fa0
+; CHECKIZFHMIN-NEXT:    fcvt.s.h fa5, fa1
 ; CHECKIZFHMIN-NEXT:    fle.s a0, fa4, fa5
 ; CHECKIZFHMIN-NEXT:    addi a0, a0, 1
 ; CHECKIZFHMIN-NEXT:    ret
 ;
 ; CHECKIZHINXMIN-LABEL: select_fcmp_uge_1_2:
 ; CHECKIZHINXMIN:       # %bb.0:
-; CHECKIZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; CHECKIZHINXMIN-NEXT:    fcvt.s.h a0, a0
+; CHECKIZHINXMIN-NEXT:    fcvt.s.h a1, a1
 ; CHECKIZHINXMIN-NEXT:    fle.s a0, a0, a1
 ; CHECKIZHINXMIN-NEXT:    addi a0, a0, 1
 ; CHECKIZHINXMIN-NEXT:    ret

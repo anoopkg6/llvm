@@ -6,15 +6,15 @@ define void @foo(i64 %t) sspstrong nounwind {
 ; CHECK-LABEL: foo:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    addi sp, sp, -32
-; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    addi s0, sp, 32
-; CHECK-NEXT:    ld a1, 500(tp)
-; CHECK-NEXT:    sd a1, -24(s0)
 ; CHECK-NEXT:    slli a0, a0, 2
+; CHECK-NEXT:    ld a1, 500(tp)
 ; CHECK-NEXT:    addi a0, a0, 15
 ; CHECK-NEXT:    andi a0, a0, -16
 ; CHECK-NEXT:    sub a0, sp, a0
+; CHECK-NEXT:    sd a1, -24(s0)
 ; CHECK-NEXT:    mv sp, a0
 ; CHECK-NEXT:    call baz
 ; CHECK-NEXT:    ld a0, 500(tp)
@@ -22,8 +22,8 @@ define void @foo(i64 %t) sspstrong nounwind {
 ; CHECK-NEXT:    bne a0, a1, .LBB0_2
 ; CHECK-NEXT:  # %bb.1: # %SP_return
 ; CHECK-NEXT:    addi sp, s0, -32
-; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 32
 ; CHECK-NEXT:    ret
 ; CHECK-NEXT:  .LBB0_2: # %CallStackCheckFailBlk

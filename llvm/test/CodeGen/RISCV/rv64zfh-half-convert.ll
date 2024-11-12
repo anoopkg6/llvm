@@ -154,8 +154,8 @@ define zeroext i16 @bcvt_f16_to_zext_i16(half %a, half %b) nounwind {
 define half @bcvt_i64_to_f16_via_i16(i64 %a, i64 %b) nounwind {
 ; RV64IZFH-LABEL: bcvt_i64_to_f16_via_i16:
 ; RV64IZFH:       # %bb.0:
-; RV64IZFH-NEXT:    fmv.h.x fa5, a0
 ; RV64IZFH-NEXT:    fmv.h.x fa4, a1
+; RV64IZFH-NEXT:    fmv.h.x fa5, a0
 ; RV64IZFH-NEXT:    fadd.h fa0, fa5, fa4
 ; RV64IZFH-NEXT:    ret
 ;

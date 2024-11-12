@@ -24,8 +24,8 @@ define <vscale x 2 x i16> @test_nxv2i16(<vscale x 2 x i16> %x) {
 ; CHECK-RV32-LABEL: test_nxv2i16:
 ; CHECK-RV32:       # %bb.0:
 ; CHECK-RV32-NEXT:    vsetvli a0, zero, e16, mf2, ta, ma
-; CHECK-RV32-NEXT:    vsrl.vi v8, v8, 7
 ; CHECK-RV32-NEXT:    li a0, 257
+; CHECK-RV32-NEXT:    vsrl.vi v8, v8, 7
 ; CHECK-RV32-NEXT:    vand.vx v8, v8, a0
 ; CHECK-RV32-NEXT:    vsll.vi v8, v8, 8
 ; CHECK-RV32-NEXT:    ret
@@ -33,8 +33,8 @@ define <vscale x 2 x i16> @test_nxv2i16(<vscale x 2 x i16> %x) {
 ; CHECK-RV64-LABEL: test_nxv2i16:
 ; CHECK-RV64:       # %bb.0:
 ; CHECK-RV64-NEXT:    vsetvli a0, zero, e16, mf2, ta, ma
-; CHECK-RV64-NEXT:    vsrl.vi v8, v8, 7
 ; CHECK-RV64-NEXT:    li a0, 257
+; CHECK-RV64-NEXT:    vsrl.vi v8, v8, 7
 ; CHECK-RV64-NEXT:    vand.vx v8, v8, a0
 ; CHECK-RV64-NEXT:    vsll.vi v8, v8, 8
 ; CHECK-RV64-NEXT:    ret

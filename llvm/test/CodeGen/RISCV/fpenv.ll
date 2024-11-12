@@ -6,9 +6,9 @@ define i32 @func_01() {
 ; RV32IF-LABEL: func_01:
 ; RV32IF:       # %bb.0:
 ; RV32IF-NEXT:    frrm a0
-; RV32IF-NEXT:    slli a0, a0, 2
 ; RV32IF-NEXT:    lui a1, 66
 ; RV32IF-NEXT:    addi a1, a1, 769
+; RV32IF-NEXT:    slli a0, a0, 2
 ; RV32IF-NEXT:    srl a0, a1, a0
 ; RV32IF-NEXT:    andi a0, a0, 7
 ; RV32IF-NEXT:    ret
@@ -16,9 +16,9 @@ define i32 @func_01() {
 ; RV64IF-LABEL: func_01:
 ; RV64IF:       # %bb.0:
 ; RV64IF-NEXT:    frrm a0
-; RV64IF-NEXT:    slli a0, a0, 2
 ; RV64IF-NEXT:    lui a1, 66
 ; RV64IF-NEXT:    addiw a1, a1, 769
+; RV64IF-NEXT:    slli a0, a0, 2
 ; RV64IF-NEXT:    srl a0, a1, a0
 ; RV64IF-NEXT:    andi a0, a0, 7
 ; RV64IF-NEXT:    ret
@@ -29,9 +29,9 @@ define i32 @func_01() {
 define void @func_02(i32 %rm) {
 ; RV32IF-LABEL: func_02:
 ; RV32IF:       # %bb.0:
-; RV32IF-NEXT:    slli a0, a0, 2
 ; RV32IF-NEXT:    lui a1, 66
 ; RV32IF-NEXT:    addi a1, a1, 769
+; RV32IF-NEXT:    slli a0, a0, 2
 ; RV32IF-NEXT:    srl a0, a1, a0
 ; RV32IF-NEXT:    andi a0, a0, 7
 ; RV32IF-NEXT:    fsrm a0
@@ -40,9 +40,9 @@ define void @func_02(i32 %rm) {
 ; RV64IF-LABEL: func_02:
 ; RV64IF:       # %bb.0:
 ; RV64IF-NEXT:    slli a0, a0, 32
-; RV64IF-NEXT:    srli a0, a0, 30
 ; RV64IF-NEXT:    lui a1, 66
 ; RV64IF-NEXT:    addiw a1, a1, 769
+; RV64IF-NEXT:    srli a0, a0, 30
 ; RV64IF-NEXT:    srl a0, a1, a0
 ; RV64IF-NEXT:    andi a0, a0, 7
 ; RV64IF-NEXT:    fsrm a0

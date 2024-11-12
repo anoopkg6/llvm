@@ -7,9 +7,9 @@ define void @bar() nounwind {
 ; CHECK-LABEL: bar:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    addi sp, sp, -96
-; CHECK-NEXT:    sd ra, 88(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sd s0, 80(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s1, 72(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd s0, 80(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 88(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    addi s0, sp, 96
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 3
@@ -22,21 +22,21 @@ define void @bar() nounwind {
 ; CHECK-NEXT:    addi a0, s1, 64
 ; CHECK-NEXT:    vs8r.v v8, (a0)
 ; CHECK-NEXT:    sd a0, 0(sp)
-; CHECK-NEXT:    li a0, 0
-; CHECK-NEXT:    li a1, 0
-; CHECK-NEXT:    li a2, 0
-; CHECK-NEXT:    li a3, 0
-; CHECK-NEXT:    li a4, 0
-; CHECK-NEXT:    li a5, 0
-; CHECK-NEXT:    li a6, 0
-; CHECK-NEXT:    li a7, 0
 ; CHECK-NEXT:    vmv.v.i v16, 0
+; CHECK-NEXT:    li a7, 0
+; CHECK-NEXT:    li a6, 0
+; CHECK-NEXT:    li a5, 0
+; CHECK-NEXT:    li a4, 0
+; CHECK-NEXT:    li a3, 0
+; CHECK-NEXT:    li a2, 0
+; CHECK-NEXT:    li a1, 0
+; CHECK-NEXT:    li a0, 0
 ; CHECK-NEXT:    call foo
 ; CHECK-NEXT:    addi sp, sp, 16
 ; CHECK-NEXT:    addi sp, s0, -96
-; CHECK-NEXT:    ld ra, 88(sp) # 8-byte Folded Reload
-; CHECK-NEXT:    ld s0, 80(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s1, 72(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld s0, 80(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 88(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    addi sp, sp, 96
 ; CHECK-NEXT:    ret
 entry:

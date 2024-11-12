@@ -193,8 +193,8 @@ define <vscale x 1 x i64> @vp_splat_nxv1i64(i64 %val, <vscale x 1 x i1> %m, i32 
 ; RV32-NEXT:    .cfi_def_cfa_offset 16
 ; RV32-NEXT:    sw a0, 8(sp)
 ; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetvli a1, zero, e64, m1, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vlse64.v v8, (a0), zero
 ; RV32-NEXT:    addi sp, sp, 16
 ; RV32-NEXT:    .cfi_def_cfa_offset 0
@@ -216,8 +216,8 @@ define <vscale x 2 x i64> @vp_splat_nxv2i64(i64 %val, <vscale x 2 x i1> %m, i32 
 ; RV32-NEXT:    .cfi_def_cfa_offset 16
 ; RV32-NEXT:    sw a0, 8(sp)
 ; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetvli a1, zero, e64, m2, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vlse64.v v8, (a0), zero
 ; RV32-NEXT:    addi sp, sp, 16
 ; RV32-NEXT:    .cfi_def_cfa_offset 0
@@ -239,8 +239,8 @@ define <vscale x 4 x i64> @vp_splat_nxv4i64(i64 %val, <vscale x 4 x i1> %m, i32 
 ; RV32-NEXT:    .cfi_def_cfa_offset 16
 ; RV32-NEXT:    sw a0, 8(sp)
 ; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetvli a1, zero, e64, m4, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vlse64.v v8, (a0), zero
 ; RV32-NEXT:    addi sp, sp, 16
 ; RV32-NEXT:    .cfi_def_cfa_offset 0
@@ -262,8 +262,8 @@ define <vscale x 8 x i64> @vp_splat_nxv8i64(i64 %val, <vscale x 8 x i1> %m, i32 
 ; RV32-NEXT:    .cfi_def_cfa_offset 16
 ; RV32-NEXT:    sw a0, 8(sp)
 ; RV32-NEXT:    sw a1, 12(sp)
-; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vsetvli a1, zero, e64, m8, ta, ma
+; RV32-NEXT:    addi a0, sp, 8
 ; RV32-NEXT:    vlse64.v v8, (a0), zero
 ; RV32-NEXT:    addi sp, sp, 16
 ; RV32-NEXT:    .cfi_def_cfa_offset 0
@@ -281,15 +281,15 @@ define <vscale x 8 x i64> @vp_splat_nxv8i64(i64 %val, <vscale x 8 x i1> %m, i32 
 define <vscale x 1 x bfloat> @vp_splat_nxv1bf16(bfloat %val, <vscale x 1 x i1> %m, i32 zeroext %evl) {
 ; NOZFMIN-LABEL: vp_splat_nxv1bf16:
 ; NOZFMIN:       # %bb.0:
-; NOZFMIN-NEXT:    fmv.x.w a1, fa0
 ; NOZFMIN-NEXT:    vsetvli zero, a0, e16, mf4, ta, ma
+; NOZFMIN-NEXT:    fmv.x.w a1, fa0
 ; NOZFMIN-NEXT:    vmv.v.x v8, a1
 ; NOZFMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vp_splat_nxv1bf16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vsetvli zero, a0, e16, mf4, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a1
 ; ZFMIN-NEXT:    ret
   %splat = call <vscale x 1 x bfloat> @llvm.experimental.vp.splat.nxv1bf16(bfloat %val, <vscale x 1 x i1> %m, i32 %evl)
@@ -299,15 +299,15 @@ define <vscale x 1 x bfloat> @vp_splat_nxv1bf16(bfloat %val, <vscale x 1 x i1> %
 define <vscale x 2 x bfloat> @vp_splat_nxv2bf16(bfloat %val, <vscale x 2 x i1> %m, i32 zeroext %evl) {
 ; NOZFMIN-LABEL: vp_splat_nxv2bf16:
 ; NOZFMIN:       # %bb.0:
-; NOZFMIN-NEXT:    fmv.x.w a1, fa0
 ; NOZFMIN-NEXT:    vsetvli zero, a0, e16, mf2, ta, ma
+; NOZFMIN-NEXT:    fmv.x.w a1, fa0
 ; NOZFMIN-NEXT:    vmv.v.x v8, a1
 ; NOZFMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vp_splat_nxv2bf16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vsetvli zero, a0, e16, mf2, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a1
 ; ZFMIN-NEXT:    ret
   %splat = call <vscale x 2 x bfloat> @llvm.experimental.vp.splat.nxv2bf16(bfloat %val, <vscale x 2 x i1> %m, i32 %evl)
@@ -317,15 +317,15 @@ define <vscale x 2 x bfloat> @vp_splat_nxv2bf16(bfloat %val, <vscale x 2 x i1> %
 define <vscale x 4 x bfloat> @vp_splat_nxv4bf16(bfloat %val, <vscale x 4 x i1> %m, i32 zeroext %evl) {
 ; NOZFMIN-LABEL: vp_splat_nxv4bf16:
 ; NOZFMIN:       # %bb.0:
-; NOZFMIN-NEXT:    fmv.x.w a1, fa0
 ; NOZFMIN-NEXT:    vsetvli zero, a0, e16, m1, ta, ma
+; NOZFMIN-NEXT:    fmv.x.w a1, fa0
 ; NOZFMIN-NEXT:    vmv.v.x v8, a1
 ; NOZFMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vp_splat_nxv4bf16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vsetvli zero, a0, e16, m1, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a1
 ; ZFMIN-NEXT:    ret
   %splat = call <vscale x 4 x bfloat> @llvm.experimental.vp.splat.nxv4bf16(bfloat %val, <vscale x 4 x i1> %m, i32 %evl)
@@ -335,15 +335,15 @@ define <vscale x 4 x bfloat> @vp_splat_nxv4bf16(bfloat %val, <vscale x 4 x i1> %
 define <vscale x 8 x bfloat> @vp_splat_nxv8bf16(bfloat %val, <vscale x 8 x i1> %m, i32 zeroext %evl) {
 ; NOZFMIN-LABEL: vp_splat_nxv8bf16:
 ; NOZFMIN:       # %bb.0:
-; NOZFMIN-NEXT:    fmv.x.w a1, fa0
 ; NOZFMIN-NEXT:    vsetvli zero, a0, e16, m2, ta, ma
+; NOZFMIN-NEXT:    fmv.x.w a1, fa0
 ; NOZFMIN-NEXT:    vmv.v.x v8, a1
 ; NOZFMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vp_splat_nxv8bf16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vsetvli zero, a0, e16, m2, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a1
 ; ZFMIN-NEXT:    ret
   %splat = call <vscale x 8 x bfloat> @llvm.experimental.vp.splat.nxv8bf16(bfloat %val, <vscale x 8 x i1> %m, i32 %evl)
@@ -353,15 +353,15 @@ define <vscale x 8 x bfloat> @vp_splat_nxv8bf16(bfloat %val, <vscale x 8 x i1> %
 define <vscale x 16 x bfloat> @vp_splat_nxv16bf16(bfloat %val, <vscale x 16 x i1> %m, i32 zeroext %evl) {
 ; NOZFMIN-LABEL: vp_splat_nxv16bf16:
 ; NOZFMIN:       # %bb.0:
-; NOZFMIN-NEXT:    fmv.x.w a1, fa0
 ; NOZFMIN-NEXT:    vsetvli zero, a0, e16, m4, ta, ma
+; NOZFMIN-NEXT:    fmv.x.w a1, fa0
 ; NOZFMIN-NEXT:    vmv.v.x v8, a1
 ; NOZFMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vp_splat_nxv16bf16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vsetvli zero, a0, e16, m4, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a1
 ; ZFMIN-NEXT:    ret
   %splat = call <vscale x 16 x bfloat> @llvm.experimental.vp.splat.nxv16bf16(bfloat %val, <vscale x 16 x i1> %m, i32 %evl)
@@ -371,15 +371,15 @@ define <vscale x 16 x bfloat> @vp_splat_nxv16bf16(bfloat %val, <vscale x 16 x i1
 define <vscale x 32 x bfloat> @vp_splat_nxv32bf16(bfloat %val, <vscale x 32 x i1> %m, i32 zeroext %evl) {
 ; NOZFMIN-LABEL: vp_splat_nxv32bf16:
 ; NOZFMIN:       # %bb.0:
-; NOZFMIN-NEXT:    fmv.x.w a1, fa0
 ; NOZFMIN-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
+; NOZFMIN-NEXT:    fmv.x.w a1, fa0
 ; NOZFMIN-NEXT:    vmv.v.x v8, a1
 ; NOZFMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vp_splat_nxv32bf16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a1
 ; ZFMIN-NEXT:    ret
   %splat = call <vscale x 32 x bfloat> @llvm.experimental.vp.splat.nxv32bf16(bfloat %val, <vscale x 32 x i1> %m, i32 %evl)
@@ -395,15 +395,15 @@ define <vscale x 1 x half> @vp_splat_nxv1f16(half %val, <vscale x 1 x i1> %m, i3
 ;
 ; ZVFHMIN-LABEL: vp_splat_nxv1f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    fmv.x.w a1, fa0
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, mf4, ta, ma
+; ZVFHMIN-NEXT:    fmv.x.w a1, fa0
 ; ZVFHMIN-NEXT:    vmv.v.x v8, a1
 ; ZVFHMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vp_splat_nxv1f16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vsetvli zero, a0, e16, mf4, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a1
 ; ZFMIN-NEXT:    ret
   %splat = call <vscale x 1 x half> @llvm.experimental.vp.splat.nxv1f16(half %val, <vscale x 1 x i1> %m, i32 %evl)
@@ -419,15 +419,15 @@ define <vscale x 2 x half> @vp_splat_nxv2f16(half %val, <vscale x 2 x i1> %m, i3
 ;
 ; ZVFHMIN-LABEL: vp_splat_nxv2f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    fmv.x.w a1, fa0
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, mf2, ta, ma
+; ZVFHMIN-NEXT:    fmv.x.w a1, fa0
 ; ZVFHMIN-NEXT:    vmv.v.x v8, a1
 ; ZVFHMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vp_splat_nxv2f16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vsetvli zero, a0, e16, mf2, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a1
 ; ZFMIN-NEXT:    ret
   %splat = call <vscale x 2 x half> @llvm.experimental.vp.splat.nxv2f16(half %val, <vscale x 2 x i1> %m, i32 %evl)
@@ -443,15 +443,15 @@ define <vscale x 4 x half> @vp_splat_nxv4f16(half %val, <vscale x 4 x i1> %m, i3
 ;
 ; ZVFHMIN-LABEL: vp_splat_nxv4f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    fmv.x.w a1, fa0
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, m1, ta, ma
+; ZVFHMIN-NEXT:    fmv.x.w a1, fa0
 ; ZVFHMIN-NEXT:    vmv.v.x v8, a1
 ; ZVFHMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vp_splat_nxv4f16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vsetvli zero, a0, e16, m1, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a1
 ; ZFMIN-NEXT:    ret
   %splat = call <vscale x 4 x half> @llvm.experimental.vp.splat.nxv4f16(half %val, <vscale x 4 x i1> %m, i32 %evl)
@@ -467,15 +467,15 @@ define <vscale x 8 x half> @vp_splat_nxv8f16(half %val, <vscale x 8 x i1> %m, i3
 ;
 ; ZVFHMIN-LABEL: vp_splat_nxv8f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    fmv.x.w a1, fa0
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, m2, ta, ma
+; ZVFHMIN-NEXT:    fmv.x.w a1, fa0
 ; ZVFHMIN-NEXT:    vmv.v.x v8, a1
 ; ZVFHMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vp_splat_nxv8f16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vsetvli zero, a0, e16, m2, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a1
 ; ZFMIN-NEXT:    ret
   %splat = call <vscale x 8 x half> @llvm.experimental.vp.splat.nxv8f16(half %val, <vscale x 8 x i1> %m, i32 %evl)
@@ -491,15 +491,15 @@ define <vscale x 16 x half> @vp_splat_nxv16f16(half %val, <vscale x 16 x i1> %m,
 ;
 ; ZVFHMIN-LABEL: vp_splat_nxv16f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    fmv.x.w a1, fa0
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, m4, ta, ma
+; ZVFHMIN-NEXT:    fmv.x.w a1, fa0
 ; ZVFHMIN-NEXT:    vmv.v.x v8, a1
 ; ZVFHMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vp_splat_nxv16f16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vsetvli zero, a0, e16, m4, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a1
 ; ZFMIN-NEXT:    ret
   %splat = call <vscale x 16 x half> @llvm.experimental.vp.splat.nxv16f16(half %val, <vscale x 16 x i1> %m, i32 %evl)
@@ -515,15 +515,15 @@ define <vscale x 32 x half> @vp_splat_nxv32f16(half %val, <vscale x 32 x i1> %m,
 ;
 ; ZVFHMIN-LABEL: vp_splat_nxv32f16:
 ; ZVFHMIN:       # %bb.0:
-; ZVFHMIN-NEXT:    fmv.x.w a1, fa0
 ; ZVFHMIN-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
+; ZVFHMIN-NEXT:    fmv.x.w a1, fa0
 ; ZVFHMIN-NEXT:    vmv.v.x v8, a1
 ; ZVFHMIN-NEXT:    ret
 ;
 ; ZFMIN-LABEL: vp_splat_nxv32f16:
 ; ZFMIN:       # %bb.0:
-; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
+; ZFMIN-NEXT:    fmv.x.h a1, fa0
 ; ZFMIN-NEXT:    vmv.v.x v8, a1
 ; ZFMIN-NEXT:    ret
   %splat = call <vscale x 32 x half> @llvm.experimental.vp.splat.nxv32f16(half %val, <vscale x 32 x i1> %m, i32 %evl)

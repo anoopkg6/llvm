@@ -141,8 +141,8 @@ define float @select_fcmp_ole(float %a, float %b) nounwind {
 define float @select_fcmp_one(float %a, float %b) nounwind {
 ; CHECK-LABEL: select_fcmp_one:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    flt.s a0, fa0, fa1
 ; CHECK-NEXT:    flt.s a1, fa1, fa0
+; CHECK-NEXT:    flt.s a0, fa0, fa1
 ; CHECK-NEXT:    or a0, a1, a0
 ; CHECK-NEXT:    bnez a0, .LBB6_2
 ; CHECK-NEXT:  # %bb.1:
@@ -152,8 +152,8 @@ define float @select_fcmp_one(float %a, float %b) nounwind {
 ;
 ; CHECKZFINX-LABEL: select_fcmp_one:
 ; CHECKZFINX:       # %bb.0:
-; CHECKZFINX-NEXT:    flt.s a2, a0, a1
 ; CHECKZFINX-NEXT:    flt.s a3, a1, a0
+; CHECKZFINX-NEXT:    flt.s a2, a0, a1
 ; CHECKZFINX-NEXT:    or a2, a3, a2
 ; CHECKZFINX-NEXT:    bnez a2, .LBB6_2
 ; CHECKZFINX-NEXT:  # %bb.1:
@@ -168,8 +168,8 @@ define float @select_fcmp_one(float %a, float %b) nounwind {
 define float @select_fcmp_ord(float %a, float %b) nounwind {
 ; CHECK-LABEL: select_fcmp_ord:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    feq.s a0, fa1, fa1
 ; CHECK-NEXT:    feq.s a1, fa0, fa0
+; CHECK-NEXT:    feq.s a0, fa1, fa1
 ; CHECK-NEXT:    and a0, a1, a0
 ; CHECK-NEXT:    bnez a0, .LBB7_2
 ; CHECK-NEXT:  # %bb.1:
@@ -179,8 +179,8 @@ define float @select_fcmp_ord(float %a, float %b) nounwind {
 ;
 ; CHECKZFINX-LABEL: select_fcmp_ord:
 ; CHECKZFINX:       # %bb.0:
-; CHECKZFINX-NEXT:    feq.s a2, a1, a1
 ; CHECKZFINX-NEXT:    feq.s a3, a0, a0
+; CHECKZFINX-NEXT:    feq.s a2, a1, a1
 ; CHECKZFINX-NEXT:    and a2, a3, a2
 ; CHECKZFINX-NEXT:    bnez a2, .LBB7_2
 ; CHECKZFINX-NEXT:  # %bb.1:
@@ -195,8 +195,8 @@ define float @select_fcmp_ord(float %a, float %b) nounwind {
 define float @select_fcmp_ueq(float %a, float %b) nounwind {
 ; CHECK-LABEL: select_fcmp_ueq:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    flt.s a0, fa0, fa1
 ; CHECK-NEXT:    flt.s a1, fa1, fa0
+; CHECK-NEXT:    flt.s a0, fa0, fa1
 ; CHECK-NEXT:    or a0, a1, a0
 ; CHECK-NEXT:    beqz a0, .LBB8_2
 ; CHECK-NEXT:  # %bb.1:
@@ -206,8 +206,8 @@ define float @select_fcmp_ueq(float %a, float %b) nounwind {
 ;
 ; CHECKZFINX-LABEL: select_fcmp_ueq:
 ; CHECKZFINX:       # %bb.0:
-; CHECKZFINX-NEXT:    flt.s a2, a0, a1
 ; CHECKZFINX-NEXT:    flt.s a3, a1, a0
+; CHECKZFINX-NEXT:    flt.s a2, a0, a1
 ; CHECKZFINX-NEXT:    or a2, a3, a2
 ; CHECKZFINX-NEXT:    beqz a2, .LBB8_2
 ; CHECKZFINX-NEXT:  # %bb.1:
@@ -337,8 +337,8 @@ define float @select_fcmp_une(float %a, float %b) nounwind {
 define float @select_fcmp_uno(float %a, float %b) nounwind {
 ; CHECK-LABEL: select_fcmp_uno:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    feq.s a0, fa1, fa1
 ; CHECK-NEXT:    feq.s a1, fa0, fa0
+; CHECK-NEXT:    feq.s a0, fa1, fa1
 ; CHECK-NEXT:    and a0, a1, a0
 ; CHECK-NEXT:    beqz a0, .LBB14_2
 ; CHECK-NEXT:  # %bb.1:
@@ -348,8 +348,8 @@ define float @select_fcmp_uno(float %a, float %b) nounwind {
 ;
 ; CHECKZFINX-LABEL: select_fcmp_uno:
 ; CHECKZFINX:       # %bb.0:
-; CHECKZFINX-NEXT:    feq.s a2, a1, a1
 ; CHECKZFINX-NEXT:    feq.s a3, a0, a0
+; CHECKZFINX-NEXT:    feq.s a2, a1, a1
 ; CHECKZFINX-NEXT:    and a2, a3, a2
 ; CHECKZFINX-NEXT:    beqz a2, .LBB14_2
 ; CHECKZFINX-NEXT:  # %bb.1:
@@ -402,8 +402,8 @@ define i32 @i32_select_fcmp_oeq(float %a, float %b, i32 %c, i32 %d) nounwind {
 define i32 @select_fcmp_oeq_1_2(float %a, float %b) {
 ; CHECK-LABEL: select_fcmp_oeq_1_2:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    feq.s a0, fa0, fa1
 ; CHECK-NEXT:    li a1, 2
+; CHECK-NEXT:    feq.s a0, fa0, fa1
 ; CHECK-NEXT:    sub a0, a1, a0
 ; CHECK-NEXT:    ret
 ;

@@ -118,8 +118,8 @@ define <vscale x 16 x iXLen> @lrint_nxv16f32(<vscale x 16 x float> %x) {
 ; RV64-i64-LABEL: lrint_nxv16f32:
 ; RV64-i64:       # %bb.0:
 ; RV64-i64-NEXT:    vsetvli a0, zero, e32, m4, ta, ma
-; RV64-i64-NEXT:    vfwcvt.x.f.v v24, v8
 ; RV64-i64-NEXT:    vfwcvt.x.f.v v16, v12
+; RV64-i64-NEXT:    vfwcvt.x.f.v v24, v8
 ; RV64-i64-NEXT:    vmv8r.v v8, v24
 ; RV64-i64-NEXT:    ret
   %a = call <vscale x 16 x iXLen> @llvm.lrint.nxv16iXLen.nxv16f32(<vscale x 16 x float> %x)

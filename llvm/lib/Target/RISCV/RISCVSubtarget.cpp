@@ -16,6 +16,7 @@
 #include "RISCV.h"
 #include "RISCVFrameLowering.h"
 #include "RISCVTargetMachine.h"
+#include "llvm/CodeGen/MachineScheduler.h"
 #include "llvm/CodeGen/MacroFusion.h"
 #include "llvm/CodeGen/ScheduleDAGMutation.h"
 #include "llvm/MC/TargetRegistry.h"
@@ -198,4 +199,12 @@ unsigned RISCVSubtarget::getMinimumJumpTableEntries() const {
   return RISCVMinimumJumpTableEntries.getNumOccurrences() > 0
              ? RISCVMinimumJumpTableEntries
              : TuneInfo->MinimumJumpTableEntries;
+}
+
+void RISCVSubtarget::overridePostRASchedPolicy(MachineSchedPolicy &Policy,
+                                               unsigned NumRegionInstrs) const {
+  // Do bidirectional scheduling since it provides a more balanced scheduling
+  // leading to better performance. This will increase compile time.
+  Policy.OnlyTopDown = false;
+  Policy.OnlyBottomUp = false;
 }

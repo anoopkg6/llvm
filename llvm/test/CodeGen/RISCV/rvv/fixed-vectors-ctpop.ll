@@ -9,11 +9,11 @@ define void @ctpop_v16i8(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
 ; CHECK-NEXT:    vle8.v v8, (a0)
-; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    li a1, 85
+; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    vand.vx v9, v9, a1
-; CHECK-NEXT:    vsub.vv v8, v8, v9
 ; CHECK-NEXT:    li a1, 51
+; CHECK-NEXT:    vsub.vv v8, v8, v9
 ; CHECK-NEXT:    vand.vx v9, v8, a1
 ; CHECK-NEXT:    vsrl.vi v8, v8, 2
 ; CHECK-NEXT:    vand.vx v8, v8, a1
@@ -44,9 +44,9 @@ define void @ctpop_v8i16(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
 ; CHECK-NEXT:    vle16.v v8, (a0)
-; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    lui a1, 5
 ; CHECK-NEXT:    addi a1, a1, 1365
+; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    vand.vx v9, v9, a1
 ; CHECK-NEXT:    vsub.vv v8, v8, v9
 ; CHECK-NEXT:    lui a1, 3
@@ -56,9 +56,9 @@ define void @ctpop_v8i16(ptr %x, ptr %y) {
 ; CHECK-NEXT:    vand.vx v8, v8, a1
 ; CHECK-NEXT:    vadd.vv v8, v9, v8
 ; CHECK-NEXT:    vsrl.vi v9, v8, 4
-; CHECK-NEXT:    vadd.vv v8, v8, v9
 ; CHECK-NEXT:    lui a1, 1
 ; CHECK-NEXT:    addi a1, a1, -241
+; CHECK-NEXT:    vadd.vv v8, v8, v9
 ; CHECK-NEXT:    vand.vx v8, v8, a1
 ; CHECK-NEXT:    li a1, 257
 ; CHECK-NEXT:    vmul.vx v8, v8, a1
@@ -86,9 +86,9 @@ define void @ctpop_v4i32(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
 ; CHECK-NEXT:    vle32.v v8, (a0)
-; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    lui a1, 349525
 ; CHECK-NEXT:    addi a1, a1, 1365
+; CHECK-NEXT:    vsrl.vi v9, v8, 1
 ; CHECK-NEXT:    vand.vx v9, v9, a1
 ; CHECK-NEXT:    vsub.vv v8, v8, v9
 ; CHECK-NEXT:    lui a1, 209715
@@ -98,9 +98,9 @@ define void @ctpop_v4i32(ptr %x, ptr %y) {
 ; CHECK-NEXT:    vand.vx v8, v8, a1
 ; CHECK-NEXT:    vadd.vv v8, v9, v8
 ; CHECK-NEXT:    vsrl.vi v9, v8, 4
-; CHECK-NEXT:    vadd.vv v8, v8, v9
 ; CHECK-NEXT:    lui a1, 61681
 ; CHECK-NEXT:    addi a1, a1, -241
+; CHECK-NEXT:    vadd.vv v8, v8, v9
 ; CHECK-NEXT:    vand.vx v8, v8, a1
 ; CHECK-NEXT:    lui a1, 4112
 ; CHECK-NEXT:    addi a1, a1, 257
@@ -159,8 +159,8 @@ define void @ctpop_v2i64(ptr %x, ptr %y) {
 ; RV32-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
 ; RV32-NEXT:    vmv.v.x v9, a1
 ; RV32-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
-; RV32-NEXT:    vmul.vv v8, v8, v9
 ; RV32-NEXT:    li a1, 56
+; RV32-NEXT:    vmul.vv v8, v8, v9
 ; RV32-NEXT:    vsrl.vx v8, v8, a1
 ; RV32-NEXT:    vse64.v v8, (a0)
 ; RV32-NEXT:    ret
@@ -169,10 +169,10 @@ define void @ctpop_v2i64(ptr %x, ptr %y) {
 ; RV64:       # %bb.0:
 ; RV64-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
 ; RV64-NEXT:    vle64.v v8, (a0)
-; RV64-NEXT:    vsrl.vi v9, v8, 1
 ; RV64-NEXT:    lui a1, 349525
 ; RV64-NEXT:    addiw a1, a1, 1365
 ; RV64-NEXT:    slli a2, a1, 32
+; RV64-NEXT:    vsrl.vi v9, v8, 1
 ; RV64-NEXT:    add a1, a1, a2
 ; RV64-NEXT:    vand.vx v9, v9, a1
 ; RV64-NEXT:    vsub.vv v8, v8, v9
@@ -185,11 +185,11 @@ define void @ctpop_v2i64(ptr %x, ptr %y) {
 ; RV64-NEXT:    vand.vx v8, v8, a1
 ; RV64-NEXT:    vadd.vv v8, v9, v8
 ; RV64-NEXT:    vsrl.vi v9, v8, 4
-; RV64-NEXT:    vadd.vv v8, v8, v9
 ; RV64-NEXT:    lui a1, 61681
 ; RV64-NEXT:    addiw a1, a1, -241
 ; RV64-NEXT:    slli a2, a1, 32
 ; RV64-NEXT:    add a1, a1, a2
+; RV64-NEXT:    vadd.vv v8, v8, v9
 ; RV64-NEXT:    vand.vx v8, v8, a1
 ; RV64-NEXT:    lui a1, 4112
 ; RV64-NEXT:    addiw a1, a1, 257
@@ -222,11 +222,11 @@ define void @ctpop_v32i8(ptr %x, ptr %y) {
 ; CHECK-NEXT:    li a1, 32
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m2, ta, ma
 ; CHECK-NEXT:    vle8.v v8, (a0)
-; CHECK-NEXT:    vsrl.vi v10, v8, 1
 ; CHECK-NEXT:    li a1, 85
+; CHECK-NEXT:    vsrl.vi v10, v8, 1
 ; CHECK-NEXT:    vand.vx v10, v10, a1
-; CHECK-NEXT:    vsub.vv v8, v8, v10
 ; CHECK-NEXT:    li a1, 51
+; CHECK-NEXT:    vsub.vv v8, v8, v10
 ; CHECK-NEXT:    vand.vx v10, v8, a1
 ; CHECK-NEXT:    vsrl.vi v8, v8, 2
 ; CHECK-NEXT:    vand.vx v8, v8, a1
@@ -258,9 +258,9 @@ define void @ctpop_v16i16(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
 ; CHECK-NEXT:    vle16.v v8, (a0)
-; CHECK-NEXT:    vsrl.vi v10, v8, 1
 ; CHECK-NEXT:    lui a1, 5
 ; CHECK-NEXT:    addi a1, a1, 1365
+; CHECK-NEXT:    vsrl.vi v10, v8, 1
 ; CHECK-NEXT:    vand.vx v10, v10, a1
 ; CHECK-NEXT:    vsub.vv v8, v8, v10
 ; CHECK-NEXT:    lui a1, 3
@@ -270,9 +270,9 @@ define void @ctpop_v16i16(ptr %x, ptr %y) {
 ; CHECK-NEXT:    vand.vx v8, v8, a1
 ; CHECK-NEXT:    vadd.vv v8, v10, v8
 ; CHECK-NEXT:    vsrl.vi v10, v8, 4
-; CHECK-NEXT:    vadd.vv v8, v8, v10
 ; CHECK-NEXT:    lui a1, 1
 ; CHECK-NEXT:    addi a1, a1, -241
+; CHECK-NEXT:    vadd.vv v8, v8, v10
 ; CHECK-NEXT:    vand.vx v8, v8, a1
 ; CHECK-NEXT:    li a1, 257
 ; CHECK-NEXT:    vmul.vx v8, v8, a1
@@ -300,9 +300,9 @@ define void @ctpop_v8i32(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
 ; CHECK-NEXT:    vle32.v v8, (a0)
-; CHECK-NEXT:    vsrl.vi v10, v8, 1
 ; CHECK-NEXT:    lui a1, 349525
 ; CHECK-NEXT:    addi a1, a1, 1365
+; CHECK-NEXT:    vsrl.vi v10, v8, 1
 ; CHECK-NEXT:    vand.vx v10, v10, a1
 ; CHECK-NEXT:    vsub.vv v8, v8, v10
 ; CHECK-NEXT:    lui a1, 209715
@@ -312,9 +312,9 @@ define void @ctpop_v8i32(ptr %x, ptr %y) {
 ; CHECK-NEXT:    vand.vx v8, v8, a1
 ; CHECK-NEXT:    vadd.vv v8, v10, v8
 ; CHECK-NEXT:    vsrl.vi v10, v8, 4
-; CHECK-NEXT:    vadd.vv v8, v8, v10
 ; CHECK-NEXT:    lui a1, 61681
 ; CHECK-NEXT:    addi a1, a1, -241
+; CHECK-NEXT:    vadd.vv v8, v8, v10
 ; CHECK-NEXT:    vand.vx v8, v8, a1
 ; CHECK-NEXT:    lui a1, 4112
 ; CHECK-NEXT:    addi a1, a1, 257
@@ -465,8 +465,8 @@ define void @ctpop_v4i64(ptr %x, ptr %y) {
 ; RV32-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
 ; RV32-NEXT:    vmv.v.x v10, a1
 ; RV32-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
-; RV32-NEXT:    vmul.vv v8, v8, v10
 ; RV32-NEXT:    li a1, 56
+; RV32-NEXT:    vmul.vv v8, v8, v10
 ; RV32-NEXT:    vsrl.vx v8, v8, a1
 ; RV32-NEXT:    vse64.v v8, (a0)
 ; RV32-NEXT:    ret
@@ -475,10 +475,10 @@ define void @ctpop_v4i64(ptr %x, ptr %y) {
 ; RV64:       # %bb.0:
 ; RV64-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
 ; RV64-NEXT:    vle64.v v8, (a0)
-; RV64-NEXT:    vsrl.vi v10, v8, 1
 ; RV64-NEXT:    lui a1, 349525
 ; RV64-NEXT:    addiw a1, a1, 1365
 ; RV64-NEXT:    slli a2, a1, 32
+; RV64-NEXT:    vsrl.vi v10, v8, 1
 ; RV64-NEXT:    add a1, a1, a2
 ; RV64-NEXT:    vand.vx v10, v10, a1
 ; RV64-NEXT:    vsub.vv v8, v8, v10
@@ -491,11 +491,11 @@ define void @ctpop_v4i64(ptr %x, ptr %y) {
 ; RV64-NEXT:    vand.vx v8, v8, a1
 ; RV64-NEXT:    vadd.vv v8, v10, v8
 ; RV64-NEXT:    vsrl.vi v10, v8, 4
-; RV64-NEXT:    vadd.vv v8, v8, v10
 ; RV64-NEXT:    lui a1, 61681
 ; RV64-NEXT:    addiw a1, a1, -241
 ; RV64-NEXT:    slli a2, a1, 32
 ; RV64-NEXT:    add a1, a1, a2
+; RV64-NEXT:    vadd.vv v8, v8, v10
 ; RV64-NEXT:    vand.vx v8, v8, a1
 ; RV64-NEXT:    lui a1, 4112
 ; RV64-NEXT:    addiw a1, a1, 257

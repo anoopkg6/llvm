@@ -250,8 +250,8 @@ define i64 @sel_shift_bool_i64(i1 %t) {
 ; RV32-LABEL: sel_shift_bool_i64:
 ; RV32:       # %bb.0:
 ; RV32-NEXT:    andi a0, a0, 1
-; RV32-NEXT:    slli a0, a0, 16
 ; RV32-NEXT:    li a1, 0
+; RV32-NEXT:    slli a0, a0, 16
 ; RV32-NEXT:    ret
 ;
 ; RV64-LABEL: sel_shift_bool_i64:
@@ -269,8 +269,8 @@ define i64 @sraiw_andi(i32 signext %0, i32 signext %1) nounwind {
 ; RV32:       # %bb.0: # %entry
 ; RV32-NEXT:    add a0, a0, a1
 ; RV32-NEXT:    srai a0, a0, 2
-; RV32-NEXT:    srli a0, a0, 29
 ; RV32-NEXT:    li a1, 0
+; RV32-NEXT:    srli a0, a0, 29
 ; RV32-NEXT:    ret
 ;
 ; RV64-LABEL: sraiw_andi:

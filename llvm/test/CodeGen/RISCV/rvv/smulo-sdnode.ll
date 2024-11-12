@@ -350,8 +350,8 @@ define <vscale x 1 x i64> @smulo_nxv1i64(<vscale x 1 x i64> %x, <vscale x 1 x i6
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m1, ta, ma
 ; CHECK-NEXT:    vmulh.vv v10, v8, v9
-; CHECK-NEXT:    vmul.vv v8, v8, v9
 ; CHECK-NEXT:    li a0, 63
+; CHECK-NEXT:    vmul.vv v8, v8, v9
 ; CHECK-NEXT:    vsra.vx v9, v8, a0
 ; CHECK-NEXT:    vmsne.vv v0, v10, v9
 ; CHECK-NEXT:    vmerge.vim v8, v8, 0, v0
@@ -370,8 +370,8 @@ define <vscale x 2 x i64> @smulo_nxv2i64(<vscale x 2 x i64> %x, <vscale x 2 x i6
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m2, ta, ma
 ; CHECK-NEXT:    vmulh.vv v12, v8, v10
-; CHECK-NEXT:    vmul.vv v8, v8, v10
 ; CHECK-NEXT:    li a0, 63
+; CHECK-NEXT:    vmul.vv v8, v8, v10
 ; CHECK-NEXT:    vsra.vx v10, v8, a0
 ; CHECK-NEXT:    vmsne.vv v0, v12, v10
 ; CHECK-NEXT:    vmerge.vim v8, v8, 0, v0
@@ -390,8 +390,8 @@ define <vscale x 4 x i64> @smulo_nxv4i64(<vscale x 4 x i64> %x, <vscale x 4 x i6
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m4, ta, ma
 ; CHECK-NEXT:    vmulh.vv v16, v8, v12
-; CHECK-NEXT:    vmul.vv v8, v8, v12
 ; CHECK-NEXT:    li a0, 63
+; CHECK-NEXT:    vmul.vv v8, v8, v12
 ; CHECK-NEXT:    vsra.vx v12, v8, a0
 ; CHECK-NEXT:    vmsne.vv v0, v16, v12
 ; CHECK-NEXT:    vmerge.vim v8, v8, 0, v0
@@ -410,8 +410,8 @@ define <vscale x 8 x i64> @smulo_nxv8i64(<vscale x 8 x i64> %x, <vscale x 8 x i6
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m8, ta, ma
 ; CHECK-NEXT:    vmulh.vv v24, v8, v16
-; CHECK-NEXT:    vmul.vv v8, v8, v16
 ; CHECK-NEXT:    li a0, 63
+; CHECK-NEXT:    vmul.vv v8, v8, v16
 ; CHECK-NEXT:    vsra.vx v16, v8, a0
 ; CHECK-NEXT:    vmsne.vv v0, v24, v16
 ; CHECK-NEXT:    vmerge.vim v8, v8, 0, v0

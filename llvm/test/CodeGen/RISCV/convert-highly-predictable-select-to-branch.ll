@@ -7,8 +7,8 @@ define i32 @test1(i32 %a) {
 ; CHECK-LABEL: test1:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    sext.w a1, a0
-; CHECK-NEXT:    slti a1, a1, 1
 ; CHECK-NEXT:    addiw a0, a0, -1
+; CHECK-NEXT:    slti a1, a1, 1
 ; CHECK-NEXT:    czero.nez a0, a0, a1
 ; CHECK-NEXT:    ret
 entry:
@@ -24,8 +24,8 @@ define i32 @test2(i32 %a) {
 ; CHEAP-LABEL: test2:
 ; CHEAP:       # %bb.0: # %entry
 ; CHEAP-NEXT:    sext.w a1, a0
-; CHEAP-NEXT:    slti a1, a1, 1
 ; CHEAP-NEXT:    addiw a0, a0, -1
+; CHEAP-NEXT:    slti a1, a1, 1
 ; CHEAP-NEXT:    czero.nez a0, a0, a1
 ; CHEAP-NEXT:    ret
 ;

@@ -23,8 +23,8 @@ define void @test() {
 ; RV32I-WITHFP:       # %bb.0:
 ; RV32I-WITHFP-NEXT:    addi sp, sp, -2032
 ; RV32I-WITHFP-NEXT:    .cfi_def_cfa_offset 2032
-; RV32I-WITHFP-NEXT:    sw ra, 2028(sp) # 4-byte Folded Spill
 ; RV32I-WITHFP-NEXT:    sw s0, 2024(sp) # 4-byte Folded Spill
+; RV32I-WITHFP-NEXT:    sw ra, 2028(sp) # 4-byte Folded Spill
 ; RV32I-WITHFP-NEXT:    .cfi_offset ra, -4
 ; RV32I-WITHFP-NEXT:    .cfi_offset s0, -8
 ; RV32I-WITHFP-NEXT:    addi s0, sp, 2032
@@ -36,8 +36,8 @@ define void @test() {
 ; RV32I-WITHFP-NEXT:    addi a0, a0, -352
 ; RV32I-WITHFP-NEXT:    add sp, sp, a0
 ; RV32I-WITHFP-NEXT:    .cfi_def_cfa sp, 2032
-; RV32I-WITHFP-NEXT:    lw ra, 2028(sp) # 4-byte Folded Reload
 ; RV32I-WITHFP-NEXT:    lw s0, 2024(sp) # 4-byte Folded Reload
+; RV32I-WITHFP-NEXT:    lw ra, 2028(sp) # 4-byte Folded Reload
 ; RV32I-WITHFP-NEXT:    .cfi_restore ra
 ; RV32I-WITHFP-NEXT:    .cfi_restore s0
 ; RV32I-WITHFP-NEXT:    addi sp, sp, 2032
@@ -55,30 +55,30 @@ define void @test_emergency_spill_slot(i32 %a) {
 ; RV32I-FPELIM:       # %bb.0:
 ; RV32I-FPELIM-NEXT:    addi sp, sp, -2032
 ; RV32I-FPELIM-NEXT:    .cfi_def_cfa_offset 2032
-; RV32I-FPELIM-NEXT:    sw s0, 2028(sp) # 4-byte Folded Spill
 ; RV32I-FPELIM-NEXT:    sw s1, 2024(sp) # 4-byte Folded Spill
+; RV32I-FPELIM-NEXT:    sw s0, 2028(sp) # 4-byte Folded Spill
 ; RV32I-FPELIM-NEXT:    .cfi_offset s0, -4
 ; RV32I-FPELIM-NEXT:    .cfi_offset s1, -8
 ; RV32I-FPELIM-NEXT:    lui a1, 97
 ; RV32I-FPELIM-NEXT:    addi a1, a1, 672
 ; RV32I-FPELIM-NEXT:    sub sp, sp, a1
 ; RV32I-FPELIM-NEXT:    .cfi_def_cfa_offset 400016
-; RV32I-FPELIM-NEXT:    lui a1, 78
 ; RV32I-FPELIM-NEXT:    addi a2, sp, 8
+; RV32I-FPELIM-NEXT:    lui a1, 78
 ; RV32I-FPELIM-NEXT:    add a1, a2, a1
 ; RV32I-FPELIM-NEXT:    #APP
 ; RV32I-FPELIM-NEXT:    nop
 ; RV32I-FPELIM-NEXT:    #NO_APP
 ; RV32I-FPELIM-NEXT:    sw a0, 512(a1)
+; RV32I-FPELIM-NEXT:    lui a0, 97
+; RV32I-FPELIM-NEXT:    addi a0, a0, 672
 ; RV32I-FPELIM-NEXT:    #APP
 ; RV32I-FPELIM-NEXT:    nop
 ; RV32I-FPELIM-NEXT:    #NO_APP
-; RV32I-FPELIM-NEXT:    lui a0, 97
-; RV32I-FPELIM-NEXT:    addi a0, a0, 672
 ; RV32I-FPELIM-NEXT:    add sp, sp, a0
 ; RV32I-FPELIM-NEXT:    .cfi_def_cfa_offset 2032
-; RV32I-FPELIM-NEXT:    lw s0, 2028(sp) # 4-byte Folded Reload
 ; RV32I-FPELIM-NEXT:    lw s1, 2024(sp) # 4-byte Folded Reload
+; RV32I-FPELIM-NEXT:    lw s0, 2028(sp) # 4-byte Folded Reload
 ; RV32I-FPELIM-NEXT:    .cfi_restore s0
 ; RV32I-FPELIM-NEXT:    .cfi_restore s1
 ; RV32I-FPELIM-NEXT:    addi sp, sp, 2032
@@ -89,10 +89,10 @@ define void @test_emergency_spill_slot(i32 %a) {
 ; RV32I-WITHFP:       # %bb.0:
 ; RV32I-WITHFP-NEXT:    addi sp, sp, -2032
 ; RV32I-WITHFP-NEXT:    .cfi_def_cfa_offset 2032
-; RV32I-WITHFP-NEXT:    sw ra, 2028(sp) # 4-byte Folded Spill
-; RV32I-WITHFP-NEXT:    sw s0, 2024(sp) # 4-byte Folded Spill
-; RV32I-WITHFP-NEXT:    sw s1, 2020(sp) # 4-byte Folded Spill
 ; RV32I-WITHFP-NEXT:    sw s2, 2016(sp) # 4-byte Folded Spill
+; RV32I-WITHFP-NEXT:    sw s1, 2020(sp) # 4-byte Folded Spill
+; RV32I-WITHFP-NEXT:    sw s0, 2024(sp) # 4-byte Folded Spill
+; RV32I-WITHFP-NEXT:    sw ra, 2028(sp) # 4-byte Folded Spill
 ; RV32I-WITHFP-NEXT:    .cfi_offset ra, -4
 ; RV32I-WITHFP-NEXT:    .cfi_offset s0, -8
 ; RV32I-WITHFP-NEXT:    .cfi_offset s1, -12
@@ -102,26 +102,26 @@ define void @test_emergency_spill_slot(i32 %a) {
 ; RV32I-WITHFP-NEXT:    lui a1, 97
 ; RV32I-WITHFP-NEXT:    addi a1, a1, 688
 ; RV32I-WITHFP-NEXT:    sub sp, sp, a1
-; RV32I-WITHFP-NEXT:    lui a1, 78
 ; RV32I-WITHFP-NEXT:    lui a2, 98
 ; RV32I-WITHFP-NEXT:    addi a2, a2, -1388
 ; RV32I-WITHFP-NEXT:    sub a2, s0, a2
+; RV32I-WITHFP-NEXT:    lui a1, 78
 ; RV32I-WITHFP-NEXT:    add a1, a2, a1
 ; RV32I-WITHFP-NEXT:    #APP
 ; RV32I-WITHFP-NEXT:    nop
 ; RV32I-WITHFP-NEXT:    #NO_APP
 ; RV32I-WITHFP-NEXT:    sw a0, 512(a1)
+; RV32I-WITHFP-NEXT:    lui a0, 97
+; RV32I-WITHFP-NEXT:    addi a0, a0, 688
 ; RV32I-WITHFP-NEXT:    #APP
 ; RV32I-WITHFP-NEXT:    nop
 ; RV32I-WITHFP-NEXT:    #NO_APP
-; RV32I-WITHFP-NEXT:    lui a0, 97
-; RV32I-WITHFP-NEXT:    addi a0, a0, 688
 ; RV32I-WITHFP-NEXT:    add sp, sp, a0
 ; RV32I-WITHFP-NEXT:    .cfi_def_cfa sp, 2032
-; RV32I-WITHFP-NEXT:    lw ra, 2028(sp) # 4-byte Folded Reload
-; RV32I-WITHFP-NEXT:    lw s0, 2024(sp) # 4-byte Folded Reload
-; RV32I-WITHFP-NEXT:    lw s1, 2020(sp) # 4-byte Folded Reload
 ; RV32I-WITHFP-NEXT:    lw s2, 2016(sp) # 4-byte Folded Reload
+; RV32I-WITHFP-NEXT:    lw s1, 2020(sp) # 4-byte Folded Reload
+; RV32I-WITHFP-NEXT:    lw s0, 2024(sp) # 4-byte Folded Reload
+; RV32I-WITHFP-NEXT:    lw ra, 2028(sp) # 4-byte Folded Reload
 ; RV32I-WITHFP-NEXT:    .cfi_restore ra
 ; RV32I-WITHFP-NEXT:    .cfi_restore s0
 ; RV32I-WITHFP-NEXT:    .cfi_restore s1

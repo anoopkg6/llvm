@@ -44,15 +44,15 @@ define signext i32 @and_select_all_ones_i32(i1 zeroext %c, i32 signext %x, i32 s
 ;
 ; VTCONDOPS64-LABEL: and_select_all_ones_i32:
 ; VTCONDOPS64:       # %bb.0:
-; VTCONDOPS64-NEXT:    vt.maskcn a0, a2, a0
 ; VTCONDOPS64-NEXT:    and a1, a2, a1
+; VTCONDOPS64-NEXT:    vt.maskcn a0, a2, a0
 ; VTCONDOPS64-NEXT:    or a0, a1, a0
 ; VTCONDOPS64-NEXT:    ret
 ;
 ; ZICOND-LABEL: and_select_all_ones_i32:
 ; ZICOND:       # %bb.0:
-; ZICOND-NEXT:    czero.nez a0, a2, a0
 ; ZICOND-NEXT:    and a1, a2, a1
+; ZICOND-NEXT:    czero.nez a0, a2, a0
 ; ZICOND-NEXT:    or a0, a1, a0
 ; ZICOND-NEXT:    ret
   %a = select i1 %c, i32 %x, i32 -1
@@ -91,16 +91,16 @@ define signext i32 @and_select_all_ones_i32_cmp(i32 signext %x, i32 signext %y, 
 ;
 ; VTCONDOPS64-LABEL: and_select_all_ones_i32_cmp:
 ; VTCONDOPS64:       # %bb.0:
-; VTCONDOPS64-NEXT:    addi a2, a2, -4
 ; VTCONDOPS64-NEXT:    and a0, a1, a0
+; VTCONDOPS64-NEXT:    addi a2, a2, -4
 ; VTCONDOPS64-NEXT:    vt.maskc a1, a1, a2
 ; VTCONDOPS64-NEXT:    or a0, a0, a1
 ; VTCONDOPS64-NEXT:    ret
 ;
 ; ZICOND-LABEL: and_select_all_ones_i32_cmp:
 ; ZICOND:       # %bb.0:
-; ZICOND-NEXT:    addi a2, a2, -4
 ; ZICOND-NEXT:    and a0, a1, a0
+; ZICOND-NEXT:    addi a2, a2, -4
 ; ZICOND-NEXT:    czero.eqz a1, a1, a2
 ; ZICOND-NEXT:    or a0, a0, a1
 ; ZICOND-NEXT:    ret
@@ -139,16 +139,16 @@ define signext i32 @and_select_all_ones_i32_cmp2(i32 signext %x, i32 signext %y,
 ;
 ; VTCONDOPS64-LABEL: and_select_all_ones_i32_cmp2:
 ; VTCONDOPS64:       # %bb.0:
-; VTCONDOPS64-NEXT:    slti a2, a2, 4
 ; VTCONDOPS64-NEXT:    and a0, a1, a0
+; VTCONDOPS64-NEXT:    slti a2, a2, 4
 ; VTCONDOPS64-NEXT:    vt.maskcn a1, a1, a2
 ; VTCONDOPS64-NEXT:    or a0, a0, a1
 ; VTCONDOPS64-NEXT:    ret
 ;
 ; ZICOND-LABEL: and_select_all_ones_i32_cmp2:
 ; ZICOND:       # %bb.0:
-; ZICOND-NEXT:    slti a2, a2, 4
 ; ZICOND-NEXT:    and a0, a1, a0
+; ZICOND-NEXT:    slti a2, a2, 4
 ; ZICOND-NEXT:    czero.nez a1, a1, a2
 ; ZICOND-NEXT:    or a0, a0, a1
 ; ZICOND-NEXT:    ret
@@ -164,8 +164,8 @@ define i64 @and_select_all_ones_i64(i1 zeroext %c, i64 %x, i64 %y) {
 ; RV32-NEXT:    neg a0, a0
 ; RV32-NEXT:    or a2, a0, a2
 ; RV32-NEXT:    or a0, a0, a1
-; RV32-NEXT:    and a0, a3, a0
 ; RV32-NEXT:    and a1, a4, a2
+; RV32-NEXT:    and a0, a3, a0
 ; RV32-NEXT:    ret
 ;
 ; RV64I-LABEL: and_select_all_ones_i64:
@@ -186,15 +186,15 @@ define i64 @and_select_all_ones_i64(i1 zeroext %c, i64 %x, i64 %y) {
 ;
 ; VTCONDOPS64-LABEL: and_select_all_ones_i64:
 ; VTCONDOPS64:       # %bb.0:
-; VTCONDOPS64-NEXT:    vt.maskc a0, a2, a0
 ; VTCONDOPS64-NEXT:    and a1, a2, a1
+; VTCONDOPS64-NEXT:    vt.maskc a0, a2, a0
 ; VTCONDOPS64-NEXT:    or a0, a1, a0
 ; VTCONDOPS64-NEXT:    ret
 ;
 ; ZICOND64-LABEL: and_select_all_ones_i64:
 ; ZICOND64:       # %bb.0:
-; ZICOND64-NEXT:    czero.eqz a0, a2, a0
 ; ZICOND64-NEXT:    and a1, a2, a1
+; ZICOND64-NEXT:    czero.eqz a0, a2, a0
 ; ZICOND64-NEXT:    or a0, a1, a0
 ; ZICOND64-NEXT:    ret
   %a = select i1 %c, i64 -1, i64 %x
@@ -211,8 +211,8 @@ define i64 @and_select_all_ones_i64_cmp(i64 %x, i64 %y, i64 %z) {
 ; RV32-NEXT:    addi a4, a4, -1
 ; RV32-NEXT:    or a1, a4, a1
 ; RV32-NEXT:    or a0, a4, a0
-; RV32-NEXT:    and a0, a0, a2
 ; RV32-NEXT:    and a1, a1, a3
+; RV32-NEXT:    and a0, a0, a2
 ; RV32-NEXT:    ret
 ;
 ; RV64I-LABEL: and_select_all_ones_i64_cmp:
@@ -236,16 +236,16 @@ define i64 @and_select_all_ones_i64_cmp(i64 %x, i64 %y, i64 %z) {
 ;
 ; VTCONDOPS64-LABEL: and_select_all_ones_i64_cmp:
 ; VTCONDOPS64:       # %bb.0:
-; VTCONDOPS64-NEXT:    addi a2, a2, -4
 ; VTCONDOPS64-NEXT:    and a0, a1, a0
+; VTCONDOPS64-NEXT:    addi a2, a2, -4
 ; VTCONDOPS64-NEXT:    vt.maskc a1, a1, a2
 ; VTCONDOPS64-NEXT:    or a0, a0, a1
 ; VTCONDOPS64-NEXT:    ret
 ;
 ; ZICOND64-LABEL: and_select_all_ones_i64_cmp:
 ; ZICOND64:       # %bb.0:
-; ZICOND64-NEXT:    addi a2, a2, -4
 ; ZICOND64-NEXT:    and a0, a1, a0
+; ZICOND64-NEXT:    addi a2, a2, -4
 ; ZICOND64-NEXT:    czero.eqz a1, a1, a2
 ; ZICOND64-NEXT:    or a0, a0, a1
 ; ZICOND64-NEXT:    ret
@@ -268,8 +268,8 @@ define i64 @and_select_all_ones_i64_cmp2(i64 %x, i64 %y, i64 %z) {
 ; RV32I-NEXT:    addi a4, a4, -1
 ; RV32I-NEXT:    or a1, a4, a1
 ; RV32I-NEXT:    or a0, a4, a0
-; RV32I-NEXT:    and a0, a0, a2
 ; RV32I-NEXT:    and a1, a1, a3
+; RV32I-NEXT:    and a0, a0, a2
 ; RV32I-NEXT:    ret
 ;
 ; RV64I-LABEL: and_select_all_ones_i64_cmp2:
@@ -292,8 +292,8 @@ define i64 @and_select_all_ones_i64_cmp2(i64 %x, i64 %y, i64 %z) {
 ;
 ; VTCONDOPS64-LABEL: and_select_all_ones_i64_cmp2:
 ; VTCONDOPS64:       # %bb.0:
-; VTCONDOPS64-NEXT:    slti a2, a2, 4
 ; VTCONDOPS64-NEXT:    and a0, a1, a0
+; VTCONDOPS64-NEXT:    slti a2, a2, 4
 ; VTCONDOPS64-NEXT:    vt.maskcn a1, a1, a2
 ; VTCONDOPS64-NEXT:    or a0, a0, a1
 ; VTCONDOPS64-NEXT:    ret
@@ -308,14 +308,14 @@ define i64 @and_select_all_ones_i64_cmp2(i64 %x, i64 %y, i64 %z) {
 ; ZICOND32-NEXT:    addi a4, a4, -1
 ; ZICOND32-NEXT:    or a1, a4, a1
 ; ZICOND32-NEXT:    or a0, a4, a0
-; ZICOND32-NEXT:    and a0, a0, a2
 ; ZICOND32-NEXT:    and a1, a1, a3
+; ZICOND32-NEXT:    and a0, a0, a2
 ; ZICOND32-NEXT:    ret
 ;
 ; ZICOND64-LABEL: and_select_all_ones_i64_cmp2:
 ; ZICOND64:       # %bb.0:
-; ZICOND64-NEXT:    slti a2, a2, 4
 ; ZICOND64-NEXT:    and a0, a1, a0
+; ZICOND64-NEXT:    slti a2, a2, 4
 ; ZICOND64-NEXT:    czero.nez a1, a1, a2
 ; ZICOND64-NEXT:    or a0, a0, a1
 ; ZICOND64-NEXT:    ret
@@ -371,8 +371,8 @@ define i64 @or_select_all_zeros_i64(i1 zeroext %c, i64 %x, i64 %y) {
 ; RV32I-NEXT:    addi a0, a0, -1
 ; RV32I-NEXT:    and a2, a0, a2
 ; RV32I-NEXT:    and a0, a0, a1
-; RV32I-NEXT:    or a0, a0, a3
 ; RV32I-NEXT:    or a1, a2, a4
+; RV32I-NEXT:    or a0, a0, a3
 ; RV32I-NEXT:    ret
 ;
 ; RV64I-LABEL: or_select_all_zeros_i64:
@@ -401,8 +401,8 @@ define i64 @or_select_all_zeros_i64(i1 zeroext %c, i64 %x, i64 %y) {
 ; ZICOND32:       # %bb.0:
 ; ZICOND32-NEXT:    czero.nez a2, a2, a0
 ; ZICOND32-NEXT:    czero.nez a0, a1, a0
-; ZICOND32-NEXT:    or a0, a0, a3
 ; ZICOND32-NEXT:    or a1, a2, a4
+; ZICOND32-NEXT:    or a0, a0, a3
 ; ZICOND32-NEXT:    ret
 ;
 ; ZICOND64-LABEL: or_select_all_zeros_i64:
@@ -461,8 +461,8 @@ define i64 @xor_select_all_zeros_i64(i1 zeroext %c, i64 %x, i64 %y) {
 ; RV32I-NEXT:    neg a0, a0
 ; RV32I-NEXT:    and a2, a0, a2
 ; RV32I-NEXT:    and a0, a0, a1
-; RV32I-NEXT:    xor a0, a0, a3
 ; RV32I-NEXT:    xor a1, a2, a4
+; RV32I-NEXT:    xor a0, a0, a3
 ; RV32I-NEXT:    ret
 ;
 ; RV64I-LABEL: xor_select_all_zeros_i64:
@@ -491,8 +491,8 @@ define i64 @xor_select_all_zeros_i64(i1 zeroext %c, i64 %x, i64 %y) {
 ; ZICOND32:       # %bb.0:
 ; ZICOND32-NEXT:    czero.eqz a2, a2, a0
 ; ZICOND32-NEXT:    czero.eqz a0, a1, a0
-; ZICOND32-NEXT:    xor a0, a0, a3
 ; ZICOND32-NEXT:    xor a1, a2, a4
+; ZICOND32-NEXT:    xor a0, a0, a3
 ; ZICOND32-NEXT:    ret
 ;
 ; ZICOND64-LABEL: xor_select_all_zeros_i64:
@@ -558,8 +558,8 @@ define i64 @add_select_all_zeros_i64(i1 zeroext %c, i64 %x, i64 %y) {
 ; RV32I-NEXT:    and a2, a0, a2
 ; RV32I-NEXT:    and a1, a0, a1
 ; RV32I-NEXT:    add a0, a1, a3
-; RV32I-NEXT:    sltu a1, a0, a1
 ; RV32I-NEXT:    add a2, a2, a4
+; RV32I-NEXT:    sltu a1, a0, a1
 ; RV32I-NEXT:    add a1, a2, a1
 ; RV32I-NEXT:    ret
 ;
@@ -590,8 +590,8 @@ define i64 @add_select_all_zeros_i64(i1 zeroext %c, i64 %x, i64 %y) {
 ; ZICOND32-NEXT:    czero.eqz a2, a2, a0
 ; ZICOND32-NEXT:    czero.eqz a1, a1, a0
 ; ZICOND32-NEXT:    add a0, a1, a3
-; ZICOND32-NEXT:    sltu a1, a0, a1
 ; ZICOND32-NEXT:    add a2, a2, a4
+; ZICOND32-NEXT:    sltu a1, a0, a1
 ; ZICOND32-NEXT:    add a1, a2, a1
 ; ZICOND32-NEXT:    ret
 ;
@@ -659,8 +659,8 @@ define i64 @sub_select_all_zeros_i64(i1 zeroext %c, i64 %x, i64 %y) {
 ; RV32I-NEXT:    and a0, a0, a1
 ; RV32I-NEXT:    sltu a1, a3, a0
 ; RV32I-NEXT:    sub a4, a4, a2
-; RV32I-NEXT:    sub a1, a4, a1
 ; RV32I-NEXT:    sub a0, a3, a0
+; RV32I-NEXT:    sub a1, a4, a1
 ; RV32I-NEXT:    ret
 ;
 ; RV64I-LABEL: sub_select_all_zeros_i64:
@@ -691,8 +691,8 @@ define i64 @sub_select_all_zeros_i64(i1 zeroext %c, i64 %x, i64 %y) {
 ; ZICOND32-NEXT:    czero.eqz a0, a1, a0
 ; ZICOND32-NEXT:    sltu a1, a3, a0
 ; ZICOND32-NEXT:    sub a4, a4, a2
-; ZICOND32-NEXT:    sub a1, a4, a1
 ; ZICOND32-NEXT:    sub a0, a3, a0
+; ZICOND32-NEXT:    sub a1, a4, a1
 ; ZICOND32-NEXT:    ret
 ;
 ; ZICOND64-LABEL: sub_select_all_zeros_i64:

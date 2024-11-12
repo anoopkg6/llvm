@@ -51,9 +51,9 @@ define signext i16 @sdiv16(i16 signext %a, i16 signext %b) nounwind {
 ; RV32-ALL-NEXT:    addi sp, sp, -16
 ; RV32-ALL-NEXT:    sw ra, 12(sp) # 4-byte Folded Spill
 ; RV32-ALL-NEXT:    call __divsi3
+; RV32-ALL-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32-ALL-NEXT:    slli a0, a0, 16
 ; RV32-ALL-NEXT:    srai a0, a0, 16
-; RV32-ALL-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32-ALL-NEXT:    addi sp, sp, 16
 ; RV32-ALL-NEXT:    ret
 ;
@@ -62,9 +62,9 @@ define signext i16 @sdiv16(i16 signext %a, i16 signext %b) nounwind {
 ; RV64-ALL-NEXT:    addi sp, sp, -16
 ; RV64-ALL-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; RV64-ALL-NEXT:    call __divdi3
+; RV64-ALL-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64-ALL-NEXT:    slli a0, a0, 48
 ; RV64-ALL-NEXT:    srai a0, a0, 48
-; RV64-ALL-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64-ALL-NEXT:    addi sp, sp, 16
 ; RV64-ALL-NEXT:    ret
   %1 = sdiv i16 %a, %b
@@ -86,8 +86,8 @@ define signext i32 @mul32(i32 %a, i32 %b) nounwind {
 ; RV64-ALL-NEXT:    addi sp, sp, -16
 ; RV64-ALL-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; RV64-ALL-NEXT:    call __muldi3
-; RV64-ALL-NEXT:    sext.w a0, a0
 ; RV64-ALL-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
+; RV64-ALL-NEXT:    sext.w a0, a0
 ; RV64-ALL-NEXT:    addi sp, sp, 16
 ; RV64-ALL-NEXT:    ret
   %1 = mul i32 %a, %b
@@ -123,11 +123,11 @@ define half @sin_f16(half %a) nounwind {
 ; RV32IFD-ILP32D-NEXT:    call __extendhfsf2
 ; RV32IFD-ILP32D-NEXT:    call sinf
 ; RV32IFD-ILP32D-NEXT:    call __truncsfhf2
-; RV32IFD-ILP32D-NEXT:    fmv.x.w a0, fa0
+; RV32IFD-ILP32D-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32IFD-ILP32D-NEXT:    lui a1, 1048560
+; RV32IFD-ILP32D-NEXT:    fmv.x.w a0, fa0
 ; RV32IFD-ILP32D-NEXT:    or a0, a0, a1
 ; RV32IFD-ILP32D-NEXT:    fmv.w.x fa0, a0
-; RV32IFD-ILP32D-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32IFD-ILP32D-NEXT:    addi sp, sp, 16
 ; RV32IFD-ILP32D-NEXT:    ret
 ;
@@ -138,11 +138,11 @@ define half @sin_f16(half %a) nounwind {
 ; RV32IF-ILP32F-NEXT:    call __extendhfsf2
 ; RV32IF-ILP32F-NEXT:    call sinf
 ; RV32IF-ILP32F-NEXT:    call __truncsfhf2
-; RV32IF-ILP32F-NEXT:    fmv.x.w a0, fa0
+; RV32IF-ILP32F-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32IF-ILP32F-NEXT:    lui a1, 1048560
+; RV32IF-ILP32F-NEXT:    fmv.x.w a0, fa0
 ; RV32IF-ILP32F-NEXT:    or a0, a0, a1
 ; RV32IF-ILP32F-NEXT:    fmv.w.x fa0, a0
-; RV32IF-ILP32F-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32IF-ILP32F-NEXT:    addi sp, sp, 16
 ; RV32IF-ILP32F-NEXT:    ret
 ;
@@ -153,9 +153,9 @@ define half @sin_f16(half %a) nounwind {
 ; RV32IFD-ILP32-NEXT:    call __extendhfsf2
 ; RV32IFD-ILP32-NEXT:    call sinf
 ; RV32IFD-ILP32-NEXT:    call __truncsfhf2
+; RV32IFD-ILP32-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32IFD-ILP32-NEXT:    lui a1, 1048560
 ; RV32IFD-ILP32-NEXT:    or a0, a0, a1
-; RV32IFD-ILP32-NEXT:    lw ra, 12(sp) # 4-byte Folded Reload
 ; RV32IFD-ILP32-NEXT:    addi sp, sp, 16
 ; RV32IFD-ILP32-NEXT:    ret
 ;
@@ -179,11 +179,11 @@ define half @sin_f16(half %a) nounwind {
 ; RV64IFD-LP64D-NEXT:    call __extendhfsf2
 ; RV64IFD-LP64D-NEXT:    call sinf
 ; RV64IFD-LP64D-NEXT:    call __truncsfhf2
-; RV64IFD-LP64D-NEXT:    fmv.x.w a0, fa0
+; RV64IFD-LP64D-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64IFD-LP64D-NEXT:    lui a1, 1048560
+; RV64IFD-LP64D-NEXT:    fmv.x.w a0, fa0
 ; RV64IFD-LP64D-NEXT:    or a0, a0, a1
 ; RV64IFD-LP64D-NEXT:    fmv.w.x fa0, a0
-; RV64IFD-LP64D-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64IFD-LP64D-NEXT:    addi sp, sp, 16
 ; RV64IFD-LP64D-NEXT:    ret
 ;
@@ -194,11 +194,11 @@ define half @sin_f16(half %a) nounwind {
 ; RV64IF-LP64F-NEXT:    call __extendhfsf2
 ; RV64IF-LP64F-NEXT:    call sinf
 ; RV64IF-LP64F-NEXT:    call __truncsfhf2
-; RV64IF-LP64F-NEXT:    fmv.x.w a0, fa0
+; RV64IF-LP64F-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64IF-LP64F-NEXT:    lui a1, 1048560
+; RV64IF-LP64F-NEXT:    fmv.x.w a0, fa0
 ; RV64IF-LP64F-NEXT:    or a0, a0, a1
 ; RV64IF-LP64F-NEXT:    fmv.w.x fa0, a0
-; RV64IF-LP64F-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64IF-LP64F-NEXT:    addi sp, sp, 16
 ; RV64IF-LP64F-NEXT:    ret
 ;
@@ -209,9 +209,9 @@ define half @sin_f16(half %a) nounwind {
 ; RV64IFD-LP64-NEXT:    call __extendhfsf2
 ; RV64IFD-LP64-NEXT:    call sinf
 ; RV64IFD-LP64-NEXT:    call __truncsfhf2
+; RV64IFD-LP64-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64IFD-LP64-NEXT:    lui a1, 1048560
 ; RV64IFD-LP64-NEXT:    or a0, a0, a1
-; RV64IFD-LP64-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; RV64IFD-LP64-NEXT:    addi sp, sp, 16
 ; RV64IFD-LP64-NEXT:    ret
 ;

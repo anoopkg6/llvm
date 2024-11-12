@@ -10,12 +10,12 @@ define ptr @func(ptr %s, i32 %_c, ptr %incdec.ptr, i1 %0, i8 %conv14) #0 {
 ; RV32-NEXT:    .cfi_offset s1, -4
 ; RV32-NEXT:    addi sp, sp, -8
 ; RV32-NEXT:    .cfi_def_cfa_offset 24
-; RV32-NEXT:    sw a4, 4(sp) # 4-byte Folded Spill
 ; RV32-NEXT:    sw a2, 0(sp) # 4-byte Folded Spill
-; RV32-NEXT:    mv a2, a1
 ; RV32-NEXT:    mv s1, a0
-; RV32-NEXT:    li a0, 1
 ; RV32-NEXT:    andi a3, a3, 1
+; RV32-NEXT:    li a0, 1
+; RV32-NEXT:    mv a2, a1
+; RV32-NEXT:    sw a4, 4(sp) # 4-byte Folded Spill
 ; RV32-NEXT:  .LBB0_1: # %while.body
 ; RV32-NEXT:    # =>This Inner Loop Header: Depth=1
 ; RV32-NEXT:    mv s0, a0
@@ -27,8 +27,8 @@ define ptr @func(ptr %s, i32 %_c, ptr %incdec.ptr, i1 %0, i8 %conv14) #0 {
 ; RV32-NEXT:    mv a0, a2
 ; RV32-NEXT:    call __mulsi3
 ; RV32-NEXT:    sw a0, 0(zero)
-; RV32-NEXT:    andi s0, s0, 1
 ; RV32-NEXT:    lw a0, 0(sp) # 4-byte Folded Reload
+; RV32-NEXT:    andi s0, s0, 1
 ; RV32-NEXT:    add s0, s0, a0
 ; RV32-NEXT:    lw a0, 4(sp) # 4-byte Folded Reload
 ; RV32-NEXT:    sb a0, 0(s0)

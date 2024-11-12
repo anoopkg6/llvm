@@ -93,8 +93,8 @@ define <128 x i32> @ret_split_v128i32(ptr %x) {
 ; CHECK-NEXT:    addi a1, a0, 384
 ; CHECK-NEXT:    vse32.v v24, (a1)
 ; CHECK-NEXT:    addi a1, a0, 256
-; CHECK-NEXT:    vse32.v v0, (a1)
 ; CHECK-NEXT:    addi a0, a0, 128
+; CHECK-NEXT:    vse32.v v0, (a1)
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
   %v = load <128 x i32>, ptr %x
@@ -181,9 +181,9 @@ define <32 x i32> @ret_v32i32_call_v32i32_v32i32_i32(<32 x i32> %x, <32 x i32> %
 ; CHECK-NEXT:    sd ra, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    vmv8r.v v24, v8
-; CHECK-NEXT:    li a1, 2
 ; CHECK-NEXT:    vmv8r.v v8, v16
 ; CHECK-NEXT:    vmv8r.v v16, v24
+; CHECK-NEXT:    li a1, 2
 ; CHECK-NEXT:    call ext2
 ; CHECK-NEXT:    ld ra, 8(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
@@ -199,8 +199,8 @@ define <32 x i32> @ret_v32i32_call_v32i32_v32i32_v32i32_i32(<32 x i32> %x, <32 x
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    addi sp, sp, -256
 ; CHECK-NEXT:    .cfi_def_cfa_offset 256
-; CHECK-NEXT:    sd ra, 248(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 240(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 248(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    .cfi_offset s0, -16
 ; CHECK-NEXT:    addi s0, sp, 256
@@ -210,15 +210,15 @@ define <32 x i32> @ret_v32i32_call_v32i32_v32i32_v32i32_i32(<32 x i32> %x, <32 x
 ; CHECK-NEXT:    vsetvli zero, a2, e32, m8, ta, ma
 ; CHECK-NEXT:    vle32.v v24, (a0)
 ; CHECK-NEXT:    mv a3, sp
-; CHECK-NEXT:    mv a0, sp
-; CHECK-NEXT:    li a2, 42
 ; CHECK-NEXT:    vse32.v v8, (a3)
 ; CHECK-NEXT:    vmv.v.v v8, v24
+; CHECK-NEXT:    li a2, 42
+; CHECK-NEXT:    mv a0, sp
 ; CHECK-NEXT:    call ext3
 ; CHECK-NEXT:    addi sp, s0, -256
 ; CHECK-NEXT:    .cfi_def_cfa sp, 256
-; CHECK-NEXT:    ld ra, 248(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 240(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 248(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
 ; CHECK-NEXT:    .cfi_restore s0
 ; CHECK-NEXT:    addi sp, sp, 256
@@ -254,8 +254,8 @@ define <32 x i32> @call_split_vector_args(ptr %pa, ptr %pb) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    addi sp, sp, -256
 ; CHECK-NEXT:    .cfi_def_cfa_offset 256
-; CHECK-NEXT:    sd ra, 248(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s0, 240(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 248(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    .cfi_offset s0, -16
 ; CHECK-NEXT:    addi s0, sp, 256
@@ -266,18 +266,18 @@ define <32 x i32> @call_split_vector_args(ptr %pa, ptr %pb) {
 ; CHECK-NEXT:    li a0, 32
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m8, ta, ma
 ; CHECK-NEXT:    vle32.v v16, (a1)
-; CHECK-NEXT:    mv a1, sp
-; CHECK-NEXT:    mv a0, sp
-; CHECK-NEXT:    vse32.v v16, (a1)
-; CHECK-NEXT:    vmv1r.v v9, v8
-; CHECK-NEXT:    vmv1r.v v10, v8
-; CHECK-NEXT:    vmv1r.v v11, v8
 ; CHECK-NEXT:    vmv1r.v v12, v8
+; CHECK-NEXT:    vmv1r.v v11, v8
+; CHECK-NEXT:    vmv1r.v v10, v8
+; CHECK-NEXT:    vmv1r.v v9, v8
+; CHECK-NEXT:    mv a0, sp
+; CHECK-NEXT:    mv a1, sp
+; CHECK-NEXT:    vse32.v v16, (a1)
 ; CHECK-NEXT:    call split_vector_args
 ; CHECK-NEXT:    addi sp, s0, -256
 ; CHECK-NEXT:    .cfi_def_cfa sp, 256
-; CHECK-NEXT:    ld ra, 248(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s0, 240(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 248(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
 ; CHECK-NEXT:    .cfi_restore s0
 ; CHECK-NEXT:    addi sp, sp, 256
@@ -313,19 +313,19 @@ define <32 x i32> @pass_vector_arg_via_stack(<32 x i32> %x, <32 x i32> %y, <32 x
 ; CHECK-NEXT:    .cfi_offset ra, -8
 ; CHECK-NEXT:    li a0, 32
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m8, ta, ma
+; CHECK-NEXT:    li a0, 8
+; CHECK-NEXT:    sd a0, 128(sp)
+; CHECK-NEXT:    vmv.v.i v16, 0
+; CHECK-NEXT:    li a0, 0
+; CHECK-NEXT:    li a7, 7
+; CHECK-NEXT:    li a6, 6
+; CHECK-NEXT:    li a5, 5
+; CHECK-NEXT:    li a4, 4
+; CHECK-NEXT:    li a3, 3
+; CHECK-NEXT:    li a2, 2
+; CHECK-NEXT:    li a1, 1
 ; CHECK-NEXT:    vmv.v.i v8, 0
 ; CHECK-NEXT:    vse32.v v8, (sp)
-; CHECK-NEXT:    li a0, 8
-; CHECK-NEXT:    li a1, 1
-; CHECK-NEXT:    li a2, 2
-; CHECK-NEXT:    li a3, 3
-; CHECK-NEXT:    li a4, 4
-; CHECK-NEXT:    li a5, 5
-; CHECK-NEXT:    li a6, 6
-; CHECK-NEXT:    li a7, 7
-; CHECK-NEXT:    sd a0, 128(sp)
-; CHECK-NEXT:    li a0, 0
-; CHECK-NEXT:    vmv.v.i v16, 0
 ; CHECK-NEXT:    call vector_arg_via_stack
 ; CHECK-NEXT:    ld ra, 136(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra
@@ -341,8 +341,8 @@ define <32 x i32> @pass_vector_arg_via_stack(<32 x i32> %x, <32 x i32> %y, <32 x
 define <4 x i1> @vector_mask_arg_via_stack(i32 %0, i32 %1, i32 %2, i32 %3, i32 %4, i32 %5, i32 %6, i32 %7, <32 x i32> %x, <32 x i32> %y, <32 x i32> %z, i32 %8, <4 x i1> %9, <4 x i1> %10) {
 ; CHECK-LABEL: vector_mask_arg_via_stack:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    addi a0, sp, 136
 ; CHECK-NEXT:    vsetivli zero, 4, e8, mf4, ta, ma
+; CHECK-NEXT:    addi a0, sp, 136
 ; CHECK-NEXT:    vlm.v v0, (a0)
 ; CHECK-NEXT:    ret
   ret <4 x i1> %10
@@ -373,16 +373,16 @@ define <4 x i1> @pass_vector_mask_arg_via_stack(<4 x i1> %v) {
 ; CHECK-NEXT:    vsetivli zero, 8, e8, mf2, ta, ma
 ; CHECK-NEXT:    vmsne.vi v16, v17, 0
 ; CHECK-NEXT:    addi a0, sp, 136
-; CHECK-NEXT:    li a5, 5
-; CHECK-NEXT:    li a6, 6
-; CHECK-NEXT:    li a7, 7
 ; CHECK-NEXT:    vsm.v v16, (a0)
-; CHECK-NEXT:    li a0, 0
-; CHECK-NEXT:    li a1, 0
-; CHECK-NEXT:    li a2, 0
-; CHECK-NEXT:    li a3, 0
-; CHECK-NEXT:    li a4, 0
 ; CHECK-NEXT:    vmv8r.v v16, v8
+; CHECK-NEXT:    li a4, 0
+; CHECK-NEXT:    li a3, 0
+; CHECK-NEXT:    li a2, 0
+; CHECK-NEXT:    li a1, 0
+; CHECK-NEXT:    li a0, 0
+; CHECK-NEXT:    li a7, 7
+; CHECK-NEXT:    li a6, 6
+; CHECK-NEXT:    li a5, 5
 ; CHECK-NEXT:    call vector_mask_arg_via_stack
 ; CHECK-NEXT:    ld ra, 152(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    .cfi_restore ra

@@ -21,16 +21,16 @@ define void @splat_v8f16(ptr %x, half %y) {
 ;
 ; RV64-ZVFHMIN-NOZFHMIN-LABEL: splat_v8f16:
 ; RV64-ZVFHMIN-NOZFHMIN:       # %bb.0:
-; RV64-ZVFHMIN-NOZFHMIN-NEXT:    fmv.x.w a1, fa0
 ; RV64-ZVFHMIN-NOZFHMIN-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
+; RV64-ZVFHMIN-NOZFHMIN-NEXT:    fmv.x.w a1, fa0
 ; RV64-ZVFHMIN-NOZFHMIN-NEXT:    vmv.v.x v8, a1
 ; RV64-ZVFHMIN-NOZFHMIN-NEXT:    vse16.v v8, (a0)
 ; RV64-ZVFHMIN-NOZFHMIN-NEXT:    ret
 ;
 ; RV64_ZVFHMIN-ZFHMIN-LABEL: splat_v8f16:
 ; RV64_ZVFHMIN-ZFHMIN:       # %bb.0:
-; RV64_ZVFHMIN-ZFHMIN-NEXT:    fmv.x.h a1, fa0
 ; RV64_ZVFHMIN-ZFHMIN-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
+; RV64_ZVFHMIN-ZFHMIN-NEXT:    fmv.x.h a1, fa0
 ; RV64_ZVFHMIN-ZFHMIN-NEXT:    vmv.v.x v8, a1
 ; RV64_ZVFHMIN-ZFHMIN-NEXT:    vse16.v v8, (a0)
 ; RV64_ZVFHMIN-ZFHMIN-NEXT:    ret
@@ -83,16 +83,16 @@ define void @splat_16f16(ptr %x, half %y) {
 ;
 ; RV64-ZVFHMIN-NOZFHMIN-LABEL: splat_16f16:
 ; RV64-ZVFHMIN-NOZFHMIN:       # %bb.0:
-; RV64-ZVFHMIN-NOZFHMIN-NEXT:    fmv.x.w a1, fa0
 ; RV64-ZVFHMIN-NOZFHMIN-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
+; RV64-ZVFHMIN-NOZFHMIN-NEXT:    fmv.x.w a1, fa0
 ; RV64-ZVFHMIN-NOZFHMIN-NEXT:    vmv.v.x v8, a1
 ; RV64-ZVFHMIN-NOZFHMIN-NEXT:    vse16.v v8, (a0)
 ; RV64-ZVFHMIN-NOZFHMIN-NEXT:    ret
 ;
 ; RV64_ZVFHMIN-ZFHMIN-LABEL: splat_16f16:
 ; RV64_ZVFHMIN-ZFHMIN:       # %bb.0:
-; RV64_ZVFHMIN-ZFHMIN-NEXT:    fmv.x.h a1, fa0
 ; RV64_ZVFHMIN-ZFHMIN-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
+; RV64_ZVFHMIN-ZFHMIN-NEXT:    fmv.x.h a1, fa0
 ; RV64_ZVFHMIN-ZFHMIN-NEXT:    vmv.v.x v8, a1
 ; RV64_ZVFHMIN-ZFHMIN-NEXT:    vse16.v v8, (a0)
 ; RV64_ZVFHMIN-ZFHMIN-NEXT:    ret
@@ -147,18 +147,18 @@ define void @splat_64f16(ptr %x, half %y) {
 ;
 ; RV64-ZVFHMIN-NOZFHMIN-LABEL: splat_64f16:
 ; RV64-ZVFHMIN-NOZFHMIN:       # %bb.0:
-; RV64-ZVFHMIN-NOZFHMIN-NEXT:    fmv.x.w a1, fa0
 ; RV64-ZVFHMIN-NOZFHMIN-NEXT:    li a2, 64
 ; RV64-ZVFHMIN-NOZFHMIN-NEXT:    vsetvli zero, a2, e16, m8, ta, ma
+; RV64-ZVFHMIN-NOZFHMIN-NEXT:    fmv.x.w a1, fa0
 ; RV64-ZVFHMIN-NOZFHMIN-NEXT:    vmv.v.x v8, a1
 ; RV64-ZVFHMIN-NOZFHMIN-NEXT:    vse16.v v8, (a0)
 ; RV64-ZVFHMIN-NOZFHMIN-NEXT:    ret
 ;
 ; RV64_ZVFHMIN-ZFHMIN-LABEL: splat_64f16:
 ; RV64_ZVFHMIN-ZFHMIN:       # %bb.0:
-; RV64_ZVFHMIN-ZFHMIN-NEXT:    fmv.x.h a1, fa0
 ; RV64_ZVFHMIN-ZFHMIN-NEXT:    li a2, 64
 ; RV64_ZVFHMIN-ZFHMIN-NEXT:    vsetvli zero, a2, e16, m8, ta, ma
+; RV64_ZVFHMIN-ZFHMIN-NEXT:    fmv.x.h a1, fa0
 ; RV64_ZVFHMIN-ZFHMIN-NEXT:    vmv.v.x v8, a1
 ; RV64_ZVFHMIN-ZFHMIN-NEXT:    vse16.v v8, (a0)
 ; RV64_ZVFHMIN-ZFHMIN-NEXT:    ret
@@ -237,8 +237,8 @@ define void @splat_zero_v4f64(ptr %x) {
 define void @splat_negzero_v8f16(ptr %x) {
 ; CHECK-LABEL: splat_negzero_v8f16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a1, 1048568
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
+; CHECK-NEXT:    lui a1, 1048568
 ; CHECK-NEXT:    vmv.v.x v8, a1
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -249,8 +249,8 @@ define void @splat_negzero_v8f16(ptr %x) {
 define void @splat_negzero_v4f32(ptr %x) {
 ; CHECK-LABEL: splat_negzero_v4f32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a1, 524288
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
+; CHECK-NEXT:    lui a1, 524288
 ; CHECK-NEXT:    vmv.v.x v8, a1
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -262,8 +262,8 @@ define void @splat_negzero_v2f64(ptr %x) {
 ; CHECK-RV32-LABEL: splat_negzero_v2f64:
 ; CHECK-RV32:       # %bb.0:
 ; CHECK-RV32-NEXT:    fcvt.d.w fa5, zero
-; CHECK-RV32-NEXT:    fneg.d fa5, fa5
 ; CHECK-RV32-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
+; CHECK-RV32-NEXT:    fneg.d fa5, fa5
 ; CHECK-RV32-NEXT:    vfmv.v.f v8, fa5
 ; CHECK-RV32-NEXT:    vse64.v v8, (a0)
 ; CHECK-RV32-NEXT:    ret
@@ -271,8 +271,8 @@ define void @splat_negzero_v2f64(ptr %x) {
 ; CHECK-RV64-LABEL: splat_negzero_v2f64:
 ; CHECK-RV64:       # %bb.0:
 ; CHECK-RV64-NEXT:    li a1, -1
-; CHECK-RV64-NEXT:    slli a1, a1, 63
 ; CHECK-RV64-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
+; CHECK-RV64-NEXT:    slli a1, a1, 63
 ; CHECK-RV64-NEXT:    vmv.v.x v8, a1
 ; CHECK-RV64-NEXT:    vse64.v v8, (a0)
 ; CHECK-RV64-NEXT:    ret
@@ -283,8 +283,8 @@ define void @splat_negzero_v2f64(ptr %x) {
 define void @splat_negzero_16f16(ptr %x) {
 ; CHECK-LABEL: splat_negzero_16f16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a1, 1048568
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
+; CHECK-NEXT:    lui a1, 1048568
 ; CHECK-NEXT:    vmv.v.x v8, a1
 ; CHECK-NEXT:    vse16.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -295,8 +295,8 @@ define void @splat_negzero_16f16(ptr %x) {
 define void @splat_negzero_v8f32(ptr %x) {
 ; CHECK-LABEL: splat_negzero_v8f32:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a1, 524288
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
+; CHECK-NEXT:    lui a1, 524288
 ; CHECK-NEXT:    vmv.v.x v8, a1
 ; CHECK-NEXT:    vse32.v v8, (a0)
 ; CHECK-NEXT:    ret
@@ -308,8 +308,8 @@ define void @splat_negzero_v4f64(ptr %x) {
 ; CHECK-RV32-LABEL: splat_negzero_v4f64:
 ; CHECK-RV32:       # %bb.0:
 ; CHECK-RV32-NEXT:    fcvt.d.w fa5, zero
-; CHECK-RV32-NEXT:    fneg.d fa5, fa5
 ; CHECK-RV32-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; CHECK-RV32-NEXT:    fneg.d fa5, fa5
 ; CHECK-RV32-NEXT:    vfmv.v.f v8, fa5
 ; CHECK-RV32-NEXT:    vse64.v v8, (a0)
 ; CHECK-RV32-NEXT:    ret
@@ -317,8 +317,8 @@ define void @splat_negzero_v4f64(ptr %x) {
 ; CHECK-RV64-LABEL: splat_negzero_v4f64:
 ; CHECK-RV64:       # %bb.0:
 ; CHECK-RV64-NEXT:    li a1, -1
-; CHECK-RV64-NEXT:    slli a1, a1, 63
 ; CHECK-RV64-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; CHECK-RV64-NEXT:    slli a1, a1, 63
 ; CHECK-RV64-NEXT:    vmv.v.x v8, a1
 ; CHECK-RV64-NEXT:    vse64.v v8, (a0)
 ; CHECK-RV64-NEXT:    ret

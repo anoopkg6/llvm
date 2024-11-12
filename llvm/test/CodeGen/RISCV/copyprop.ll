@@ -5,8 +5,8 @@
 define void @copyprop_after_mbp(i32 %v, ptr %a, ptr %b, ptr %c, ptr %d) {
 ; NOPROP-LABEL: copyprop_after_mbp:
 ; NOPROP:       # %bb.0:
-; NOPROP-NEXT:    sext.w a0, a0
 ; NOPROP-NEXT:    li a5, 10
+; NOPROP-NEXT:    sext.w a0, a0
 ; NOPROP-NEXT:    bne a0, a5, .LBB0_2
 ; NOPROP-NEXT:  # %bb.1: # %bb.0
 ; NOPROP-NEXT:    li a0, 15
@@ -17,8 +17,8 @@ define void @copyprop_after_mbp(i32 %v, ptr %a, ptr %b, ptr %c, ptr %d) {
 ; NOPROP-NEXT:    sw a0, 0(a4)
 ; NOPROP-NEXT:    ret
 ; NOPROP-NEXT:  .LBB0_2: # %bb.1
-; NOPROP-NEXT:    li a0, 0
 ; NOPROP-NEXT:    li a2, 25
+; NOPROP-NEXT:    li a0, 0
 ; NOPROP-NEXT:    sw a2, 0(a3)
 ; NOPROP-NEXT:    sw a0, 0(a1)
 ; NOPROP-NEXT:    li a0, 12
@@ -27,8 +27,8 @@ define void @copyprop_after_mbp(i32 %v, ptr %a, ptr %b, ptr %c, ptr %d) {
 ;
 ; PROP-LABEL: copyprop_after_mbp:
 ; PROP:       # %bb.0:
-; PROP-NEXT:    sext.w a0, a0
 ; PROP-NEXT:    li a5, 10
+; PROP-NEXT:    sext.w a0, a0
 ; PROP-NEXT:    bne a0, a5, .LBB0_2
 ; PROP-NEXT:  # %bb.1: # %bb.0
 ; PROP-NEXT:    li a0, 15

@@ -17,10 +17,10 @@ define <vscale x 1 x i1> @splice_nxv1i1_offset_negone(<vscale x 1 x i1> %a, <vsc
 ; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v8, v10, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v9
-; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
 ; CHECK-NEXT:    addi a0, a0, -1
+; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    vslidedown.vx v9, v9, a0
 ; CHECK-NEXT:    vslideup.vi v9, v8, 1
 ; CHECK-NEXT:    vand.vi v8, v9, 1
@@ -39,10 +39,10 @@ define <vscale x 1 x i1> @splice_nxv1i1_offset_max(<vscale x 1 x i1> %a, <vscale
 ; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v8, v10, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v9
-; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
 ; CHECK-NEXT:    addi a0, a0, -1
+; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, mf8, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v9, v9, 1
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf8, ta, ma
@@ -65,10 +65,10 @@ define <vscale x 2 x i1> @splice_nxv2i1_offset_negone(<vscale x 2 x i1> %a, <vsc
 ; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v8, v10, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v9
-; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
 ; CHECK-NEXT:    addi a0, a0, -1
+; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    vslidedown.vx v9, v9, a0
 ; CHECK-NEXT:    vslideup.vi v9, v8, 1
 ; CHECK-NEXT:    vand.vi v8, v9, 1
@@ -87,10 +87,10 @@ define <vscale x 2 x i1> @splice_nxv2i1_offset_max(<vscale x 2 x i1> %a, <vscale
 ; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v8, v10, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v9
-; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
 ; CHECK-NEXT:    addi a0, a0, -3
+; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, mf4, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v9, v9, 3
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf4, ta, ma
@@ -113,10 +113,10 @@ define <vscale x 4 x i1> @splice_nxv4i1_offset_negone(<vscale x 4 x i1> %a, <vsc
 ; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v8, v10, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v9
-; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
 ; CHECK-NEXT:    addi a0, a0, -1
+; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    vslidedown.vx v9, v9, a0
 ; CHECK-NEXT:    vslideup.vi v9, v8, 1
 ; CHECK-NEXT:    vand.vi v8, v9, 1
@@ -135,10 +135,10 @@ define <vscale x 4 x i1> @splice_nxv4i1_offset_max(<vscale x 4 x i1> %a, <vscale
 ; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v8, v10, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v9
-; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
 ; CHECK-NEXT:    addi a0, a0, -7
+; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, mf2, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v9, v9, 7
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf2, ta, ma
@@ -161,9 +161,9 @@ define <vscale x 8 x i1> @splice_nxv8i1_offset_negone(<vscale x 8 x i1> %a, <vsc
 ; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v8, v10, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v9
-; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    addi a0, a0, -1
+; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    vslidedown.vx v9, v9, a0
 ; CHECK-NEXT:    vslideup.vi v9, v8, 1
 ; CHECK-NEXT:    vand.vi v8, v9, 1
@@ -182,9 +182,9 @@ define <vscale x 8 x i1> @splice_nxv8i1_offset_max(<vscale x 8 x i1> %a, <vscale
 ; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v8, v10, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v9
-; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    addi a0, a0, -15
+; CHECK-NEXT:    vmerge.vim v9, v10, 1, v0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, m1, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v9, v9, 15
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m1, ta, ma
@@ -207,10 +207,10 @@ define <vscale x 16 x i1> @splice_nxv16i1_offset_negone(<vscale x 16 x i1> %a, <
 ; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v12, v10, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v9
-; CHECK-NEXT:    vmerge.vim v8, v10, 1, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
 ; CHECK-NEXT:    addi a0, a0, -1
+; CHECK-NEXT:    vmerge.vim v8, v10, 1, v0
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v12, 1
 ; CHECK-NEXT:    vand.vi v8, v8, 1
@@ -229,10 +229,10 @@ define <vscale x 16 x i1> @splice_nxv16i1_offset_max(<vscale x 16 x i1> %a, <vsc
 ; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v12, v10, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v9
-; CHECK-NEXT:    vmerge.vim v8, v10, 1, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
 ; CHECK-NEXT:    addi a0, a0, -31
+; CHECK-NEXT:    vmerge.vim v8, v10, 1, v0
 ; CHECK-NEXT:    vsetvli zero, a0, e8, m2, ta, ma
 ; CHECK-NEXT:    vslidedown.vi v8, v8, 31
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m2, ta, ma
@@ -255,10 +255,10 @@ define <vscale x 32 x i1> @splice_nxv32i1_offset_negone(<vscale x 32 x i1> %a, <
 ; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v16, v12, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v9
-; CHECK-NEXT:    vmerge.vim v8, v12, 1, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
 ; CHECK-NEXT:    addi a0, a0, -1
+; CHECK-NEXT:    vmerge.vim v8, v12, 1, v0
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v16, 1
 ; CHECK-NEXT:    vand.vi v8, v8, 1
@@ -280,8 +280,8 @@ define <vscale x 32 x i1> @splice_nxv32i1_offset_max(<vscale x 32 x i1> %a, <vsc
 ; CHECK-NEXT:    li a1, 63
 ; CHECK-NEXT:    vsetvli zero, a0, e8, m4, ta, ma
 ; CHECK-NEXT:    vslidedown.vx v16, v16, a1
-; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m4, ta, ma
+; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v8, v12, 1, v0
 ; CHECK-NEXT:    vslideup.vx v16, v8, a0
 ; CHECK-NEXT:    vand.vi v8, v16, 1
@@ -302,10 +302,10 @@ define <vscale x 64 x i1> @splice_nxv64i1_offset_negone(<vscale x 64 x i1> %a, <
 ; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v16, v24, 1, v0
 ; CHECK-NEXT:    vmv1r.v v0, v9
-; CHECK-NEXT:    vmerge.vim v8, v24, 1, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 3
 ; CHECK-NEXT:    addi a0, a0, -1
+; CHECK-NEXT:    vmerge.vim v8, v24, 1, v0
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v16, 1
 ; CHECK-NEXT:    vand.vi v8, v8, 1
@@ -327,8 +327,8 @@ define <vscale x 64 x i1> @splice_nxv64i1_offset_max(<vscale x 64 x i1> %a, <vsc
 ; CHECK-NEXT:    li a1, 127
 ; CHECK-NEXT:    vsetvli zero, a0, e8, m8, ta, ma
 ; CHECK-NEXT:    vslidedown.vx v24, v24, a1
-; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m8, ta, ma
+; CHECK-NEXT:    vmv1r.v v0, v8
 ; CHECK-NEXT:    vmerge.vim v8, v16, 1, v0
 ; CHECK-NEXT:    vslideup.vx v24, v8, a0
 ; CHECK-NEXT:    vand.vi v8, v24, 1
@@ -353,8 +353,8 @@ define <vscale x 1 x i8> @splice_nxv1i8_offset_negone(<vscale x 1 x i8> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -367,8 +367,8 @@ define <vscale x 1 x i8> @splice_nxv1i8_offset_min(<vscale x 1 x i8> %a, <vscale
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vsetivli zero, 2, e8, mf8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e8, mf8, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 2
@@ -407,8 +407,8 @@ define <vscale x 2 x i8> @splice_nxv2i8_offset_negone(<vscale x 2 x i8> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -421,8 +421,8 @@ define <vscale x 2 x i8> @splice_nxv2i8_offset_min(<vscale x 2 x i8> %a, <vscale
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vsetivli zero, 4, e8, mf4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e8, mf4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 4
@@ -461,8 +461,8 @@ define <vscale x 4 x i8> @splice_nxv4i8_offset_negone(<vscale x 4 x i8> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e8, mf2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -475,8 +475,8 @@ define <vscale x 4 x i8> @splice_nxv4i8_offset_min(<vscale x 4 x i8> %a, <vscale
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vsetivli zero, 8, e8, mf2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e8, mf2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 8
@@ -514,8 +514,8 @@ define <vscale x 8 x i8> @splice_nxv8i8_offset_negone(<vscale x 8 x i8> %a, <vsc
 ; CHECK-LABEL: splice_nxv8i8_offset_negone:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -527,8 +527,8 @@ define <vscale x 8 x i8> @splice_nxv8i8_offset_min(<vscale x 8 x i8> %a, <vscale
 ; CHECK-LABEL: splice_nxv8i8_offset_min:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e8, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 16
@@ -566,8 +566,8 @@ define <vscale x 16 x i8> @splice_nxv16i8_offset_negone(<vscale x 16 x i8> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e8, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e8, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 1
@@ -581,9 +581,9 @@ define <vscale x 16 x i8> @splice_nxv16i8_offset_min(<vscale x 16 x i8> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    li a1, 32
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e8, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v10, a1
@@ -622,8 +622,8 @@ define <vscale x 32 x i8> @splice_nxv32i8_offset_negone(<vscale x 32 x i8> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e8, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e8, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v12, 1
@@ -637,9 +637,9 @@ define <vscale x 32 x i8> @splice_nxv32i8_offset_min(<vscale x 32 x i8> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -64
 ; CHECK-NEXT:    li a1, 64
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -64
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e8, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v12, a1
@@ -654,8 +654,8 @@ define <vscale x 32 x i8> @splice_nxv32i8_offset_max(<vscale x 32 x i8> %a, <vsc
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
 ; CHECK-NEXT:    addi a0, a0, -63
-; CHECK-NEXT:    li a1, 63
 ; CHECK-NEXT:    vsetvli zero, a0, e8, m4, ta, ma
+; CHECK-NEXT:    li a1, 63
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a1
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v12, a0
@@ -679,8 +679,8 @@ define <vscale x 64 x i8> @splice_nxv64i8_offset_negone(<vscale x 64 x i8> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e8, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e8, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v16, 1
@@ -694,9 +694,9 @@ define <vscale x 64 x i8> @splice_nxv64i8_offset_min(<vscale x 64 x i8> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -128
 ; CHECK-NEXT:    li a1, 128
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -128
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e8, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v16, a1
@@ -711,8 +711,8 @@ define <vscale x 64 x i8> @splice_nxv64i8_offset_max(<vscale x 64 x i8> %a, <vsc
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 3
 ; CHECK-NEXT:    addi a0, a0, -127
-; CHECK-NEXT:    li a1, 127
 ; CHECK-NEXT:    vsetvli zero, a0, e8, m8, ta, ma
+; CHECK-NEXT:    li a1, 127
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a1
 ; CHECK-NEXT:    vsetvli a1, zero, e8, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v16, a0
@@ -736,8 +736,8 @@ define <vscale x 1 x i16> @splice_nxv1i16_offset_negone(<vscale x 1 x i16> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -750,8 +750,8 @@ define <vscale x 1 x i16> @splice_nxv1i16_offset_min(<vscale x 1 x i16> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vsetivli zero, 2, e16, mf4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, mf4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 2
@@ -790,8 +790,8 @@ define <vscale x 2 x i16> @splice_nxv2i16_offset_negone(<vscale x 2 x i16> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -804,8 +804,8 @@ define <vscale x 2 x i16> @splice_nxv2i16_offset_min(<vscale x 2 x i16> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vsetivli zero, 4, e16, mf2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, mf2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 4
@@ -844,8 +844,8 @@ define <vscale x 4 x i16> @splice_nxv4i16_offset_negone(<vscale x 4 x i16> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -858,8 +858,8 @@ define <vscale x 4 x i16> @splice_nxv4i16_offset_min(<vscale x 4 x i16> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 8
@@ -897,8 +897,8 @@ define <vscale x 8 x i16> @splice_nxv8i16_offset_negone(<vscale x 8 x i16> %a, <
 ; CHECK-LABEL: splice_nxv8i16_offset_negone:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e16, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 1
@@ -911,8 +911,8 @@ define <vscale x 8 x i16> @splice_nxv8i16_offset_min(<vscale x 8 x i16> %a, <vsc
 ; CHECK-LABEL: splice_nxv8i16_offset_min:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 16
@@ -950,8 +950,8 @@ define <vscale x 16 x i16> @splice_nxv16i16_offset_negone(<vscale x 16 x i16> %a
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e16, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v12, 1
@@ -965,9 +965,9 @@ define <vscale x 16 x i16> @splice_nxv16i16_offset_min(<vscale x 16 x i16> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    li a1, 32
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v12, a1
@@ -1006,8 +1006,8 @@ define <vscale x 32 x i16> @splice_nxv32i16_offset_negone(<vscale x 32 x i16> %a
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e16, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v16, 1
@@ -1021,9 +1021,9 @@ define <vscale x 32 x i16> @splice_nxv32i16_offset_min(<vscale x 32 x i16> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -64
 ; CHECK-NEXT:    li a1, 64
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -64
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v16, a1
@@ -1038,8 +1038,8 @@ define <vscale x 32 x i16> @splice_nxv32i16_offset_max(<vscale x 32 x i16> %a, <
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
 ; CHECK-NEXT:    addi a0, a0, -63
-; CHECK-NEXT:    li a1, 63
 ; CHECK-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
+; CHECK-NEXT:    li a1, 63
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a1
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v16, a0
@@ -1063,8 +1063,8 @@ define <vscale x 1 x i32> @splice_nxv1i32_offset_negone(<vscale x 1 x i32> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e32, mf2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -1077,8 +1077,8 @@ define <vscale x 1 x i32> @splice_nxv1i32_offset_min(<vscale x 1 x i32> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vsetivli zero, 2, e32, mf2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, mf2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 2
@@ -1117,8 +1117,8 @@ define <vscale x 2 x i32> @splice_nxv2i32_offset_negone(<vscale x 2 x i32> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -1131,8 +1131,8 @@ define <vscale x 2 x i32> @splice_nxv2i32_offset_min(<vscale x 2 x i32> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 4
@@ -1171,8 +1171,8 @@ define <vscale x 4 x i32> @splice_nxv4i32_offset_negone(<vscale x 4 x i32> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 1
@@ -1186,8 +1186,8 @@ define <vscale x 4 x i32> @splice_nxv4i32_offset_min(<vscale x 4 x i32> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 8
@@ -1225,8 +1225,8 @@ define <vscale x 8 x i32> @splice_nxv8i32_offset_negone(<vscale x 8 x i32> %a, <
 ; CHECK-LABEL: splice_nxv8i32_offset_negone:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v12, 1
@@ -1239,8 +1239,8 @@ define <vscale x 8 x i32> @splice_nxv8i32_offset_min(<vscale x 8 x i32> %a, <vsc
 ; CHECK-LABEL: splice_nxv8i32_offset_min:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vsetivli zero, 16, e32, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v12, 16
@@ -1278,8 +1278,8 @@ define <vscale x 16 x i32> @splice_nxv16i32_offset_negone(<vscale x 16 x i32> %a
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v16, 1
@@ -1293,9 +1293,9 @@ define <vscale x 16 x i32> @splice_nxv16i32_offset_min(<vscale x 16 x i32> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    li a1, 32
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v16, a1
@@ -1334,8 +1334,8 @@ define <vscale x 1 x i64> @splice_nxv1i64_offset_negone(<vscale x 1 x i64> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e64, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -1348,8 +1348,8 @@ define <vscale x 1 x i64> @splice_nxv1i64_offset_min(<vscale x 1 x i64> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 2
@@ -1388,8 +1388,8 @@ define <vscale x 2 x i64> @splice_nxv2i64_offset_negone(<vscale x 2 x i64> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e64, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 1
@@ -1403,8 +1403,8 @@ define <vscale x 2 x i64> @splice_nxv2i64_offset_min(<vscale x 2 x i64> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 4
@@ -1443,8 +1443,8 @@ define <vscale x 4 x i64> @splice_nxv4i64_offset_negone(<vscale x 4 x i64> %a, <
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e64, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v12, 1
@@ -1458,8 +1458,8 @@ define <vscale x 4 x i64> @splice_nxv4i64_offset_min(<vscale x 4 x i64> %a, <vsc
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vsetivli zero, 8, e64, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v12, 8
@@ -1497,8 +1497,8 @@ define <vscale x 8 x i64> @splice_nxv8i64_offset_negone(<vscale x 8 x i64> %a, <
 ; CHECK-LABEL: splice_nxv8i64_offset_negone:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e64, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v16, 1
@@ -1511,8 +1511,8 @@ define <vscale x 8 x i64> @splice_nxv8i64_offset_min(<vscale x 8 x i64> %a, <vsc
 ; CHECK-LABEL: splice_nxv8i64_offset_min:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vsetivli zero, 16, e64, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v16, 16
@@ -1550,8 +1550,8 @@ define <vscale x 1 x bfloat> @splice_nxv1bf16_offset_negone(<vscale x 1 x bfloat
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -1564,8 +1564,8 @@ define <vscale x 1 x bfloat> @splice_nxv1bf16_offset_min(<vscale x 1 x bfloat> %
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vsetivli zero, 2, e16, mf4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, mf4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 2
@@ -1604,8 +1604,8 @@ define <vscale x 2 x bfloat> @splice_nxv2bf16_offset_negone(<vscale x 2 x bfloat
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -1618,8 +1618,8 @@ define <vscale x 2 x bfloat> @splice_nxv2bf16_offset_min(<vscale x 2 x bfloat> %
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vsetivli zero, 4, e16, mf2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, mf2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 4
@@ -1658,8 +1658,8 @@ define <vscale x 4 x bfloat> @splice_nxv4bf16_offset_negone(<vscale x 4 x bfloat
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -1672,8 +1672,8 @@ define <vscale x 4 x bfloat> @splice_nxv4bf16_offset_min(<vscale x 4 x bfloat> %
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 8
@@ -1711,8 +1711,8 @@ define <vscale x 8 x bfloat> @splice_nxv8bf16_offset_negone(<vscale x 8 x bfloat
 ; CHECK-LABEL: splice_nxv8bf16_offset_negone:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e16, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 1
@@ -1725,8 +1725,8 @@ define <vscale x 8 x bfloat> @splice_nxv8bf16_offset_min(<vscale x 8 x bfloat> %
 ; CHECK-LABEL: splice_nxv8bf16_offset_min:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 16
@@ -1764,8 +1764,8 @@ define <vscale x 16 x bfloat> @splice_nxv16bf16_offset_negone(<vscale x 16 x bfl
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e16, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v12, 1
@@ -1779,9 +1779,9 @@ define <vscale x 16 x bfloat> @splice_nxv16bf16_offset_min(<vscale x 16 x bfloat
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    li a1, 32
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v12, a1
@@ -1820,8 +1820,8 @@ define <vscale x 32 x bfloat> @splice_nxv32bf16_offset_negone(<vscale x 32 x bfl
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e16, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v16, 1
@@ -1835,9 +1835,9 @@ define <vscale x 32 x bfloat> @splice_nxv32bf16_offset_min(<vscale x 32 x bfloat
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -64
 ; CHECK-NEXT:    li a1, 64
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -64
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v16, a1
@@ -1852,8 +1852,8 @@ define <vscale x 32 x bfloat> @splice_nxv32bf16_offset_max(<vscale x 32 x bfloat
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
 ; CHECK-NEXT:    addi a0, a0, -63
-; CHECK-NEXT:    li a1, 63
 ; CHECK-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
+; CHECK-NEXT:    li a1, 63
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a1
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v16, a0
@@ -1877,8 +1877,8 @@ define <vscale x 1 x half> @splice_nxv1f16_offset_negone(<vscale x 1 x half> %a,
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -1891,8 +1891,8 @@ define <vscale x 1 x half> @splice_nxv1f16_offset_min(<vscale x 1 x half> %a, <v
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vsetivli zero, 2, e16, mf4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, mf4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 2
@@ -1931,8 +1931,8 @@ define <vscale x 2 x half> @splice_nxv2f16_offset_negone(<vscale x 2 x half> %a,
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -1945,8 +1945,8 @@ define <vscale x 2 x half> @splice_nxv2f16_offset_min(<vscale x 2 x half> %a, <v
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vsetivli zero, 4, e16, mf2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, mf2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 4
@@ -1985,8 +1985,8 @@ define <vscale x 4 x half> @splice_nxv4f16_offset_negone(<vscale x 4 x half> %a,
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -1999,8 +1999,8 @@ define <vscale x 4 x half> @splice_nxv4f16_offset_min(<vscale x 4 x half> %a, <v
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 8
@@ -2038,8 +2038,8 @@ define <vscale x 8 x half> @splice_nxv8f16_offset_negone(<vscale x 8 x half> %a,
 ; CHECK-LABEL: splice_nxv8f16_offset_negone:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e16, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 1
@@ -2052,8 +2052,8 @@ define <vscale x 8 x half> @splice_nxv8f16_offset_min(<vscale x 8 x half> %a, <v
 ; CHECK-LABEL: splice_nxv8f16_offset_min:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 16
@@ -2091,8 +2091,8 @@ define <vscale x 16 x half> @splice_nxv16f16_offset_negone(<vscale x 16 x half> 
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e16, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v12, 1
@@ -2106,9 +2106,9 @@ define <vscale x 16 x half> @splice_nxv16f16_offset_min(<vscale x 16 x half> %a,
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    li a1, 32
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v12, a1
@@ -2147,8 +2147,8 @@ define <vscale x 32 x half> @splice_nxv32f16_offset_negone(<vscale x 32 x half> 
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e16, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v16, 1
@@ -2162,9 +2162,9 @@ define <vscale x 32 x half> @splice_nxv32f16_offset_min(<vscale x 32 x half> %a,
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -64
 ; CHECK-NEXT:    li a1, 64
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -64
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e16, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v16, a1
@@ -2179,8 +2179,8 @@ define <vscale x 32 x half> @splice_nxv32f16_offset_max(<vscale x 32 x half> %a,
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 2
 ; CHECK-NEXT:    addi a0, a0, -63
-; CHECK-NEXT:    li a1, 63
 ; CHECK-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
+; CHECK-NEXT:    li a1, 63
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a1
 ; CHECK-NEXT:    vsetvli a1, zero, e16, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v16, a0
@@ -2204,8 +2204,8 @@ define <vscale x 1 x float> @splice_nxv1f32_offset_negone(<vscale x 1 x float> %
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e32, mf2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -2218,8 +2218,8 @@ define <vscale x 1 x float> @splice_nxv1f32_offset_min(<vscale x 1 x float> %a, 
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vsetivli zero, 2, e32, mf2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, mf2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 2
@@ -2258,8 +2258,8 @@ define <vscale x 2 x float> @splice_nxv2f32_offset_negone(<vscale x 2 x float> %
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -2272,8 +2272,8 @@ define <vscale x 2 x float> @splice_nxv2f32_offset_min(<vscale x 2 x float> %a, 
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 4
@@ -2312,8 +2312,8 @@ define <vscale x 4 x float> @splice_nxv4f32_offset_negone(<vscale x 4 x float> %
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 1
@@ -2327,8 +2327,8 @@ define <vscale x 4 x float> @splice_nxv4f32_offset_min(<vscale x 4 x float> %a, 
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 8
@@ -2366,8 +2366,8 @@ define <vscale x 8 x float> @splice_nxv8f32_offset_negone(<vscale x 8 x float> %
 ; CHECK-LABEL: splice_nxv8f32_offset_negone:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v12, 1
@@ -2380,8 +2380,8 @@ define <vscale x 8 x float> @splice_nxv8f32_offset_min(<vscale x 8 x float> %a, 
 ; CHECK-LABEL: splice_nxv8f32_offset_min:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vsetivli zero, 16, e32, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v12, 16
@@ -2419,8 +2419,8 @@ define <vscale x 16 x float> @splice_nxv16f32_offset_negone(<vscale x 16 x float
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v16, 1
@@ -2434,9 +2434,9 @@ define <vscale x 16 x float> @splice_nxv16f32_offset_min(<vscale x 16 x float> %
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    li a1, 32
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -32
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e32, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vx v8, v16, a1
@@ -2475,8 +2475,8 @@ define <vscale x 1 x double> @splice_nxv1f64_offset_negone(<vscale x 1 x double>
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetvli a1, zero, e64, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vslideup.vi v8, v9, 1
 ; CHECK-NEXT:    ret
@@ -2489,8 +2489,8 @@ define <vscale x 1 x double> @splice_nxv1f64_offset_min(<vscale x 1 x double> %a
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 3
-; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vsetivli zero, 2, e64, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -2
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m1, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v9, 2
@@ -2529,8 +2529,8 @@ define <vscale x 2 x double> @splice_nxv2f64_offset_negone(<vscale x 2 x double>
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e64, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 1
@@ -2544,8 +2544,8 @@ define <vscale x 2 x double> @splice_nxv2f64_offset_min(<vscale x 2 x double> %a
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 2
-; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vsetivli zero, 4, e64, m2, ta, ma
+; CHECK-NEXT:    addi a0, a0, -4
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m2, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v10, 4
@@ -2584,8 +2584,8 @@ define <vscale x 4 x double> @splice_nxv4f64_offset_negone(<vscale x 4 x double>
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e64, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v12, 1
@@ -2599,8 +2599,8 @@ define <vscale x 4 x double> @splice_nxv4f64_offset_min(<vscale x 4 x double> %a
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    srli a0, a0, 1
-; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vsetivli zero, 8, e64, m4, ta, ma
+; CHECK-NEXT:    addi a0, a0, -8
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m4, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v12, 8
@@ -2638,8 +2638,8 @@ define <vscale x 8 x double> @splice_nxv8f64_offset_negone(<vscale x 8 x double>
 ; CHECK-LABEL: splice_nxv8f64_offset_negone:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vsetivli zero, 1, e64, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -1
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v16, 1
@@ -2652,8 +2652,8 @@ define <vscale x 8 x double> @splice_nxv8f64_offset_min(<vscale x 8 x double> %a
 ; CHECK-LABEL: splice_nxv8f64_offset_min:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    csrr a0, vlenb
-; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vsetivli zero, 16, e64, m8, ta, ma
+; CHECK-NEXT:    addi a0, a0, -16
 ; CHECK-NEXT:    vslidedown.vx v8, v8, a0
 ; CHECK-NEXT:    vsetvli a0, zero, e64, m8, ta, ma
 ; CHECK-NEXT:    vslideup.vi v8, v16, 16

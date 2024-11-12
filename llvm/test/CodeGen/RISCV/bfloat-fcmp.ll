@@ -17,8 +17,8 @@ define i32 @fcmp_false(bfloat %a, bfloat %b) nounwind {
 define i32 @fcmp_oeq(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: fcmp_oeq:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    ret
   %1 = fcmp oeq bfloat %a, %b
@@ -29,8 +29,8 @@ define i32 @fcmp_oeq(bfloat %a, bfloat %b) nounwind {
 define i32 @fcmp_ogt(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: fcmp_ogt:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa1
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    ret
   %1 = fcmp ogt bfloat %a, %b
@@ -41,8 +41,8 @@ define i32 @fcmp_ogt(bfloat %a, bfloat %b) nounwind {
 define i32 @fcmp_oge(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: fcmp_oge:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa1
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    fle.s a0, fa4, fa5
 ; CHECK-NEXT:    ret
   %1 = fcmp oge bfloat %a, %b
@@ -53,8 +53,8 @@ define i32 @fcmp_oge(bfloat %a, bfloat %b) nounwind {
 define i32 @fcmp_olt(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: fcmp_olt:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    ret
   %1 = fcmp olt bfloat %a, %b
@@ -65,8 +65,8 @@ define i32 @fcmp_olt(bfloat %a, bfloat %b) nounwind {
 define i32 @fcmp_ole(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: fcmp_ole:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fle.s a0, fa4, fa5
 ; CHECK-NEXT:    ret
   %1 = fcmp ole bfloat %a, %b
@@ -79,8 +79,8 @@ define i32 @fcmp_one(bfloat %a, bfloat %b) nounwind {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
-; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    flt.s a1, fa5, fa4
+; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    or a0, a1, a0
 ; CHECK-NEXT:    ret
   %1 = fcmp one bfloat %a, %b
@@ -107,8 +107,8 @@ define i32 @fcmp_ueq(bfloat %a, bfloat %b) nounwind {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
-; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    flt.s a1, fa5, fa4
+; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    or a0, a1, a0
 ; CHECK-NEXT:    xori a0, a0, 1
 ; CHECK-NEXT:    ret
@@ -120,8 +120,8 @@ define i32 @fcmp_ueq(bfloat %a, bfloat %b) nounwind {
 define i32 @fcmp_ugt(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: fcmp_ugt:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fle.s a0, fa4, fa5
 ; CHECK-NEXT:    xori a0, a0, 1
 ; CHECK-NEXT:    ret
@@ -133,8 +133,8 @@ define i32 @fcmp_ugt(bfloat %a, bfloat %b) nounwind {
 define i32 @fcmp_uge(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: fcmp_uge:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    xori a0, a0, 1
 ; CHECK-NEXT:    ret
@@ -146,8 +146,8 @@ define i32 @fcmp_uge(bfloat %a, bfloat %b) nounwind {
 define i32 @fcmp_ult(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: fcmp_ult:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa1
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    fle.s a0, fa4, fa5
 ; CHECK-NEXT:    xori a0, a0, 1
 ; CHECK-NEXT:    ret
@@ -159,8 +159,8 @@ define i32 @fcmp_ult(bfloat %a, bfloat %b) nounwind {
 define i32 @fcmp_ule(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: fcmp_ule:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa1
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa0
 ; CHECK-NEXT:    flt.s a0, fa4, fa5
 ; CHECK-NEXT:    xori a0, a0, 1
 ; CHECK-NEXT:    ret
@@ -172,8 +172,8 @@ define i32 @fcmp_ule(bfloat %a, bfloat %b) nounwind {
 define i32 @fcmp_une(bfloat %a, bfloat %b) nounwind {
 ; CHECK-LABEL: fcmp_une:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    fcvt.s.bf16 fa4, fa0
+; CHECK-NEXT:    fcvt.s.bf16 fa5, fa1
 ; CHECK-NEXT:    feq.s a0, fa4, fa5
 ; CHECK-NEXT:    xori a0, a0, 1
 ; CHECK-NEXT:    ret

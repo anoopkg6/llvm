@@ -34,8 +34,8 @@ define void @test2(ptr %a, ptr %b) nounwind {
 ; RV32-NEXT:    lw a1, 0(a1)
 ; RV32-NEXT:    lui a3, 524288
 ; RV32-NEXT:    xor a2, a2, a3
-; RV32-NEXT:    sw a1, 0(a0)
 ; RV32-NEXT:    sw a2, 4(a0)
+; RV32-NEXT:    sw a1, 0(a0)
 ; RV32-NEXT:    ret
 ;
 ; RV64-LABEL: test2:
@@ -62,10 +62,10 @@ define void @test3(ptr %a, ptr %b) nounwind {
 ; RV32-NEXT:    lw a1, 8(a1)
 ; RV32-NEXT:    lui a5, 524288
 ; RV32-NEXT:    xor a2, a2, a5
-; RV32-NEXT:    sw a3, 0(a0)
-; RV32-NEXT:    sw a4, 4(a0)
-; RV32-NEXT:    sw a1, 8(a0)
 ; RV32-NEXT:    sw a2, 12(a0)
+; RV32-NEXT:    sw a1, 8(a0)
+; RV32-NEXT:    sw a4, 4(a0)
+; RV32-NEXT:    sw a3, 0(a0)
 ; RV32-NEXT:    ret
 ;
 ; RV64-LABEL: test3:
@@ -75,8 +75,8 @@ define void @test3(ptr %a, ptr %b) nounwind {
 ; RV64-NEXT:    li a3, -1
 ; RV64-NEXT:    slli a3, a3, 63
 ; RV64-NEXT:    xor a2, a2, a3
-; RV64-NEXT:    sd a1, 0(a0)
 ; RV64-NEXT:    sd a2, 8(a0)
+; RV64-NEXT:    sd a1, 0(a0)
 ; RV64-NEXT:    ret
 entry:
   %0 = load fp128, ptr %b

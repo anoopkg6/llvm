@@ -5,19 +5,19 @@ define i1 @sink_li(ptr %text, ptr %text.addr.0) nounwind {
 ; CHECK-LABEL: sink_li:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    addi sp, sp, -32
-; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    sd s2, 0(sp) # 8-byte Folded Spill
-; CHECK-NEXT:    mv s1, a1
+; CHECK-NEXT:    sd s1, 8(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd s0, 16(sp) # 8-byte Folded Spill
+; CHECK-NEXT:    sd ra, 24(sp) # 8-byte Folded Spill
 ; CHECK-NEXT:    mv s0, a0
+; CHECK-NEXT:    mv s1, a1
 ; CHECK-NEXT:    call toupper
 ; CHECK-NEXT:    li a1, 0
 ; CHECK-NEXT:    beqz s0, .LBB0_26
 ; CHECK-NEXT:  # %bb.1: # %while.body.preheader
-; CHECK-NEXT:    li a2, 1
-; CHECK-NEXT:    li a3, 9
 ; CHECK-NEXT:    li a4, 32
+; CHECK-NEXT:    li a3, 9
+; CHECK-NEXT:    li a2, 1
 ; CHECK-NEXT:  .LBB0_2: # %while.body
 ; CHECK-NEXT:    # =>This Inner Loop Header: Depth=1
 ; CHECK-NEXT:    bnez a2, .LBB0_4
@@ -83,22 +83,22 @@ define i1 @sink_li(ptr %text, ptr %text.addr.0) nounwind {
 ; CHECK-NEXT:    li a1, 0
 ; CHECK-NEXT:    j .LBB0_26
 ; CHECK-NEXT:  .LBB0_25: # %strdup.exit
-; CHECK-NEXT:    li s1, 0
 ; CHECK-NEXT:    mv s2, a0
-; CHECK-NEXT:    li a0, 0
 ; CHECK-NEXT:    mv a1, s0
-; CHECK-NEXT:    jalr s1
 ; CHECK-NEXT:    li a0, 0
-; CHECK-NEXT:    mv a1, s2
+; CHECK-NEXT:    li s1, 0
+; CHECK-NEXT:    jalr s1
 ; CHECK-NEXT:    li a2, 0
+; CHECK-NEXT:    mv a1, s2
+; CHECK-NEXT:    li a0, 0
 ; CHECK-NEXT:    jalr s1
 ; CHECK-NEXT:    li a1, 1
 ; CHECK-NEXT:  .LBB0_26: # %return
-; CHECK-NEXT:    mv a0, a1
-; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
-; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
-; CHECK-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
 ; CHECK-NEXT:    ld s2, 0(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld s1, 8(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld s0, 16(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    ld ra, 24(sp) # 8-byte Folded Reload
+; CHECK-NEXT:    mv a0, a1
 ; CHECK-NEXT:    addi sp, sp, 32
 ; CHECK-NEXT:    ret
 entry:
@@ -184,8 +184,8 @@ declare i32 @toupper()
 define signext i32 @overlap_live_ranges(ptr %arg, i32 signext %arg1) {
 ; CHECK-LABEL: overlap_live_ranges:
 ; CHECK:       # %bb.0: # %bb
-; CHECK-NEXT:    li a3, 1
 ; CHECK-NEXT:    li a2, 13
+; CHECK-NEXT:    li a3, 1
 ; CHECK-NEXT:    bne a1, a3, .LBB1_2
 ; CHECK-NEXT:  # %bb.1: # %bb2
 ; CHECK-NEXT:    lw a2, 4(a0)

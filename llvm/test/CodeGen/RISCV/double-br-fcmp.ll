@@ -388,8 +388,8 @@ if.then:
 define void @br_fcmp_one(double %a, double %b) nounwind {
 ; RV32IFD-LABEL: br_fcmp_one:
 ; RV32IFD:       # %bb.0:
-; RV32IFD-NEXT:    flt.d a0, fa0, fa1
 ; RV32IFD-NEXT:    flt.d a1, fa1, fa0
+; RV32IFD-NEXT:    flt.d a0, fa0, fa1
 ; RV32IFD-NEXT:    or a0, a1, a0
 ; RV32IFD-NEXT:    bnez a0, .LBB7_2
 ; RV32IFD-NEXT:  # %bb.1: # %if.else
@@ -401,8 +401,8 @@ define void @br_fcmp_one(double %a, double %b) nounwind {
 ;
 ; RV64IFD-LABEL: br_fcmp_one:
 ; RV64IFD:       # %bb.0:
-; RV64IFD-NEXT:    flt.d a0, fa0, fa1
 ; RV64IFD-NEXT:    flt.d a1, fa1, fa0
+; RV64IFD-NEXT:    flt.d a0, fa0, fa1
 ; RV64IFD-NEXT:    or a0, a1, a0
 ; RV64IFD-NEXT:    bnez a0, .LBB7_2
 ; RV64IFD-NEXT:  # %bb.1: # %if.else
@@ -449,8 +449,8 @@ if.then:
 define void @br_fcmp_ord(double %a, double %b) nounwind {
 ; RV32IFD-LABEL: br_fcmp_ord:
 ; RV32IFD:       # %bb.0:
-; RV32IFD-NEXT:    feq.d a0, fa1, fa1
 ; RV32IFD-NEXT:    feq.d a1, fa0, fa0
+; RV32IFD-NEXT:    feq.d a0, fa1, fa1
 ; RV32IFD-NEXT:    and a0, a1, a0
 ; RV32IFD-NEXT:    bnez a0, .LBB8_2
 ; RV32IFD-NEXT:  # %bb.1: # %if.else
@@ -462,8 +462,8 @@ define void @br_fcmp_ord(double %a, double %b) nounwind {
 ;
 ; RV64IFD-LABEL: br_fcmp_ord:
 ; RV64IFD:       # %bb.0:
-; RV64IFD-NEXT:    feq.d a0, fa1, fa1
 ; RV64IFD-NEXT:    feq.d a1, fa0, fa0
+; RV64IFD-NEXT:    feq.d a0, fa1, fa1
 ; RV64IFD-NEXT:    and a0, a1, a0
 ; RV64IFD-NEXT:    bnez a0, .LBB8_2
 ; RV64IFD-NEXT:  # %bb.1: # %if.else
@@ -475,8 +475,8 @@ define void @br_fcmp_ord(double %a, double %b) nounwind {
 ;
 ; RV32IZFINXZDINX-LABEL: br_fcmp_ord:
 ; RV32IZFINXZDINX:       # %bb.0:
-; RV32IZFINXZDINX-NEXT:    feq.d a2, a2, a2
 ; RV32IZFINXZDINX-NEXT:    feq.d a0, a0, a0
+; RV32IZFINXZDINX-NEXT:    feq.d a2, a2, a2
 ; RV32IZFINXZDINX-NEXT:    and a0, a0, a2
 ; RV32IZFINXZDINX-NEXT:    bnez a0, .LBB8_2
 ; RV32IZFINXZDINX-NEXT:  # %bb.1: # %if.else
@@ -488,8 +488,8 @@ define void @br_fcmp_ord(double %a, double %b) nounwind {
 ;
 ; RV64IZFINXZDINX-LABEL: br_fcmp_ord:
 ; RV64IZFINXZDINX:       # %bb.0:
-; RV64IZFINXZDINX-NEXT:    feq.d a1, a1, a1
 ; RV64IZFINXZDINX-NEXT:    feq.d a0, a0, a0
+; RV64IZFINXZDINX-NEXT:    feq.d a1, a1, a1
 ; RV64IZFINXZDINX-NEXT:    and a0, a0, a1
 ; RV64IZFINXZDINX-NEXT:    bnez a0, .LBB8_2
 ; RV64IZFINXZDINX-NEXT:  # %bb.1: # %if.else
@@ -510,8 +510,8 @@ if.then:
 define void @br_fcmp_ueq(double %a, double %b) nounwind {
 ; RV32IFD-LABEL: br_fcmp_ueq:
 ; RV32IFD:       # %bb.0:
-; RV32IFD-NEXT:    flt.d a0, fa0, fa1
 ; RV32IFD-NEXT:    flt.d a1, fa1, fa0
+; RV32IFD-NEXT:    flt.d a0, fa0, fa1
 ; RV32IFD-NEXT:    or a0, a1, a0
 ; RV32IFD-NEXT:    beqz a0, .LBB9_2
 ; RV32IFD-NEXT:  # %bb.1: # %if.else
@@ -523,8 +523,8 @@ define void @br_fcmp_ueq(double %a, double %b) nounwind {
 ;
 ; RV64IFD-LABEL: br_fcmp_ueq:
 ; RV64IFD:       # %bb.0:
-; RV64IFD-NEXT:    flt.d a0, fa0, fa1
 ; RV64IFD-NEXT:    flt.d a1, fa1, fa0
+; RV64IFD-NEXT:    flt.d a0, fa0, fa1
 ; RV64IFD-NEXT:    or a0, a1, a0
 ; RV64IFD-NEXT:    beqz a0, .LBB9_2
 ; RV64IFD-NEXT:  # %bb.1: # %if.else
@@ -836,8 +836,8 @@ if.then:
 define void @br_fcmp_uno(double %a, double %b) nounwind {
 ; RV32IFD-LABEL: br_fcmp_uno:
 ; RV32IFD:       # %bb.0:
-; RV32IFD-NEXT:    feq.d a0, fa1, fa1
 ; RV32IFD-NEXT:    feq.d a1, fa0, fa0
+; RV32IFD-NEXT:    feq.d a0, fa1, fa1
 ; RV32IFD-NEXT:    and a0, a1, a0
 ; RV32IFD-NEXT:    beqz a0, .LBB15_2
 ; RV32IFD-NEXT:  # %bb.1: # %if.else
@@ -849,8 +849,8 @@ define void @br_fcmp_uno(double %a, double %b) nounwind {
 ;
 ; RV64IFD-LABEL: br_fcmp_uno:
 ; RV64IFD:       # %bb.0:
-; RV64IFD-NEXT:    feq.d a0, fa1, fa1
 ; RV64IFD-NEXT:    feq.d a1, fa0, fa0
+; RV64IFD-NEXT:    feq.d a0, fa1, fa1
 ; RV64IFD-NEXT:    and a0, a1, a0
 ; RV64IFD-NEXT:    beqz a0, .LBB15_2
 ; RV64IFD-NEXT:  # %bb.1: # %if.else
@@ -862,8 +862,8 @@ define void @br_fcmp_uno(double %a, double %b) nounwind {
 ;
 ; RV32IZFINXZDINX-LABEL: br_fcmp_uno:
 ; RV32IZFINXZDINX:       # %bb.0:
-; RV32IZFINXZDINX-NEXT:    feq.d a2, a2, a2
 ; RV32IZFINXZDINX-NEXT:    feq.d a0, a0, a0
+; RV32IZFINXZDINX-NEXT:    feq.d a2, a2, a2
 ; RV32IZFINXZDINX-NEXT:    and a0, a0, a2
 ; RV32IZFINXZDINX-NEXT:    beqz a0, .LBB15_2
 ; RV32IZFINXZDINX-NEXT:  # %bb.1: # %if.else
@@ -875,8 +875,8 @@ define void @br_fcmp_uno(double %a, double %b) nounwind {
 ;
 ; RV64IZFINXZDINX-LABEL: br_fcmp_uno:
 ; RV64IZFINXZDINX:       # %bb.0:
-; RV64IZFINXZDINX-NEXT:    feq.d a1, a1, a1
 ; RV64IZFINXZDINX-NEXT:    feq.d a0, a0, a0
+; RV64IZFINXZDINX-NEXT:    feq.d a1, a1, a1
 ; RV64IZFINXZDINX-NEXT:    and a0, a0, a1
 ; RV64IZFINXZDINX-NEXT:    beqz a0, .LBB15_2
 ; RV64IZFINXZDINX-NEXT:  # %bb.1: # %if.else

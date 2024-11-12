@@ -57,9 +57,9 @@ define i16 @test_lshr_i48_2(i48 %x, i48 %y) {
 ;
 ; RV64-LABEL: test_lshr_i48_2:
 ; RV64:       # %bb.0:
-; RV64-NEXT:    andi a1, a1, 15
 ; RV64-NEXT:    slli a0, a0, 32
 ; RV64-NEXT:    srli a0, a0, 32
+; RV64-NEXT:    andi a1, a1, 15
 ; RV64-NEXT:    srl a0, a0, a1
 ; RV64-NEXT:    ret
   %and = and i48 %y, 15
@@ -78,8 +78,8 @@ define i16 @test_ashr_i48_2(i48 %x, i48 %y) {
 ;
 ; RV64-LABEL: test_ashr_i48_2:
 ; RV64:       # %bb.0:
-; RV64-NEXT:    andi a1, a1, 15
 ; RV64-NEXT:    sext.w a0, a0
+; RV64-NEXT:    andi a1, a1, 15
 ; RV64-NEXT:    sra a0, a0, a1
 ; RV64-NEXT:    ret
   %and = and i48 %y, 15

@@ -107,9 +107,9 @@ define float @fcopysign_fneg(float %a, float %b) nounwind {
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    not a1, a1
 ; RV32I-NEXT:    lui a2, 524288
-; RV32I-NEXT:    and a1, a1, a2
 ; RV32I-NEXT:    slli a0, a0, 1
 ; RV32I-NEXT:    srli a0, a0, 1
+; RV32I-NEXT:    and a1, a1, a2
 ; RV32I-NEXT:    or a0, a0, a1
 ; RV32I-NEXT:    ret
 ;
@@ -131,16 +131,16 @@ define float @fcopysign_fneg(float %a, float %b) nounwind {
 ; RV64I:       # %bb.0:
 ; RV64I-NEXT:    not a1, a1
 ; RV64I-NEXT:    lui a2, 524288
-; RV64I-NEXT:    and a1, a1, a2
 ; RV64I-NEXT:    slli a0, a0, 33
 ; RV64I-NEXT:    srli a0, a0, 33
+; RV64I-NEXT:    and a1, a1, a2
 ; RV64I-NEXT:    or a0, a0, a1
 ; RV64I-NEXT:    ret
 ;
 ; RV64IF-LABEL: fcopysign_fneg:
 ; RV64IF:       # %bb.0:
-; RV64IF-NEXT:    fmv.w.x fa5, a1
 ; RV64IF-NEXT:    fmv.w.x fa4, a0
+; RV64IF-NEXT:    fmv.w.x fa5, a1
 ; RV64IF-NEXT:    fsgnjn.s fa5, fa4, fa5
 ; RV64IF-NEXT:    fmv.x.w a0, fa5
 ; RV64IF-NEXT:    ret

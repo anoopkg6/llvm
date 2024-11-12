@@ -26,8 +26,8 @@ define <vscale x 1 x i8> @test_vlseg2ff_mask_nxv1i8_triscv.vector.tuple_nxv1i8_2
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv1i8_triscv.vector.tuple_nxv1i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf8, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -65,8 +65,8 @@ define <vscale x 2 x i8> @test_vlseg2ff_mask_nxv2i8_triscv.vector.tuple_nxv2i8_2
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv2i8_triscv.vector.tuple_nxv2i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -104,8 +104,8 @@ define <vscale x 4 x i8> @test_vlseg2ff_mask_nxv4i8_triscv.vector.tuple_nxv4i8_2
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv4i8_triscv.vector.tuple_nxv4i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -143,8 +143,8 @@ define <vscale x 8 x i8> @test_vlseg2ff_mask_nxv8i8_triscv.vector.tuple_nxv8i8_2
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv8i8_triscv.vector.tuple_nxv8i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -182,8 +182,8 @@ define <vscale x 16 x i8> @test_vlseg2ff_mask_nxv16i8_triscv.vector.tuple_nxv16i
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv16i8_triscv.vector.tuple_nxv16i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
-; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vlseg2e8ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -221,8 +221,8 @@ define <vscale x 32 x i8> @test_vlseg2ff_mask_nxv32i8_triscv.vector.tuple_nxv32i
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv32i8_triscv.vector.tuple_nxv32i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv4r.v v4, v8
-; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m4, ta, mu
+; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vlseg2e8ff.v v4, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -261,8 +261,8 @@ define <vscale x 1 x i8> @test_vlseg3ff_mask_nxv1i8_triscv.vector.tuple_nxv1i8_3
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf8, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -301,8 +301,8 @@ define <vscale x 2 x i8> @test_vlseg3ff_mask_nxv2i8_triscv.vector.tuple_nxv2i8_3
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -341,8 +341,8 @@ define <vscale x 4 x i8> @test_vlseg3ff_mask_nxv4i8_triscv.vector.tuple_nxv4i8_3
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -381,8 +381,8 @@ define <vscale x 8 x i8> @test_vlseg3ff_mask_nxv8i8_triscv.vector.tuple_nxv8i8_3
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -421,8 +421,8 @@ define <vscale x 16 x i8> @test_vlseg3ff_mask_nxv16i8_triscv.vector.tuple_nxv16i
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
-; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vlseg3e8ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -462,8 +462,8 @@ define <vscale x 1 x i8> @test_vlseg4ff_mask_nxv1i8_triscv.vector.tuple_nxv1i8_4
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf8, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -503,8 +503,8 @@ define <vscale x 2 x i8> @test_vlseg4ff_mask_nxv2i8_triscv.vector.tuple_nxv2i8_4
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -544,8 +544,8 @@ define <vscale x 4 x i8> @test_vlseg4ff_mask_nxv4i8_triscv.vector.tuple_nxv4i8_4
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -585,8 +585,8 @@ define <vscale x 8 x i8> @test_vlseg4ff_mask_nxv8i8_triscv.vector.tuple_nxv8i8_4
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -626,8 +626,8 @@ define <vscale x 16 x i8> @test_vlseg4ff_mask_nxv16i8_triscv.vector.tuple_nxv16i
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vmv2r.v v10, v12
-; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vlseg4e8ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -668,8 +668,8 @@ define <vscale x 1 x i8> @test_vlseg5ff_mask_nxv1i8_triscv.vector.tuple_nxv1i8_5
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf8, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -710,8 +710,8 @@ define <vscale x 2 x i8> @test_vlseg5ff_mask_nxv2i8_triscv.vector.tuple_nxv2i8_5
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -752,8 +752,8 @@ define <vscale x 4 x i8> @test_vlseg5ff_mask_nxv4i8_triscv.vector.tuple_nxv4i8_5
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -794,8 +794,8 @@ define <vscale x 8 x i8> @test_vlseg5ff_mask_nxv8i8_triscv.vector.tuple_nxv8i8_5
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -837,8 +837,8 @@ define <vscale x 1 x i8> @test_vlseg6ff_mask_nxv1i8_triscv.vector.tuple_nxv1i8_6
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf8, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -880,8 +880,8 @@ define <vscale x 2 x i8> @test_vlseg6ff_mask_nxv2i8_triscv.vector.tuple_nxv2i8_6
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -923,8 +923,8 @@ define <vscale x 4 x i8> @test_vlseg6ff_mask_nxv4i8_triscv.vector.tuple_nxv4i8_6
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -966,8 +966,8 @@ define <vscale x 8 x i8> @test_vlseg6ff_mask_nxv8i8_triscv.vector.tuple_nxv8i8_6
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1010,8 +1010,8 @@ define <vscale x 1 x i8> @test_vlseg7ff_mask_nxv1i8_triscv.vector.tuple_nxv1i8_7
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf8, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1054,8 +1054,8 @@ define <vscale x 2 x i8> @test_vlseg7ff_mask_nxv2i8_triscv.vector.tuple_nxv2i8_7
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1098,8 +1098,8 @@ define <vscale x 4 x i8> @test_vlseg7ff_mask_nxv4i8_triscv.vector.tuple_nxv4i8_7
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1142,8 +1142,8 @@ define <vscale x 8 x i8> @test_vlseg7ff_mask_nxv8i8_triscv.vector.tuple_nxv8i8_7
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1187,8 +1187,8 @@ define <vscale x 1 x i8> @test_vlseg8ff_mask_nxv1i8_triscv.vector.tuple_nxv1i8_8
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf8, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1232,8 +1232,8 @@ define <vscale x 2 x i8> @test_vlseg8ff_mask_nxv2i8_triscv.vector.tuple_nxv2i8_8
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1277,8 +1277,8 @@ define <vscale x 4 x i8> @test_vlseg8ff_mask_nxv4i8_triscv.vector.tuple_nxv4i8_8
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e8, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1322,8 +1322,8 @@ define <vscale x 8 x i8> @test_vlseg8ff_mask_nxv8i8_triscv.vector.tuple_nxv8i8_8
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e8, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e8ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1360,8 +1360,8 @@ define <vscale x 1 x i16> @test_vlseg2ff_mask_nxv1i16_triscv.vector.tuple_nxv2i8
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv1i16_triscv.vector.tuple_nxv2i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1398,8 +1398,8 @@ define <vscale x 2 x i16> @test_vlseg2ff_mask_nxv2i16_triscv.vector.tuple_nxv4i8
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv2i16_triscv.vector.tuple_nxv4i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1436,8 +1436,8 @@ define <vscale x 4 x i16> @test_vlseg2ff_mask_nxv4i16_triscv.vector.tuple_nxv8i8
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv4i16_triscv.vector.tuple_nxv8i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1474,8 +1474,8 @@ define <vscale x 8 x i16> @test_vlseg2ff_mask_nxv8i16_triscv.vector.tuple_nxv16i
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv8i16_triscv.vector.tuple_nxv16i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
-; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vlseg2e16ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1512,8 +1512,8 @@ define <vscale x 16 x i16> @test_vlseg2ff_mask_nxv16i16_triscv.vector.tuple_nxv3
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv16i16_triscv.vector.tuple_nxv32i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv4r.v v4, v8
-; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m4, ta, mu
+; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vlseg2e16ff.v v4, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1551,8 +1551,8 @@ define <vscale x 1 x i16> @test_vlseg3ff_mask_nxv1i16_triscv.vector.tuple_nxv2i8
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1590,8 +1590,8 @@ define <vscale x 2 x i16> @test_vlseg3ff_mask_nxv2i16_triscv.vector.tuple_nxv4i8
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1629,8 +1629,8 @@ define <vscale x 4 x i16> @test_vlseg3ff_mask_nxv4i16_triscv.vector.tuple_nxv8i8
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1668,8 +1668,8 @@ define <vscale x 8 x i16> @test_vlseg3ff_mask_nxv8i16_triscv.vector.tuple_nxv16i
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
-; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vlseg3e16ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1708,8 +1708,8 @@ define <vscale x 1 x i16> @test_vlseg4ff_mask_nxv1i16_triscv.vector.tuple_nxv2i8
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1748,8 +1748,8 @@ define <vscale x 2 x i16> @test_vlseg4ff_mask_nxv2i16_triscv.vector.tuple_nxv4i8
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1788,8 +1788,8 @@ define <vscale x 4 x i16> @test_vlseg4ff_mask_nxv4i16_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1828,8 +1828,8 @@ define <vscale x 8 x i16> @test_vlseg4ff_mask_nxv8i16_triscv.vector.tuple_nxv16i
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vmv2r.v v10, v12
-; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vlseg4e16ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1869,8 +1869,8 @@ define <vscale x 1 x i16> @test_vlseg5ff_mask_nxv1i16_triscv.vector.tuple_nxv2i8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1910,8 +1910,8 @@ define <vscale x 2 x i16> @test_vlseg5ff_mask_nxv2i16_triscv.vector.tuple_nxv4i8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1951,8 +1951,8 @@ define <vscale x 4 x i16> @test_vlseg5ff_mask_nxv4i16_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -1993,8 +1993,8 @@ define <vscale x 1 x i16> @test_vlseg6ff_mask_nxv1i16_triscv.vector.tuple_nxv2i8
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2035,8 +2035,8 @@ define <vscale x 2 x i16> @test_vlseg6ff_mask_nxv2i16_triscv.vector.tuple_nxv4i8
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2077,8 +2077,8 @@ define <vscale x 4 x i16> @test_vlseg6ff_mask_nxv4i16_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2120,8 +2120,8 @@ define <vscale x 1 x i16> @test_vlseg7ff_mask_nxv1i16_triscv.vector.tuple_nxv2i8
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2163,8 +2163,8 @@ define <vscale x 2 x i16> @test_vlseg7ff_mask_nxv2i16_triscv.vector.tuple_nxv4i8
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2206,8 +2206,8 @@ define <vscale x 4 x i16> @test_vlseg7ff_mask_nxv4i16_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2250,8 +2250,8 @@ define <vscale x 1 x i16> @test_vlseg8ff_mask_nxv1i16_triscv.vector.tuple_nxv2i8
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2294,8 +2294,8 @@ define <vscale x 2 x i16> @test_vlseg8ff_mask_nxv2i16_triscv.vector.tuple_nxv4i8
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2338,8 +2338,8 @@ define <vscale x 4 x i16> @test_vlseg8ff_mask_nxv4i16_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2376,8 +2376,8 @@ define <vscale x 1 x i32> @test_vlseg2ff_mask_nxv1i32_triscv.vector.tuple_nxv4i8
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv1i32_triscv.vector.tuple_nxv4i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2414,8 +2414,8 @@ define <vscale x 2 x i32> @test_vlseg2ff_mask_nxv2i32_triscv.vector.tuple_nxv8i8
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv2i32_triscv.vector.tuple_nxv8i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2452,8 +2452,8 @@ define <vscale x 4 x i32> @test_vlseg2ff_mask_nxv4i32_triscv.vector.tuple_nxv16i
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv4i32_triscv.vector.tuple_nxv16i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
-; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vlseg2e32ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2490,8 +2490,8 @@ define <vscale x 8 x i32> @test_vlseg2ff_mask_nxv8i32_triscv.vector.tuple_nxv32i
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv8i32_triscv.vector.tuple_nxv32i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv4r.v v4, v8
-; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m4, ta, mu
+; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vlseg2e32ff.v v4, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2529,8 +2529,8 @@ define <vscale x 1 x i32> @test_vlseg3ff_mask_nxv1i32_triscv.vector.tuple_nxv4i8
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2568,8 +2568,8 @@ define <vscale x 2 x i32> @test_vlseg3ff_mask_nxv2i32_triscv.vector.tuple_nxv8i8
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2607,8 +2607,8 @@ define <vscale x 4 x i32> @test_vlseg3ff_mask_nxv4i32_triscv.vector.tuple_nxv16i
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
-; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vlseg3e32ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2647,8 +2647,8 @@ define <vscale x 1 x i32> @test_vlseg4ff_mask_nxv1i32_triscv.vector.tuple_nxv4i8
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2687,8 +2687,8 @@ define <vscale x 2 x i32> @test_vlseg4ff_mask_nxv2i32_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2727,8 +2727,8 @@ define <vscale x 4 x i32> @test_vlseg4ff_mask_nxv4i32_triscv.vector.tuple_nxv16i
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vmv2r.v v10, v12
-; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vlseg4e32ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2768,8 +2768,8 @@ define <vscale x 1 x i32> @test_vlseg5ff_mask_nxv1i32_triscv.vector.tuple_nxv4i8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2809,8 +2809,8 @@ define <vscale x 2 x i32> @test_vlseg5ff_mask_nxv2i32_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2851,8 +2851,8 @@ define <vscale x 1 x i32> @test_vlseg6ff_mask_nxv1i32_triscv.vector.tuple_nxv4i8
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2893,8 +2893,8 @@ define <vscale x 2 x i32> @test_vlseg6ff_mask_nxv2i32_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2936,8 +2936,8 @@ define <vscale x 1 x i32> @test_vlseg7ff_mask_nxv1i32_triscv.vector.tuple_nxv4i8
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -2979,8 +2979,8 @@ define <vscale x 2 x i32> @test_vlseg7ff_mask_nxv2i32_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3023,8 +3023,8 @@ define <vscale x 1 x i32> @test_vlseg8ff_mask_nxv1i32_triscv.vector.tuple_nxv4i8
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3067,8 +3067,8 @@ define <vscale x 2 x i32> @test_vlseg8ff_mask_nxv2i32_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3105,8 +3105,8 @@ define <vscale x 1 x i64> @test_vlseg2ff_mask_nxv1i64_triscv.vector.tuple_nxv8i8
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv1i64_triscv.vector.tuple_nxv8i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3143,8 +3143,8 @@ define <vscale x 2 x i64> @test_vlseg2ff_mask_nxv2i64_triscv.vector.tuple_nxv16i
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv2i64_triscv.vector.tuple_nxv16i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
-; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vlseg2e64ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3181,8 +3181,8 @@ define <vscale x 4 x i64> @test_vlseg2ff_mask_nxv4i64_triscv.vector.tuple_nxv32i
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv4i64_triscv.vector.tuple_nxv32i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv4r.v v4, v8
-; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m4, ta, mu
+; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vlseg2e64ff.v v4, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3220,8 +3220,8 @@ define <vscale x 1 x i64> @test_vlseg3ff_mask_nxv1i64_triscv.vector.tuple_nxv8i8
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3259,8 +3259,8 @@ define <vscale x 2 x i64> @test_vlseg3ff_mask_nxv2i64_triscv.vector.tuple_nxv16i
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
-; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vlseg3e64ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3299,8 +3299,8 @@ define <vscale x 1 x i64> @test_vlseg4ff_mask_nxv1i64_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3339,8 +3339,8 @@ define <vscale x 2 x i64> @test_vlseg4ff_mask_nxv2i64_triscv.vector.tuple_nxv16i
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vmv2r.v v10, v12
-; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vlseg4e64ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3380,8 +3380,8 @@ define <vscale x 1 x i64> @test_vlseg5ff_mask_nxv1i64_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3422,8 +3422,8 @@ define <vscale x 1 x i64> @test_vlseg6ff_mask_nxv1i64_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3465,8 +3465,8 @@ define <vscale x 1 x i64> @test_vlseg7ff_mask_nxv1i64_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3509,8 +3509,8 @@ define <vscale x 1 x i64> @test_vlseg8ff_mask_nxv1i64_triscv.vector.tuple_nxv8i8
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3546,8 +3546,8 @@ define <vscale x 1 x half> @test_vlseg2ff_mask_nxv1f16_triscv.vector.tuple_nxv2i
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv1f16_triscv.vector.tuple_nxv2i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3583,8 +3583,8 @@ define <vscale x 2 x half> @test_vlseg2ff_mask_nxv2f16_triscv.vector.tuple_nxv4i
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv2f16_triscv.vector.tuple_nxv4i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3620,8 +3620,8 @@ define <vscale x 4 x half> @test_vlseg2ff_mask_nxv4f16_triscv.vector.tuple_nxv8i
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv4f16_triscv.vector.tuple_nxv8i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3657,8 +3657,8 @@ define <vscale x 8 x half> @test_vlseg2ff_mask_nxv8f16_triscv.vector.tuple_nxv16
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv8f16_triscv.vector.tuple_nxv16i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
-; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vlseg2e16ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3694,8 +3694,8 @@ define <vscale x 16 x half> @test_vlseg2ff_mask_nxv16f16_triscv.vector.tuple_nxv
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv16f16_triscv.vector.tuple_nxv32i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv4r.v v4, v8
-; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m4, ta, mu
+; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vlseg2e16ff.v v4, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3732,8 +3732,8 @@ define <vscale x 1 x half> @test_vlseg3ff_mask_nxv1f16_triscv.vector.tuple_nxv2i
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3770,8 +3770,8 @@ define <vscale x 2 x half> @test_vlseg3ff_mask_nxv2f16_triscv.vector.tuple_nxv4i
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3808,8 +3808,8 @@ define <vscale x 4 x half> @test_vlseg3ff_mask_nxv4f16_triscv.vector.tuple_nxv8i
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3846,8 +3846,8 @@ define <vscale x 8 x half> @test_vlseg3ff_mask_nxv8f16_triscv.vector.tuple_nxv16
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
-; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vlseg3e16ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3885,8 +3885,8 @@ define <vscale x 1 x half> @test_vlseg4ff_mask_nxv1f16_triscv.vector.tuple_nxv2i
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3924,8 +3924,8 @@ define <vscale x 2 x half> @test_vlseg4ff_mask_nxv2f16_triscv.vector.tuple_nxv4i
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -3963,8 +3963,8 @@ define <vscale x 4 x half> @test_vlseg4ff_mask_nxv4f16_triscv.vector.tuple_nxv8i
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4002,8 +4002,8 @@ define <vscale x 8 x half> @test_vlseg4ff_mask_nxv8f16_triscv.vector.tuple_nxv16
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vmv2r.v v10, v12
-; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vlseg4e16ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4042,8 +4042,8 @@ define <vscale x 1 x half> @test_vlseg5ff_mask_nxv1f16_triscv.vector.tuple_nxv2i
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4082,8 +4082,8 @@ define <vscale x 2 x half> @test_vlseg5ff_mask_nxv2f16_triscv.vector.tuple_nxv4i
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4122,8 +4122,8 @@ define <vscale x 4 x half> @test_vlseg5ff_mask_nxv4f16_triscv.vector.tuple_nxv8i
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4163,8 +4163,8 @@ define <vscale x 1 x half> @test_vlseg6ff_mask_nxv1f16_triscv.vector.tuple_nxv2i
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4204,8 +4204,8 @@ define <vscale x 2 x half> @test_vlseg6ff_mask_nxv2f16_triscv.vector.tuple_nxv4i
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4245,8 +4245,8 @@ define <vscale x 4 x half> @test_vlseg6ff_mask_nxv4f16_triscv.vector.tuple_nxv8i
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4287,8 +4287,8 @@ define <vscale x 1 x half> @test_vlseg7ff_mask_nxv1f16_triscv.vector.tuple_nxv2i
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4329,8 +4329,8 @@ define <vscale x 2 x half> @test_vlseg7ff_mask_nxv2f16_triscv.vector.tuple_nxv4i
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4371,8 +4371,8 @@ define <vscale x 4 x half> @test_vlseg7ff_mask_nxv4f16_triscv.vector.tuple_nxv8i
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4414,8 +4414,8 @@ define <vscale x 1 x half> @test_vlseg8ff_mask_nxv1f16_triscv.vector.tuple_nxv2i
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4457,8 +4457,8 @@ define <vscale x 2 x half> @test_vlseg8ff_mask_nxv2f16_triscv.vector.tuple_nxv4i
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4500,8 +4500,8 @@ define <vscale x 4 x half> @test_vlseg8ff_mask_nxv4f16_triscv.vector.tuple_nxv8i
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4537,8 +4537,8 @@ define <vscale x 1 x float> @test_vlseg2ff_mask_nxv1f32_triscv.vector.tuple_nxv4
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv1f32_triscv.vector.tuple_nxv4i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4574,8 +4574,8 @@ define <vscale x 2 x float> @test_vlseg2ff_mask_nxv2f32_triscv.vector.tuple_nxv8
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv2f32_triscv.vector.tuple_nxv8i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4611,8 +4611,8 @@ define <vscale x 4 x float> @test_vlseg2ff_mask_nxv4f32_triscv.vector.tuple_nxv1
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv4f32_triscv.vector.tuple_nxv16i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
-; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vlseg2e32ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4648,8 +4648,8 @@ define <vscale x 8 x float> @test_vlseg2ff_mask_nxv8f32_triscv.vector.tuple_nxv3
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv8f32_triscv.vector.tuple_nxv32i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv4r.v v4, v8
-; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m4, ta, mu
+; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vlseg2e32ff.v v4, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4686,8 +4686,8 @@ define <vscale x 1 x float> @test_vlseg3ff_mask_nxv1f32_triscv.vector.tuple_nxv4
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4724,8 +4724,8 @@ define <vscale x 2 x float> @test_vlseg3ff_mask_nxv2f32_triscv.vector.tuple_nxv8
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4762,8 +4762,8 @@ define <vscale x 4 x float> @test_vlseg3ff_mask_nxv4f32_triscv.vector.tuple_nxv1
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
-; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vlseg3e32ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4801,8 +4801,8 @@ define <vscale x 1 x float> @test_vlseg4ff_mask_nxv1f32_triscv.vector.tuple_nxv4
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4840,8 +4840,8 @@ define <vscale x 2 x float> @test_vlseg4ff_mask_nxv2f32_triscv.vector.tuple_nxv8
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4879,8 +4879,8 @@ define <vscale x 4 x float> @test_vlseg4ff_mask_nxv4f32_triscv.vector.tuple_nxv1
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vmv2r.v v10, v12
-; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vlseg4e32ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4919,8 +4919,8 @@ define <vscale x 1 x float> @test_vlseg5ff_mask_nxv1f32_triscv.vector.tuple_nxv4
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -4959,8 +4959,8 @@ define <vscale x 2 x float> @test_vlseg5ff_mask_nxv2f32_triscv.vector.tuple_nxv8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5000,8 +5000,8 @@ define <vscale x 1 x float> @test_vlseg6ff_mask_nxv1f32_triscv.vector.tuple_nxv4
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5041,8 +5041,8 @@ define <vscale x 2 x float> @test_vlseg6ff_mask_nxv2f32_triscv.vector.tuple_nxv8
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5083,8 +5083,8 @@ define <vscale x 1 x float> @test_vlseg7ff_mask_nxv1f32_triscv.vector.tuple_nxv4
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5125,8 +5125,8 @@ define <vscale x 2 x float> @test_vlseg7ff_mask_nxv2f32_triscv.vector.tuple_nxv8
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5168,8 +5168,8 @@ define <vscale x 1 x float> @test_vlseg8ff_mask_nxv1f32_triscv.vector.tuple_nxv4
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e32, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5211,8 +5211,8 @@ define <vscale x 2 x float> @test_vlseg8ff_mask_nxv2f32_triscv.vector.tuple_nxv8
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e32, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e32ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5248,8 +5248,8 @@ define <vscale x 1 x double> @test_vlseg2ff_mask_nxv1f64_triscv.vector.tuple_nxv
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv1f64_triscv.vector.tuple_nxv8i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5285,8 +5285,8 @@ define <vscale x 2 x double> @test_vlseg2ff_mask_nxv2f64_triscv.vector.tuple_nxv
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv2f64_triscv.vector.tuple_nxv16i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
-; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vlseg2e64ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5322,8 +5322,8 @@ define <vscale x 4 x double> @test_vlseg2ff_mask_nxv4f64_triscv.vector.tuple_nxv
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv4f64_triscv.vector.tuple_nxv32i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv4r.v v4, v8
-; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m4, ta, mu
+; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vlseg2e64ff.v v4, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5360,8 +5360,8 @@ define <vscale x 1 x double> @test_vlseg3ff_mask_nxv1f64_triscv.vector.tuple_nxv
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5398,8 +5398,8 @@ define <vscale x 2 x double> @test_vlseg3ff_mask_nxv2f64_triscv.vector.tuple_nxv
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
-; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vlseg3e64ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5437,8 +5437,8 @@ define <vscale x 1 x double> @test_vlseg4ff_mask_nxv1f64_triscv.vector.tuple_nxv
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5476,8 +5476,8 @@ define <vscale x 2 x double> @test_vlseg4ff_mask_nxv2f64_triscv.vector.tuple_nxv
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vmv2r.v v10, v12
-; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vlseg4e64ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5516,8 +5516,8 @@ define <vscale x 1 x double> @test_vlseg5ff_mask_nxv1f64_triscv.vector.tuple_nxv
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5557,8 +5557,8 @@ define <vscale x 1 x double> @test_vlseg6ff_mask_nxv1f64_triscv.vector.tuple_nxv
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5599,8 +5599,8 @@ define <vscale x 1 x double> @test_vlseg7ff_mask_nxv1f64_triscv.vector.tuple_nxv
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5642,8 +5642,8 @@ define <vscale x 1 x double> @test_vlseg8ff_mask_nxv1f64_triscv.vector.tuple_nxv
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e64, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e64ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5679,8 +5679,8 @@ define <vscale x 1 x bfloat> @test_vlseg2ff_mask_nxv1bf16_triscv.vector.tuple_nx
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv1bf16_triscv.vector.tuple_nxv2i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5716,8 +5716,8 @@ define <vscale x 2 x bfloat> @test_vlseg2ff_mask_nxv2bf16_triscv.vector.tuple_nx
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv2bf16_triscv.vector.tuple_nxv4i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5753,8 +5753,8 @@ define <vscale x 4 x bfloat> @test_vlseg2ff_mask_nxv4bf16_triscv.vector.tuple_nx
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv4bf16_triscv.vector.tuple_nxv8i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
-; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vlseg2e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5790,8 +5790,8 @@ define <vscale x 8 x bfloat> @test_vlseg2ff_mask_nxv8bf16_triscv.vector.tuple_nx
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv8bf16_triscv.vector.tuple_nxv16i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
-; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vlseg2e16ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5827,8 +5827,8 @@ define <vscale x 16 x bfloat> @test_vlseg2ff_mask_nxv16bf16_triscv.vector.tuple_
 ; CHECK-LABEL: test_vlseg2ff_mask_nxv16bf16_triscv.vector.tuple_nxv32i8_2t:
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv4r.v v4, v8
-; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m4, ta, mu
+; CHECK-NEXT:    vmv4r.v v8, v12
 ; CHECK-NEXT:    vlseg2e16ff.v v4, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5865,8 +5865,8 @@ define <vscale x 1 x bfloat> @test_vlseg3ff_mask_nxv1bf16_triscv.vector.tuple_nx
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5903,8 +5903,8 @@ define <vscale x 2 x bfloat> @test_vlseg3ff_mask_nxv2bf16_triscv.vector.tuple_nx
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5941,8 +5941,8 @@ define <vscale x 4 x bfloat> @test_vlseg3ff_mask_nxv4bf16_triscv.vector.tuple_nx
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
-; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vlseg3e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -5979,8 +5979,8 @@ define <vscale x 8 x bfloat> @test_vlseg3ff_mask_nxv8bf16_triscv.vector.tuple_nx
 ; CHECK:       # %bb.0: # %entry
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
-; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v10, v12
 ; CHECK-NEXT:    vlseg3e16ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6018,8 +6018,8 @@ define <vscale x 1 x bfloat> @test_vlseg4ff_mask_nxv1bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6057,8 +6057,8 @@ define <vscale x 2 x bfloat> @test_vlseg4ff_mask_nxv2bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6096,8 +6096,8 @@ define <vscale x 4 x bfloat> @test_vlseg4ff_mask_nxv4bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v7, v8
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
-; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vlseg4e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6135,8 +6135,8 @@ define <vscale x 8 x bfloat> @test_vlseg4ff_mask_nxv8bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv2r.v v6, v8
 ; CHECK-NEXT:    vmv2r.v v8, v10
 ; CHECK-NEXT:    vmv2r.v v10, v12
-; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m2, ta, mu
+; CHECK-NEXT:    vmv2r.v v12, v14
 ; CHECK-NEXT:    vlseg4e16ff.v v6, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6175,8 +6175,8 @@ define <vscale x 1 x bfloat> @test_vlseg5ff_mask_nxv1bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6215,8 +6215,8 @@ define <vscale x 2 x bfloat> @test_vlseg5ff_mask_nxv2bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6255,8 +6255,8 @@ define <vscale x 4 x bfloat> @test_vlseg5ff_mask_nxv4bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v8, v9
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
-; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vlseg5e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6296,8 +6296,8 @@ define <vscale x 1 x bfloat> @test_vlseg6ff_mask_nxv1bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6337,8 +6337,8 @@ define <vscale x 2 x bfloat> @test_vlseg6ff_mask_nxv2bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6378,8 +6378,8 @@ define <vscale x 4 x bfloat> @test_vlseg6ff_mask_nxv4bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v9, v10
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
-; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vlseg6e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6420,8 +6420,8 @@ define <vscale x 1 x bfloat> @test_vlseg7ff_mask_nxv1bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6462,8 +6462,8 @@ define <vscale x 2 x bfloat> @test_vlseg7ff_mask_nxv2bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6504,8 +6504,8 @@ define <vscale x 4 x bfloat> @test_vlseg7ff_mask_nxv4bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v10, v11
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
-; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v13, v14
 ; CHECK-NEXT:    vlseg7e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6547,8 +6547,8 @@ define <vscale x 1 x bfloat> @test_vlseg8ff_mask_nxv1bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf4, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6590,8 +6590,8 @@ define <vscale x 2 x bfloat> @test_vlseg8ff_mask_nxv2bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e16, mf2, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)
@@ -6633,8 +6633,8 @@ define <vscale x 4 x bfloat> @test_vlseg8ff_mask_nxv4bf16_triscv.vector.tuple_nx
 ; CHECK-NEXT:    vmv1r.v v11, v12
 ; CHECK-NEXT:    vmv1r.v v12, v13
 ; CHECK-NEXT:    vmv1r.v v13, v14
-; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m1, ta, mu
+; CHECK-NEXT:    vmv1r.v v14, v15
 ; CHECK-NEXT:    vlseg8e16ff.v v7, (a0), v0.t
 ; CHECK-NEXT:    csrr a0, vl
 ; CHECK-NEXT:    sd a0, 0(a2)

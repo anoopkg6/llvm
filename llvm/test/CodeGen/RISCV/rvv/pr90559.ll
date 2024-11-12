@@ -36,8 +36,8 @@ define void @f(ptr %p) vscale_range(2,2) {
 ; CHECK-NEXT:    vs1r.v v8, (a2)
 ; CHECK-NEXT:    vsetvli a2, zero, e8, m4, ta, ma
 ; CHECK-NEXT:    vmv.v.i v8, 0
-; CHECK-NEXT:    vs4r.v v8, (a0)
 ; CHECK-NEXT:    sw a1, 84(a0)
+; CHECK-NEXT:    vs4r.v v8, (a0)
 ; CHECK-NEXT:    ret
   %q = getelementptr inbounds i8, ptr %p, i64 84
   %x = load i32, ptr %q

@@ -84,8 +84,8 @@ define dso_local i32 @lhu(ptr %a) nounwind {
 define dso_local void @sb(ptr %a, i8 %b) nounwind {
 ; RV32I-LABEL: sb:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    sb a1, 0(a0)
 ; RV32I-NEXT:    sb a1, 6(a0)
+; RV32I-NEXT:    sb a1, 0(a0)
 ; RV32I-NEXT:    ret
   store i8 %b, ptr %a
   %1 = getelementptr i8, ptr %a, i32 6
@@ -96,8 +96,8 @@ define dso_local void @sb(ptr %a, i8 %b) nounwind {
 define dso_local void @sh(ptr %a, i16 %b) nounwind {
 ; RV32I-LABEL: sh:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    sh a1, 0(a0)
 ; RV32I-NEXT:    sh a1, 14(a0)
+; RV32I-NEXT:    sh a1, 0(a0)
 ; RV32I-NEXT:    ret
   store i16 %b, ptr %a
   %1 = getelementptr i16, ptr %a, i32 7
@@ -108,8 +108,8 @@ define dso_local void @sh(ptr %a, i16 %b) nounwind {
 define dso_local void @sw(ptr %a, i32 %b) nounwind {
 ; RV32I-LABEL: sw:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    sw a1, 0(a0)
 ; RV32I-NEXT:    sw a1, 32(a0)
+; RV32I-NEXT:    sw a1, 0(a0)
 ; RV32I-NEXT:    ret
   store i32 %b, ptr %a
   %1 = getelementptr i32, ptr %a, i32 8
@@ -121,8 +121,8 @@ define dso_local void @sw(ptr %a, i32 %b) nounwind {
 define dso_local i32 @load_sext_zext_anyext_i1(ptr %a) nounwind {
 ; RV32I-LABEL: load_sext_zext_anyext_i1:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    lbu a1, 1(a0)
 ; RV32I-NEXT:    lbu a2, 2(a0)
+; RV32I-NEXT:    lbu a1, 1(a0)
 ; RV32I-NEXT:    lbu zero, 0(a0)
 ; RV32I-NEXT:    sub a0, a2, a1
 ; RV32I-NEXT:    ret
@@ -143,8 +143,8 @@ define dso_local i32 @load_sext_zext_anyext_i1(ptr %a) nounwind {
 define dso_local i16 @load_sext_zext_anyext_i1_i16(ptr %a) nounwind {
 ; RV32I-LABEL: load_sext_zext_anyext_i1_i16:
 ; RV32I:       # %bb.0:
-; RV32I-NEXT:    lbu a1, 1(a0)
 ; RV32I-NEXT:    lbu a2, 2(a0)
+; RV32I-NEXT:    lbu a1, 1(a0)
 ; RV32I-NEXT:    lbu zero, 0(a0)
 ; RV32I-NEXT:    sub a0, a2, a1
 ; RV32I-NEXT:    ret
@@ -170,8 +170,8 @@ define dso_local i32 @lw_sw_global(i32 %a) nounwind {
 ; RV32I:       # %bb.0:
 ; RV32I-NEXT:    lui a2, %hi(G)
 ; RV32I-NEXT:    lw a1, %lo(G)(a2)
-; RV32I-NEXT:    addi a3, a2, %lo(G)
 ; RV32I-NEXT:    sw a0, %lo(G)(a2)
+; RV32I-NEXT:    addi a3, a2, %lo(G)
 ; RV32I-NEXT:    lw zero, 36(a3)
 ; RV32I-NEXT:    sw a0, 36(a3)
 ; RV32I-NEXT:    mv a0, a1

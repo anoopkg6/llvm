@@ -19,16 +19,16 @@ define double @constraint_f_double(double %a) nounwind {
 ; RV32F-NEXT:    fadd.d fa5, fa5, fa4
 ; RV32F-NEXT:    #NO_APP
 ; RV32F-NEXT:    fsd fa5, 8(sp)
-; RV32F-NEXT:    lw a0, 8(sp)
 ; RV32F-NEXT:    lw a1, 12(sp)
+; RV32F-NEXT:    lw a0, 8(sp)
 ; RV32F-NEXT:    addi sp, sp, 16
 ; RV32F-NEXT:    ret
 ;
 ; RV64F-LABEL: constraint_f_double:
 ; RV64F:       # %bb.0:
 ; RV64F-NEXT:    lui a1, %hi(gd)
-; RV64F-NEXT:    fld fa5, %lo(gd)(a1)
 ; RV64F-NEXT:    fmv.d.x fa4, a0
+; RV64F-NEXT:    fld fa5, %lo(gd)(a1)
 ; RV64F-NEXT:    #APP
 ; RV64F-NEXT:    fadd.d fa5, fa4, fa5
 ; RV64F-NEXT:    #NO_APP
@@ -52,16 +52,16 @@ define double @constraint_cf_double(double %a) nounwind {
 ; RV32F-NEXT:    fadd.d fa5, fa5, fa4
 ; RV32F-NEXT:    #NO_APP
 ; RV32F-NEXT:    fsd fa5, 8(sp)
-; RV32F-NEXT:    lw a0, 8(sp)
 ; RV32F-NEXT:    lw a1, 12(sp)
+; RV32F-NEXT:    lw a0, 8(sp)
 ; RV32F-NEXT:    addi sp, sp, 16
 ; RV32F-NEXT:    ret
 ;
 ; RV64F-LABEL: constraint_cf_double:
 ; RV64F:       # %bb.0:
 ; RV64F-NEXT:    lui a1, %hi(gd)
-; RV64F-NEXT:    fld fa5, %lo(gd)(a1)
 ; RV64F-NEXT:    fmv.d.x fa4, a0
+; RV64F-NEXT:    fld fa5, %lo(gd)(a1)
 ; RV64F-NEXT:    #APP
 ; RV64F-NEXT:    fadd.d fa5, fa4, fa5
 ; RV64F-NEXT:    #NO_APP
@@ -85,16 +85,16 @@ define double @constraint_f_double_abi_name(double %a) nounwind {
 ; RV32F-NEXT:    fadd.d ft0, fa1, fs0
 ; RV32F-NEXT:    #NO_APP
 ; RV32F-NEXT:    fsd ft0, 8(sp)
-; RV32F-NEXT:    lw a0, 8(sp)
 ; RV32F-NEXT:    lw a1, 12(sp)
+; RV32F-NEXT:    lw a0, 8(sp)
 ; RV32F-NEXT:    addi sp, sp, 16
 ; RV32F-NEXT:    ret
 ;
 ; RV64F-LABEL: constraint_f_double_abi_name:
 ; RV64F:       # %bb.0:
 ; RV64F-NEXT:    lui a1, %hi(gd)
-; RV64F-NEXT:    fld fs0, %lo(gd)(a1)
 ; RV64F-NEXT:    fmv.d.x fa1, a0
+; RV64F-NEXT:    fld fs0, %lo(gd)(a1)
 ; RV64F-NEXT:    #APP
 ; RV64F-NEXT:    fadd.d ft0, fa1, fs0
 ; RV64F-NEXT:    #NO_APP

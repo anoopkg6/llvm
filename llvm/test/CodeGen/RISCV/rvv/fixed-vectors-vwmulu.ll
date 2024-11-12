@@ -6,8 +6,8 @@ define <2 x i16> @vwmulu_v2i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: vwmulu_v2i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e8, mf8, ta, ma
-; CHECK-NEXT:    vle8.v v9, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v9, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v9, v10
 ; CHECK-NEXT:    ret
   %a = load <2 x i8>, ptr %x
@@ -22,8 +22,8 @@ define <4 x i16> @vwmulu_v4i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: vwmulu_v4i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e8, mf4, ta, ma
-; CHECK-NEXT:    vle8.v v9, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v9, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v9, v10
 ; CHECK-NEXT:    ret
   %a = load <4 x i8>, ptr %x
@@ -38,8 +38,8 @@ define <2 x i32> @vwmulu_v2i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: vwmulu_v2i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e16, mf4, ta, ma
-; CHECK-NEXT:    vle16.v v9, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v9, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v9, v10
 ; CHECK-NEXT:    ret
   %a = load <2 x i16>, ptr %x
@@ -54,8 +54,8 @@ define <8 x i16> @vwmulu_v8i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: vwmulu_v8i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e8, mf2, ta, ma
-; CHECK-NEXT:    vle8.v v9, (a0)
 ; CHECK-NEXT:    vle8.v v10, (a1)
+; CHECK-NEXT:    vle8.v v9, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v9, v10
 ; CHECK-NEXT:    ret
   %a = load <8 x i8>, ptr %x
@@ -70,8 +70,8 @@ define <4 x i32> @vwmulu_v4i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: vwmulu_v4i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e16, mf2, ta, ma
-; CHECK-NEXT:    vle16.v v9, (a0)
 ; CHECK-NEXT:    vle16.v v10, (a1)
+; CHECK-NEXT:    vle16.v v9, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v9, v10
 ; CHECK-NEXT:    ret
   %a = load <4 x i16>, ptr %x
@@ -86,8 +86,8 @@ define <2 x i64> @vwmulu_v2i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: vwmulu_v2i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e32, mf2, ta, ma
-; CHECK-NEXT:    vle32.v v9, (a0)
 ; CHECK-NEXT:    vle32.v v10, (a1)
+; CHECK-NEXT:    vle32.v v9, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v9, v10
 ; CHECK-NEXT:    ret
   %a = load <2 x i32>, ptr %x
@@ -102,8 +102,8 @@ define <16 x i16> @vwmulu_v16i16(ptr %x, ptr %y) {
 ; CHECK-LABEL: vwmulu_v16i16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e8, m1, ta, ma
-; CHECK-NEXT:    vle8.v v10, (a0)
 ; CHECK-NEXT:    vle8.v v11, (a1)
+; CHECK-NEXT:    vle8.v v10, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v10, v11
 ; CHECK-NEXT:    ret
   %a = load <16 x i8>, ptr %x
@@ -118,8 +118,8 @@ define <8 x i32> @vwmulu_v8i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: vwmulu_v8i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e16, m1, ta, ma
-; CHECK-NEXT:    vle16.v v10, (a0)
 ; CHECK-NEXT:    vle16.v v11, (a1)
+; CHECK-NEXT:    vle16.v v10, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v10, v11
 ; CHECK-NEXT:    ret
   %a = load <8 x i16>, ptr %x
@@ -134,8 +134,8 @@ define <4 x i64> @vwmulu_v4i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: vwmulu_v4i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 4, e32, m1, ta, ma
-; CHECK-NEXT:    vle32.v v10, (a0)
 ; CHECK-NEXT:    vle32.v v11, (a1)
+; CHECK-NEXT:    vle32.v v10, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v10, v11
 ; CHECK-NEXT:    ret
   %a = load <4 x i32>, ptr %x
@@ -151,8 +151,8 @@ define <32 x i16> @vwmulu_v32i16(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m2, ta, ma
-; CHECK-NEXT:    vle8.v v12, (a0)
 ; CHECK-NEXT:    vle8.v v14, (a1)
+; CHECK-NEXT:    vle8.v v12, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v12, v14
 ; CHECK-NEXT:    ret
   %a = load <32 x i8>, ptr %x
@@ -167,8 +167,8 @@ define <16 x i32> @vwmulu_v16i32(ptr %x, ptr %y) {
 ; CHECK-LABEL: vwmulu_v16i32:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e16, m2, ta, ma
-; CHECK-NEXT:    vle16.v v12, (a0)
 ; CHECK-NEXT:    vle16.v v14, (a1)
+; CHECK-NEXT:    vle16.v v12, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v12, v14
 ; CHECK-NEXT:    ret
   %a = load <16 x i16>, ptr %x
@@ -183,8 +183,8 @@ define <8 x  i64> @vwmulu_v8i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: vwmulu_v8i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 8, e32, m2, ta, ma
-; CHECK-NEXT:    vle32.v v12, (a0)
 ; CHECK-NEXT:    vle32.v v14, (a1)
+; CHECK-NEXT:    vle32.v v12, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v12, v14
 ; CHECK-NEXT:    ret
   %a = load <8 x  i32>, ptr %x
@@ -200,8 +200,8 @@ define <64 x i16> @vwmulu_v64i16(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 64
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m4, ta, ma
-; CHECK-NEXT:    vle8.v v16, (a0)
 ; CHECK-NEXT:    vle8.v v20, (a1)
+; CHECK-NEXT:    vle8.v v16, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v16, v20
 ; CHECK-NEXT:    ret
   %a = load <64 x i8>, ptr %x
@@ -217,8 +217,8 @@ define <32 x i32> @vwmulu_v32i32(ptr %x, ptr %y) {
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    li a2, 32
 ; CHECK-NEXT:    vsetvli zero, a2, e16, m4, ta, ma
-; CHECK-NEXT:    vle16.v v16, (a0)
 ; CHECK-NEXT:    vle16.v v20, (a1)
+; CHECK-NEXT:    vle16.v v16, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v16, v20
 ; CHECK-NEXT:    ret
   %a = load <32 x i16>, ptr %x
@@ -233,8 +233,8 @@ define <16 x i64> @vwmulu_v16i64(ptr %x, ptr %y) {
 ; CHECK-LABEL: vwmulu_v16i64:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 16, e32, m4, ta, ma
-; CHECK-NEXT:    vle32.v v16, (a0)
 ; CHECK-NEXT:    vle32.v v20, (a1)
+; CHECK-NEXT:    vle32.v v16, (a0)
 ; CHECK-NEXT:    vwmulu.vv v8, v16, v20
 ; CHECK-NEXT:    ret
   %a = load <16 x i32>, ptr %x
@@ -258,8 +258,8 @@ define <128 x i16> @vwmulu_v128i16(ptr %x, ptr %y) {
 ; CHECK-NEXT:    vsetvli zero, a2, e8, m8, ta, ma
 ; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    addi a0, sp, 16
-; CHECK-NEXT:    vs8r.v v8, (a0) # Unknown-size Folded Spill
 ; CHECK-NEXT:    vle8.v v0, (a1)
+; CHECK-NEXT:    vs8r.v v8, (a0) # Unknown-size Folded Spill
 ; CHECK-NEXT:    li a0, 64
 ; CHECK-NEXT:    vsetvli zero, a0, e8, m8, ta, ma
 ; CHECK-NEXT:    vslidedown.vx v16, v8, a0
@@ -273,11 +273,11 @@ define <128 x i16> @vwmulu_v128i16(ptr %x, ptr %y) {
 ; CHECK-NEXT:    vs8r.v v24, (a0) # Unknown-size Folded Spill
 ; CHECK-NEXT:    addi a0, sp, 16
 ; CHECK-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
-; CHECK-NEXT:    vwmulu.vv v8, v16, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 3
 ; CHECK-NEXT:    add a0, sp, a0
 ; CHECK-NEXT:    addi a0, a0, 16
+; CHECK-NEXT:    vwmulu.vv v8, v16, v0
 ; CHECK-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 4
@@ -307,8 +307,8 @@ define <64 x i32> @vwmulu_v64i32(ptr %x, ptr %y) {
 ; CHECK-NEXT:    vsetvli zero, a2, e16, m8, ta, ma
 ; CHECK-NEXT:    vle16.v v8, (a0)
 ; CHECK-NEXT:    addi a0, sp, 16
-; CHECK-NEXT:    vs8r.v v8, (a0) # Unknown-size Folded Spill
 ; CHECK-NEXT:    vle16.v v0, (a1)
+; CHECK-NEXT:    vs8r.v v8, (a0) # Unknown-size Folded Spill
 ; CHECK-NEXT:    li a0, 32
 ; CHECK-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
 ; CHECK-NEXT:    vslidedown.vx v16, v8, a0
@@ -322,11 +322,11 @@ define <64 x i32> @vwmulu_v64i32(ptr %x, ptr %y) {
 ; CHECK-NEXT:    vs8r.v v24, (a0) # Unknown-size Folded Spill
 ; CHECK-NEXT:    addi a0, sp, 16
 ; CHECK-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
-; CHECK-NEXT:    vwmulu.vv v8, v16, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 3
 ; CHECK-NEXT:    add a0, sp, a0
 ; CHECK-NEXT:    addi a0, a0, 16
+; CHECK-NEXT:    vwmulu.vv v8, v16, v0
 ; CHECK-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 4
@@ -356,9 +356,9 @@ define <32 x i64> @vwmulu_v32i64(ptr %x, ptr %y) {
 ; CHECK-NEXT:    vsetvli zero, a2, e32, m8, ta, ma
 ; CHECK-NEXT:    vle32.v v8, (a0)
 ; CHECK-NEXT:    addi a0, sp, 16
-; CHECK-NEXT:    vs8r.v v8, (a0) # Unknown-size Folded Spill
 ; CHECK-NEXT:    vle32.v v0, (a1)
 ; CHECK-NEXT:    vsetivli zero, 16, e32, m8, ta, ma
+; CHECK-NEXT:    vs8r.v v8, (a0) # Unknown-size Folded Spill
 ; CHECK-NEXT:    vslidedown.vi v16, v8, 16
 ; CHECK-NEXT:    vslidedown.vi v8, v0, 16
 ; CHECK-NEXT:    vsetivli zero, 16, e32, m4, ta, ma
@@ -370,11 +370,11 @@ define <32 x i64> @vwmulu_v32i64(ptr %x, ptr %y) {
 ; CHECK-NEXT:    vs8r.v v24, (a0) # Unknown-size Folded Spill
 ; CHECK-NEXT:    addi a0, sp, 16
 ; CHECK-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
-; CHECK-NEXT:    vwmulu.vv v8, v16, v0
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 3
 ; CHECK-NEXT:    add a0, sp, a0
 ; CHECK-NEXT:    addi a0, a0, 16
+; CHECK-NEXT:    vwmulu.vv v8, v16, v0
 ; CHECK-NEXT:    vl8r.v v16, (a0) # Unknown-size Folded Reload
 ; CHECK-NEXT:    csrr a0, vlenb
 ; CHECK-NEXT:    slli a0, a0, 4
@@ -395,8 +395,8 @@ define <2 x i32> @vwmulu_v2i32_v2i8(ptr %x, ptr %y) {
 ; CHECK-LABEL: vwmulu_v2i32_v2i8:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetivli zero, 2, e8, mf8, ta, ma
-; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vle8.v v9, (a1)
+; CHECK-NEXT:    vle8.v v8, (a0)
 ; CHECK-NEXT:    vwmulu.vv v10, v8, v9
 ; CHECK-NEXT:    vsetvli zero, zero, e32, mf2, ta, ma
 ; CHECK-NEXT:    vzext.vf2 v8, v10

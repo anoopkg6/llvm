@@ -11,8 +11,8 @@ define i64 @lwd(ptr %a) {
 ; RV32XTHEADMEMPAIR-NEXT:    srai a3, a1, 31
 ; RV32XTHEADMEMPAIR-NEXT:    srai a4, a2, 31
 ; RV32XTHEADMEMPAIR-NEXT:    add a0, a1, a2
-; RV32XTHEADMEMPAIR-NEXT:    sltu a1, a0, a1
 ; RV32XTHEADMEMPAIR-NEXT:    add a3, a3, a4
+; RV32XTHEADMEMPAIR-NEXT:    sltu a1, a0, a1
 ; RV32XTHEADMEMPAIR-NEXT:    add a1, a3, a1
 ; RV32XTHEADMEMPAIR-NEXT:    ret
 ;
@@ -87,8 +87,8 @@ define i64 @lwd_0(ptr %a) {
 ; RV32XTHEADMEMPAIR-NEXT:    srai a3, a1, 31
 ; RV32XTHEADMEMPAIR-NEXT:    srai a4, a2, 31
 ; RV32XTHEADMEMPAIR-NEXT:    add a0, a1, a2
-; RV32XTHEADMEMPAIR-NEXT:    sltu a1, a0, a1
 ; RV32XTHEADMEMPAIR-NEXT:    add a3, a3, a4
+; RV32XTHEADMEMPAIR-NEXT:    sltu a1, a0, a1
 ; RV32XTHEADMEMPAIR-NEXT:    add a1, a3, a1
 ; RV32XTHEADMEMPAIR-NEXT:    ret
 ;
@@ -135,9 +135,9 @@ define i64 @ldd_0(ptr %a) {
 ; RV32XTHEADMEMPAIR:       # %bb.0:
 ; RV32XTHEADMEMPAIR-NEXT:    th.lwd a1, a2, (a0), 0, 3
 ; RV32XTHEADMEMPAIR-NEXT:    th.lwd a3, a4, (a0), 1, 3
-; RV32XTHEADMEMPAIR-NEXT:    add a2, a2, a4
 ; RV32XTHEADMEMPAIR-NEXT:    add a0, a1, a3
 ; RV32XTHEADMEMPAIR-NEXT:    sltu a1, a0, a1
+; RV32XTHEADMEMPAIR-NEXT:    add a2, a2, a4
 ; RV32XTHEADMEMPAIR-NEXT:    add a1, a2, a1
 ; RV32XTHEADMEMPAIR-NEXT:    ret
 ;
@@ -174,10 +174,10 @@ define void @swd(ptr %a, i32 %b, i32%c) {
 define void @sdd(ptr %a, i64 %b, i64%c) {
 ; RV32XTHEADMEMPAIR-LABEL: sdd:
 ; RV32XTHEADMEMPAIR:       # %bb.0:
-; RV32XTHEADMEMPAIR-NEXT:    sw a1, 32(a0)
-; RV32XTHEADMEMPAIR-NEXT:    sw a2, 36(a0)
-; RV32XTHEADMEMPAIR-NEXT:    sw a3, 40(a0)
 ; RV32XTHEADMEMPAIR-NEXT:    sw a4, 44(a0)
+; RV32XTHEADMEMPAIR-NEXT:    sw a3, 40(a0)
+; RV32XTHEADMEMPAIR-NEXT:    sw a2, 36(a0)
+; RV32XTHEADMEMPAIR-NEXT:    sw a1, 32(a0)
 ; RV32XTHEADMEMPAIR-NEXT:    ret
 ;
 ; RV64XTHEADMEMPAIR-LABEL: sdd:
@@ -211,8 +211,8 @@ define void @swd_0(ptr %a, i32 %b, i32%c) {
 define void @sdd_0(ptr %a, i64 %b, i64%c) {
 ; RV32XTHEADMEMPAIR-LABEL: sdd_0:
 ; RV32XTHEADMEMPAIR:       # %bb.0:
-; RV32XTHEADMEMPAIR-NEXT:    th.swd a1, a2, (a0), 0, 3
 ; RV32XTHEADMEMPAIR-NEXT:    th.swd a3, a4, (a0), 1, 3
+; RV32XTHEADMEMPAIR-NEXT:    th.swd a1, a2, (a0), 0, 3
 ; RV32XTHEADMEMPAIR-NEXT:    ret
 ;
 ; RV64XTHEADMEMPAIR-LABEL: sdd_0:

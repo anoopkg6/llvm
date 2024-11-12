@@ -47,12 +47,12 @@ define void @foo2(i32 %x, float %y) {
 ; RV32-NEXT:    .cfi_offset s0, -4
 ; RV32-NEXT:    fsw fs0, 12(sp) # 4-byte Folded Spill
 ; RV32-NEXT:    .cfi_offset fs0, -20
-; RV32-NEXT:    fmv.s fs0, fa0
 ; RV32-NEXT:    mv s0, a0
+; RV32-NEXT:    fmv.s fs0, fa0
 ; RV32-NEXT:    call bar
-; RV32-NEXT:    mv a0, s0
 ; RV32-NEXT:    fmv.s fa0, fs0
 ; RV32-NEXT:    flw fs0, 12(sp) # 4-byte Folded Reload
+; RV32-NEXT:    mv a0, s0
 ; RV32-NEXT:    .cfi_restore fs0
 ; RV32-NEXT:    cm.pop {ra, s0}, 32
 ; RV32-NEXT:    .cfi_restore ra
@@ -68,12 +68,12 @@ define void @foo2(i32 %x, float %y) {
 ; RV64-NEXT:    .cfi_offset s0, -8
 ; RV64-NEXT:    fsw fs0, 12(sp) # 4-byte Folded Spill
 ; RV64-NEXT:    .cfi_offset fs0, -20
-; RV64-NEXT:    fmv.s fs0, fa0
 ; RV64-NEXT:    mv s0, a0
+; RV64-NEXT:    fmv.s fs0, fa0
 ; RV64-NEXT:    call bar
-; RV64-NEXT:    mv a0, s0
 ; RV64-NEXT:    fmv.s fa0, fs0
 ; RV64-NEXT:    flw fs0, 12(sp) # 4-byte Folded Reload
+; RV64-NEXT:    mv a0, s0
 ; RV64-NEXT:    .cfi_restore fs0
 ; RV64-NEXT:    cm.pop {ra, s0}, 32
 ; RV64-NEXT:    .cfi_restore ra

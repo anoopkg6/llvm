@@ -10,8 +10,8 @@ define i32 @exhausted(i32 %a, i32 %b, i32 %c, i32 %d, i32 %e, i32 %f, i32 %g) {
 ; CHECK-NEXT:    lw t0, 0(sp)
 ; CHECK-NEXT:    add a0, a0, a1
 ; CHECK-NEXT:    add a2, a3, a2
-; CHECK-NEXT:    add a0, a2, a0
 ; CHECK-NEXT:    add a4, a5, a4
+; CHECK-NEXT:    add a0, a2, a0
 ; CHECK-NEXT:    add a0, a4, a0
 ; CHECK-NEXT:    add a0, t0, a0
 ; CHECK-NEXT:    ret

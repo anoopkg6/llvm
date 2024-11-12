@@ -9,8 +9,8 @@ define <vscale x 2 x i1> @isnan_nxv2f16(<vscale x 2 x half> %x, <vscale x 2 x i1
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e16, mf2, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8, v0.t
-; CHECK-NEXT:    li a0, 768
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf2, ta, ma
+; CHECK-NEXT:    li a0, 768
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -23,8 +23,8 @@ define <vscale x 2 x i1> @isnan_nxv2f16_unmasked(<vscale x 2 x half> %x, i32 zer
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e16, mf2, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8
-; CHECK-NEXT:    li a0, 768
 ; CHECK-NEXT:    vsetvli a1, zero, e16, mf2, ta, ma
+; CHECK-NEXT:    li a0, 768
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -37,8 +37,8 @@ define <vscale x 2 x i1> @isnan_nxv2f32(<vscale x 2 x float> %x, <vscale x 2 x i
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m1, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8, v0.t
-; CHECK-NEXT:    li a0, 927
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m1, ta, ma
+; CHECK-NEXT:    li a0, 927
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -51,8 +51,8 @@ define <vscale x 2 x i1> @isnan_nxv2f32_unmasked(<vscale x 2 x float> %x, i32 ze
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m1, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8
-; CHECK-NEXT:    li a0, 927
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m1, ta, ma
+; CHECK-NEXT:    li a0, 927
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -65,8 +65,8 @@ define <vscale x 4 x i1> @isnan_nxv4f32(<vscale x 4 x float> %x, <vscale x 4 x i
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m2, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8, v0.t
-; CHECK-NEXT:    li a0, 768
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m2, ta, ma
+; CHECK-NEXT:    li a0, 768
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -79,8 +79,8 @@ define <vscale x 4 x i1> @isnan_nxv4f32_unmasked(<vscale x 4 x float> %x, i32 ze
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m2, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8
-; CHECK-NEXT:    li a0, 768
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m2, ta, ma
+; CHECK-NEXT:    li a0, 768
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -93,8 +93,8 @@ define <vscale x 8 x i1> @isnan_nxv8f32(<vscale x 8 x float> %x,  <vscale x 8 x 
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m4, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8, v0.t
-; CHECK-NEXT:    li a0, 512
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m4, ta, ma
+; CHECK-NEXT:    li a0, 512
 ; CHECK-NEXT:    vmseq.vx v0, v8, a0
 ; CHECK-NEXT:    ret
   %1 = call <vscale x 8 x i1> @llvm.vp.is.fpclass.nxv8f32(<vscale x 8 x float> %x, i32 2, <vscale x 8 x i1> %m, i32 %evl)
@@ -106,8 +106,8 @@ define <vscale x 8 x i1> @isnan_nxv8f32_unmasked(<vscale x 8 x float> %x, i32 ze
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m4, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8
-; CHECK-NEXT:    li a0, 512
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m4, ta, ma
+; CHECK-NEXT:    li a0, 512
 ; CHECK-NEXT:    vmseq.vx v0, v8, a0
 ; CHECK-NEXT:    ret
   %1 = call <vscale x 8 x i1> @llvm.vp.is.fpclass.nxv8f32(<vscale x 8 x float> %x, i32 2, <vscale x 8 x i1> splat (i1 true), i32 %evl)
@@ -119,8 +119,8 @@ define <vscale x 16 x i1> @isnan_nxv16f32(<vscale x 16 x float> %x, <vscale x 16
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m8, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8, v0.t
-; CHECK-NEXT:    li a0, 256
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m8, ta, ma
+; CHECK-NEXT:    li a0, 256
 ; CHECK-NEXT:    vmseq.vx v0, v8, a0
 ; CHECK-NEXT:    ret
   %1 = call <vscale x 16 x i1> @llvm.vp.is.fpclass.nxv16f32(<vscale x 16 x float> %x, i32 1, <vscale x 16 x i1> %m, i32 %evl)
@@ -132,8 +132,8 @@ define <vscale x 16 x i1> @isnan_nxv16f32_unmasked(<vscale x 16 x float> %x, i32
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m8, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8
-; CHECK-NEXT:    li a0, 256
 ; CHECK-NEXT:    vsetvli a1, zero, e32, m8, ta, ma
+; CHECK-NEXT:    li a0, 256
 ; CHECK-NEXT:    vmseq.vx v0, v8, a0
 ; CHECK-NEXT:    ret
   %1 = call <vscale x 16 x i1> @llvm.vp.is.fpclass.nxv16f32(<vscale x 16 x float> %x, i32 1, <vscale x 16 x i1> splat (i1 true), i32 %evl)
@@ -145,8 +145,8 @@ define <vscale x 2 x i1> @isnormal_nxv2f64(<vscale x 2 x double> %x, <vscale x 2
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e64, m2, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8, v0.t
-; CHECK-NEXT:    li a0, 129
 ; CHECK-NEXT:    vsetvli a1, zero, e64, m2, ta, ma
+; CHECK-NEXT:    li a0, 129
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -159,8 +159,8 @@ define <vscale x 2 x i1> @isnormal_nxv2f64_unmasked(<vscale x 2 x double> %x, i3
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e64, m2, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8
-; CHECK-NEXT:    li a0, 129
 ; CHECK-NEXT:    vsetvli a1, zero, e64, m2, ta, ma
+; CHECK-NEXT:    li a0, 129
 ; CHECK-NEXT:    vand.vx v8, v8, a0
 ; CHECK-NEXT:    vmsne.vi v0, v8, 0
 ; CHECK-NEXT:    ret
@@ -173,8 +173,8 @@ define <vscale x 4 x i1> @isposinf_nxv4f64(<vscale x 4 x double> %x, <vscale x 4
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e64, m4, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8, v0.t
-; CHECK-NEXT:    li a0, 128
 ; CHECK-NEXT:    vsetvli a1, zero, e64, m4, ta, ma
+; CHECK-NEXT:    li a0, 128
 ; CHECK-NEXT:    vmseq.vx v0, v8, a0
 ; CHECK-NEXT:    ret
   %1 = call <vscale x 4 x i1> @llvm.vp.is.fpclass.nxv4f64(<vscale x 4 x double> %x, i32 512, <vscale x 4 x i1> %m, i32 %evl) ; 0x200 = "+inf"
@@ -186,8 +186,8 @@ define <vscale x 4 x i1> @isposinf_nxv4f64_unmasked(<vscale x 4 x double> %x, i3
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    vsetvli zero, a0, e64, m4, ta, ma
 ; CHECK-NEXT:    vfclass.v v8, v8
-; CHECK-NEXT:    li a0, 128
 ; CHECK-NEXT:    vsetvli a1, zero, e64, m4, ta, ma
+; CHECK-NEXT:    li a0, 128
 ; CHECK-NEXT:    vmseq.vx v0, v8, a0
 ; CHECK-NEXT:    ret
   %1 = call <vscale x 4 x i1> @llvm.vp.is.fpclass.nxv4f64(<vscale x 4 x double> %x, i32 512, <vscale x 4 x i1> splat (i1 true), i32 %evl) ; 0x200 = "+inf"

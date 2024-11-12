@@ -96,8 +96,8 @@ define half @vpreduce_fadd_nxv64f16(half %s, <vscale x 64 x half> %v, <vscale x 
 ; CHECK-NEXT:    csrr a2, vlenb
 ; CHECK-NEXT:    srli a1, a2, 1
 ; CHECK-NEXT:    vsetvli a3, zero, e8, m1, ta, ma
-; CHECK-NEXT:    vslidedown.vx v24, v0, a1
 ; CHECK-NEXT:    slli a2, a2, 2
+; CHECK-NEXT:    vslidedown.vx v24, v0, a1
 ; CHECK-NEXT:    sub a1, a0, a2
 ; CHECK-NEXT:    sltu a3, a0, a1
 ; CHECK-NEXT:    addi a3, a3, -1
@@ -110,8 +110,8 @@ define half @vpreduce_fadd_nxv64f16(half %s, <vscale x 64 x half> %v, <vscale x 
 ; CHECK-NEXT:    vfmv.s.f v25, fa0
 ; CHECK-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
 ; CHECK-NEXT:    vfredusum.vs v25, v8, v25, v0.t
-; CHECK-NEXT:    vmv1r.v v0, v24
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m8, ta, ma
+; CHECK-NEXT:    vmv1r.v v0, v24
 ; CHECK-NEXT:    vfredusum.vs v25, v16, v25, v0.t
 ; CHECK-NEXT:    vfmv.f.s fa0, v25
 ; CHECK-NEXT:    ret
@@ -125,8 +125,8 @@ define half @vpreduce_ord_fadd_nxv64f16(half %s, <vscale x 64 x half> %v, <vscal
 ; CHECK-NEXT:    csrr a2, vlenb
 ; CHECK-NEXT:    srli a1, a2, 1
 ; CHECK-NEXT:    vsetvli a3, zero, e8, m1, ta, ma
-; CHECK-NEXT:    vslidedown.vx v24, v0, a1
 ; CHECK-NEXT:    slli a2, a2, 2
+; CHECK-NEXT:    vslidedown.vx v24, v0, a1
 ; CHECK-NEXT:    sub a1, a0, a2
 ; CHECK-NEXT:    sltu a3, a0, a1
 ; CHECK-NEXT:    addi a3, a3, -1
@@ -139,8 +139,8 @@ define half @vpreduce_ord_fadd_nxv64f16(half %s, <vscale x 64 x half> %v, <vscal
 ; CHECK-NEXT:    vfmv.s.f v25, fa0
 ; CHECK-NEXT:    vsetvli zero, a0, e16, m8, ta, ma
 ; CHECK-NEXT:    vfredosum.vs v25, v8, v25, v0.t
-; CHECK-NEXT:    vmv1r.v v0, v24
 ; CHECK-NEXT:    vsetvli zero, a1, e16, m8, ta, ma
+; CHECK-NEXT:    vmv1r.v v0, v24
 ; CHECK-NEXT:    vfredosum.vs v25, v16, v25, v0.t
 ; CHECK-NEXT:    vfmv.f.s fa0, v25
 ; CHECK-NEXT:    ret
@@ -350,12 +350,12 @@ define float @vreduce_fminimum_nxv4f32(float %start, <vscale x 4 x float> %val, 
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m1, ta, ma
 ; CHECK-NEXT:    vfmv.s.f v10, fa0
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m2, ta, ma
-; CHECK-NEXT:    vfredmin.vs v10, v8, v10, v0.t
 ; CHECK-NEXT:    vmfne.vv v11, v8, v8, v0.t
-; CHECK-NEXT:    vcpop.m a0, v11, v0.t
 ; CHECK-NEXT:    feq.s a1, fa0, fa0
 ; CHECK-NEXT:    xori a1, a1, 1
+; CHECK-NEXT:    vcpop.m a0, v11, v0.t
 ; CHECK-NEXT:    or a0, a0, a1
+; CHECK-NEXT:    vfredmin.vs v10, v8, v10, v0.t
 ; CHECK-NEXT:    beqz a0, .LBB22_2
 ; CHECK-NEXT:  # %bb.1:
 ; CHECK-NEXT:    lui a0, 523264
@@ -374,12 +374,12 @@ define float @vreduce_fmaximum_nxv4f32(float %start, <vscale x 4 x float> %val, 
 ; CHECK-NEXT:    vsetivli zero, 1, e32, m1, ta, ma
 ; CHECK-NEXT:    vfmv.s.f v10, fa0
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m2, ta, ma
-; CHECK-NEXT:    vfredmax.vs v10, v8, v10, v0.t
 ; CHECK-NEXT:    vmfne.vv v11, v8, v8, v0.t
-; CHECK-NEXT:    vcpop.m a0, v11, v0.t
 ; CHECK-NEXT:    feq.s a1, fa0, fa0
 ; CHECK-NEXT:    xori a1, a1, 1
+; CHECK-NEXT:    vcpop.m a0, v11, v0.t
 ; CHECK-NEXT:    or a0, a0, a1
+; CHECK-NEXT:    vfredmax.vs v10, v8, v10, v0.t
 ; CHECK-NEXT:    beqz a0, .LBB23_2
 ; CHECK-NEXT:  # %bb.1:
 ; CHECK-NEXT:    lui a0, 523264
@@ -426,9 +426,9 @@ define float @vreduce_fminimum_v4f32(float %start, <4 x float> %val, <4 x i1> %m
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m1, ta, ma
 ; CHECK-NEXT:    vfredmin.vs v9, v8, v9, v0.t
 ; CHECK-NEXT:    vmfne.vv v8, v8, v8, v0.t
-; CHECK-NEXT:    vcpop.m a0, v8, v0.t
 ; CHECK-NEXT:    feq.s a1, fa0, fa0
 ; CHECK-NEXT:    xori a1, a1, 1
+; CHECK-NEXT:    vcpop.m a0, v8, v0.t
 ; CHECK-NEXT:    or a0, a0, a1
 ; CHECK-NEXT:    beqz a0, .LBB26_2
 ; CHECK-NEXT:  # %bb.1:
@@ -450,9 +450,9 @@ define float @vreduce_fmaximum_v4f32(float %start, <4 x float> %val, <4 x i1> %m
 ; CHECK-NEXT:    vsetvli zero, a0, e32, m1, ta, ma
 ; CHECK-NEXT:    vfredmax.vs v9, v8, v9, v0.t
 ; CHECK-NEXT:    vmfne.vv v8, v8, v8, v0.t
-; CHECK-NEXT:    vcpop.m a0, v8, v0.t
 ; CHECK-NEXT:    feq.s a1, fa0, fa0
 ; CHECK-NEXT:    xori a1, a1, 1
+; CHECK-NEXT:    vcpop.m a0, v8, v0.t
 ; CHECK-NEXT:    or a0, a0, a1
 ; CHECK-NEXT:    beqz a0, .LBB27_2
 ; CHECK-NEXT:  # %bb.1:

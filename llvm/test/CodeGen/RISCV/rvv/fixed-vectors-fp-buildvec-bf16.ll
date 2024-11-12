@@ -43,37 +43,37 @@ define <4 x bfloat> @splat_idx_v4bf16(<4 x bfloat> %v, i64 %idx) {
 define <2 x bfloat> @buildvec_v2bf16(bfloat %a, bfloat %b) {
 ; RV32-NO-ZFBFMIN-LABEL: buildvec_v2bf16:
 ; RV32-NO-ZFBFMIN:       # %bb.0:
-; RV32-NO-ZFBFMIN-NEXT:    fmv.x.w a0, fa1
-; RV32-NO-ZFBFMIN-NEXT:    fmv.x.w a1, fa0
 ; RV32-NO-ZFBFMIN-NEXT:    vsetivli zero, 2, e16, mf4, ta, ma
+; RV32-NO-ZFBFMIN-NEXT:    fmv.x.w a1, fa0
 ; RV32-NO-ZFBFMIN-NEXT:    vmv.v.x v8, a1
+; RV32-NO-ZFBFMIN-NEXT:    fmv.x.w a0, fa1
 ; RV32-NO-ZFBFMIN-NEXT:    vslide1down.vx v8, v8, a0
 ; RV32-NO-ZFBFMIN-NEXT:    ret
 ;
 ; RV64-NO-ZFBFMIN-LABEL: buildvec_v2bf16:
 ; RV64-NO-ZFBFMIN:       # %bb.0:
-; RV64-NO-ZFBFMIN-NEXT:    fmv.x.w a0, fa1
-; RV64-NO-ZFBFMIN-NEXT:    fmv.x.w a1, fa0
 ; RV64-NO-ZFBFMIN-NEXT:    vsetivli zero, 2, e16, mf4, ta, ma
+; RV64-NO-ZFBFMIN-NEXT:    fmv.x.w a1, fa0
 ; RV64-NO-ZFBFMIN-NEXT:    vmv.v.x v8, a1
+; RV64-NO-ZFBFMIN-NEXT:    fmv.x.w a0, fa1
 ; RV64-NO-ZFBFMIN-NEXT:    vslide1down.vx v8, v8, a0
 ; RV64-NO-ZFBFMIN-NEXT:    ret
 ;
 ; RV32-ZFBFMIN-LABEL: buildvec_v2bf16:
 ; RV32-ZFBFMIN:       # %bb.0:
-; RV32-ZFBFMIN-NEXT:    fmv.x.h a0, fa1
-; RV32-ZFBFMIN-NEXT:    fmv.x.h a1, fa0
 ; RV32-ZFBFMIN-NEXT:    vsetivli zero, 2, e16, mf4, ta, ma
+; RV32-ZFBFMIN-NEXT:    fmv.x.h a1, fa0
 ; RV32-ZFBFMIN-NEXT:    vmv.v.x v8, a1
+; RV32-ZFBFMIN-NEXT:    fmv.x.h a0, fa1
 ; RV32-ZFBFMIN-NEXT:    vslide1down.vx v8, v8, a0
 ; RV32-ZFBFMIN-NEXT:    ret
 ;
 ; RV64-ZFBFMIN-LABEL: buildvec_v2bf16:
 ; RV64-ZFBFMIN:       # %bb.0:
-; RV64-ZFBFMIN-NEXT:    fmv.x.h a0, fa1
-; RV64-ZFBFMIN-NEXT:    fmv.x.h a1, fa0
 ; RV64-ZFBFMIN-NEXT:    vsetivli zero, 2, e16, mf4, ta, ma
+; RV64-ZFBFMIN-NEXT:    fmv.x.h a1, fa0
 ; RV64-ZFBFMIN-NEXT:    vmv.v.x v8, a1
+; RV64-ZFBFMIN-NEXT:    fmv.x.h a0, fa1
 ; RV64-ZFBFMIN-NEXT:    vslide1down.vx v8, v8, a0
 ; RV64-ZFBFMIN-NEXT:    ret
   %v1 = insertelement <2 x bfloat> poison, bfloat %a, i64 0
@@ -84,8 +84,8 @@ define <2 x bfloat> @buildvec_v2bf16(bfloat %a, bfloat %b) {
 define <2 x bfloat> @vid_v2bf16() {
 ; CHECK-LABEL: vid_v2bf16:
 ; CHECK:       # %bb.0:
-; CHECK-NEXT:    lui a0, 260096
 ; CHECK-NEXT:    vsetivli zero, 2, e32, m1, ta, ma
+; CHECK-NEXT:    lui a0, 260096
 ; CHECK-NEXT:    vmv.s.x v8, a0
 ; CHECK-NEXT:    ret
   ret <2 x bfloat> <bfloat 0.0, bfloat 1.0>
@@ -95,8 +95,8 @@ define <2 x bfloat> @vid_addend1_v2bf16() {
 ; CHECK-LABEL: vid_addend1_v2bf16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    lui a0, 262148
-; CHECK-NEXT:    addi a0, a0, -128
 ; CHECK-NEXT:    vsetivli zero, 2, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -128
 ; CHECK-NEXT:    vmv.s.x v8, a0
 ; CHECK-NEXT:    ret
   ret <2 x bfloat> <bfloat 1.0, bfloat 2.0>
@@ -106,8 +106,8 @@ define <2 x bfloat> @vid_denominator2_v2bf16() {
 ; CHECK-LABEL: vid_denominator2_v2bf16:
 ; CHECK:       # %bb.0:
 ; CHECK-NEXT:    lui a0, 260100
-; CHECK-NEXT:    addi a0, a0, -256
 ; CHECK-NEXT:    vsetivli zero, 2, e32, m1, ta, ma
+; CHECK-NEXT:    addi a0, a0, -256
 ; CHECK-NEXT:    vmv.s.x v8, a0
 ; CHECK-NEXT:    ret
   ret <2 x bfloat> <bfloat 0.5, bfloat 1.0>
