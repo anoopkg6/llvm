@@ -533,6 +533,8 @@ Improvements to Clang's diagnostics
 
 - Improved diagnostic message for ``__builtin_bit_cast`` size mismatch (#GH115870).
 
+- Clang now diagnoses the use of attribute names reserved by the C++ standard. (#GH92196).
+
 Improvements to Clang's time-trace
 ----------------------------------
 
