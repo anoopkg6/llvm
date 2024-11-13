@@ -186,12 +186,12 @@ entry:
   ret i32 %c
 }
 
-; FIXME: Should preserve metadata on loads, except !noundef and !invariant.load.
+; Preserve metadata on loads, except !noundef and !invariant.load.
 define ptr @preserve_load_metadata_after_select_transform1(i1 %c, ptr dereferenceable(8) %a, ptr dereferenceable(8) %b) {
 ; CHECK-LABEL: @preserve_load_metadata_after_select_transform1(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[B_VAL:%.*]] = load ptr, ptr [[B:%.*]], align 1
-; CHECK-NEXT:    [[A_VAL:%.*]] = load ptr, ptr [[A:%.*]], align 1
+; CHECK-NEXT:    [[B_VAL:%.*]] = load ptr, ptr [[B:%.*]], align 1, !tbaa [[TBAA0]], !dereferenceable [[META8]], !llvm.access.group [[META6]]
+; CHECK-NEXT:    [[A_VAL:%.*]] = load ptr, ptr [[A:%.*]], align 1, !tbaa [[TBAA0]], !dereferenceable [[META8]], !llvm.access.group [[META6]]
 ; CHECK-NEXT:    [[L_SEL:%.*]] = select i1 [[C:%.*]], ptr [[B_VAL]], ptr [[A_VAL]]
 ; CHECK-NEXT:    ret ptr [[L_SEL]]
 ;
@@ -201,12 +201,11 @@ entry:
   ret ptr %l.sel
 }
 
-; FIXME: Should preserve metadata on loads.
 define double @preserve_load_metadata_after_select_transform2(ptr %a, ptr %b) {
 ; CHECK-LABEL: @preserve_load_metadata_after_select_transform2(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[L_A:%.*]] = load double, ptr [[A:%.*]], align 8
-; CHECK-NEXT:    [[L_B:%.*]] = load double, ptr [[B:%.*]], align 8
+; CHECK-NEXT:    [[L_A:%.*]] = load double, ptr [[A:%.*]], align 8, !tbaa [[TBAA0]], !llvm.access.group [[META6]]
+; CHECK-NEXT:    [[L_B:%.*]] = load double, ptr [[B:%.*]], align 8, !tbaa [[TBAA0]], !llvm.access.group [[META6]]
 ; CHECK-NEXT:    [[CMP_I:%.*]] = fcmp fast olt double [[L_A]], [[L_B]]
 ; CHECK-NEXT:    [[L_SEL:%.*]] = select i1 [[CMP_I]], double [[L_B]], double [[L_A]]
 ; CHECK-NEXT:    ret double [[L_SEL]]
@@ -220,12 +219,11 @@ entry:
   ret double %l.sel
 }
 
-; FIXME: Should preserve metadata on loads.
 define double @preserve_load_metadata_after_select_transform_metadata_missing_1(ptr %a, ptr %b) {
 ; CHECK-LABEL: @preserve_load_metadata_after_select_transform_metadata_missing_1(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[L_A:%.*]] = load double, ptr [[A:%.*]], align 8
-; CHECK-NEXT:    [[L_B:%.*]] = load double, ptr [[B:%.*]], align 8
+; CHECK-NEXT:    [[L_A:%.*]] = load double, ptr [[A:%.*]], align 8, !llvm.access.group [[META6]]
+; CHECK-NEXT:    [[L_B:%.*]] = load double, ptr [[B:%.*]], align 8, !tbaa [[TBAA0]], !llvm.access.group [[META6]]
 ; CHECK-NEXT:    [[CMP_I:%.*]] = fcmp fast olt double [[L_A]], [[L_B]]
 ; CHECK-NEXT:    [[L_SEL:%.*]] = select i1 [[CMP_I]], double [[L_B]], double [[L_A]]
 ; CHECK-NEXT:    ret double [[L_SEL]]
@@ -242,8 +240,8 @@ entry:
 define double @preserve_load_metadata_after_select_transform_metadata_missing_2(ptr %a, ptr %b) {
 ; CHECK-LABEL: @preserve_load_metadata_after_select_transform_metadata_missing_2(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[L_A:%.*]] = load double, ptr [[A:%.*]], align 8
-; CHECK-NEXT:    [[L_B:%.*]] = load double, ptr [[B:%.*]], align 8
+; CHECK-NEXT:    [[L_A:%.*]] = load double, ptr [[A:%.*]], align 8, !llvm.access.group [[META6]]
+; CHECK-NEXT:    [[L_B:%.*]] = load double, ptr [[B:%.*]], align 8, !llvm.access.group [[META6]]
 ; CHECK-NEXT:    [[CMP_I:%.*]] = fcmp fast olt double [[L_A]], [[L_B]]
 ; CHECK-NEXT:    [[L_SEL:%.*]] = select i1 [[CMP_I]], double [[L_B]], double [[L_A]]
 ; CHECK-NEXT:    ret double [[L_SEL]]
@@ -257,12 +255,11 @@ entry:
   ret double %l.sel
 }
 
-; FIXME: Should preserve metadata on loads.
 define double @preserve_load_metadata_after_select_transform_metadata_missing_3(ptr %a, ptr %b) {
 ; CHECK-LABEL: @preserve_load_metadata_after_select_transform_metadata_missing_3(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[L_A:%.*]] = load double, ptr [[A:%.*]], align 8
-; CHECK-NEXT:    [[L_B:%.*]] = load double, ptr [[B:%.*]], align 8
+; CHECK-NEXT:    [[L_A:%.*]] = load double, ptr [[A:%.*]], align 8, !tbaa [[TBAA0]], !llvm.access.group [[META6]]
+; CHECK-NEXT:    [[L_B:%.*]] = load double, ptr [[B:%.*]], align 8, !tbaa [[TBAA0]], !llvm.access.group [[META6]]
 ; CHECK-NEXT:    [[CMP_I:%.*]] = fcmp fast olt double [[L_A]], [[L_B]]
 ; CHECK-NEXT:    [[L_SEL:%.*]] = select i1 [[CMP_I]], double [[L_B]], double [[L_A]]
 ; CHECK-NEXT:    ret double [[L_SEL]]
