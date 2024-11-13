@@ -1375,6 +1375,10 @@ bool LoopVectorizationLegality::isFixedOrderRecurrence(
 }
 
 bool LoopVectorizationLegality::blockNeedsPredication(BasicBlock *BB) const {
+  // When vectorizing early exits, create predicates for all blocks, except the
+  // header.
+  if (hasUncountableEarlyExit() && BB != TheLoop->getHeader())
+    return true;
   return LoopAccessInfo::blockNeedsPredication(BB, TheLoop, DT);
 }
 
