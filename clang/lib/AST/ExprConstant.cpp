@@ -1703,7 +1703,7 @@ namespace {
     bool checkNullPointerDiagnosingWith(const GenDiagType &GenDiag) {
       if (Designator.Invalid)
         return false;
-      if (IsNullPtr) {
+      if (getLValueBase().isNull()) {
         GenDiag();
         Designator.setInvalid();
         return false;
