@@ -2247,10 +2247,11 @@ CXXDeductionGuideDecl *CXXDeductionGuideDecl::Create(
     ASTContext &C, DeclContext *DC, SourceLocation StartLoc,
     ExplicitSpecifier ES, const DeclarationNameInfo &NameInfo, QualType T,
     TypeSourceInfo *TInfo, SourceLocation EndLocation, CXXConstructorDecl *Ctor,
-    DeductionCandidate Kind, Expr *TrailingRequiresClause) {
-  return new (C, DC)
-      CXXDeductionGuideDecl(C, DC, StartLoc, ES, NameInfo, T, TInfo,
-                            EndLocation, Ctor, Kind, TrailingRequiresClause);
+    DeductionCandidate Kind, Expr *TrailingRequiresClause,
+    CXXDeductionGuideDecl *GeneratedFrom, SourceDeductionGuideKind SourceKind) {
+  return new (C, DC) CXXDeductionGuideDecl(
+      C, DC, StartLoc, ES, NameInfo, T, TInfo, EndLocation, Ctor, Kind,
+      TrailingRequiresClause, GeneratedFrom, SourceKind);
 }
 
 CXXDeductionGuideDecl *
@@ -2258,7 +2259,8 @@ CXXDeductionGuideDecl::CreateDeserialized(ASTContext &C, GlobalDeclID ID) {
   return new (C, ID) CXXDeductionGuideDecl(
       C, nullptr, SourceLocation(), ExplicitSpecifier(), DeclarationNameInfo(),
       QualType(), nullptr, SourceLocation(), nullptr,
-      DeductionCandidate::Normal, nullptr);
+      DeductionCandidate::Normal, nullptr,
+      /*GeneratedFrom=*/nullptr, SourceDeductionGuideKind::None);
 }
 
 RequiresExprBodyDecl *RequiresExprBodyDecl::Create(
