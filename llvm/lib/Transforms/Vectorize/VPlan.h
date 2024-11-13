@@ -236,7 +236,7 @@ public:
 struct VPTransformState {
   VPTransformState(ElementCount VF, unsigned UF, LoopInfo *LI,
                    DominatorTree *DT, IRBuilderBase &Builder,
-                   InnerLoopVectorizer *ILV, VPlan *Plan);
+                   InnerLoopVectorizer *ILV, VPlan *Plan, Type *CanonicalIVTy);
 
   /// The chosen Vectorization Factor of the loop being vectorized.
   ElementCount VF;
@@ -3544,6 +3544,8 @@ public:
 protected:
   /// Execute the recipes in the IR basic block \p BB.
   void executeRecipes(VPTransformState *State, BasicBlock *BB);
+  void connectToPredecessors(BasicBlock *NewBB,
+                             VPTransformState::CFGState &CFG);
 
   /// Connect the VPBBs predecessors' in the VPlan CFG to the IR basic block
   /// generated for this VPBB.
@@ -3669,6 +3671,7 @@ public:
     assert(!isReplicator() && "should only get pre-header of loop regions");
     return getSinglePredecessor()->getExitingBasicBlock();
   }
+  void clearEntry() { Entry = nullptr; }
 
   /// An indicator whether this region is to generate multiple replicated
   /// instances of output IR corresponding to its VPBlockBases.
@@ -3831,10 +3834,10 @@ public:
   /// whether to execute the scalar tail loop or the exit block from the loop
   /// latch.
   const VPBasicBlock *getMiddleBlock() const {
-    return cast<VPBasicBlock>(getVectorLoopRegion()->getSingleSuccessor());
+    return cast<VPBasicBlock>(getScalarPreheader()->getSinglePredecessor());
   }
   VPBasicBlock *getMiddleBlock() {
-    return cast<VPBasicBlock>(getVectorLoopRegion()->getSingleSuccessor());
+    return cast<VPBasicBlock>(getScalarPreheader()->getSinglePredecessor());
   }
 
   /// The trip count of the original loop.
@@ -3943,16 +3946,14 @@ public:
 
   /// Returns the VPRegionBlock of the vector loop.
   VPRegionBlock *getVectorLoopRegion() {
-    return cast<VPRegionBlock>(getEntry()->getSingleSuccessor());
+    return dyn_cast<VPRegionBlock>(getEntry()->getSingleSuccessor());
   }
   const VPRegionBlock *getVectorLoopRegion() const {
-    return cast<VPRegionBlock>(getEntry()->getSingleSuccessor());
+    return dyn_cast<VPRegionBlock>(getEntry()->getSingleSuccessor());
   }
 
   /// Returns the preheader of the vector loop region.
-  VPBasicBlock *getVectorPreheader() {
-    return cast<VPBasicBlock>(getVectorLoopRegion()->getSinglePredecessor());
-  }
+  VPBasicBlock *getVectorPreheader() { return cast<VPBasicBlock>(getEntry()); }
 
   /// Returns the canonical induction recipe of the vector loop.
   VPCanonicalIVPHIRecipe *getCanonicalIV() {
