@@ -209,7 +209,7 @@ public:
     Instance instance =
         Instance(name, description, callback, std::forward<Args>(args)...);
     m_instances.push_back(instance);
-    return false;
+    return true;
   }
 
   bool UnregisterPlugin(typename Instance::CallbackType callback) {
