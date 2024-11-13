@@ -1875,6 +1875,14 @@ DeclResult Sema::CheckClassTemplate(
   if (Previous.isAmbiguous())
     return true;
 
+  bool isStdTypeIdentity = false;
+  // Handle redeclaration of std::type_identity
+  if (Name && CurContext->isStdNamespace() && Name->isStr("type_identity")) {
+    if (Previous.empty() && StdTypeIdentity)
+      Previous.addDecl(getStdTypeIdentity());
+    isStdTypeIdentity = true;
+  }
+
   // Let the template parameter scope enter the lookup chain of the current
   // class template. For example, given
   //
@@ -2108,6 +2116,10 @@ DeclResult Sema::CheckClassTemplate(
 
   if (ShouldAddRedecl)
     NewTemplate->setPreviousDecl(PrevClassTemplate);
+
+  if (isStdTypeIdentity &&
+      (!StdTypeIdentity || getStdTypeIdentity()->isImplicit()))
+    StdTypeIdentity = NewTemplate;
 
   NewClass->setDescribedClassTemplate(NewTemplate);
 

@@ -9708,19 +9708,33 @@ def warn_operator_new_returns_null : Warning<
   "%select{| or 'noexcept'}1">, InGroup<OperatorNewReturnsNull>;
 
 def err_operator_new_dependent_param_type : Error<
-  "%0 cannot take a dependent type as first parameter; "
-  "use size_t (%1) instead">;
+  "%select{|type aware}1 %0 cannot take a dependent type as %select{first|second}1 parameter; "
+  "use size_t (%2) instead">;
 def err_operator_new_param_type : Error<
-  "%0 takes type size_t (%1) as first parameter">;
+  "%select{|type aware}1 %0 takes type size_t (%2) as %select{first|second}1 parameter">;
 def err_operator_new_default_arg: Error<
   "parameter of %0 cannot have a default argument">;
 def err_operator_delete_dependent_param_type : Error<
-  "%0 cannot take a dependent type as first parameter; use %1 instead">;
+  "%select{|type aware}1 %0 cannot take a dependent type as %select{first|second}1 parameter; "
+  "use %2 instead">;
 def err_operator_delete_param_type : Error<
-  "first parameter of %0 must have type %1">;
+  "%select{first|second}1 parameter of%select{|type aware}1 %0 must have type %2">;
 def err_destroying_operator_delete_not_usual : Error<
   "destroying operator delete can have only an optional size and optional "
   "alignment parameter">;
+def err_type_aware_destroying_operator_delete : Error<
+  "type aware destroying delete is not permitted, enable with '-fexperimental-cxx-type-aware-destroying-delete'">;
+def err_unsupported_type_aware_allocator : Error<
+  "type aware allocation operators are disabled, enable with '-fexperimental-cxx-type-aware-allocators'">;
+def err_no_matching_type_aware_cleanup_deallocator_mismatch : Error<
+  "type aware %0 requires matching %1 in %2">;
+def err_type_aware_operator_found : Note<
+  "type aware %0 found in %1">;
+def warn_mismatching_type_aware_cleanup_deallocator : Warning<
+  "mismatched type aware allocation operators for constructor cleanup">,
+  InGroup<DiagGroup<"type-aware-allocator-mismatch">>;
+def note_type_aware_operator_declared : Note<
+  "%select{|non-}0type aware %1 declared here">;
 def note_implicit_delete_this_in_destructor_here : Note<
   "while checking implicit 'delete this' for virtual destructor">;
 def err_builtin_operator_new_delete_not_usual : Error<

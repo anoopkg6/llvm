@@ -2143,6 +2143,10 @@ public:
            isConstantEvaluatedOverride;
   }
 
+  bool AllowTypeAwareAllocatorsInCurrentContext() const {
+    return getLangOpts().TypeAwareAllocators && !isConstantEvaluatedContext();
+  }
+
   SourceLocation getLocationOfStringLiteralByte(const StringLiteral *SL,
                                                 unsigned ByteNo) const;
 
@@ -4761,6 +4765,16 @@ public:
 
   CXXRecordDecl *getStdBadAlloc() const;
   EnumDecl *getStdAlignValT() const;
+  const ClassTemplateDecl *getStdTypeIdentity() const;
+  ClassTemplateDecl *getStdTypeIdentity();
+  std::optional<QualType> instantiateSpecializedTypeIdentity(QualType Subject);
+  bool isTypeIdentitySpecialization(QualType Type) const;
+  bool isTypeAwareOperatorNewOrDelete(const FunctionDecl *FnDecl) const;
+  bool isTypeAwareOperatorNewOrDelete(const FunctionTemplateDecl *FnDecl) const;
+  bool isTypeAwareOperatorNewOrDelete(const NamedDecl *FnDecl) const;
+  std::optional<FunctionDecl *>
+  instantiateTypeAwareUsualDelete(FunctionTemplateDecl *FnDecl,
+                                  QualType AllocType);
 
   ValueDecl *tryLookupUnambiguousFieldDecl(RecordDecl *ClassDecl,
                                            const IdentifierInfo *MemberOrBase);
@@ -7944,6 +7958,10 @@ public:
   /// The C++ "type_info" declaration, which is defined in \<typeinfo>.
   RecordDecl *CXXTypeInfoDecl;
 
+  /// The C++ "std::type_identity" template class, which is defined by the C++
+  /// standard library.
+  LazyDeclPtr StdTypeIdentity;
+
   /// A flag to remember whether the implicit forms of operator new and delete
   /// have been declared.
   bool GlobalNewDeleteDeclared;
@@ -8149,14 +8167,12 @@ public:
 
   /// Finds the overloads of operator new and delete that are appropriate
   /// for the allocation.
-  bool FindAllocationFunctions(SourceLocation StartLoc, SourceRange Range,
-                               AllocationFunctionScope NewScope,
-                               AllocationFunctionScope DeleteScope,
-                               QualType AllocType, bool IsArray,
-                               bool &PassAlignment, MultiExprArg PlaceArgs,
-                               FunctionDecl *&OperatorNew,
-                               FunctionDecl *&OperatorDelete,
-                               bool Diagnose = true);
+  bool FindAllocationFunctions(
+      SourceLocation StartLoc, SourceRange Range,
+      AllocationFunctionScope NewScope, AllocationFunctionScope DeleteScope,
+      QualType AllocType, bool IsArray, ImplicitAllocationParameters &IAP,
+      MultiExprArg PlaceArgs, FunctionDecl *&OperatorNew,
+      FunctionDecl *&OperatorDelete, bool Diagnose = true);
 
   /// DeclareGlobalNewDelete - Declare the global forms of operator new and
   /// delete. These are:
@@ -8187,11 +8203,11 @@ public:
 
   bool FindDeallocationFunction(SourceLocation StartLoc, CXXRecordDecl *RD,
                                 DeclarationName Name, FunctionDecl *&Operator,
-                                bool Diagnose = true, bool WantSize = false,
-                                bool WantAligned = false);
-  FunctionDecl *FindUsualDeallocationFunction(SourceLocation StartLoc,
-                                              bool CanProvideSize,
-                                              bool Overaligned,
+                                QualType DeallocType,
+                                ImplicitDeallocationParameters,
+                                bool Diagnose = true);
+  FunctionDecl *FindUsualDeallocationFunction(QualType, SourceLocation StartLoc,
+                                              ImplicitDeallocationParameters,
                                               DeclarationName Name);
   FunctionDecl *FindDeallocationFunctionForDestructor(SourceLocation StartLoc,
                                                       CXXRecordDecl *RD);
