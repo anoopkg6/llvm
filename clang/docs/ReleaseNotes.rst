@@ -531,6 +531,8 @@ Improvements to Clang's diagnostics
 
 - Clang now diagnoses ``[[deprecated]]`` attribute usage on local variables (#GH90073).
 
+- Fix false positives when `[[gsl::Owner/Pointer]]` and `[[clang::lifetimebound]]` are used together.
+
 Improvements to Clang's time-trace
 ----------------------------------
 

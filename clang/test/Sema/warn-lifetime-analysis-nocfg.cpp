@@ -727,8 +727,9 @@ struct [[gsl::Pointer]] Span {
 
 // Pointer from Owner<Pointer>
 std::string_view test5() {
-  std::string_view a = StatusOr<std::string_view>().valueLB(); // expected-warning {{object backing the pointer will be dest}}
-  return StatusOr<std::string_view>().valueLB(); // expected-warning {{returning address of local temporary}}
+  // The Owner<Pointer> doesn't own the object which its inner pointer points to.
+  std::string_view a = StatusOr<std::string_view>().valueLB(); // OK
+  return StatusOr<std::string_view>().valueLB(); // OK
 
   // No dangling diagnostics on non-lifetimebound methods.
   std::string_view b = StatusOr<std::string_view>().valueNoLB();
@@ -775,7 +776,7 @@ Span<std::string> test10(StatusOr<std::vector<std::string>> aa) {
 
 // Pointer<Owner>> from Owner<Pointer<Owner>>
 Span<std::string> test11(StatusOr<Span<std::string>> aa) {
-  return aa.valueLB(); // expected-warning {{address of stack memory}}
+  return aa.valueLB(); // OK
   return aa.valueNoLB(); // OK.
 }
 
@@ -793,3 +794,62 @@ void test13() {
 }
 
 } // namespace GH100526
+
+namespace LifetimeboundInterleave {
+
+const std::string& Ref(const std::string& abc [[clang::lifetimebound]]);
+
+std::string_view TakeSv(std::string_view abc [[clang::lifetimebound]]);
+std::string_view TakeStrRef(const std::string& abc [[clang::lifetimebound]]);
+std::string_view TakeStr(std::string abc [[clang::lifetimebound]]);
+
+std::string_view test1() {
+  std::string_view t1 = Ref(std::string()); // expected-warning {{object backing}}
+  t1 = Ref(std::string()); // expected-warning {{object backing}}
+  return Ref(std::string()); // expected-warning {{returning address}}
+  
+  std::string_view t2 = TakeSv(std::string()); // expected-warning {{object backing}}
+  t2 = TakeSv(std::string()); // expected-warning {{object backing}}
+  return TakeSv(std::string()); // expected-warning {{returning address}}
+
+  std::string_view t3 = TakeStrRef(std::string()); // expected-warning {{temporary}}
+  t3 = TakeStrRef(std::string()); // expected-warning {{object backing}}
+  return TakeStrRef(std::string()); // expected-warning {{returning address}}
+
+
+  std::string_view t4 = TakeStr(std::string());
+  t4 = TakeStr(std::string());
+  return TakeStr(std::string());
+}
+
+template <typename T>
+struct Foo {
+  const T& get() const [[clang::lifetimebound]];
+  const T& getNoLB() const;
+};
+std::string_view test2(Foo<std::string> r1, Foo<std::string_view> r2) {
+  std::string_view t1 = Foo<std::string>().get(); // expected-warning {{object backing}}
+  t1 = Foo<std::string>().get(); // expected-warning {{object backing}}
+  return r1.get(); // expected-warning {{address of stack}}
+  
+  std::string_view t2 = Foo<std::string_view>().get();
+  t2 = Foo<std::string_view>().get();
+  return r2.get();
+
+  // no warning on no-LB-annotated method.
+  std::string_view t3 = Foo<std::string>().getNoLB(); 
+  t3 = Foo<std::string>().getNoLB(); 
+  return r1.getNoLB(); 
+}
+
+struct Bar {};
+struct [[gsl::Pointer]] Pointer {
+  Pointer(const Bar & bar [[clang::lifetimebound]]);
+};
+Pointer test3(Bar bar) {
+  Pointer p = Pointer(Bar()); // expected-warning {{temporary}}
+  p = Pointer(Bar()); // expected-warning {{object backing}}
+  return bar; // expected-warning {{address of stack}}
+}
+
+} // namespace LifetimeboundInterleave
