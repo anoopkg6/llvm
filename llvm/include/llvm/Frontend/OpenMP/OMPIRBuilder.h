@@ -3064,7 +3064,6 @@ private:
 
   /// Emit atomic update for constructs: X = X BinOp Expr ,or X = Expr BinOp X
   /// For complex Operations: X = UpdateOp(X) => CmpExch X, old_X, UpdateOp(X)
-  /// Only Scalar data types.
   ///
   /// \param AllocaIP	  The insertion point to be used for alloca
   ///                   instructions.
@@ -3086,6 +3085,7 @@ private:
   ///
   /// \returns A pair of the old value of X before the update, and the value
   ///          used for the update.
+  /// FIXME: "Value used for the update"? Should be "the updated value"?
   Expected<std::pair<Value *, Value *>>
   emitAtomicUpdate(InsertPointTy AllocaIP, Value *X, Type *XElemTy, Value *Expr,
                    AtomicOrdering AO, AtomicRMWInst::BinOp RMWOp,
@@ -3116,7 +3116,7 @@ public:
     bool IsVolatile = false;
   };
 
-  /// Emit atomic Read for : V = X --- Only Scalar data types.
+  /// Emit atomic Read for : V = X.
   ///
   /// \param Loc    The insert and source location description.
   /// \param X			The target pointer to be atomically read
@@ -3126,9 +3126,9 @@ public:
   /// 					    instructions.
   ///
   /// \return Insertion point after generated atomic read IR.
-  InsertPointTy createAtomicRead(const LocationDescription &Loc,
-                                 AtomicOpValue &X, AtomicOpValue &V,
-                                 AtomicOrdering AO);
+  InsertPointOrErrorTy createAtomicRead(const LocationDescription &Loc,
+                                        AtomicOpValue &X, AtomicOpValue &V,
+                                        AtomicOrdering AO);
 
   /// Emit atomic write for : X = Expr --- Only Scalar data types.
   ///
@@ -3139,9 +3139,10 @@ public:
   ///               instructions.
   ///
   /// \return Insertion point after generated atomic Write IR.
-  InsertPointTy createAtomicWrite(const LocationDescription &Loc,
-                                  AtomicOpValue &X, Value *Expr,
-                                  AtomicOrdering AO);
+  InsertPointOrErrorTy createAtomicWrite(const LocationDescription &Loc,
+                                         InsertPointTy AllocaIP,
+                                         AtomicOpValue &X, Value *Expr,
+                                         AtomicOrdering AO);
 
   /// Emit atomic update for constructs: X = X BinOp Expr ,or X = Expr BinOp X
   /// For complex Operations: X = UpdateOp(X) => CmpExch X, old_X, UpdateOp(X)

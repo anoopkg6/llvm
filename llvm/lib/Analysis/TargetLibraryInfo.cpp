@@ -60,6 +60,7 @@ std::string VecDesc::getVectorFunctionABIVariantString() const {
 enum FuncArgTypeID : char {
   Void = 0, // Must be zero.
   Bool,     // 8 bits on all targets
+  Int8,
   Int16,
   Int32,
   Int,
@@ -67,9 +68,10 @@ enum FuncArgTypeID : char {
   Long,    // Either 32 or 64 bits.
   IntX,    // Any integer type.
   Int64,
-  LLong,    // 64 bits on all targets.
-  SizeT,    // size_t.
-  SSizeT,   // POSIX ssize_t.
+  LLong,  // 64 bits on all targets.
+  SizeT,  // size_t.
+  SSizeT, // POSIX ssize_t.
+  Int128,
   Flt,      // IEEE float.
   Dbl,      // IEEE double.
   LDbl,     // Any floating type (TODO: tighten this up).
@@ -828,7 +830,23 @@ static void initializeLibCalls(TargetLibraryInfoImpl &TLI, const Triple &T,
 
     // Miscellaneous other functions not provided.
     TLI.setUnavailable(LibFunc_atomic_load);
+    TLI.setUnavailable(LibFunc_atomic_load_1);
+    TLI.setUnavailable(LibFunc_atomic_load_2);
+    TLI.setUnavailable(LibFunc_atomic_load_4);
+    TLI.setUnavailable(LibFunc_atomic_load_8);
+    TLI.setUnavailable(LibFunc_atomic_load_16);
     TLI.setUnavailable(LibFunc_atomic_store);
+    TLI.setUnavailable(LibFunc_atomic_store_1);
+    TLI.setUnavailable(LibFunc_atomic_store_2);
+    TLI.setUnavailable(LibFunc_atomic_store_4);
+    TLI.setUnavailable(LibFunc_atomic_store_8);
+    TLI.setUnavailable(LibFunc_atomic_store_16);
+    TLI.setUnavailable(LibFunc_atomic_compare_exchange);
+    TLI.setUnavailable(LibFunc_atomic_compare_exchange_1);
+    TLI.setUnavailable(LibFunc_atomic_compare_exchange_2);
+    TLI.setUnavailable(LibFunc_atomic_compare_exchange_4);
+    TLI.setUnavailable(LibFunc_atomic_compare_exchange_8);
+    TLI.setUnavailable(LibFunc_atomic_compare_exchange_16);
     TLI.setUnavailable(LibFunc___kmpc_alloc_shared);
     TLI.setUnavailable(LibFunc___kmpc_free_shared);
     TLI.setUnavailable(LibFunc_dunder_strndup);
@@ -1023,6 +1041,7 @@ static bool matchType(FuncArgTypeID ArgTy, const Type *Ty, unsigned IntBits,
   case Void:
     return Ty->isVoidTy();
   case Bool:
+  case Int8:
     return Ty->isIntegerTy(8);
   case Int16:
     return Ty->isIntegerTy(16);
@@ -1044,6 +1063,8 @@ static bool matchType(FuncArgTypeID ArgTy, const Type *Ty, unsigned IntBits,
   case SizeT:
   case SSizeT:
     return Ty->isIntegerTy(SizeTBits);
+  case Int128:
+    return Ty->isIntegerTy(128);
   case Flt:
     return Ty->isFloatTy();
   case Dbl:
