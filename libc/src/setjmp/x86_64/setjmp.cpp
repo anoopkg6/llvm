@@ -15,57 +15,41 @@
 #error "Invalid file include"
 #endif
 
-namespace LIBC_NAMESPACE_DECL {
+#include "src/setjmp/x86_64/common.h"
 
-#ifdef __i386__
-[[gnu::naked]]
-LLVM_LIBC_FUNCTION(int, setjmp, (jmp_buf buf)) {
-  asm(R"(
-      mov 4(%%esp), %%eax
-
-      mov %%ebx, %c[ebx](%%eax)
-      mov %%esi, %c[esi](%%eax)
-      mov %%edi, %c[edi](%%eax)
-      mov %%ebp, %c[ebp](%%eax)
-
-      lea 4(%%esp), %%ecx
-      mov %%ecx, %c[esp](%%eax)
-
-      mov (%%esp), %%ecx
-      mov %%ecx, %c[eip](%%eax)
-
-      xorl %%eax, %%eax
-      retl)" ::[ebx] "i"(offsetof(__jmp_buf, ebx)),
-      [esi] "i"(offsetof(__jmp_buf, esi)), [edi] "i"(offsetof(__jmp_buf, edi)),
-      [ebp] "i"(offsetof(__jmp_buf, ebp)), [esp] "i"(offsetof(__jmp_buf, esp)),
-      [eip] "i"(offsetof(__jmp_buf, eip))
-      : "eax", "ecx");
-}
-#else
-[[gnu::naked]]
-LLVM_LIBC_FUNCTION(int, setjmp, (jmp_buf buf)) {
-  asm(R"(
-      mov %%rbx, %c[rbx](%%rdi)
-      mov %%rbp, %c[rbp](%%rdi)
-      mov %%r12, %c[r12](%%rdi)
-      mov %%r13, %c[r13](%%rdi)
-      mov %%r14, %c[r14](%%rdi)
-      mov %%r15, %c[r15](%%rdi)
-
-      lea 8(%%rsp), %%rax
-      mov %%rax, %c[rsp](%%rdi)
-
-      mov (%%rsp), %%rax
-      mov %%rax, %c[rip](%%rdi)
-
-      xorl %%eax, %%eax
-      retq)" ::[rbx] "i"(offsetof(__jmp_buf, rbx)),
-      [rbp] "i"(offsetof(__jmp_buf, rbp)), [r12] "i"(offsetof(__jmp_buf, r12)),
-      [r13] "i"(offsetof(__jmp_buf, r13)), [r14] "i"(offsetof(__jmp_buf, r14)),
-      [r15] "i"(offsetof(__jmp_buf, r15)), [rsp] "i"(offsetof(__jmp_buf, rsp)),
-      [rip] "i"(offsetof(__jmp_buf, rip))
-      : "rax");
-}
+#if LIBC_COPT_SETJMP_FORTIFICATION
+#include "src/setjmp/checksum.h"
 #endif
+
+namespace LIBC_NAMESPACE_DECL {
+[[gnu::naked]]
+LLVM_LIBC_FUNCTION(int, setjmp, (jmp_buf buf)) {
+  asm volatile(
+      // clang-format off
+    LOAD_BASE()
+    LOAD_CHKSUM_STATE_REGS()      
+    STORE_ALL_REGS(STORE_REG_ACCUMULATE)
+    STORE_STACK()
+    ACCUMULATE_CHECKSUM()
+    STORE_PC()
+    ACCUMULATE_CHECKSUM()
+    STORE_CHECKSUM()
+    XOR(RET_REG, RET_REG)
+    RETURN()
+      // clang-format on
+      :
+#if LIBC_COPT_SETJMP_FORTIFICATION
+      [value_mask] "=m"(jmpbuf::value_mask)
+#endif
+      : DECLARE_ALL_REGS(DECLARE_OFFSET)
+#if LIBC_COPT_SETJMP_FORTIFICATION
+        // clang-format off
+      ,[rotation] "i"(jmpbuf::ROTATION)
+      ,[__chksum] "i"(offsetof(__jmp_buf, __chksum))
+      ,[checksum_cookie] "m"(jmpbuf::checksum_cookie)
+
+#endif
+      : STR(RET_REG), STR(BASE_REG), STR(MUL_REG));
+}
 
 } // namespace LIBC_NAMESPACE_DECL
