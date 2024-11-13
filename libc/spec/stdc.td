@@ -1641,6 +1641,15 @@ def StdC : StandardSpec<"stdc"> {
               ]
           >,
           FunctionSpec<
+              "ctime_s",
+              RetValSpec<IntType>,
+              [
+                  ArgSpec<CharPtr>,
+                  ArgSpec<SizeTType>,
+                  ArgSpec<ConstTimeTTypePtr>,
+              ]
+          >,
+          FunctionSpec<
               "clock",
               RetValSpec<ClockT>,
               [ArgSpec<VoidType>]
