@@ -1672,10 +1672,8 @@ CodeGenTypes::GetFunctionType(const CGFunctionInfo &FI) {
 
   // Add type for sret argument.
   if (IRFunctionArgs.hasSRetArg()) {
-    QualType Ret = FI.getReturnType();
-    unsigned AddressSpace = CGM.getTypes().getTargetAddressSpace(Ret);
-    ArgTypes[IRFunctionArgs.getSRetArgNo()] =
-        llvm::PointerType::get(getLLVMContext(), AddressSpace);
+    ArgTypes[IRFunctionArgs.getSRetArgNo()] = llvm::PointerType::get(
+        getLLVMContext(), FI.getReturnInfo().getIndirectAddrSpace());
   }
 
   // Add type for inalloca argument.
@@ -5145,7 +5143,6 @@ RValue CodeGenFunction::EmitCall(const CGFunctionInfo &CallInfo,
   // If the call returns a temporary with struct return, create a temporary
   // alloca to hold the result, unless one is given to us.
   Address SRetPtr = Address::invalid();
-  RawAddress SRetAlloca = RawAddress::invalid();
   llvm::Value *UnusedReturnSizePtr = nullptr;
   if (RetAI.isIndirect() || RetAI.isInAlloca() || RetAI.isCoerceAndExpand()) {
     // For virtual function pointer thunks and musttail calls, we must always
@@ -5159,16 +5156,19 @@ RValue CodeGenFunction::EmitCall(const CGFunctionInfo &CallInfo,
     } else if (!ReturnValue.isNull()) {
       SRetPtr = ReturnValue.getAddress();
     } else {
-      SRetPtr = CreateMemTemp(RetTy, "tmp", &SRetAlloca);
+      SRetPtr = CreateMemTempWithoutCast(RetTy, "tmp");
       if (HaveInsertPoint() && ReturnValue.isUnused()) {
         llvm::TypeSize size =
             CGM.getDataLayout().getTypeAllocSize(ConvertTypeForMem(RetTy));
-        UnusedReturnSizePtr = EmitLifetimeStart(size, SRetAlloca.getPointer());
+        UnusedReturnSizePtr = EmitLifetimeStart(size, SRetPtr.getBasePointer());
       }
     }
     if (IRFunctionArgs.hasSRetArg()) {
+      // If the caller allocated the return slot, it is possible that the
+      // alloca was AS casted to the default as, so we ensure the cast is
+      // stripped before binding to the sret arg, which is in the allocaAS.
       IRCallArgs[IRFunctionArgs.getSRetArgNo()] =
-          getAsNaturalPointerTo(SRetPtr, RetTy);
+          getAsNaturalPointerTo(SRetPtr, RetTy)->stripPointerCasts();
     } else if (RetAI.isInAlloca()) {
       Address Addr =
           Builder.CreateStructGEP(ArgMemory, RetAI.getInAllocaFieldIndex());
@@ -5390,11 +5390,19 @@ RValue CodeGenFunction::EmitCall(const CGFunctionInfo &CallInfo,
             V->getType()->isIntegerTy())
           V = Builder.CreateZExt(V, ArgInfo.getCoerceToType());
 
-        // If the argument doesn't match, perform a bitcast to coerce it.  This
-        // can happen due to trivial type mismatches.
+        // If the argument doesn't match, we are either trying to pass an
+        // alloca-ed sret argument directly, and the alloca AS does not match
+        // the default AS, case in which we AS cast it, or we have a trivial
+        // type mismatch, and thus perform a bitcast to coerce it.
         if (FirstIRArg < IRFuncTy->getNumParams() &&
-            V->getType() != IRFuncTy->getParamType(FirstIRArg))
-          V = Builder.CreateBitCast(V, IRFuncTy->getParamType(FirstIRArg));
+            V->getType() != IRFuncTy->getParamType(FirstIRArg)) {
+          auto IRTy = IRFuncTy->getParamType(FirstIRArg);
+          auto MaybeSRetArg = dyn_cast_or_null<llvm::Argument>(V);
+          if (MaybeSRetArg && MaybeSRetArg->hasStructRetAttr())
+            V = Builder.CreateAddrSpaceCast(V, IRTy);
+          else
+            V = Builder.CreateBitCast(V, IRTy);
+        }
 
         if (ArgHasMaybeUndefAttr)
           V = Builder.CreateFreeze(V);
@@ -5740,7 +5748,7 @@ RValue CodeGenFunction::EmitCall(const CGFunctionInfo &CallInfo,
   // pop this cleanup later on. Being eager about this is OK, since this
   // temporary is 'invisible' outside of the callee.
   if (UnusedReturnSizePtr)
-    pushFullExprCleanup<CallLifetimeEnd>(NormalEHLifetimeMarker, SRetAlloca,
+    pushFullExprCleanup<CallLifetimeEnd>(NormalEHLifetimeMarker, SRetPtr,
                                          UnusedReturnSizePtr);
 
   llvm::BasicBlock *InvokeDest = CannotThrow ? nullptr : getInvokeDest();
