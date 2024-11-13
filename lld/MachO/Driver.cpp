@@ -407,8 +407,28 @@ static InputFile *addFile(StringRef path, LoadType loadType,
   case file_magic::macho_dynamically_linked_shared_lib_stub:
   case file_magic::tapi_file:
     if (DylibFile *dylibFile =
-            loadDylib(mbref, nullptr, /*isBundleLoader=*/false, isExplicit))
+            loadDylib(mbref, nullptr, /*isBundleLoader=*/false, isExplicit)) {
+      if (isExplicit && !dylibFile->allowableClients.empty()) {
+        bool allowed = std::any_of(
+            dylibFile->allowableClients.begin(),
+            dylibFile->allowableClients.end(), [&](StringRef allowableClient) {
+              // Not what you expect, but exactly as LD64 does.
+              return allowableClient.starts_with(config->clientName);
+            });
+
+        // TODO: This behaviour doesn't quite match the latest available source
+        // release of LD64 (ld64-951.9), which allows "parents" and "siblings"
+        // to link to libraries even when they're not explicitly named as
+        // allowable clients. However, behaviour around this seems to have
+        // changed in the latest release of Xcode (ld64-1115.7.3), so it's not
+        // clear what the correct thing to do is yet.
+        if (!allowed)
+          error("cannot link directly with '" +
+                sys::path::filename(dylibFile->installName) + "' because " +
+                config->clientName + " is not an allowed client");
+      }
       newFile = dylibFile;
+    }
     break;
   case file_magic::bitcode:
     newFile = make<BitcodeFile>(mbref, "", 0, isLazy);
@@ -1862,6 +1882,15 @@ bool link(ArrayRef<const char *> argsArr, llvm::raw_ostream &stdoutOS,
   } else if (config->outputType == MH_DYLIB) {
     config->installName = config->finalOutput;
   }
+
+  auto getClientName = [&]() {
+    StringRef cn = path::filename(config->finalOutput);
+    cn.consume_front("lib");
+    auto firstDotOrUnderscore = cn.find_first_of("._");
+    cn = cn.take_front(firstDotOrUnderscore);
+    return cn;
+  };
+  config->clientName = args.getLastArgValue(OPT_client_name, getClientName());
 
   if (args.hasArg(OPT_mark_dead_strippable_dylib)) {
     if (config->outputType != MH_DYLIB)
