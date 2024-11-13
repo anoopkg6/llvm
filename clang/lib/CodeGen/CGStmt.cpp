@@ -731,6 +731,7 @@ void CodeGenFunction::EmitAttributedStmt(const AttributedStmt &S) {
   bool alwaysinline = false;
   bool noconvergent = false;
   const CallExpr *musttail = nullptr;
+  AtomicOptionsOverride AOO;
 
   for (const auto *A : S.getAttrs()) {
     switch (A->getKind()) {
@@ -761,6 +762,9 @@ void CodeGenFunction::EmitAttributedStmt(const AttributedStmt &S) {
         Builder.CreateAssumption(AssumptionVal);
       }
     } break;
+    case attr::Atomic: {
+      AOO = cast<AtomicAttr>(A)->getAtomicOptionsOverride();
+    } break;
     }
   }
   SaveAndRestore save_nomerge(InNoMergeAttributedStmt, nomerge);
@@ -768,6 +772,7 @@ void CodeGenFunction::EmitAttributedStmt(const AttributedStmt &S) {
   SaveAndRestore save_alwaysinline(InAlwaysInlineAttributedStmt, alwaysinline);
   SaveAndRestore save_noconvergent(InNoConvergentAttributedStmt, noconvergent);
   SaveAndRestore save_musttail(MustTailCall, musttail);
+  CGAtomicOptionsRAII AORAII(CGM, AOO);
   EmitStmt(S.getSubStmt(), S.getAttrs());
 }
 

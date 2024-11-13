@@ -623,6 +623,47 @@ static Attr *handleHLSLLoopHintAttr(Sema &S, Stmt *St, const ParsedAttr &A,
   return ::new (S.Context) HLSLLoopHintAttr(S.Context, A, UnrollFactor);
 }
 
+static Attr *handleAtomicAttr(Sema &S, Stmt *St, const ParsedAttr &A,
+                              SourceRange Range) {
+  if (!isa<CompoundStmt>(St)) {
+    S.Diag(St->getBeginLoc(), diag::err_attribute_wrong_decl_type)
+        << A << "compound statement";
+    return nullptr;
+  }
+  AtomicAttr::NoRemoteMemoryTy NRM = AtomicAttr::NoRemoteMemoryUnset;
+  AtomicAttr::NoFineGrainedMemoryTy NFGM = AtomicAttr::NoFineGrainedMemoryUnset;
+  AtomicAttr::IgnoreDenormalModeTy ID = AtomicAttr::IgnoreDenormalModeUnset;
+  for (unsigned i = 0; i < A.getNumArgs(); ++i) {
+    IdentifierLoc *Arg = A.getArgAsIdent(i);
+    if (!Arg || !Arg->Ident) {
+      S.Diag(A.getLoc(), diag::err_attribute_argument_type)
+          << A << AANT_ArgumentIdentifier;
+      return nullptr;
+    }
+    StringRef ArgName = Arg->Ident->getName();
+    if (ArgName.starts_with("!no_remote_memory") ||
+        ArgName == "no_remote_memory") {
+      NRM = ArgName.starts_with("!") ? AtomicAttr::NoRemoteMemoryOff
+                                     : AtomicAttr::NoRemoteMemoryOn;
+    } else if (ArgName.starts_with("!no_fine_grained_memory") ||
+               ArgName == "no_fine_grained_memory") {
+      NFGM = ArgName.starts_with("!") ? AtomicAttr::NoFineGrainedMemoryOff
+                                      : AtomicAttr::NoFineGrainedMemoryOn;
+    } else if (ArgName.starts_with("!ignore_denormal_mode") ||
+               ArgName == "ignore_denormal_mode") {
+      ID = ArgName.starts_with("!") ? AtomicAttr::IgnoreDenormalModeOff
+                                    : AtomicAttr::IgnoreDenormalModeOn;
+    } else {
+      // Use the new diagnostic with the invalid argument name
+      S.Diag(Arg->Loc, diag::err_attribute_invalid_atomic_argument)
+          << ArgName << A;
+      return nullptr;
+    }
+  }
+  auto *AA = ::new (S.Context) AtomicAttr(S.Context, A, NRM, NFGM, ID);
+  AA->updateAtomicOptionsOverride();
+  return AA;
+}
 static Attr *ProcessStmtAttribute(Sema &S, Stmt *St, const ParsedAttr &A,
                                   SourceRange Range) {
   if (A.isInvalid() || A.getKind() == ParsedAttr::IgnoredAttribute)
@@ -681,6 +722,8 @@ static Attr *ProcessStmtAttribute(Sema &S, Stmt *St, const ParsedAttr &A,
     return handleNoConvergentAttr(S, St, A, Range);
   case ParsedAttr::AT_Annotate:
     return S.CreateAnnotationAttr(A);
+  case ParsedAttr::AT_Atomic:
+    return handleAtomicAttr(S, St, A, Range);
   default:
     if (Attr *AT = nullptr; A.getInfo().handleStmtAttribute(S, St, A, AT) !=
                             ParsedAttrInfo::NotHandled) {

@@ -4885,3 +4885,59 @@ def ClspvLibclcBuiltin: InheritableAttr {
   let Documentation = [ClspvLibclcBuiltinDoc];
   let SimpleHandler = 1;
 }
+
+def Atomic : StmtAttr {
+  let Spellings = [Clang<"atomic">];
+  let Args = [
+    EnumArgument<"NoRemoteMemory", "NoRemoteMemoryTy", /*IsString*/ false,
+      ["no_remote_memory", "!no_remote_memory", ""],
+      ["NoRemoteMemoryOn", "NoRemoteMemoryOff", "NoRemoteMemoryUnset"]>,
+    EnumArgument<"NoFineGrainedMemory", "NoFineGrainedMemoryTy", /*IsString*/ false,
+      ["no_fine_grained_memory", "!no_fine_grained_memory", ""],
+      ["NoFineGrainedMemoryOn", "NoFineGrainedMemoryOff", "NoFineGrainedMemoryUnset"]>,
+    EnumArgument<"IgnoreDenormalMode", "IgnoreDenormalModeTy", /*IsString*/ false,
+      ["ignore_denormal_mode", "!ignore_denormal_mode", ""],
+      ["IgnoreDenormalModeOn", "IgnoreDenormalModeOff", "IgnoreDenormalModeUnset"]>
+  ];
+  let Subjects = SubjectList<[CompoundStmt], ErrorDiag, "compound statements">;
+  let HasCustomParsing = 1;
+  let Documentation = [Undocumented];
+  let AdditionalMembers = [{
+    AtomicOptionsOverride AOO;
+    AtomicOptionsOverride getAtomicOptionsOverride() const { return AOO; }
+    void updateAtomicOptionsOverride() {
+      switch (getNoRemoteMemory()) {
+      case NoRemoteMemoryOn:
+        AOO.setNoRemoteMemoryOverride(true);
+        break;
+      case NoRemoteMemoryOff:
+        AOO.setNoRemoteMemoryOverride(false);
+        break;
+      case NoRemoteMemoryUnset:
+        AOO.clearNoRemoteMemoryOverride();
+      }
+
+      switch (getNoFineGrainedMemory()) {
+      case NoFineGrainedMemoryOn:
+        AOO.setNoFineGrainedMemoryOverride(true);
+        break;
+      case NoFineGrainedMemoryOff:
+        AOO.setNoFineGrainedMemoryOverride(false);
+        break;
+      case NoFineGrainedMemoryUnset:
+        AOO.clearNoFineGrainedMemoryOverride();
+      }
+
+      switch (getIgnoreDenormalMode()) {
+      case IgnoreDenormalModeOn:
+        AOO.setIgnoreDenormalModeOverride(true);
+        break;
+      case IgnoreDenormalModeOff:
+        AOO.setIgnoreDenormalModeOverride(false);
+        break;
+      case IgnoreDenormalModeUnset:
+        AOO.clearIgnoreDenormalModeOverride();
+      }
+    }
+  }];
+}
