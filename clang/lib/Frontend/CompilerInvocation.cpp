@@ -4878,7 +4878,6 @@ bool CompilerInvocation::CreateFromArgsImpl(
   ParseAPINotesArgs(Res.getAPINotesOpts(), Args, Diags);
 
   ParsePointerAuthArgs(LangOpts, Args, Diags);
-  LangOpts.PointerAuthELFGOT &= T.isOSBinFormatELF();
 
   ParseLangArgs(LangOpts, Args, DashX, T, Res.getPreprocessorOpts().Includes,
                 Diags);
