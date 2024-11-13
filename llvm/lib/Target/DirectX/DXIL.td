@@ -357,7 +357,7 @@ class DXILOp<int opcode, DXILOpClass opclass> {
   DXILOpClass OpClass = opclass;
 
   // LLVM Intrinsics DXIL Operation maps from
-  list<IntrinWithArgs> intrinsic_selects = [];
+  list<IntrinSelect> intrinsic_selects = [];
 
   // Result type of the op
   DXILOpParamType result;
@@ -884,7 +884,7 @@ def WaveGetLaneIndex : DXILOp<111, waveGetLaneIndex> {
 def Barrier : DXILOp<80, barrier> {
   let Doc = "inserts a memory barrier in the shader";
   let intrinsic_selects = [
-    IntrinWithArgs<
+    IntrinSelect<
         int_dx_group_memory_barrier_with_group_sync,
         [ IntrinArgI32<BarrierMode_GroupMemoryBarrierWithGroupSync> ]>,
   ];
