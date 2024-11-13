@@ -1,11 +1,3 @@
-//===--- SubstrToStartsWithCheck.cpp - clang-tidy ------------------*- C++ -*-===//
-//
-// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
-// See https://llvm.org/LICENSE.txt for license information.
-// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
-//
-//===----------------------------------------------------------------------===//
-
 #include "SubstrToStartsWithCheck.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
@@ -17,88 +9,85 @@ using namespace clang::ast_matchers;
 namespace clang::tidy::modernize {
 
 void SubstrToStartsWithCheck::registerMatchers(MatchFinder *Finder) {
-  auto isZeroExpr = expr(anyOf(
-      integerLiteral(equals(0)),
-      ignoringParenImpCasts(declRefExpr(
-          to(varDecl(hasInitializer(integerLiteral(equals(0))))))),
-      binaryOperator(hasOperatorName("-"), hasLHS(expr()), hasRHS(expr()))));
+    const auto SubstrCall = cxxMemberCallExpr(
+      callee(cxxMethodDecl(hasName("substr"))),
+      hasArgument(0, integerLiteral(equals(0))),
+      hasArgument(1, expr().bind("length")),
+      on(expr().bind("str")))
+      .bind("call");
 
-  auto isStringLike = expr(anyOf(
-      stringLiteral().bind("literal"),
-      implicitCastExpr(hasSourceExpression(stringLiteral().bind("literal"))),
-      declRefExpr(to(varDecl(hasType(qualType(hasDeclaration(
-          namedDecl(hasAnyName("::std::string", "::std::basic_string")))))))).bind("strvar")));
+  // Helper for matching comparison operators
+  auto AddSimpleMatcher = [&](auto Matcher) {
+    Finder->addMatcher(
+        traverse(TK_IgnoreUnlessSpelledInSource, std::move(Matcher)), this);
+  };
 
-  auto isSubstrCall = 
-      cxxMemberCallExpr(
-          callee(memberExpr(hasDeclaration(cxxMethodDecl(
-              hasName("substr"),
-              ofClass(hasAnyName("basic_string", "string", "u16string")))))),
-          hasArgument(0, isZeroExpr),
-          hasArgument(1, expr().bind("length")))
-          .bind("substr");
+  // Match str.substr(0,n) == "literal"
+  AddSimpleMatcher(
+      binaryOperation(
+          hasOperatorName("=="),
+          hasEitherOperand(SubstrCall),
+          hasEitherOperand(expr().bind("comparison")))
+          .bind("positiveComparison"));
 
-  Finder->addMatcher(
-      binaryOperator(
-          anyOf(hasOperatorName("=="), hasOperatorName("!=")),
-          hasEitherOperand(isSubstrCall),
-          hasEitherOperand(isStringLike),
-          unless(hasType(isAnyCharacter())))
-          .bind("comparison"),
-      this);
+  // Match str.substr(0,n) != "literal"
+  AddSimpleMatcher(
+      binaryOperation(
+          hasOperatorName("!="),
+          hasEitherOperand(SubstrCall),
+          hasEitherOperand(expr().bind("comparison")))
+          .bind("negativeComparison"));
+}
 
-  Finder->addMatcher(
-      cxxMemberCallExpr(
-          callee(memberExpr(hasDeclaration(cxxMethodDecl(
-              hasName("substr"),
-              ofClass(hasAnyName("basic_string", "string", "u16string")))))),
-          hasArgument(0, isZeroExpr),
-          hasArgument(1, expr().bind("direct_length")))
-          .bind("direct_substr"),
-      this);
+std::string SubstrToStartsWithCheck::getExprStr(const Expr *E,
+                                               const SourceManager &SM,
+                                               const LangOptions &LO) {
+    CharSourceRange Range = CharSourceRange::getTokenRange(E->getSourceRange());
+    return Lexer::getSourceText(Range, SM, LO).str();
 }
 
 void SubstrToStartsWithCheck::check(const MatchFinder::MatchResult &Result) {
-  const auto *Comparison = Result.Nodes.getNodeAs<BinaryOperator>("comparison");
+  const auto *Call = Result.Nodes.getNodeAs<CXXMemberCallExpr>("call");
+  if (!Call)
+    return;
 
-  if (Comparison) {
-    const auto *SubstrCall = Result.Nodes.getNodeAs<CXXMemberCallExpr>("substr");
-    const auto *LengthArg = Result.Nodes.getNodeAs<Expr>("length");
-    const auto *Literal = Result.Nodes.getNodeAs<StringLiteral>("literal");
-    const auto *StrVar = Result.Nodes.getNodeAs<DeclRefExpr>("strvar");
+  const auto *PositiveComparison = Result.Nodes.getNodeAs<Expr>("positiveComparison");
+  const auto *NegativeComparison = Result.Nodes.getNodeAs<Expr>("negativeComparison");
+  
+  if (!PositiveComparison && !NegativeComparison)
+    return;
 
-    if (!SubstrCall || !LengthArg || (!Literal && !StrVar))
-      return;
+  bool Negated = NegativeComparison != nullptr;
+  const auto *Comparison = Negated ? NegativeComparison : PositiveComparison;
+  
+  // Skip if in macro
+  if (Call->getBeginLoc().isMacroID())
+    return;
 
-    std::string CompareStr;
-    if (Literal) {
-      CompareStr = Literal->getString().str();
-    } else if (StrVar) {
-      CompareStr = Lexer::getSourceText(
-          CharSourceRange::getTokenRange(StrVar->getSourceRange()),
-          *Result.SourceManager, Result.Context->getLangOpts())
-          .str();
-    }
+  const auto *Str = Result.Nodes.getNodeAs<Expr>("str");
+  const auto *CompareExpr = Result.Nodes.getNodeAs<Expr>("comparison");
+  
+  if (!Str || !CompareExpr)
+    return;
 
-    if (Literal) {
-      if (const auto *LengthLiteral = dyn_cast<IntegerLiteral>(LengthArg)) {
-        if (LengthLiteral->getValue() != Literal->getLength())
-          return;
-      }
-    }
+  // Emit the diagnostic
+  auto Diag = diag(Call->getExprLoc(), 
+                   "use starts_with() instead of substr(0, n) comparison");
 
-    std::string Replacement;
-    if (Comparison->getOpcode() == BO_EQ) {
-      Replacement = "starts_with(" + CompareStr + ")";
-    } else { // BO_NE
-      Replacement = "!starts_with(" + CompareStr + ")";
-    }
+  // Build the replacement text
+  std::string ReplacementStr = 
+      (Negated ? "!" : "") +
+      Lexer::getSourceText(CharSourceRange::getTokenRange(Str->getSourceRange()),
+                          *Result.SourceManager, getLangOpts()).str() +
+      ".starts_with(" +
+      Lexer::getSourceText(CharSourceRange::getTokenRange(CompareExpr->getSourceRange()),
+                          *Result.SourceManager, getLangOpts()).str() +
+      ")";
 
-    diag(Comparison->getBeginLoc(),
-         "use starts_with() instead of substring comparison")
-        << FixItHint::CreateReplacement(Comparison->getSourceRange(),
-                                      Replacement);
-  }
+  // Create the fix-it
+  Diag << FixItHint::CreateReplacement(
+      CharSourceRange::getTokenRange(Comparison->getSourceRange()),
+      ReplacementStr);
 }
 
 } // namespace clang::tidy::modernize

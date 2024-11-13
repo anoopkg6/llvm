@@ -171,9 +171,59 @@ void UseStartsEndsWithCheck::registerMatchers(MatchFinder *Finder) {
                              hasRHS(lengthExprForStringNode("needle")))))
           .bind("expr"),
       this);
+
+      // Case for substr with comparison
+  const auto SubstrExpr = cxxMemberCallExpr(
+      callee(memberExpr(member(hasName("substr")))),
+      hasArgument(0, integerLiteral(equals(0))),
+      hasArgument(1, expr().bind("length")),
+      on(expr().bind("substr_on")))
+      .bind("substr_expr");
+
+  // Match str.substr(0, n) == X or X == str.substr(0, n)
+  Finder->addMatcher(
+      binaryOperator(
+          anyOf(hasOperatorName("=="), hasOperatorName("!=")),
+          anyOf(
+              allOf(hasLHS(SubstrExpr), hasRHS(expr().bind("substr_rhs"))),
+              allOf(hasLHS(expr().bind("substr_rhs")), hasRHS(SubstrExpr))))
+          .bind("substr_cmp"),
+      this);
 }
 
 void UseStartsEndsWithCheck::check(const MatchFinder::MatchResult &Result) {
+  if (const auto *Comparison = Result.Nodes.getNodeAs<BinaryOperator>("substr_cmp")) {
+    if (Comparison->getBeginLoc().isMacroID())
+      return;
+
+    const auto *SubstrCall = Result.Nodes.getNodeAs<CXXMemberCallExpr>("substr_expr");
+    const auto *SubstrOn = Result.Nodes.getNodeAs<Expr>("substr_on");
+    const auto *RHS = Result.Nodes.getNodeAs<Expr>("substr_rhs");
+    
+    if (!SubstrCall || !SubstrOn || !RHS)
+      return;
+
+    // Build the replacement
+    std::string ReplacementStr = Lexer::getSourceText(
+        CharSourceRange::getTokenRange(SubstrOn->getSourceRange()),
+        *Result.SourceManager, getLangOpts()).str() + ".starts_with(";
+
+    ReplacementStr += Lexer::getSourceText(
+        CharSourceRange::getTokenRange(RHS->getSourceRange()),
+        *Result.SourceManager, getLangOpts()).str() + ")";
+
+    if (Comparison->getOpcode() == BO_NE) {
+      ReplacementStr = "!" + ReplacementStr;
+    }
+
+    // Emit diagnostic and fix
+    diag(SubstrCall->getBeginLoc(), "use starts_with() instead of substr(0, n) comparison")
+        << FixItHint::CreateReplacement(
+            CharSourceRange::getTokenRange(Comparison->getSourceRange()),
+            ReplacementStr);
+    return;
+  }
+  
   const auto *ComparisonExpr = Result.Nodes.getNodeAs<BinaryOperator>("expr");
   const auto *FindExpr = Result.Nodes.getNodeAs<CXXMemberCallExpr>("find_expr");
   const auto *FindFun = Result.Nodes.getNodeAs<CXXMethodDecl>("find_fun");
