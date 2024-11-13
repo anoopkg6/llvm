@@ -899,11 +899,11 @@ public:
 
   /// Estimate the overhead of scalarizing an instruction. Insert and Extract
   /// are set if the demanded result elements need to be inserted and/or
-  /// extracted from vectors.
-  InstructionCost getScalarizationOverhead(VectorType *Ty,
-                                           const APInt &DemandedElts,
-                                           bool Insert, bool Extract,
-                                           TTI::TargetCostKind CostKind) const;
+  /// extracted from vectors.  The involved values may be passed in VL if
+  /// Insert is true.
+  InstructionCost getScalarizationOverhead(
+      VectorType *Ty, const APInt &DemandedElts, bool Insert, bool Extract,
+      TTI::TargetCostKind CostKind, ArrayRef<Value *> VL = std::nullopt) const;
 
   /// Estimate the overhead of scalarizing an instructions unique
   /// non-constant operands. The (potentially vector) types to use for each of
@@ -1988,10 +1988,10 @@ public:
   virtual bool isTargetIntrinsicTriviallyScalarizable(Intrinsic::ID ID) = 0;
   virtual bool isTargetIntrinsicWithScalarOpAtArg(Intrinsic::ID ID,
                                                   unsigned ScalarOpdIdx) = 0;
-  virtual InstructionCost getScalarizationOverhead(VectorType *Ty,
-                                                   const APInt &DemandedElts,
-                                                   bool Insert, bool Extract,
-                                                   TargetCostKind CostKind) = 0;
+  virtual InstructionCost
+  getScalarizationOverhead(VectorType *Ty, const APInt &DemandedElts,
+                           bool Insert, bool Extract, TargetCostKind CostKind,
+                           ArrayRef<Value *> VL = std::nullopt) = 0;
   virtual InstructionCost
   getOperandsScalarizationOverhead(ArrayRef<const Value *> Args,
                                    ArrayRef<Type *> Tys,
@@ -2561,12 +2561,12 @@ public:
     return Impl.isTargetIntrinsicWithScalarOpAtArg(ID, ScalarOpdIdx);
   }
 
-  InstructionCost getScalarizationOverhead(VectorType *Ty,
-                                           const APInt &DemandedElts,
-                                           bool Insert, bool Extract,
-                                           TargetCostKind CostKind) override {
+  InstructionCost
+  getScalarizationOverhead(VectorType *Ty, const APInt &DemandedElts,
+                           bool Insert, bool Extract, TargetCostKind CostKind,
+                           ArrayRef<Value *> VL = std::nullopt) override {
     return Impl.getScalarizationOverhead(Ty, DemandedElts, Insert, Extract,
-                                         CostKind);
+                                         CostKind, VL);
   }
   InstructionCost
   getOperandsScalarizationOverhead(ArrayRef<const Value *> Args,

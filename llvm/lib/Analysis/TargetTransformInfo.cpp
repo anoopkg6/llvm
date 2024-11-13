@@ -613,9 +613,9 @@ bool TargetTransformInfo::isTargetIntrinsicWithScalarOpAtArg(
 
 InstructionCost TargetTransformInfo::getScalarizationOverhead(
     VectorType *Ty, const APInt &DemandedElts, bool Insert, bool Extract,
-    TTI::TargetCostKind CostKind) const {
+    TTI::TargetCostKind CostKind, ArrayRef<Value *> VL) const {
   return TTIImpl->getScalarizationOverhead(Ty, DemandedElts, Insert, Extract,
-                                           CostKind);
+                                           CostKind, VL);
 }
 
 InstructionCost TargetTransformInfo::getOperandsScalarizationOverhead(
