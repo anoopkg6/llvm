@@ -265,8 +265,16 @@ void llvm::sortBasicBlocksAndUpdateBranches(
 // zero implies "no landing pad." This function inserts a NOP just before the EH
 // pad label to ensure a nonzero offset.
 void llvm::avoidZeroOffsetLandingPad(MachineFunction &MF) {
+  SmallDenseSet<MBBSectionID> SectionsWithNonEmptyBlocks;
+  auto IsFirstNonEmptyBBInSection = [&](const MachineBasicBlock &MBB) {
+    if (MBB.empty() || SectionsWithNonEmptyBlocks.contains(MBB.getSectionID()))
+      return false;
+    SectionsWithNonEmptyBlocks.insert(MBB.getSectionID());
+    return true;
+  };
+
   for (auto &MBB : MF) {
-    if (MBB.isBeginSection() && MBB.isEHPad()) {
+    if (IsFirstNonEmptyBBInSection(MBB) && MBB.isEHPad()) {
       MachineBasicBlock::iterator MI = MBB.begin();
       while (!MI->isEHLabel())
         ++MI;
