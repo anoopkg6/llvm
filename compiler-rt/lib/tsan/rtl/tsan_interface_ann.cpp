@@ -446,6 +446,7 @@ static void ReportMutexHeldWrongContext(ThreadState *thr, uptr pc) {
   VarSizeStackTrace trace;
   ObtainCurrentStack(thr, pc, &trace);
   rep.AddStack(trace, true);
+  rep.SymbolizeReport();
   OutputReport(thr, rep);
 }
 

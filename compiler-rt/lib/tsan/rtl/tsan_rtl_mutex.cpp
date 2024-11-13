@@ -62,6 +62,7 @@ static void ReportMutexMisuse(ThreadState *thr, uptr pc, ReportType typ,
   ObtainCurrentStack(thr, pc, &trace);
   rep.AddStack(trace, true);
   rep.AddLocation(addr, 1);
+  rep.SymbolizeReport();
   OutputReport(thr, rep);
 }
 
@@ -548,6 +549,7 @@ void ReportDeadlock(ThreadState *thr, uptr pc, DDReport *r) {
       }
     }
   }
+  rep.SymbolizeReport();
   OutputReport(thr, rep);
 }
 
@@ -572,6 +574,7 @@ void ReportDestroyLocked(ThreadState *thr, uptr pc, uptr addr,
     return;
   rep.AddStack(trace, true);
   rep.AddLocation(addr, 1);
+  rep.SymbolizeReport();
   OutputReport(thr, rep);
 }
 

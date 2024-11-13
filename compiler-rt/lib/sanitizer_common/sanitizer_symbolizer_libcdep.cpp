@@ -108,6 +108,7 @@ bool Symbolizer::SymbolizeData(uptr addr, DataInfo *info) {
                                          &arch))
     return false;
   info->Clear();
+  info->start = addr;
   info->module = internal_strdup(module_name);
   info->module_offset = module_offset;
   info->module_arch = arch;
