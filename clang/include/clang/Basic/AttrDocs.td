@@ -1155,6 +1155,15 @@ Query for this feature with ``__has_attribute(diagnose_if)``.
   }];
 }
 
+def NoSpecializationsDocs : Documentation {
+  let Category = DocCatDecl;
+  let Content = [{
+``[[clang::no_specializations]]`` can be applied to class or variable
+templates which should not be explicitly specialized by users. This is primarily
+used to diagnose user specializations of standard library type traits.
+  }];
+}
+
 def PassObjectSizeDocs : Documentation {
   let Category = DocCatVariable; // Technically it's a parameter doc, but eh.
   let Heading = "pass_object_size, pass_dynamic_object_size";
@@ -7125,8 +7134,8 @@ the field it is attached to, and it may also lead to emission of automatic fix-i
 hints which would help the user replace the use of unsafe functions(/fields) with safe
 alternatives, though the attribute can be used even when the fix can't be automated.
 
-* Attribute attached to functions: The attribute does not suppress 
-  ``-Wunsafe-buffer-usage`` inside the function to which it is attached. 
+* Attribute attached to functions: The attribute does not suppress
+  ``-Wunsafe-buffer-usage`` inside the function to which it is attached.
   These warnings still need to be addressed.
 
   The attribute is warranted even if the only way a function can overflow
@@ -7189,10 +7198,10 @@ alternatives, though the attribute can be used even when the fix can't be automa
   and then use the attribute on the original ``baz()`` to help the users
   update their code to use the new function.
 
-* Attribute attached to fields: The attribute should only be attached to 
-  struct fields, if the fields can not be updated to a safe type with bounds 
-  check, such as std::span. In other words, the buffers prone to unsafe accesses 
-  should always be updated to use safe containers/views and attaching the attribute 
+* Attribute attached to fields: The attribute should only be attached to
+  struct fields, if the fields can not be updated to a safe type with bounds
+  check, such as std::span. In other words, the buffers prone to unsafe accesses
+  should always be updated to use safe containers/views and attaching the attribute
   must be last resort when such an update is infeasible.
 
   The attribute can be placed on individual fields or a set of them as shown below.
@@ -7210,7 +7219,7 @@ alternatives, though the attribute can be used even when the fix can't be automa
       size_t sz;
     };
 
-  Here, every read/write to the fields ptr1, ptr2, buf and sz will trigger a warning 
+  Here, every read/write to the fields ptr1, ptr2, buf and sz will trigger a warning
   that the field has been explcitly marked as unsafe due to unsafe-buffer operations.
 
   }];
@@ -7765,10 +7774,10 @@ def HLSLLoopHintDocs : Documentation {
   let Content = [{
 The ``[loop]`` directive allows loop optimization hints to be
 specified for the subsequent loop. The directive allows unrolling to
-be disabled and is not compatible with [unroll(x)]. 
+be disabled and is not compatible with [unroll(x)].
 
 Specifying the parameter, ``[loop]``, directs the
-unroller to not unroll the loop. 
+unroller to not unroll the loop.
 
 .. code-block:: hlsl
 
