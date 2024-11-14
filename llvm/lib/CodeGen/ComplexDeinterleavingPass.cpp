@@ -144,6 +144,7 @@ private:
   friend class ComplexDeinterleavingGraph;
   using NodePtr = std::shared_ptr<ComplexDeinterleavingCompositeNode>;
   using RawNodePtr = ComplexDeinterleavingCompositeNode *;
+  bool OperandsValid = true;
 
 public:
   ComplexDeinterleavingOperation Operation;
@@ -160,7 +161,11 @@ public:
   SmallVector<RawNodePtr> Operands;
   Value *ReplacementNode = nullptr;
 
-  void addOperand(NodePtr Node) { Operands.push_back(Node.get()); }
+  void addOperand(NodePtr Node) {
+    if (!Node || !Node.get())
+      OperandsValid = false;
+    Operands.push_back(Node.get());
+  }
 
   void dump() { dump(dbgs()); }
   void dump(raw_ostream &OS) {
@@ -194,6 +199,8 @@ public:
       PrintNodeRef(Op);
     }
   }
+
+  bool AreOperandsValid() { return OperandsValid; }
 };
 
 class ComplexDeinterleavingGraph {
@@ -293,7 +300,7 @@ private:
 
   NodePtr submitCompositeNode(NodePtr Node) {
     CompositeNodes.push_back(Node);
-    if (Node->Real && Node->Imag)
+    if (Node->Real)
       CachedResult[{Node->Real, Node->Imag}] = Node;
     return Node;
   }
@@ -327,8 +334,10 @@ private:
   ///      i: ai - br
   NodePtr identifyAdd(Instruction *Real, Instruction *Imag);
   NodePtr identifySymmetricOperation(Instruction *Real, Instruction *Imag);
+  NodePtr identifyPartialReduction(Value *R, Value *I);
+  NodePtr identifyDotProduct(Value *Inst);
 
-  NodePtr identifyNode(Value *R, Value *I);
+  NodePtr identifyNode(Value *R, Value *I, bool *FromCache = nullptr);
 
   /// Determine if a sum of complex numbers can be formed from \p RealAddends
   /// and \p ImagAddens. If \p Accumulator is not null, add the result to it.
@@ -396,6 +405,7 @@ private:
   /// * Deinterleave the final value outside of the loop and repurpose original
   /// reduction users
   void processReductionOperation(Value *OperationReplacement, RawNodePtr Node);
+  void processReductionSingle(Value *OperationReplacement, RawNodePtr Node);
 
 public:
   void dump() { dump(dbgs()); }
@@ -891,16 +901,171 @@ ComplexDeinterleavingGraph::identifySymmetricOperation(Instruction *Real,
 }
 
 ComplexDeinterleavingGraph::NodePtr
-ComplexDeinterleavingGraph::identifyNode(Value *R, Value *I) {
-  LLVM_DEBUG(dbgs() << "identifyNode on " << *R << " / " << *I << "\n");
-  assert(R->getType() == I->getType() &&
-         "Real and imaginary parts should not have different types");
+ComplexDeinterleavingGraph::identifyDotProduct(Value *V) {
+  auto *Inst = cast<Instruction>(V);
 
+  if (!TL->isComplexDeinterleavingOperationSupported(
+          ComplexDeinterleavingOperation::CDot, Inst->getType())) {
+    LLVM_DEBUG(dbgs() << "Target doesn't support complex deinterleaving "
+                         "operation CDot with the type "
+                      << *Inst->getType() << "\n");
+    return nullptr;
+  }
+
+  auto *RealUser = cast<Instruction>(*Inst->user_begin());
+
+  NodePtr CN =
+      prepareCompositeNode(ComplexDeinterleavingOperation::CDot, Inst, nullptr);
+
+  NodePtr ANode;
+
+  const Intrinsic::ID PartialReduceInt =
+      Intrinsic::experimental_vector_partial_reduce_add;
+
+  Value *AReal = nullptr;
+  Value *AImag = nullptr;
+  Value *BReal = nullptr;
+  Value *BImag = nullptr;
+  Value *Phi = nullptr;
+
+  auto UnwrapCast = [](Value *V) -> Value * {
+    if (auto *CI = dyn_cast<CastInst>(V))
+      return CI->getOperand(0);
+    return V;
+  };
+
+  auto PatternRot0 = m_Intrinsic<PartialReduceInt>(
+      m_Intrinsic<PartialReduceInt>(m_Value(Phi),
+                                    m_Mul(m_Value(BReal), m_Value(AReal))),
+      m_Neg(m_Mul(m_Value(BImag), m_Value(AImag))));
+
+  auto PatternRot270 = m_Intrinsic<PartialReduceInt>(
+      m_Intrinsic<PartialReduceInt>(
+          m_Value(Phi), m_Neg(m_Mul(m_Value(BReal), m_Value(AImag)))),
+      m_Mul(m_Value(BImag), m_Value(AReal)));
+
+  if (match(Inst, PatternRot0)) {
+    CN->Rotation = ComplexDeinterleavingRotation::Rotation_0;
+  } else if (match(Inst, PatternRot270)) {
+    CN->Rotation = ComplexDeinterleavingRotation::Rotation_270;
+  } else {
+    Value *A0, *A1;
+    // The rotations 90 and 180 share the same operation pattern, so inspect the
+    // order of the operands, identifying where the real and imaginary
+    // components of A go, to discern between the aforementioned rotations.
+    auto PatternRot90Rot180 = m_Intrinsic<PartialReduceInt>(
+        m_Intrinsic<PartialReduceInt>(m_Value(Phi),
+                                      m_Mul(m_Value(BReal), m_Value(A0))),
+        m_Mul(m_Value(BImag), m_Value(A1)));
+
+    if (!match(Inst, PatternRot90Rot180))
+      return nullptr;
+
+    A0 = UnwrapCast(A0);
+    A1 = UnwrapCast(A1);
+
+    // Test if A0 is real/A1 is imag
+    ANode = identifyNode(A0, A1);
+    if (!ANode) {
+      // Test if A0 is imag/A1 is real
+      ANode = identifyNode(A1, A0);
+      // Unable to identify operand components, thus unable to identify rotation
+      if (!ANode)
+        return nullptr;
+      CN->Rotation = ComplexDeinterleavingRotation::Rotation_90;
+      AReal = A1;
+      AImag = A0;
+    } else {
+      AReal = A0;
+      AImag = A1;
+      CN->Rotation = ComplexDeinterleavingRotation::Rotation_180;
+    }
+  }
+
+  AReal = UnwrapCast(AReal);
+  AImag = UnwrapCast(AImag);
+  BReal = UnwrapCast(BReal);
+  BImag = UnwrapCast(BImag);
+
+  bool WasANodeFromCache = false;
+  NodePtr Node = identifyNode(AReal, AImag, &WasANodeFromCache);
+
+  // In the case that a node was identified to figure out the rotation, ensure
+  // that trying to identify a node with AReal and AImag post-unwrap results in
+  // the same node
+  if (Node && ANode && !WasANodeFromCache) {
+    LLVM_DEBUG(
+        dbgs()
+        << "Identified node is different from previously identified node. "
+           "Unable to confidently generate a complex operation node\n");
+    return nullptr;
+  }
+
+  CN->addOperand(Node);
+  CN->addOperand(identifyNode(BReal, BImag));
+  CN->addOperand(identifyNode(Phi, RealUser));
+
+  return submitCompositeNode(CN);
+}
+
+ComplexDeinterleavingGraph::NodePtr
+ComplexDeinterleavingGraph::identifyPartialReduction(Value *R, Value *I) {
+  if (!I->hasOneUser())
+    return nullptr;
+
+  VectorType *RealTy = dyn_cast<VectorType>(R->getType());
+  if (!RealTy)
+    return nullptr;
+  VectorType *ImagTy = dyn_cast<VectorType>(I->getType());
+  if (!ImagTy)
+    return nullptr;
+
+  if (RealTy->isScalableTy() != ImagTy->isScalableTy())
+    return nullptr;
+  if (RealTy->getElementType() != ImagTy->getElementType())
+    return nullptr;
+
+  // `I` is known to only have one user, so iterate over the Phi (R) users to
+  // find the common user between R and I
+  auto *CommonUser = *I->user_begin();
+  bool CommonUserFound = false;
+  for (auto *User : R->users()) {
+    if (User == CommonUser) {
+      CommonUserFound = true;
+      break;
+    }
+  }
+
+  if (!CommonUserFound)
+    return nullptr;
+
+  auto *IInst = dyn_cast<IntrinsicInst>(CommonUser);
+  if (!IInst || IInst->getIntrinsicID() !=
+                    Intrinsic::experimental_vector_partial_reduce_add)
+    return nullptr;
+
+  if (NodePtr CN = identifyDotProduct(IInst))
+    return CN;
+
+  return nullptr;
+}
+
+ComplexDeinterleavingGraph::NodePtr
+ComplexDeinterleavingGraph::identifyNode(Value *R, Value *I, bool *FromCache) {
   auto It = CachedResult.find({R, I});
   if (It != CachedResult.end()) {
     LLVM_DEBUG(dbgs() << " - Folding to existing node\n");
+    if (FromCache != nullptr)
+      *FromCache = true;
     return It->second;
   }
+
+  if (NodePtr CN = identifyPartialReduction(R, I))
+    return CN;
+
+  bool IsReduction = RealPHI == R && (!ImagPHI || ImagPHI == I);
+  if (!IsReduction && R->getType() != I->getType())
+    return nullptr;
 
   if (NodePtr CN = identifySplat(R, I))
     return CN;
@@ -1427,12 +1592,20 @@ bool ComplexDeinterleavingGraph::identifyNodes(Instruction *RootI) {
   if (It != RootToNode.end()) {
     auto RootNode = It->second;
     assert(RootNode->Operation ==
-           ComplexDeinterleavingOperation::ReductionOperation);
+               ComplexDeinterleavingOperation::ReductionOperation ||
+           RootNode->Operation ==
+               ComplexDeinterleavingOperation::ReductionSingle);
     // Find out which part, Real or Imag, comes later, and only if we come to
     // the latest part, add it to OrderedRoots.
     auto *R = cast<Instruction>(RootNode->Real);
-    auto *I = cast<Instruction>(RootNode->Imag);
-    auto *ReplacementAnchor = R->comesBefore(I) ? I : R;
+    auto *I = RootNode->Imag ? cast<Instruction>(RootNode->Imag) : nullptr;
+
+    Instruction *ReplacementAnchor;
+    if (I)
+      ReplacementAnchor = R->comesBefore(I) ? I : R;
+    else
+      ReplacementAnchor = R;
+
     if (ReplacementAnchor != RootI)
       return false;
     OrderedRoots.push_back(RootI);
@@ -1523,7 +1696,6 @@ void ComplexDeinterleavingGraph::identifyReductionNodes() {
     for (size_t j = i + 1; j < OperationInstruction.size(); ++j) {
       if (Processed[j])
         continue;
-
       auto *Real = OperationInstruction[i];
       auto *Imag = OperationInstruction[j];
       if (Real->getType() != Imag->getType())
@@ -1556,6 +1728,28 @@ void ComplexDeinterleavingGraph::identifyReductionNodes() {
         break;
       }
     }
+
+    auto *Real = OperationInstruction[i];
+    // We want to check that we have 2 operands, but the function attributes
+    // being counted as operands bloats this value.
+    if (Real->getNumOperands() < 2)
+      continue;
+
+    RealPHI = ReductionInfo[Real].first;
+    ImagPHI = nullptr;
+    PHIsFound = false;
+    auto Node = identifyNode(Real->getOperand(0), Real->getOperand(1));
+    if (Node && PHIsFound) {
+      LLVM_DEBUG(
+          dbgs() << "Identified single reduction starting from instruction: "
+                 << *Real << "/" << *ReductionInfo[Real].second << "\n");
+      Processed[i] = true;
+      auto RootNode = prepareCompositeNode(
+          ComplexDeinterleavingOperation::ReductionSingle, Real, nullptr);
+      RootNode->addOperand(Node);
+      RootToNode[Real] = RootNode;
+      submitCompositeNode(RootNode);
+    }
   }
 
   RealPHI = nullptr;
@@ -1563,6 +1757,12 @@ void ComplexDeinterleavingGraph::identifyReductionNodes() {
 }
 
 bool ComplexDeinterleavingGraph::checkNodes() {
+
+  for (NodePtr N : CompositeNodes) {
+    if (!N->AreOperandsValid())
+      return false;
+  }
+
   // Collect all instructions from roots to leaves
   SmallPtrSet<Instruction *, 16> AllInstructions;
   SmallVector<Instruction *, 8> Worklist;
@@ -1831,7 +2031,7 @@ ComplexDeinterleavingGraph::identifySplat(Value *R, Value *I) {
 ComplexDeinterleavingGraph::NodePtr
 ComplexDeinterleavingGraph::identifyPHINode(Instruction *Real,
                                             Instruction *Imag) {
-  if (Real != RealPHI || Imag != ImagPHI)
+  if (Real != RealPHI || (ImagPHI && Imag != ImagPHI))
     return nullptr;
 
   PHIsFound = true;
@@ -1926,6 +2126,16 @@ Value *ComplexDeinterleavingGraph::replaceNode(IRBuilderBase &Builder,
 
   Value *ReplacementNode;
   switch (Node->Operation) {
+  case ComplexDeinterleavingOperation::CDot: {
+    Value *Input0 = ReplaceOperandIfExist(Node, 0);
+    Value *Input1 = ReplaceOperandIfExist(Node, 1);
+    Value *Accumulator = ReplaceOperandIfExist(Node, 2);
+    assert(!Input1 || (Input0->getType() == Input1->getType() &&
+                       "Node inputs need to be of the same type"));
+    ReplacementNode = TL->createComplexDeinterleavingIR(
+        Builder, Node->Operation, Node->Rotation, Input0, Input1, Accumulator);
+    break;
+  }
   case ComplexDeinterleavingOperation::CAdd:
   case ComplexDeinterleavingOperation::CMulPartial:
   case ComplexDeinterleavingOperation::Symmetric: {
@@ -1969,13 +2179,18 @@ Value *ComplexDeinterleavingGraph::replaceNode(IRBuilderBase &Builder,
   case ComplexDeinterleavingOperation::ReductionPHI: {
     // If Operation is ReductionPHI, a new empty PHINode is created.
     // It is filled later when the ReductionOperation is processed.
+    auto *OldPHI = cast<PHINode>(Node->Real);
     auto *VTy = cast<VectorType>(Node->Real->getType());
     auto *NewVTy = VectorType::getDoubleElementsVectorType(VTy);
     auto *NewPHI = PHINode::Create(NewVTy, 0, "", BackEdge->getFirstNonPHIIt());
-    OldToNewPHI[dyn_cast<PHINode>(Node->Real)] = NewPHI;
+    OldToNewPHI[OldPHI] = NewPHI;
     ReplacementNode = NewPHI;
     break;
   }
+  case ComplexDeinterleavingOperation::ReductionSingle:
+    ReplacementNode = replaceNode(Builder, Node->Operands[0]);
+    processReductionSingle(ReplacementNode, Node);
+    break;
   case ComplexDeinterleavingOperation::ReductionOperation:
     ReplacementNode = replaceNode(Builder, Node->Operands[0]);
     processReductionOperation(ReplacementNode, Node);
@@ -1998,6 +2213,38 @@ Value *ComplexDeinterleavingGraph::replaceNode(IRBuilderBase &Builder,
   NumComplexTransformations += 1;
   Node->ReplacementNode = ReplacementNode;
   return ReplacementNode;
+}
+
+void ComplexDeinterleavingGraph::processReductionSingle(
+    Value *OperationReplacement, RawNodePtr Node) {
+  auto *Real = cast<Instruction>(Node->Real);
+  auto *OldPHI = ReductionInfo[Real].first;
+  auto *NewPHI = OldToNewPHI[OldPHI];
+  auto *VTy = cast<VectorType>(Real->getType());
+  auto *NewVTy = VectorType::getDoubleElementsVectorType(VTy);
+
+  Value *Init = OldPHI->getIncomingValueForBlock(Incoming);
+
+  IRBuilder<> Builder(Incoming->getTerminator());
+
+  Value *NewInit = nullptr;
+  if (auto *C = dyn_cast<Constant>(Init)) {
+    if (C->isZeroValue())
+      NewInit = Constant::getNullValue(NewVTy);
+  }
+
+  if (!NewInit)
+    NewInit = Builder.CreateIntrinsic(Intrinsic::vector_interleave2, NewVTy,
+                                      {Init, Constant::getNullValue(VTy)});
+
+  NewPHI->addIncoming(NewInit, Incoming);
+  NewPHI->addIncoming(OperationReplacement, BackEdge);
+
+  auto *FinalReduction = ReductionInfo[Real].second;
+  Builder.SetInsertPoint(&*FinalReduction->getParent()->getFirstInsertionPt());
+
+  auto *AddReduce = Builder.CreateAddReduce(OperationReplacement);
+  FinalReduction->replaceAllUsesWith(AddReduce);
 }
 
 void ComplexDeinterleavingGraph::processReductionOperation(
@@ -2059,8 +2306,13 @@ void ComplexDeinterleavingGraph::replaceNodes() {
       auto *RootImag = cast<Instruction>(RootNode->Imag);
       ReductionInfo[RootReal].first->removeIncomingValue(BackEdge);
       ReductionInfo[RootImag].first->removeIncomingValue(BackEdge);
-      DeadInstrRoots.push_back(cast<Instruction>(RootReal));
-      DeadInstrRoots.push_back(cast<Instruction>(RootImag));
+      DeadInstrRoots.push_back(RootReal);
+      DeadInstrRoots.push_back(RootImag);
+    } else if (RootNode->Operation ==
+               ComplexDeinterleavingOperation::ReductionSingle) {
+      auto *RootInst = cast<Instruction>(RootNode->Real);
+      ReductionInfo[RootInst].first->removeIncomingValue(BackEdge);
+      DeadInstrRoots.push_back(ReductionInfo[RootInst].second);
     } else {
       assert(R && "Unable to find replacement for RootInstruction");
       DeadInstrRoots.push_back(RootInstruction);
