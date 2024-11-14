@@ -894,6 +894,12 @@ Improvements
 Moved checkers
 ^^^^^^^^^^^^^^
 
+- The checker ``alpha.core.IdenticalExpr`` was removed because it was
+  duplicated in the clang-tidy checkers ``misc-redundant-expression`` and
+  ``bugprone-branch-clone``. ``alpha.core.IdenticalExpr`` was implemented
+  by using AST matching and did not make sense to remain as an alpha
+  static analysis checker.
+
 - The checker ``alpha.security.MallocOverflow`` was deleted because it was
   badly implemented and its agressive logic produced too many false positives.
   To detect too large arguments passed to malloc, consider using the checker
