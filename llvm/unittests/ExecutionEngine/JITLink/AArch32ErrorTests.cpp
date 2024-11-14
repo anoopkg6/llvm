@@ -6,10 +6,10 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include <llvm/ExecutionEngine/JITLink/aarch32.h>
-
+#include "llvm/ExecutionEngine/Orc/SymbolStringPool.h"
 #include "llvm/Testing/Support/Error.h"
 #include "gtest/gtest.h"
+#include <llvm/ExecutionEngine/JITLink/aarch32.h>
 
 using namespace llvm;
 using namespace llvm::jitlink;
@@ -18,7 +18,8 @@ using namespace llvm::support;
 using namespace llvm::support::endian;
 
 constexpr unsigned PointerSize = 4;
-auto G = std::make_unique<LinkGraph>("foo", Triple("armv7-linux-gnueabi"),
+auto SSP = std::make_shared<orc::SymbolStringPool>();
+auto G = std::make_unique<LinkGraph>("foo", SSP, Triple("armv7-linux-gnueabi"),
                                      PointerSize, endianness::little,
                                      aarch32::getEdgeKindName);
 auto &Sec =
@@ -46,7 +47,8 @@ public:
   static void SetUpTestCase() {}
 
   void SetUp() override {
-    G = std::make_unique<LinkGraph>("foo", Triple("armv7-linux-gnueabi"),
+    auto SSP = std::make_shared<orc::SymbolStringPool>();
+    G = std::make_unique<LinkGraph>("foo", SSP, Triple("armv7-linux-gnueabi"),
                                     PointerSize, endianness::little,
                                     aarch32::getEdgeKindName);
     S = &G->createSection("__data", orc::MemProt::Read | orc::MemProt::Write);

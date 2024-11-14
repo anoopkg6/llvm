@@ -10,6 +10,7 @@
 #define LLVM_EXECUTIONENGINE_RUNTIMEDYLDCHECKER_H
 
 #include "llvm/ExecutionEngine/JITSymbol.h"
+#include "llvm/ExecutionEngine/Orc/SymbolStringPool.h"
 #include "llvm/Support/Endian.h"
 #include "llvm/TargetParser/SubtargetFeature.h"
 #include "llvm/TargetParser/Triple.h"
@@ -150,7 +151,7 @@ public:
 
   using IsSymbolValidFunction = std::function<bool(StringRef Symbol)>;
   using GetSymbolInfoFunction =
-      std::function<Expected<MemoryRegionInfo>(StringRef SymbolName)>;
+      std::function<Expected<MemoryRegionInfo>(StringRef Symbol)>;
   using GetSectionInfoFunction = std::function<Expected<MemoryRegionInfo>(
       StringRef FileName, StringRef SectionName)>;
   using GetStubInfoFunction = std::function<Expected<MemoryRegionInfo>(

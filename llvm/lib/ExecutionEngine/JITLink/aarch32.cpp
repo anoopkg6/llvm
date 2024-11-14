@@ -854,14 +854,14 @@ bool StubsManager_prev7::visitEdge(LinkGraph &G, Block *B, Edge &E) {
 
   Symbol &Target = E.getTarget();
   assert(Target.hasName() && "Edge cannot point to anonymous target");
-  auto [Slot, NewStub] = getStubMapSlot(Target.getName());
+  auto [Slot, NewStub] = getStubMapSlot(*Target.getName());
 
   if (NewStub) {
     if (!StubsSection)
       StubsSection = &G.createSection(getSectionName(),
                                       orc::MemProt::Read | orc::MemProt::Exec);
     LLVM_DEBUG({
-      dbgs() << "    Created stub entry for " << Target.getName() << " in "
+      dbgs() << "    Created stub entry for " << *Target.getName() << " in "
              << StubsSection->getName() << "\n";
     });
     Slot->B = &createStubPrev7(G, *StubsSection, Target);
@@ -898,7 +898,7 @@ bool StubsManager_v7::visitEdge(LinkGraph &G, Block *B, Edge &E) {
 
   Symbol &Target = E.getTarget();
   assert(Target.hasName() && "Edge cannot point to anonymous target");
-  Symbol *&StubSymbol = getStubSymbolSlot(Target.getName(), MakeThumb);
+  Symbol *&StubSymbol = getStubSymbolSlot(*Target.getName(), MakeThumb);
 
   if (!StubSymbol) {
     if (!StubsSection)
@@ -912,7 +912,7 @@ bool StubsManager_v7::visitEdge(LinkGraph &G, Block *B, Edge &E) {
 
     LLVM_DEBUG({
       dbgs() << "    Created " << (MakeThumb ? "Thumb" : "Arm") << " entry for "
-             << Target.getName() << " in " << StubsSection->getName() << ": "
+             << *Target.getName() << " in " << StubsSection->getName() << ": "
              << *StubSymbol << "\n";
     });
   }

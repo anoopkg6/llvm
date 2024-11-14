@@ -56,7 +56,6 @@ struct Session {
     using LinkGraph = jitlink::LinkGraph;
     using GetSymbolTargetFunction =
         unique_function<Expected<Symbol &>(LinkGraph &G, jitlink::Block &)>;
-
     Error registerGOTEntry(LinkGraph &G, Symbol &Sym,
                            GetSymbolTargetFunction GetSymbolTarget);
     Error registerStubEntry(LinkGraph &G, Symbol &Sym,
@@ -66,7 +65,7 @@ struct Session {
   };
 
   using DynLibJDMap = std::map<std::string, orc::JITDylib *, std::less<>>;
-  using SymbolInfoMap = StringMap<MemoryRegionInfo>;
+  using SymbolInfoMap = DenseMap<orc::SymbolStringPtr, MemoryRegionInfo>;
   using FileInfoMap = StringMap<FileInfo>;
 
   Expected<orc::JITDylib *> getOrLoadDynamicLibrary(StringRef LibPath);
@@ -81,8 +80,8 @@ struct Session {
   Expected<MemoryRegionInfo &> findGOTEntryInfo(StringRef FileName,
                                                 StringRef TargetName);
 
-  bool isSymbolRegistered(StringRef Name);
-  Expected<MemoryRegionInfo &> findSymbolInfo(StringRef SymbolName,
+  bool isSymbolRegistered(const orc::SymbolStringPtr Name);
+  Expected<MemoryRegionInfo &> findSymbolInfo(const orc::SymbolStringPtr Name,
                                               Twine ErrorMsgStem);
 
   DynLibJDMap DynLibJDs;
