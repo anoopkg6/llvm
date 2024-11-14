@@ -7343,14 +7343,16 @@ void SIInstrInfo::moveToVALUImpl(SIInstrWorklist &Worklist,
     auto NewInstr =
         BuildMI(*MBB, Inst, Inst.getDebugLoc(), get(NewOpcode), CondReg)
         .setMIFlags(Inst.getFlags());
-    if (AMDGPU::getNamedOperandIdx(NewOpcode,
-                                   AMDGPU::OpName::src0_modifiers) >= 0) {
+    if (AMDGPU::getNamedOperandIdx(NewOpcode, AMDGPU::OpName::src0_modifiers) >=
+        0) {
       NewInstr
           .addImm(0)               // src0_modifiers
           .add(Inst.getOperand(0)) // src0
           .addImm(0)               // src1_modifiers
           .add(Inst.getOperand(1)) // src1
           .addImm(0);              // clamp
+      if (AMDGPU::hasNamedOperand(NewOpcode, AMDGPU::OpName::op_sel))
+        NewInstr.addImm(0); // op_sel0
     } else {
       NewInstr
           .add(Inst.getOperand(0))
