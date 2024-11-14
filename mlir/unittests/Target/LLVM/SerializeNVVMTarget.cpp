@@ -156,3 +156,71 @@ TEST_F(MLIRTargetLLVMNVVM, SKIP_WITHOUT_NVPTX(SerializeNVVMToBinary)) {
     ASSERT_TRUE(!object->empty());
   }
 }
+
+// Test callback functions invoked with LLVM IR and ISA.
+TEST_F(MLIRTargetLLVMNVVM,
+       SKIP_WITHOUT_NVPTX(CallbackInvokedWithLLVMIRAndISA)) {
+  if (!hasPtxas())
+    GTEST_SKIP() << "PTXAS compiler not found, skipping test.";
+
+  MLIRContext context(registry);
+
+  OwningOpRef<ModuleOp> module =
+      parseSourceString<ModuleOp>(moduleStr, &context);
+  ASSERT_TRUE(!!module);
+
+  NVVM::NVVMTargetAttr target = NVVM::NVVMTargetAttr::get(&context);
+
+  auto serializer = dyn_cast<gpu::TargetAttrInterface>(target);
+  ASSERT_TRUE(!!serializer);
+
+  std::string initialLLVMIR;
+  auto initialCallback = [&initialLLVMIR](llvm::Module &module) {
+    std::ostringstream oss;
+    llvm::raw_os_ostream ros(oss);
+    module.print(ros, nullptr);
+    initialLLVMIR = oss.str();
+  };
+
+  std::string linkedLLVMIR;
+  auto linkedCallback = [&linkedLLVMIR](llvm::Module &module) {
+    std::ostringstream oss;
+    llvm::raw_os_ostream ros(oss);
+    module.print(ros, nullptr);
+    linkedLLVMIR = oss.str();
+  };
+
+  std::string optimizedLLVMIR;
+  auto optimizedCallback = [&optimizedLLVMIR](llvm::Module &module) {
+    std::ostringstream oss;
+    llvm::raw_os_ostream ros(oss);
+    module.print(ros, nullptr);
+    optimizedLLVMIR = oss.str();
+  };
+
+  std::string isaResult;
+  auto isaCallback = [&isaResult](llvm::StringRef isa) {
+    isaResult = isa.str();
+  };
+
+  gpu::TargetOptions options({}, {}, {}, gpu::CompilationTarget::Binary, {},
+                             initialCallback, linkedCallback, optimizedCallback,
+                             isaCallback);
+
+  for (auto gpuModule : (*module).getBody()->getOps<gpu::GPUModuleOp>()) {
+    std::optional<SmallVector<char, 0>> object =
+        serializer.serializeToObject(gpuModule, options);
+
+    ASSERT_TRUE(object != std::nullopt);
+    ASSERT_TRUE(!object->empty());
+    ASSERT_TRUE(!initialLLVMIR.empty());
+    ASSERT_TRUE(!linkedLLVMIR.empty());
+    ASSERT_TRUE(!optimizedLLVMIR.empty());
+    ASSERT_TRUE(!isaResult.empty());
+
+    initialLLVMIR.clear();
+    linkedLLVMIR.clear();
+    optimizedLLVMIR.clear();
+    isaResult.clear();
+  }
+}
