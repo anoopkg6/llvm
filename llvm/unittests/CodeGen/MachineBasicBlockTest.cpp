@@ -105,4 +105,15 @@ TEST(FindDebugLocTest, DifferentIterators) {
   DIB.finalize();
 }
 
+TEST(MachineBasicBlockTest, EmptyBasicBlock) {
+  LLVMContext Ctx;
+  Module Mod("Module", Ctx);
+  // Test that it is possible to create MachineBasicBlock for BasicBlock
+  auto &F = MF->getFunction();
+  auto *BB = BasicBlock::Create(F.getContext(), "", &F);
+  auto *MBB = MF->CreateMachineBasicBlock(BB);
+  EXPECT_NE(MBB, nullptr);
+  EXPECT_EQ(MBB->size(), 0);
+  EXPECT_EQ(MBB->getBasicBlock(), BB);
+}
 } // end namespace
