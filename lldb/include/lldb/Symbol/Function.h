@@ -446,6 +446,11 @@ public:
 
   const AddressRange &GetAddressRange() { return m_range; }
 
+  /// Return the address of the function (its entry point). This address is also
+  /// used as a base address for relocation of function-scope entities (blocks
+  /// and variables).
+  Address GetAddress() const;
+
   lldb::LanguageType GetLanguage() const;
   /// Find the file and line number of the source location of the start of the
   /// function.  This will use the declaration if present and fall back on the

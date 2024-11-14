@@ -133,7 +133,7 @@ lldb::addr_t CallEdge::GetLoadAddress(lldb::addr_t unresolved_pc,
                                       Function &caller, Target &target) {
   Log *log = GetLog(LLDBLog::Step);
 
-  const Address &caller_start_addr = caller.GetAddressRange().GetBaseAddress();
+  const Address &caller_start_addr = caller.GetAddress();
 
   ModuleSP caller_module_sp = caller_start_addr.GetModule();
   if (!caller_module_sp) {
@@ -308,8 +308,7 @@ void Function::GetStartLineSourceInfo(SupportFileSP &source_file_sp,
       return;
 
     LineEntry line_entry;
-    if (line_table->FindLineEntryByAddress(GetAddressRange().GetBaseAddress(),
-                                           line_entry, nullptr)) {
+    if (line_table->FindLineEntryByAddress(GetAddress(), line_entry, nullptr)) {
       line_no = line_entry.line;
       source_file_sp = line_entry.file_sp;
     }
@@ -408,6 +407,15 @@ CompileUnit *Function::GetCompileUnit() { return m_comp_unit; }
 
 const CompileUnit *Function::GetCompileUnit() const { return m_comp_unit; }
 
+Address Function::GetAddress() const {
+  if (m_ranges.empty())
+    return Address();
+  // We're using a (DWARF-like) convention where the base address of the first
+  // interval denotes the entry point of the function. If that turns out to be
+  // insufficient, we can introduce a separate "entry point address" field.
+  return m_ranges[0].GetBaseAddress();
+}
+
 void Function::GetDescription(Stream *s, lldb::DescriptionLevel level,
                               Target *target) {
   ConstString name = GetName();
@@ -477,7 +485,7 @@ Function *Function::CalculateSymbolContextFunction() { return this; }
 lldb::DisassemblerSP Function::GetInstructions(const ExecutionContext &exe_ctx,
                                                const char *flavor,
                                                bool prefer_file_cache) {
-  ModuleSP module_sp(GetAddressRange().GetBaseAddress().GetModule());
+  ModuleSP module_sp = GetAddress().GetModule();
   if (module_sp && exe_ctx.HasTargetScope()) {
     return Disassembler::DisassembleRange(
         module_sp->GetArchitecture(), nullptr, nullptr, nullptr, flavor,
@@ -594,8 +602,7 @@ uint32_t Function::GetPrologueByteSize() {
     if (line_table) {
       LineEntry first_line_entry;
       uint32_t first_line_entry_idx = UINT32_MAX;
-      if (line_table->FindLineEntryByAddress(GetAddressRange().GetBaseAddress(),
-                                             first_line_entry,
+      if (line_table->FindLineEntryByAddress(GetAddress(), first_line_entry,
                                              &first_line_entry_idx)) {
         // Make sure the first line entry isn't already the end of the prologue
         addr_t prologue_end_file_addr = LLDB_INVALID_ADDRESS;
