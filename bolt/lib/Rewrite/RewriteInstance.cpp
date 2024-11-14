@@ -1707,7 +1707,23 @@ void RewriteInstance::disassemblePLTSectionX86(BinarySection &Section,
   const uint64_t SectionAddress = Section.getAddress();
   const uint64_t SectionSize = Section.getSize();
 
-  for (uint64_t EntryOffset = 0; EntryOffset + EntrySize <= SectionSize;
+  // Parse the PLT header
+  uint64_t HeaderSize = 0;
+  if (Section.getName() == ".plt") {
+    MCInst FirstInstr;
+    uint64_t FirstInstrSize;
+    disassemblePLTInstruction(Section, 0, FirstInstr, FirstInstrSize);
+    if (BC->MIB->isTerminateBranch(FirstInstr)) {
+      // The mold linker (https://github.com/rui314/mold/blob/v2.34.1/src/arch-x86-64.cc#L50)
+      // generates a unique format for the PLT. The header entry is 32 bytes long, while the 
+      // remaining entries are 16 bytes long.
+      BC->outs() << "BOLT-INFO: parsing PLT header for mold\n";
+      HeaderSize = 32;
+    }
+  }  
+
+  // Parse the PLT entries
+  for (uint64_t EntryOffset = HeaderSize; EntryOffset + EntrySize <= SectionSize;
        EntryOffset += EntrySize) {
     MCInst Instruction;
     uint64_t InstrSize, InstrOffset = EntryOffset;
