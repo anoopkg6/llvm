@@ -22,6 +22,7 @@
 using namespace llvm;
 
 namespace {
+struct DumperOpt : public ELFYAML::Opt {};
 
 template <class ELFT>
 class ELFDumper {
@@ -80,6 +81,7 @@ class ELFDumper {
   Expected<ELFYAML::RelrSection *> dumpRelrSection(const Elf_Shdr *Shdr);
   Expected<ELFYAML::RawContentSection *>
   dumpContentSection(const Elf_Shdr *Shdr);
+  Expected<ELFYAML::CustomSection *> dumpCustomSection(const Elf_Shdr *Shdr);
   Expected<ELFYAML::SymtabShndxSection *>
   dumpSymtabShndxSection(const Elf_Shdr *Shdr);
   Expected<ELFYAML::NoBitsSection *> dumpNoBitsSection(const Elf_Shdr *Shdr);
@@ -104,6 +106,8 @@ class ELFDumper {
                           std::optional<DWARFYAML::Data> DWARF);
 
 public:
+  DumperOpt Opt;
+
   ELFDumper(const object::ELFFile<ELFT> &O, std::unique_ptr<DWARFContext> DCtx);
   Expected<ELFYAML::Object *> dump();
 };
@@ -656,6 +660,18 @@ ELFDumper<ELFT>::dumpSections() {
       auto NameOrErr = Obj.getSectionName(Sec);
       if (!NameOrErr)
         return NameOrErr.takeError();
+
+      if (auto ResultOrErr = dumpCustomSection(&Sec)) {
+        auto *Ptr = *ResultOrErr;
+        if (Ptr) {
+          if (Error E = Add(Ptr))
+            return E;
+          continue;
+        } else {
+          // Do nothing -- nullptr
+        }
+      } else
+        return ResultOrErr.takeError();
 
       if (ELFYAML::StackSizesSection::nameMatches(*NameOrErr)) {
         if (Error E = Add(dumpStackSizesSection(&Sec)))
@@ -1663,6 +1679,38 @@ ELFDumper<ELFT>::dumpMipsABIFlags(const Elf_Shdr *Shdr) {
 }
 
 template <class ELFT>
+Expected<ELFYAML::CustomSection *>
+ELFDumper<ELFT>::dumpCustomSection(const Elf_Shdr *Shdr) {
+  Expected<StringRef> NameOrErr = getUniquedSectionName(*Shdr);
+  if (Error E = NameOrErr.takeError())
+    return nullptr;
+  auto Name = std::move(*NameOrErr);
+
+  auto S = Opt.makeCustomSection(Name);
+  if (!S)
+    return nullptr;
+
+  if (Error E = dumpCommonSection(Shdr, *S))
+    return std::move(E);
+
+  unsigned SecIndex = Shdr - &Sections[0];
+  if (SecIndex == 0 && Shdr->sh_type == ELF::SHT_NULL)
+    return nullptr;
+
+  auto ContentOrErr = Obj.getSectionContents(*Shdr);
+  if (!ContentOrErr)
+    return ContentOrErr.takeError();
+
+  ArrayRef<uint8_t> Content = *ContentOrErr;
+  if (Content.empty())
+    return nullptr;
+
+  if (Error E = S->decode(Content, Obj.isLE()))
+    return E;
+  return S.release();
+}
+
+template <class ELFT>
 static Error elf2yaml(raw_ostream &Out, const object::ELFFile<ELFT> &Obj,
                       std::unique_ptr<DWARFContext> DWARFCtx) {
   ELFDumper<ELFT> Dumper(Obj, std::move(DWARFCtx));
@@ -1672,6 +1720,7 @@ static Error elf2yaml(raw_ostream &Out, const object::ELFFile<ELFT> &Obj,
 
   std::unique_ptr<ELFYAML::Object> YAML(YAMLOrErr.get());
   yaml::Output Yout(Out);
+  Yout.Opt = &Dumper.Opt;
   Yout << *YAML;
 
   return Error::success();

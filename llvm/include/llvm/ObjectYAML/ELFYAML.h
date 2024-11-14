@@ -211,6 +211,7 @@ struct Chunk {
     Dynamic,
     Group,
     RawContent,
+    CustomContent,
     Relocation,
     Relr,
     NoBits,
@@ -396,6 +397,26 @@ struct RawContentSection : Section {
 
   // Is used when a content is read as an array of bytes.
   std::optional<std::vector<uint8_t>> ContentBuf;
+};
+
+/// Abstract base class for non-blob contents.
+struct CustomSection : Section {
+  std::optional<llvm::yaml::Hex64> Info;
+
+  CustomSection() : Section(ChunkKind::CustomContent) {}
+
+  /// Apply mappings.
+  virtual void sectionMapping(yaml::IO &IO) = 0;
+
+  /// Decode Content and store to members.
+  virtual Error decode(const ArrayRef<uint8_t> Content, bool isLE) = 0;
+
+  /// Encode members and returns Content.
+  virtual std::string encode() const = 0;
+
+  static bool classof(const Chunk *S) {
+    return S->Kind == ChunkKind::CustomContent;
+  }
 };
 
 struct NoBitsSection : Section {
@@ -758,6 +779,52 @@ struct Object {
 bool shouldAllocateFileSpace(ArrayRef<ProgramHeader> Phdrs,
                              const NoBitsSection &S);
 
+/// ELFYAML::Opt -- Null base class for ELFYAML to provide the
+/// interface for handling CustomRawConetentSection.
+///
+/// Users in ELFYAML should obtain the pointer with
+/// dyn_cast<ELFYAML::Opt> if IO::Opt is the instance from yaml::Opt.
+///
+///     if (auto *Opt = dyn_cast<ELFYAML::Opt>(IO.Opt))
+///
+/// Derivered classes should not modify OptClassID to ensue that
+/// dyn_cast<ELFYAML::Opt> can find this interface.
+class Opt : public yaml::IO::OptBase {
+public:
+  Opt() {
+    OptBaseClassID = &ID;
+    OptClassID = &ID;
+  }
+  ~Opt();
+
+  /// Create an empty new object of CustomSection.
+  /// Its contents will be filled later.
+  /// This is called:
+  ///   - Before preMapping for elf2yaml.
+  ///   - After preMapping for yaml2elf.
+  /// Returns nullptr to delegate default actions.
+  virtual std::unique_ptr<CustomSection>
+  makeCustomSection(StringRef Name) const;
+
+  /// Called before mapping sections for prettyprinting yaml.
+  virtual void preMapping(const ELFYAML::Object &Object, bool IsOutputting);
+
+  /// Called after mapping sections to gather members for the file format.
+  virtual void postMapping(const ELFYAML::Object &Object, bool IsOutputting);
+
+  /// Tell IO::OptBase to be this and derivered classes.
+  static bool classof(const yaml::IO::OptBase *Obj) {
+    return (Obj->OptBaseClassID == &ID);
+  }
+
+  /// This will be not needed unless the pointer to ELFYAML::Opt would
+  /// be cast further.
+  static bool classof(const Opt *Obj) { return (Obj->OptClassID == &ID); }
+  const char *OptClassID;
+
+private:
+  static const char ID;
+};
 } // end namespace ELFYAML
 } // end namespace llvm
 

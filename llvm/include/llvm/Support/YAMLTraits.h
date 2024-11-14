@@ -963,8 +963,28 @@ private:
     }
   }
 
+public:
+  /// The base class of options.
+  class OptBase {
+  public:
+    virtual ~OptBase();
+
+    static bool classof(const OptBase *Obj) {
+      return (Obj->OptBaseClassID == &ID);
+    }
+    const char *OptBaseClassID = &ID;
+
+  private:
+    static const char ID;
+  };
+
 private:
   void *Ctxt;
+  OptBase DefaultOpt;
+
+public:
+  /// This may be overwritten in derivered classes.
+  OptBase *Opt = &DefaultOpt;
 };
 
 namespace detail {
