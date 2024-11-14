@@ -1,5 +1,5 @@
 // RUN: %check_clang_tidy -std=c++20 %s modernize-use-starts-ends-with %t -- \
-// RUN:   -- -isystem %clang_tidy_headers
+// RUN:   -- -isystem %clang_tidy_headers 
 
 #include <string.h>
 #include <string>
@@ -265,4 +265,13 @@ void test(std::string s, std::string_view sv, sub_string ss, sub_sub_string sss,
 
   s.compare(0, 1, "ab") == 0;
   s.rfind(suffix, 1) == s.size() - suffix.size();
+}
+
+void test_substr() {
+    std::string_view strs("hello world");
+    
+    // Test basic substr pattern to ensure the modernizer catches this usage
+    strs.substr(0, 5) == "hello";
+    // CHECK-MESSAGES: :[[@LINE-1]]:{{[0-9]+}}: warning: use starts_with instead of substr(0, n) comparison
+    // CHECK-FIXES: strs.starts_with("hello");
 }
