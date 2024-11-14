@@ -22,6 +22,25 @@ class LoopVectorizationLegality;
 class LoopVectorizationCostModel;
 class TargetLibraryInfo;
 struct HistogramInfo;
+class TargetTransformInfo;
+
+/// A chain of instructions that form a partial reduction.
+/// Designed to match: reduction_bin_op (bin_op (extend (A), (extend (B))),
+/// accumulator).
+struct PartialReductionChain {
+  /// The top-level binary operation that forms the reduction to a scalar
+  /// after the loop body.
+  Instruction *Reduction;
+  /// The extension of each of the inner binary operation's operands.
+  Instruction *ExtendA;
+  Instruction *ExtendB;
+
+  Instruction *BinOp;
+
+  /// The scaling factor between the size of the reduction type and the
+  /// (possibly extended) inputs.
+  unsigned ScaleFactor;
+};
 
 /// Helper class to create VPRecipies from IR instructions.
 class VPRecipeBuilder {
@@ -33,6 +52,9 @@ class VPRecipeBuilder {
 
   /// Target Library Info.
   const TargetLibraryInfo *TLI;
+
+  // Target Transform Info
+  const TargetTransformInfo *TTI;
 
   /// The legality analysis.
   LoopVectorizationLegality *Legal;
@@ -62,6 +84,11 @@ class VPRecipeBuilder {
   /// to add the incoming value from the backedge after all recipes have been
   /// created.
   SmallVector<VPHeaderPHIRecipe *, 4> PhisToFix;
+
+  /// The set of reduction exit instructions that will be scaled to
+  /// a smaller VF via partial reductions.
+  DenseMap<const Instruction *, PartialReductionChain>
+      ScaledReductionExitInstrs;
 
   /// Check if \p I can be widened at the start of \p Range and possibly
   /// decrease the range such that the returned value holds for the entire \p
@@ -111,19 +138,39 @@ class VPRecipeBuilder {
   VPHistogramRecipe *tryToWidenHistogram(const HistogramInfo *HI,
                                          ArrayRef<VPValue *> Operands);
 
+  std::optional<PartialReductionChain>
+  getScaledReduction(PHINode *PHI, const RecurrenceDescriptor &Rdx,
+                     VFRange &Range);
+
 public:
   VPRecipeBuilder(VPlan &Plan, Loop *OrigLoop, const TargetLibraryInfo *TLI,
+                  const TargetTransformInfo *TTI,
                   LoopVectorizationLegality *Legal,
                   LoopVectorizationCostModel &CM,
                   PredicatedScalarEvolution &PSE, VPBuilder &Builder)
-      : Plan(Plan), OrigLoop(OrigLoop), TLI(TLI), Legal(Legal), CM(CM),
-        PSE(PSE), Builder(Builder) {}
+      : Plan(Plan), OrigLoop(OrigLoop), TLI(TLI), TTI(TTI), Legal(Legal),
+        CM(CM), PSE(PSE), Builder(Builder) {}
+
+  std::optional<PartialReductionChain>
+  getScaledReductionForInstr(const Instruction *ExitInst) {
+    auto It = ScaledReductionExitInstrs.find(ExitInst);
+    return It == ScaledReductionExitInstrs.end()
+               ? std::nullopt
+               : std::make_optional(It->second);
+  }
+
+  void collectScaledReductions(VFRange &Range);
 
   /// Create and return a widened recipe for \p I if one can be created within
   /// the given VF \p Range.
   VPRecipeBase *tryToCreateWidenRecipe(Instruction *Instr,
                                        ArrayRef<VPValue *> Operands,
                                        VFRange &Range, VPBasicBlock *VPBB);
+
+  /// Create and return a partial reduction recipe for a reduction instruction
+  /// along with binary operation and reduction phi operands.
+  VPRecipeBase *tryToCreatePartialReduction(Instruction *Reduction,
+                                            ArrayRef<VPValue *> Operands);
 
   /// Set the recipe created for given ingredient.
   void setRecipe(Instruction *I, VPRecipeBase *R) {
