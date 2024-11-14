@@ -89,7 +89,10 @@ class ProgramPoint:
         elif self.kind == "BlockEntrance":
             self.block_id = json_pp["block_id"]
         elif self.kind == "PostInitializer":
-            self.target = json_pp["field_decl"] if "field_decl" in json_pp else json_pp["type"]
+            if "field_decl" in json_pp:
+                self.target = json_pp["field_decl"]
+            else:
+                self.target = json_pp["type"]
 
 
 # A single expression acting as a key in a deserialized Environment.
