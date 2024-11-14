@@ -602,17 +602,19 @@ bool TailDuplicator::shouldTailDuplicate(bool IsSimple,
       TailBB.canFallThrough())
     return false;
 
-  // If the target has hardware branch prediction that can handle indirect
-  // branches, duplicating them can often make them predictable when there
-  // are common paths through the code.  The limit needs to be high enough
-  // to allow undoing the effects of tail merging and other optimizations
-  // that rearrange the predecessors of the indirect branch.
-
-  bool HasIndirectbr = false;
+  // Only duplicate the blocks containing computed gotos. This basically
+  // unfactors computed gotos that were factored early on in the compilation
+  // process to speed up edge based data flow. If we do not unfactor them again,
+  // it can seriously pessimize code with many computed jumps in the source
+  // code, such as interpreters.
+  bool HasComputedGoto = false;
   if (!TailBB.empty())
-    HasIndirectbr = TailBB.back().isIndirectBranch();
+    HasComputedGoto = TailBB.back().isIndirectBranch(
+        /*Type=*/MachineInstr::AnyInBundle,
+        // Jump tables are not considered computed gotos.
+        /*IncludeJumpTable=*/false);
 
-  if (HasIndirectbr && PreRegAlloc)
+  if (HasComputedGoto && PreRegAlloc)
     MaxDuplicateCount = TailDupIndirectBranchSize;
 
   // Check the instructions in the block to determine whether tail-duplication
@@ -684,7 +686,7 @@ bool TailDuplicator::shouldTailDuplicate(bool IsSimple,
     }
   }
 
-  if (HasIndirectbr && PreRegAlloc)
+  if (HasComputedGoto && PreRegAlloc)
     return true;
 
   if (IsSimple)
