@@ -112,7 +112,8 @@ CallGraph::CallGraph(Operation *op)
 /// Get or add a call graph node for the given region.
 CallGraphNode *CallGraph::getOrAddNode(Region *region,
                                        CallGraphNode *parentNode) {
-  assert(region && isa<CallableOpInterface>(region->getParentOp()) &&
+  Operation *parentOp = region->getParentOp();
+  assert(region && isa<CallableOpInterface>(parentOp) &&
          "expected parent operation to be callable");
   std::unique_ptr<CallGraphNode> &node = nodes[region];
   if (!node) {
@@ -122,13 +123,12 @@ CallGraphNode *CallGraph::getOrAddNode(Region *region,
     if (parentNode) {
       parentNode->addChildEdge(node.get());
     } else {
-      // Otherwise, connect all callable nodes to the external node, this allows
-      // for conservatively including all callable nodes within the graph.
-      // FIXME This isn't correct, this is only necessary for callable nodes
-      // that *could* be called from external sources. This requires extending
-      // the interface for callables to check if they may be referenced
-      // externally.
-      externalCallerNode.addAbstractEdge(node.get());
+      // Otherwise, connect all symbol nodes with public visibility
+      // to the external node, which is a set including callable nodes
+      // may be referenced externally.
+      if (isa<SymbolOpInterface>(parentOp) &&
+          cast<SymbolOpInterface>(parentOp).isPublic())
+        externalCallerNode.addAbstractEdge(node.get());
     }
   }
   return node.get();
@@ -199,9 +199,8 @@ void CallGraph::print(raw_ostream &os) const {
       os << " : " << attrs;
   };
 
-  for (auto &nodeIt : nodes) {
-    const CallGraphNode *node = nodeIt.second.get();
-
+  // Functor used to emit the given node and edges.
+  auto emitNodeAndEdge = [&](const CallGraphNode *node) {
     // Dump the header for this node.
     os << "// - Node : ";
     emitNodeName(node);
@@ -220,7 +219,13 @@ void CallGraph::print(raw_ostream &os) const {
       os << "\n";
     }
     os << "//\n";
-  }
+  };
+
+  // Emit all graph nodes including ExternalCallerNode and UnknownCalleeNode.
+  for (auto &nodeIt : nodes)
+    emitNodeAndEdge(nodeIt.second.get());
+  emitNodeAndEdge(getExternalCallerNode());
+  emitNodeAndEdge(getUnknownCalleeNode());
 
   os << "// -- SCCs --\n";
 

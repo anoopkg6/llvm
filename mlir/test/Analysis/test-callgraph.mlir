@@ -8,24 +8,25 @@ module attributes {test.name = "simple"} {
     return
   }
 
+  // CHECK-NOT: Node{{.*}}func_b
   func.func private @func_b()
 
-  // CHECK: Node{{.*}}func_c
+  // CHECK: Node{{.*}}func_c{{.*}}private
   // CHECK-NEXT: Call-Edge{{.*}}Unknown-Callee-Node
-  func.func @func_c() {
+  func.func private @func_c() {
     call @func_b() : () -> ()
     return
   }
 
   // CHECK: Node{{.*}}func_d
-  // CHECK-NEXT: Call-Edge{{.*}}func_c
+  // CHECK-NEXT: Call-Edge{{.*}}func_c{{.*}}private
   func.func @func_d() {
     call @func_c() : () -> ()
     return
   }
 
   // CHECK: Node{{.*}}func_e
-  // CHECK-DAG: Call-Edge{{.*}}func_c
+  // CHECK-DAG: Call-Edge{{.*}}func_c{{.*}}private
   // CHECK-DAG: Call-Edge{{.*}}func_d
   // CHECK-DAG: Call-Edge{{.*}}func_e
   func.func @func_e() {
@@ -49,6 +50,16 @@ module attributes {test.name = "simple"} {
     call_indirect %fn() : () -> ()
     return
   }
+
+  // CHECK: Node{{.*}}External-Caller-Node
+  // CHECK: Edge{{.*}}func_a
+  // CHECK-NOT: Edge{{.*}}func_b
+  // CHECK-NOT: Edge{{.*}}func_c
+  // CHECK: Edge{{.*}}func_d
+  // CHECK: Edge{{.*}}func_e
+  // CHECK: Edge{{.*}}func_f
+
+  // CHECK: Node{{.*}}Unknown-Callee-Node
 }
 
 // -----
@@ -57,17 +68,23 @@ module attributes {test.name = "simple"} {
 module attributes {test.name = "nested"} {
   module @nested_module {
     // CHECK: Node{{.*}}func_a
-    func.func @func_a() {
+    func.func nested @func_a() {
       return
     }
   }
 
   // CHECK: Node{{.*}}func_b
-  // CHECK: Call-Edge{{.*}}func_a
+  // CHECK: Call-Edge{{.*}}func_a{{.*}}nested
   func.func @func_b() {
     "test.conversion_call_op"() { callee = @nested_module::@func_a } : () -> ()
     return
   }
+
+  // CHECK: Node{{.*}}External-Caller-Node
+  // CHECK: Edge{{.*}}func_b
+  // CHECK-NOT: Edge{{.*}}func_a
+
+  // CHECK: Node{{.*}}Unknown-Callee-Node
 }
 
 // -----
