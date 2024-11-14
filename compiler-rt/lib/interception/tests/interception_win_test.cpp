@@ -230,6 +230,7 @@ const u8 kUnpatchableCode6[] = {
     0x90, 0x90, 0x90, 0x90,
 };
 
+#if SANITIZER_WINDOWS64
 const u8 kUnpatchableCode7[] = {
     0x33, 0xc0,                     // xor     eax,eax
     0x48, 0x85, 0xd2,               // test    rdx,rdx
@@ -251,7 +252,9 @@ const u8 kUnpatchableCode9[] = {
     0x84, 0xc0,                     // test    al,al
     0x75, 0xf7,                     // jne     -9  (unpatchable)
 };
+#endif
 
+#if SANITIZER_WINDOWS64
 const u8 kPatchableCode6[] = {
     0x48, 0x89, 0x54, 0x24, 0xBB, // mov QWORD PTR [rsp + 0xBB], rdx
     0x33, 0xC9,                   // xor ecx,ecx
@@ -286,7 +289,9 @@ const u8 kPatchableCode11[] = {
     0x48, 0x83, 0xec, 0x38,         // sub     rsp,38h
     0x83, 0x64, 0x24, 0x28, 0x00,   // and     dword ptr [rsp+28h],0
 };
+#endif
 
+#if !SANITIZER_WINDOWS64
 const u8 kPatchableCode12[] = {
     0x55,                           // push    ebp
     0x53,                           // push    ebx
@@ -302,6 +307,7 @@ const u8 kPatchableCode13[] = {
     0x56,                           // push    esi
     0x8b, 0x5c, 0x24, 0x14,         // mov     ebx,dword ptr[esp+14h]
 };
+#endif
 
 const u8 kPatchableCode14[] = {
     0x55,                           // push    ebp
@@ -791,6 +797,294 @@ TEST(Interception, EmptyExportTable) {
   // export any symbol (empty export table).
   uptr FunPtr = InternalGetProcAddress((void *)GetModuleHandleA(0), "example");
   EXPECT_EQ(0U, FunPtr);
+}
+
+TEST(Interception, GetInstructionSize) {
+
+  struct {
+    SIZE_T size;
+    u8 instr[16];
+    SIZE_T rel_offset;
+  } data[] = {
+    /* sort list */
+    {  0, { 0x70, 0x71 }, 0 },  // 70 71 : jo XX (short conditional jump)
+    {  0, { 0x71, 0x71 }, 0 },  // 71 71 : jno XX
+    {  0, { 0x72, 0x71 }, 0 },  // 72 71 : jb XX
+    {  0, { 0x73, 0x71 }, 0 },  // 73 71 : jae XX
+    {  0, { 0x74, 0x71 }, 0 },  // 74 71 : je XX
+    {  0, { 0x75, 0x71 }, 0 },  // 75 71 : jne XX
+    {  0, { 0x76, 0x71 }, 0 },  // 76 71 : jbe XX
+    {  0, { 0x77, 0x71 }, 0 },  // 77 71 : ja XX
+    {  0, { 0x78, 0x71 }, 0 },  // 78 71 : js XX
+    {  0, { 0x79, 0x71 }, 0 },  // 79 71 : jns XX
+    {  0, { 0x7A, 0x71 }, 0 },  // 7A 71 : jp XX
+    {  0, { 0x7B, 0x71 }, 0 },  // 7B 71 : jnp XX
+    {  0, { 0x7C, 0x71 }, 0 },  // 7C 71 : jl XX
+    {  0, { 0x7D, 0x71 }, 0 },  // 7D 71 : jge XX
+    {  0, { 0x7E, 0x71 }, 0 },  // 7E 71 : jle XX
+    {  0, { 0x7F, 0x71 }, 0 },  // 7F 71 : jg XX
+    {  0, { 0xE8, 0x71, 0x72, 0x73, 0x74 }, 0 },  // E8 71 72 73 74 : call <func>
+    {  0, { 0xE9, 0x71, 0x72, 0x73, 0x74 }, 0 },  // E9 71 72 73 74 : jmp <label>
+    {  0, { 0xEB, 0x71 }, 0 },  // EB 71 : jmp XX (short jump)
+    {  0, { 0xFF, 0x25, 0x72, 0x73, 0x74, 0x75 }, 0 },  // FF 25 72 73 74 75 : jmp DWORD PTR ds:0x75747372
+    {  1, { 0x50 }, 0 },  // 50 : push eax / rax
+    {  1, { 0x51 }, 0 },  // 51 : push ecx / rcx
+    {  1, { 0x52 }, 0 },  // 52 : push edx / rdx
+    {  1, { 0x53 }, 0 },  // 53 : push ebx / rbx
+    {  1, { 0x54 }, 0 },  // 54 : push esp / rsp
+    {  1, { 0x55 }, 0 },  // 55 : push ebp / rbp
+    {  1, { 0x56 }, 0 },  // 56 : push esi / rsi
+    {  1, { 0x57 }, 0 },  // 57 : push edi / rdi
+    {  1, { 0x5D }, 0 },  // 58 : pop ebp / rbp
+    {  1, { 0x90 }, 0 },  // 90 : nop
+    {  1, { 0xC3 }, 0 },  // C3 : ret   (for small/empty function interception
+    {  1, { 0xCC }, 0 },  // CC : int 3  i.e. registering weak functions)
+    {  2, { 0x31, 0xC0 }, 0 }, // 31 C0 : xor eax, eax
+    {  2, { 0x31, 0xC9 }, 0 }, // 31 C9 : xor ecx, ecx
+    {  2, { 0x31, 0xD2 }, 0 }, // 31 D2 : xor edx, edx
+    {  2, { 0x33, 0xC0 }, 0 }, // 33 C0 : xor eax, eax
+    {  2, { 0x33, 0xC9 }, 0 }, // 33 C9 : xor ecx, ecx
+    {  2, { 0x33, 0xD2 }, 0 }, // 33 D2 : xor edx, edx
+    {  2, { 0x6A, 0x71 }, 0 }, // 6A 71 : push 0x71
+    {  2, { 0x84, 0xC0 }, 0 }, // 84 C0 : test al,al
+    {  2, { 0x84, 0xC9 }, 0 }, // 84 C9 : test cl,cl
+    {  2, { 0x84, 0xD2 }, 0 }, // 84 D2 : test dl,dl
+    {  2, { 0x84, 0xDB }, 0 }, // 84 DB : test bl,bl
+    {  2, { 0x89, 0xC8 }, 0 }, // 89 C8 : mov eax, ecx
+    {  2, { 0x89, 0xD1 }, 0 }, // 89 D1 : mov ecx, edx
+    {  2, { 0x89, 0xE5 }, 0 }, // 89 E5 : mov ebp, esp
+    {  2, { 0x8A, 0x01 }, 0 }, // 8A 01 : mov al, byte ptr [ecx]
+    {  2, { 0x8B, 0xC1 }, 0 }, // 8B C1 : mov eax, ecx
+    {  2, { 0x8B, 0xEC }, 0 }, // 8B EC : mov ebp, esp
+    {  2, { 0x8B, 0xFF }, 0 }, // 8B FF : mov edi, edi
+    {  3, { 0x80, 0x39, 0x72 }, 0 },  // 80 39 72 : cmp BYTE PTR [ecx],0x72
+    {  3, { 0x83, 0xE4, 0x72 }, 0 },  // 83 E4 72 : and esp,0x72
+    {  3, { 0x83, 0xEC, 0x72 }, 0 },  // 83 EC 72 : sub esp,0x72
+    {  3, { 0x8B, 0x4D, 0x72 }, 0 },  // 8B 4D 72 : mov ecx,DWORD PTR [ebp+0x72]
+    {  3, { 0x8B, 0x55, 0x72 }, 0 },  // 8B 55 72 : mov edx,DWORD PTR [ebp+0x72]
+    {  3, { 0x8B, 0x75, 0x72 }, 0 },  // 8B 75 72 : mov esi,DWORD PTR [ebp+0x72]
+    {  3, { 0xC2, 0x71, 0x72 }, 0 },  // C2 71 72 : ret 0x7271 (needed for registering weak functions)
+    {  3, { 0xF6, 0xC1, 0x72 }, 0 },  // F6 C1 72 : test cl,0x72
+    {  4, { 0x8D, 0x4C, 0x24, 0x73 }, 0 },  // 8D 4C 24 73 : lea ecx,[esp+0x73]
+    {  5, { 0x68, 0x71, 0x72, 0x73, 0x74 }, 0 },  // 68 71 72 73 74 : push imm32
+    {  5, { 0xB8, 0x71, 0x72, 0x73, 0x74 }, 0 },  // B8 71 72 73 74 : mov eax,0x74737271
+    {  5, { 0xB9, 0x71, 0x72, 0x73, 0x74 }, 0 },  // B9 71 72 73 74 : mov ecx,0x74737271
+    {  5, { 0xBA, 0x71, 0x72, 0x73, 0x74 }, 0 },  // BA 71 72 73 74 : mov edx,0x74737271
+    {  6, { 0x81, 0xEC, 0x72, 0x73, 0x74, 0x75 }, 0 },  // 81 EC 72 73 74 75 : sub esp,0x75747372
+    {  7, { 0x8D, 0xA4, 0x24, 0x73, 0x74, 0x75, 0x76 }, 0 },  // 8D A4 24 73 74 75 76 : lea esp,[esp+0x76757473]
+    {  8, { 0xEB, 0x06, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 }, 0 },  // stub: jmp over 6 x nop.
+#if SANITIZER_WINDOWS_x64
+    /* sort list */
+    {  2, { 0x40, 0x50 }, 0 },  // 40 50 : push rax
+    {  2, { 0x40, 0x51 }, 0 },  // 40 51 : push rcx
+    {  2, { 0x40, 0x52 }, 0 },  // 40 52 : push rdx
+    {  2, { 0x40, 0x53 }, 0 },  // 40 53 : push rbx
+    {  2, { 0x40, 0x54 }, 0 },  // 40 54 : push rsp
+    {  2, { 0x40, 0x55 }, 0 },  // 40 55 : push rbp
+    {  2, { 0x40, 0x56 }, 0 },  // 40 56 : push rsi
+    {  2, { 0x40, 0x57 }, 0 },  // 40 57 : push rdi
+    {  2, { 0x41, 0x54 }, 0 },  // 41 54 : push r12
+    {  2, { 0x41, 0x55 }, 0 },  // 41 55 : push r13
+    {  2, { 0x41, 0x56 }, 0 },  // 41 56 : push r14
+    {  2, { 0x41, 0x57 }, 0 },  // 41 57 : push r15
+    {  2, { 0x66, 0x90 }, 0 },  // 66 90 : Two-byte NOP
+    {  2, { 0x84, 0xc0 }, 0 },  // 84 c0 : test al, al
+    {  2, { 0x8a, 0x01 }, 0 },  // 8a 01 : mov al, byte ptr [rcx]
+    {  3, { 0x0f, 0xb6, 0x01 }, 0 },  // 0f b6 01 : movzx eax, BYTE PTR [rcx]
+    {  3, { 0x0f, 0xb6, 0x09 }, 0 },  // 0f b6 09 : movzx ecx, BYTE PTR [rcx]
+    {  3, { 0x0f, 0xb6, 0x11 }, 0 },  // 0f b6 11 : movzx edx, BYTE PTR [rcx]
+    {  3, { 0x0f, 0xb6, 0xc2 }, 0 },  // 0f b6 c2 : movzx eax, dl
+    {  3, { 0x0f, 0xb6, 0xd2 }, 0 },  // 0f b6 d2 : movzx edx, dl
+    {  3, { 0x0f, 0xb7, 0x10 }, 0 },  // 0f b7 10 : movzx edx, WORD PTR [rax]
+    {  3, { 0x0f, 0xbe, 0xd2 }, 0 },  // 0f be d2 : movsx edx, dl
+    {  3, { 0x41, 0x8b, 0xc0 }, 0 },  // 41 8b c0 : mov eax, r8d
+    {  3, { 0x41, 0x8b, 0xc1 }, 0 },  // 41 8b c1 : mov eax, r9d
+    {  3, { 0x41, 0x8b, 0xc2 }, 0 },  // 41 8b c2 : mov eax, r10d
+    {  3, { 0x41, 0x8b, 0xc3 }, 0 },  // 41 8b c3 : mov eax, r11d
+    {  3, { 0x41, 0x8b, 0xc4 }, 0 },  // 41 8b c4 : mov eax, r12d
+    {  3, { 0x45, 0x31, 0xc0 }, 0 },  // 45 31 c0 : xor r8d,r8d
+    {  3, { 0x45, 0x31, 0xc9 }, 0 },  // 45 31 c9 : xor r9d,r9d
+    {  3, { 0x45, 0x33, 0xc0 }, 0 },  // 45 33 c0 : xor r8d, r8d
+    {  3, { 0x45, 0x33, 0xc9 }, 0 },  // 45 33 c9 : xor r9d, r9d
+    {  3, { 0x45, 0x33, 0xdb }, 0 },  // 45 33 db : xor r11d, r11d
+    {  3, { 0x45, 0x84, 0xc0 }, 0 },  // 45 84 c0 : test r8b,r8b
+    {  3, { 0x45, 0x84, 0xd2 }, 0 },  // 45 84 d2 : test r10b,r10b
+    {  3, { 0x48, 0x29, 0xd1 }, 0 },  // 48 29 d1 : sub rcx, rdx
+    {  3, { 0x48, 0x2b, 0xca }, 0 },  // 48 2b ca : sub rcx, rdx
+    {  3, { 0x48, 0x2b, 0xd1 }, 0 },  // 48 2b d1 : sub rdx, rcx
+    {  3, { 0x48, 0x3b, 0xca }, 0 },  // 48 3b ca : cmp rcx, rdx
+    {  3, { 0x48, 0x85, 0xc0 }, 0 },  // 48 85 c0 : test rax, rax
+    {  3, { 0x48, 0x85, 0xc9 }, 0 },  // 48 85 c9 : test rcx, rcx
+    {  3, { 0x48, 0x85, 0xd2 }, 0 },  // 48 85 d2 : test rdx, rdx
+    {  3, { 0x48, 0x85, 0xdb }, 0 },  // 48 85 db : test rbx, rbx
+    {  3, { 0x48, 0x85, 0xe4 }, 0 },  // 48 85 e4 : test rsp, rsp
+    {  3, { 0x48, 0x85, 0xed }, 0 },  // 48 85 ed : test rbp, rbp
+    {  3, { 0x48, 0x89, 0xc8 }, 0 },  // 48 89 c8 : mov rax,rcx
+    {  3, { 0x48, 0x89, 0xcb }, 0 },  // 48 89 cb : mov rbx,rcx
+    {  3, { 0x48, 0x89, 0xd0 }, 0 },  // 48 89 d0 : mov rax,rdx
+    {  3, { 0x48, 0x89, 0xd1 }, 0 },  // 48 89 d1 : mov rcx,rdx
+    {  3, { 0x48, 0x89, 0xd3 }, 0 },  // 48 89 d3 : mov rbx,rdx
+    {  3, { 0x48, 0x89, 0xe5 }, 0 },  // 48 89 e5 : mov rbp, rsp
+    {  3, { 0x48, 0x8b, 0xc1 }, 0 },  // 48 8b c1 : mov rax, rcx
+    {  3, { 0x48, 0x8b, 0xc4 }, 0 },  // 48 8b c4 : mov rax, rsp
+    {  3, { 0x48, 0x8b, 0xd1 }, 0 },  // 48 8b d1 : mov rdx, rcx
+    {  3, { 0x48, 0xf7, 0xd9 }, 0 },  // 48 f7 d9 : neg rcx
+    {  3, { 0x48, 0xff, 0xc0 }, 0 },  // 48 ff c0 : inc rax
+    {  3, { 0x48, 0xff, 0xc1 }, 0 },  // 48 ff c1 : inc rcx
+    {  3, { 0x48, 0xff, 0xc2 }, 0 },  // 48 ff c2 : inc rdx
+    {  3, { 0x48, 0xff, 0xc3 }, 0 },  // 48 ff c3 : inc rbx
+    {  3, { 0x48, 0xff, 0xc6 }, 0 },  // 48 ff c6 : inc rsi
+    {  3, { 0x48, 0xff, 0xc7 }, 0 },  // 48 ff c7 : inc rdi
+    {  3, { 0x49, 0x89, 0xc8 }, 0 },  // 49 89 c8 : mov r8, rcx
+    {  3, { 0x49, 0x89, 0xc9 }, 0 },  // 49 89 c9 : mov r9, rcx
+    {  3, { 0x49, 0x89, 0xca }, 0 },  // 49 89 ca : mov r10,rcx
+    {  3, { 0x49, 0x89, 0xd0 }, 0 },  // 49 89 d0 : mov r8, rdx
+    {  3, { 0x49, 0x89, 0xd1 }, 0 },  // 49 89 d1 : mov r9, rdx
+    {  3, { 0x49, 0x89, 0xd2 }, 0 },  // 49 89 d2 : mov r10, rdx
+    {  3, { 0x49, 0x89, 0xd3 }, 0 },  // 49 89 d3 : mov r11, rdx
+    {  3, { 0x49, 0xff, 0xc0 }, 0 },  // 49 ff c0 : inc r8
+    {  3, { 0x49, 0xff, 0xc1 }, 0 },  // 49 ff c1 : inc r9
+    {  3, { 0x49, 0xff, 0xc2 }, 0 },  // 49 ff c2 : inc r10
+    {  3, { 0x49, 0xff, 0xc3 }, 0 },  // 49 ff c3 : inc r11
+    {  3, { 0x49, 0xff, 0xc4 }, 0 },  // 49 ff c4 : inc r12
+    {  3, { 0x49, 0xff, 0xc5 }, 0 },  // 49 ff c5 : inc r13
+    {  3, { 0x49, 0xff, 0xc6 }, 0 },  // 49 ff c6 : inc r14
+    {  3, { 0x49, 0xff, 0xc7 }, 0 },  // 49 ff c7 : inc r15
+    {  3, { 0x4c, 0x8b, 0xc1 }, 0 },  // 4c 8b c1 : mov r8, rcx
+    {  3, { 0x4c, 0x8b, 0xc9 }, 0 },  // 4c 8b c9 : mov r9, rcx
+    {  3, { 0x4c, 0x8b, 0xd1 }, 0 },  // 4c 8b d1 : mov r10, rcx
+    {  3, { 0x4c, 0x8b, 0xd2 }, 0 },  // 4c 8b d2 : mov r10, rdx
+    {  3, { 0x4c, 0x8b, 0xd9 }, 0 },  // 4c 8b d9 : mov r11, rcx
+    {  3, { 0x4c, 0x8b, 0xdc }, 0 },  // 4c 8b dc : mov r11, rsp
+    {  3, { 0x4d, 0x0b, 0xc0 }, 0 },  // 4d 0b c0 : or r8, r8
+    {  3, { 0x4d, 0x85, 0xc0 }, 0 },  // 4d 85 c0 : test r8, r8
+    {  3, { 0x4d, 0x85, 0xc9 }, 0 },  // 4d 85 c9 : test r9, r9
+    {  3, { 0x4d, 0x85, 0xd2 }, 0 },  // 4d 85 d2 : test r10, r10
+    {  3, { 0x4d, 0x85, 0xdb }, 0 },  // 4d 85 db : test r11, r11
+    {  3, { 0x4d, 0x85, 0xe4 }, 0 },  // 4d 85 e4 : test r12, r12
+    {  3, { 0x4d, 0x85, 0xed }, 0 },  // 4d 85 ed : test r13, r13
+    {  3, { 0x4d, 0x85, 0xf6 }, 0 },  // 4d 85 f6 : test r14, r14
+    {  3, { 0x4d, 0x85, 0xff }, 0 },  // 4d 85 ff : test r15, r15
+    {  4, { 0x44, 0x0f, 0xb6, 0x01 }, 0 },  // 44 0f b6 01 : movzx r8d, BYTE PTR [rcx]
+    {  4, { 0x44, 0x0f, 0xb6, 0x09 }, 0 },  // 44 0f b6 09 : movzx r9d, BYTE PTR [rcx]
+    {  4, { 0x44, 0x0f, 0xb6, 0x0a }, 0 },  // 44 0f b6 0a : movzx r8d, BYTE PTR [rdx]
+    {  4, { 0x44, 0x0f, 0xb6, 0x11 }, 0 },  // 44 0f b6 11 : movzx r10d, BYTE PTR [rcx]
+    {  4, { 0x44, 0x0f, 0xb6, 0x1a }, 0 },  // 44 0f b6 1a : movzx r11d, BYTE PTR [rdx]
+    {  4, { 0x44, 0x8d, 0x42, 0x74 }, 0 },  // 44 8d 42 74 : lea r8d , [rdx + XX]
+    {  4, { 0x48, 0x83, 0xec, 0x74 }, 0 },  // 48 83 ec 74 : sub rsp, XX
+    {  4, { 0x48, 0x89, 0x58, 0x74 }, 0 },  // 48 89 58 74 : mov QWORD PTR[rax + XX], rbx
+    {  4, { 0x49, 0x83, 0xf8, 0x74 }, 0 },  // 49 83 f8 74 : cmp r8, XX
+    {  4, { 0x49, 0x8d, 0x48, 0xff }, 0 },  // 49 8d 48 ff : lea rcx,[r8-0x1]
+    {  4, { 0x4c, 0x8d, 0x04, 0x11 }, 0 },  // 4c 8d 04 11 : lea r8,[rcx+rdx*1]
+    {  4, { 0x4e, 0x8d, 0x14, 0x74 }, 0 },  // 4e 8d 14 74 : lea r10, [rcx+r8*XX]
+    {  4, { 0x66, 0x83, 0x39, 0x74 }, 0 },  // 66 83 39 74 : cmp WORD PTR [rcx], XX
+    {  4, { 0x80, 0x78, 0x72, 0x73 }, 0 },  // 80 78 72 73 : cmp BYTE PTR [rax+0x72],0x73
+    {  4, { 0x80, 0x79, 0x72, 0x73 }, 0 },  // 80 79 72 73 : cmp BYTE ptr [rcx+0x72],0x73
+    {  4, { 0x80, 0x7A, 0x72, 0x73 }, 0 },  // 80 7A 72 73 : cmp BYTE PTR [rdx+0x72],0x73
+    {  4, { 0x80, 0x7B, 0x72, 0x73 }, 0 },  // 80 7B 72 73 : cmp BYTE PTR [rbx+0x72],0x73
+    {  4, { 0x80, 0x7D, 0x72, 0x73 }, 0 },  // 80 7D 72 73 : cmp BYTE PTR [rbp+0x72],0x73
+    {  4, { 0x80, 0x7E, 0x72, 0x73 }, 0 },  // 80 7E 72 73 : cmp BYTE PTR [rsi+0x72],0x73
+    {  4, { 0x89, 0x54, 0x24, 0x74 }, 0 },  // 89 54 24 74 : mov DWORD PTR[rsp + XX], edx
+    {  5, { 0x0F, 0x1F, 0x44, 0x00, 0x00 }, 0 },  // 0F 1F 44 00 00 : nop DWORD PTR [rax+rax*1+0x0]
+    {  5, { 0x44, 0x89, 0x44, 0x24, 0x75 }, 0 },  // 44 89 44 24 XX : mov DWORD PTR [rsp + XX], r8d
+    {  5, { 0x44, 0x89, 0x4c, 0x24, 0x75 }, 0 },  // 44 89 4c 24 XX : mov DWORD PTR [rsp + XX], r9d
+    {  5, { 0x48, 0x89, 0x4C, 0x24, 0x75 }, 0 },  // 48 89 4C 24 XX : mov QWORD PTR [rsp + XX], rcx
+    {  5, { 0x48, 0x89, 0x54, 0x24, 0x75 }, 0 },  // 48 89 54 24 XX : mov QWORD PTR [rsp + XX], rdx
+    {  5, { 0x48, 0x89, 0x5c, 0x24, 0x75 }, 0 },  // 48 89 5c 24 XX : mov QWORD PTR [rsp + XX], rbx
+    {  5, { 0x48, 0x89, 0x6c, 0x24, 0x75 }, 0 },  // 48 89 6C 24 XX : mov QWORD ptr [rsp + XX], rbp
+    {  5, { 0x48, 0x89, 0x74, 0x24, 0x75 }, 0 },  // 48 89 74 24 XX : mov QWORD PTR [rsp + XX], rsi
+    {  5, { 0x48, 0x89, 0x7c, 0x24, 0x75 }, 0 },  // 48 89 7c 24 XX : mov QWORD PTR [rsp + XX], rdi
+    {  5, { 0x48, 0x8b, 0x44, 0x24, 0x75 }, 0 },  // 48 8b 44 24 XX : mov rax, QWORD ptr [rsp + XX]
+    {  5, { 0x48, 0x8d, 0x6c, 0x24, 0x75 }, 0 },  // 48 8d 6c 24 XX : lea rbp, [rsp + XX]
+    {  5, { 0x4c, 0x89, 0x44, 0x24, 0x75 }, 0 },  // 4c 89 44 24 XX : mov QWORD PTR [rsp + XX], r8
+    {  5, { 0x4c, 0x89, 0x4c, 0x24, 0x75 }, 0 },  // 4c 89 4c 24 XX : mov QWORD PTR [rsp + XX], r9
+    {  5, { 0x66, 0x48, 0x0F, 0x7E, 0xC0 }, 0 },  // 66 48 0F 7E C0 : movq rax,xmm0 (for wine fexp)
+    {  5, { 0x83, 0x44, 0x72, 0x73, 0x74 }, 0 }, // 83 44 72 73 74 : add DWORD PTR [rdx+rsi*2+0x73],0x74
+    {  5, { 0x83, 0x64, 0x24, 0x74, 0x75 }, 0 },  // 83 64 24 XX YY :   and    DWORD PTR [rsp+XX], YY
+    {  6, { 0x41, 0xB8, 0x72, 0x73, 0x74, 0x75 }, 2 },  // 41 B8 72 73 74 75 : mov r8d,0x75747372
+    {  6, { 0x48, 0x83, 0x64, 0x24, 0x75, 0x76 }, 0 },  // 48 83 64 24 XX YY : and QWORD PTR [rsp + XX], YY
+    {  6, { 0x66, 0x81, 0x78, 0x74, 0x75, 0x76 }, 0 },  // 66 81 78 XX YY YY  cmp WORD PTR [rax+XX], YY YY
+    {  6, { 0x66, 0x81, 0x79, 0x74, 0x75, 0x76 }, 0 },  // 66 81 79 XX YY YY  cmp WORD PTR [rcx+XX], YY YY
+    {  6, { 0x66, 0x81, 0x7a, 0x74, 0x75, 0x76 }, 0 },  // 66 81 7a XX YY YY  cmp WORD PTR [rdx+XX], YY YY
+    {  6, { 0x66, 0x81, 0x7b, 0x74, 0x75, 0x76 }, 0 },  // 66 81 7b XX YY YY  cmp WORD PTR [rbx+XX], YY YY
+    {  6, { 0x66, 0x81, 0x7e, 0x74, 0x75, 0x76 }, 0 },  // 66 81 7e XX YY YY  cmp WORD PTR [rsi+XX], YY YY
+    {  6, { 0x66, 0x81, 0x7f, 0x74, 0x75, 0x76 }, 0 },  // 66 81 7f XX YY YY  cmp WORD PTR [rdi+XX], YY YY
+    {  6, { 0x8A, 0x05, 0x72, 0x73, 0x74, 0x75 }, 2 },  // 8A 05 72 73 74 75 : mov al,BYTE PTR [rip+0x75747372]
+    {  6, { 0x8B, 0x05, 0x72, 0x73, 0x74, 0x75 }, 2 },  // 8B 05 72 73 74 75 : eax,DWORD PTR [rip+0x75747372]
+    {  6, { 0xF2, 0x0F, 0x11, 0x44, 0x24, 0x75 }, 0 }, // F2 0f 11 44 24 75 : movsd  QWORD PTR [rsp+0x75],xmm0
+    {  6, { 0xF2, 0x0F, 0x11, 0x4C, 0x24, 0x75 }, 0 }, // F2 0f 11 4C 24 75 : movsd  QWORD PTR [rsp+0x75],xmm1
+    {  6, { 0xF2, 0x0F, 0x11, 0x54, 0x24, 0x75 }, 0 }, // F2 0f 11 54 24 75 : movsd  QWORD PTR [rsp+0x75],xmm2
+    {  6, { 0xF2, 0x0F, 0x11, 0x5C, 0x24, 0x75 }, 0 }, // F2 0f 11 5C 24 75 : movsd  QWORD PTR [rsp+0x75],xmm3
+    {  6, { 0xF2, 0x0F, 0x11, 0x64, 0x24, 0x75 }, 0 }, // F2 0f 11 64 24 75 : movsd  QWORD PTR [rsp+0x75],xmm4
+    {  7, { 0x48, 0x81, 0xec, 0x74, 0x75, 0x76, 0x77 }, 0 },  // 48 81 EC XX XX XX XX : sub rsp, XXXXXXXX
+    {  7, { 0x48, 0x8b, 0x05, 0x74, 0x75, 0x76, 0x77 }, 3 }, // 48 8b 05 XX XX XX XX : mov rax, QWORD PTR [rip + XXXXXXXX]
+    {  7, { 0x48, 0x8d, 0x05, 0x74, 0x75, 0x76, 0x77 }, 3 }, // 48 8d 05 XX XX XX XX : lea rax, QWORD PTR [rip + XXXXXXXX]
+    {  7, { 0x48, 0xc7, 0xc0, 0x74, 0x75, 0x76, 0x77 }, 0 },  // 48 C7 C0 XX XX XX XX : mov rax, XX XX XX XX
+    {  7, { 0x48, 0xff, 0x25, 0x74, 0x75, 0x76, 0x77 }, 3 }, // 48 ff 25 XX XX XX XX : rex.W jmp QWORD PTR [rip + XXXXXXXX]
+    {  7, { 0x4C, 0x8D, 0x15, 0x74, 0x75, 0x76, 0x77 }, 3 }, // 4c 8d 15 XX XX XX XX : lea r10, [rip + XX]
+    {  7, { 0x81, 0x78, 0x72, 0x73, 0x74, 0x75, 0x76 }, 0 },  // 81 78 72 73 74 75 76 : cmp DWORD PTR [rax+0x72],0x76757473
+    {  7, { 0x81, 0x79, 0x72, 0x73, 0x74, 0x75, 0x76 }, 0 },  // 81 79 72 73 74 75 76 : cmp dword ptr [rcx+0x72],0x76757473
+    {  7, { 0x81, 0x7A, 0x72, 0x73, 0x74, 0x75, 0x76 }, 0 },  // 81 7A 72 73 74 75 76 : cmp DWORD PTR [rdx+0x72],0x76757473
+    {  7, { 0x81, 0x7B, 0x72, 0x73, 0x74, 0x75, 0x76 }, 0 },  // 81 7B 72 73 74 75 76 : cmp DWORD PTR [rbx+0x72],0x76757473
+    {  7, { 0x81, 0x7D, 0x72, 0x73, 0x74, 0x75, 0x76 }, 0 },  // 81 7D 72 73 74 75 76 : cmp DWORD PTR [rbp+0x72],0x76757473
+    {  7, { 0x81, 0x7E, 0x72, 0x73, 0x74, 0x75, 0x76 }, 0 },  // 81 7E 72 73 74 75 76 : cmp DWORD PTR [rsi+0x72],0x76757473
+    {  8, { 0x41, 0x81, 0x78, 0x74, 0x75, 0x76, 0x77, 0x78 }, 0 },  // 41 81 78 XX YY YY YY YY : cmp DWORD PTR [r8+YY], XX XX XX XX
+    {  8, { 0x41, 0x81, 0x79, 0x74, 0x75, 0x76, 0x77, 0x78 }, 0 },  // 41 81 79 XX YY YY YY YY : cmp DWORD PTR [r9+YY], XX XX XX XX
+    {  8, { 0x41, 0x81, 0x7a, 0x74, 0x75, 0x76, 0x77, 0x78 }, 0 },  // 41 81 7a XX YY YY YY YY : cmp DWORD PTR [r10+YY], XX XX XX XX
+    {  8, { 0x41, 0x81, 0x7b, 0x74, 0x75, 0x76, 0x77, 0x78 }, 0 },  // 41 81 7b XX YY YY YY YY : cmp DWORD PTR [r11+YY], XX XX XX XX
+    {  8, { 0x41, 0x81, 0x7c, 0x74, 0x75, 0x76, 0x77, 0x78 }, 0 },  // 41 81 7c XX YY YY YY YY : cmp DWORD PTR [r12+YY], XX XX XX XX
+    {  8, { 0x41, 0x81, 0x7d, 0x74, 0x75, 0x76, 0x77, 0x78 }, 0 },  // 41 81 7d XX YY YY YY YY : cmp DWORD PTR [r13+YY], XX XX XX XX
+    {  8, { 0x41, 0x81, 0x7e, 0x74, 0x75, 0x76, 0x77, 0x78 }, 0 },  // 41 81 7e XX YY YY YY YY : cmp DWORD PTR [r14+YY], XX XX XX XX
+    {  8, { 0x41, 0x81, 0x7f, 0x74, 0x75, 0x76, 0x77, 0x78 }, 0 },  // 41 81 7f YY XX XX XX XX : cmp DWORD PTR [r15+YY], XX XX XX XX
+    {  8, { 0x48, 0x8D, 0xA4, 0x24, 0x75, 0x76, 0x77, 0x78 }, 0 },  // 48 8D A4 24 XX YY ZZ WW : lea rsp, [rsp + WWZZYYXX]
+    {  8, { 0x81, 0x7c, 0x24, 0x74, 0x75, 0x76, 0x77, 0x78 }, 0 },  // 81 7c 24 YY XX XX XX XX : cmp DWORD PTR [rsp+YY], XX XX XX XX
+    {  8, { 0xc7, 0x44, 0x24, 0x74, 0x75, 0x76, 0x77, 0x78 }, 0 },  // C7 44 24 XX YY YY YY YY : mov dword ptr [rsp + XX], YYYYYYYY
+    {  9, { 0xA1, 0x71, 0x72, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79 }, 0 },  // A1 71 72 73 74 75 76 77 78 : // movabs eax,ds:0x7877767574737271
+    { 10, { 0x48, 0xb8, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01 }, 0 }, // 48 b8 72 73 74 75 76 77 78 79 : movabs rax,0x7978777675747372
+    { 11, { 0x66, 0x66, 0x2e, 0x0f, 0x1f, 0x84, 0x77, 0x78, 0x79, 0x7A, 0x7B }, 0 },  // 66 66 2e 0f 1f 84 YY XX XX XX XX : data16 cs nop WORD PTR [rax+rax*1 + XX XX XX XX]
+    { 13, { 0x66, 0x66, 0x66, 0x66, 0x2e, 0x0f, 0x1f, 0x84, 0x79, 0x7A, 0x7B, 0x7C, 0x7D }, 0 },  // 66 66 66 66 2e 0f 1f 84 YY XX XX XX XX : data16 data16 data16 cs nop WORD PTR [rax+rax*1 + XX XX XX XX]
+#else //SANITIZER_WINDOWS_x64
+    /* sort list */
+    {  3, { 0x8B, 0x45, 0x73 }, 0 },  // 8B 45 XX : mov eax, dword ptr [ebp + XX]
+    {  3, { 0x8B, 0x5D, 0x73 }, 0 },  // 8B 5D XX : mov ebx, dword ptr [ebp + XX]
+    {  3, { 0x8B, 0x75, 0x73 }, 0 },  // 8B 75 XX : mov esi, dword ptr [ebp + XX]
+    {  3, { 0x8B, 0x7D, 0x73 }, 0 },  // 8B 7D XX : mov edi, dword ptr [ebp + XX]
+    {  3, { 0xFF, 0x75, 0x73 }, 0 },  // FF 75 XX : push dword ptr [ebp + XX]
+    {  4, { 0x83, 0x7D, 0x73, 0x74 }, 0 },  // 83 7D XX YY : cmp dword ptr [ebp + XX], YY
+    {  4, { 0x8A, 0x44, 0x24, 0x74 }, 0 },  // 8A 44 24 XX : mov eal, dword ptr [esp + XX]
+    {  4, { 0x8B, 0x44, 0x24, 0x74 }, 0 },  // 8B 44 24 XX : mov eax, dword ptr [esp + XX]
+    {  4, { 0x8B, 0x4C, 0x24, 0x74 }, 0 },  // 8B 4C 24 XX : mov ecx, dword ptr [esp + XX]
+    {  4, { 0x8B, 0x54, 0x24, 0x74 }, 0 },  // 8B 54 24 XX : mov edx, dword ptr [esp + XX]
+    {  4, { 0x8B, 0x5C, 0x24, 0x74 }, 0 },  // 8B 5C 24 XX : mov ebx, dword ptr [esp + XX]
+    {  4, { 0x8B, 0x6C, 0x24, 0x74 }, 0 },  // 8B 6C 24 XX : mov ebp, dword ptr [esp + XX]
+    {  4, { 0x8B, 0x74, 0x24, 0x74 }, 0 },  // 8B 74 24 XX : mov esi, dword ptr [esp + XX]
+    {  4, { 0x8B, 0x7C, 0x24, 0x74 }, 0 },  // 8B 7C 24 XX : mov edi, dword ptr [esp + XX]
+    {  5, { 0x0F, 0xB6, 0x44, 0x24, 0x75 }, 0 },  // 0F B6 44 24 XX : movzx eax, byte ptr [esp + XX]
+    {  5, { 0xA1, 0x72, 0x73, 0x74, 0x75 }, 0 },  // A1 XX XX XX XX :  mov eax, dword ptr ds:[XXXXXXXX]
+    {  6, { 0xF7, 0xC1, 0x73, 0x74, 0x75, 0x76 }, 0 },  // F7 C1 XX YY ZZ WW : test ecx, WWZZYYXX
+    {  7, { 0x83, 0x3D, 0x73, 0x74, 0x75, 0x76, 0x77 }, 0 },  // 83 3D XX YY ZZ WW TT : cmp TT, WWZZYYXX
+#endif //SANITIZER_WINDOWS_x64
+  };
+
+  SIZE_T size;
+  SIZE_T rel_offset;
+
+  for (unsigned int i = 0; i < sizeof(data)/sizeof(*data); i++) {
+    rel_offset = ~0L;
+    size = __interception::test_GetInstructionSize((uptr)data[i].instr, &rel_offset);
+    EXPECT_EQ(data[i].size, size)
+            << "  with i=" << i << " ( "
+            << std::setfill('0') << std::setw(2) << std::right << std::hex << (int)data[i].instr[0] << " "
+            << std::setfill('0') << std::setw(2) << std::right << std::hex << (int)data[i].instr[1] << " "
+            << std::setfill('0') << std::setw(2) << std::right << std::hex << (int)data[i].instr[2] << " "
+            << ")";
+    EXPECT_EQ(data[i].rel_offset, rel_offset)
+            << "  with i=" << i << " ( "
+            << std::setfill('0') << std::setw(2) << std::right << std::hex << (int)data[i].instr[0] << " "
+            << std::setfill('0') << std::setw(2) << std::right << std::hex << (int)data[i].instr[1] << " "
+            << std::setfill('0') << std::setw(2) << std::right << std::hex << (int)data[i].instr[2] << " "
+            << ")";
+  }
 }
 
 }  // namespace __interception
