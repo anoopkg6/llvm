@@ -46,9 +46,9 @@ template <class charT, class traits, class Allocator>
 
 #if _LIBCPP_HAS_LOCALIZATION
 
-#  include <__ostream/basic_ostream.h>
+#  include <__ostream/put_character_sequence.h>
 #  include <ios>
-#  include <istream>
+#  include <iosfwd>
 #  include <locale>
 #  include <version>
 
