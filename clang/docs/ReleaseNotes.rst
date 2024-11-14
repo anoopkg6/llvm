@@ -661,6 +661,10 @@ Bug Fixes to C++ Support
 - Fixed expression transformation for ``[[assume(...)]]``, allowing using pack indexing expressions within the
   assumption if they also occur inside of a dependent lambda. (#GH114787)
 
+- Emit an error when the same identifier appears with both internal and
+  external linkage in a translation unit Fixes:
+  (`#54215 <https://github.com/llvm/llvm-project/issues/54215>`_)
+
 Bug Fixes to AST Handling
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
