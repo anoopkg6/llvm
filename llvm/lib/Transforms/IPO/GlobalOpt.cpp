@@ -160,15 +160,15 @@ static bool isLeakCheckerRoot(GlobalVariable *GV) {
 /// Given a value that is stored to a global but never read, determine whether
 /// it's safe to remove the store and the chain of computation that feeds the
 /// store.
-static bool IsSafeComputationToRemove(
+static bool isSafeComputationToRemove(
     Value *V, function_ref<TargetLibraryInfo &(Function &)> GetTLI) {
+  assert(isa<Instruction>(V) && "Expected an instruction");
   do {
     if (isa<Constant>(V))
       return true;
-    if (!V->hasOneUse())
+    if (V->getNumUses() > 0)
       return false;
-    if (isa<LoadInst>(V) || isa<InvokeInst>(V) || isa<Argument>(V) ||
-        isa<GlobalValue>(V))
+    if (isa<LoadInst, InvokeInst, Argument, GlobalValue>(V))
       return false;
     if (isAllocationFn(V, GetTLI))
       return true;
@@ -191,7 +191,7 @@ static bool IsSafeComputationToRemove(
 /// any that obviously don't assign the global a value that isn't dynamically
 /// allocated.
 static bool
-CleanupPointerRootUsers(GlobalVariable *GV,
+cleanupPointerRootUsers(GlobalVariable *GV,
                         function_ref<TargetLibraryInfo &(Function &)> GetTLI) {
   // A brief explanation of leak checkers.  The goal is to find bugs where
   // pointers are forgotten, causing an accumulating growth in memory
@@ -203,10 +203,7 @@ CleanupPointerRootUsers(GlobalVariable *GV,
   // destroy it.
 
   bool Changed = false;
-
-  // If Dead[n].first is the only use of a malloc result, we can delete its
-  // chain of computation and the store to the global in Dead[n].second.
-  SmallVector<std::pair<Instruction *, Instruction *>, 32> Dead;
+  SmallVector<Instruction *> Dead;
 
   SmallVector<User *> Worklist(GV->users());
   // Constants can't be pointers to dynamically allocated memory.
@@ -218,16 +215,16 @@ CleanupPointerRootUsers(GlobalVariable *GV,
         Changed = true;
         SI->eraseFromParent();
       } else if (Instruction *I = dyn_cast<Instruction>(V)) {
-        if (I->hasOneUse())
-          Dead.push_back(std::make_pair(I, SI));
+        Dead.push_back(I);
+        SI->eraseFromParent();
       }
     } else if (MemSetInst *MSI = dyn_cast<MemSetInst>(U)) {
       if (isa<Constant>(MSI->getValue())) {
         Changed = true;
         MSI->eraseFromParent();
       } else if (Instruction *I = dyn_cast<Instruction>(MSI->getValue())) {
-        if (I->hasOneUse())
-          Dead.push_back(std::make_pair(I, MSI));
+        Dead.push_back(I);
+        MSI->eraseFromParent();
       }
     } else if (MemTransferInst *MTI = dyn_cast<MemTransferInst>(U)) {
       GlobalVariable *MemSrc = dyn_cast<GlobalVariable>(MTI->getSource());
@@ -235,8 +232,8 @@ CleanupPointerRootUsers(GlobalVariable *GV,
         Changed = true;
         MTI->eraseFromParent();
       } else if (Instruction *I = dyn_cast<Instruction>(MTI->getSource())) {
-        if (I->hasOneUse())
-          Dead.push_back(std::make_pair(I, MTI));
+        Dead.push_back(I);
+        MTI->eraseFromParent();
       }
     } else if (ConstantExpr *CE = dyn_cast<ConstantExpr>(U)) {
       if (isa<GEPOperator>(CE))
@@ -244,20 +241,18 @@ CleanupPointerRootUsers(GlobalVariable *GV,
     }
   }
 
-  for (int i = 0, e = Dead.size(); i != e; ++i) {
-    if (IsSafeComputationToRemove(Dead[i].first, GetTLI)) {
-      Dead[i].second->eraseFromParent();
-      Instruction *I = Dead[i].first;
+  for (auto *Inst : Dead) {
+    if (isSafeComputationToRemove(Inst, GetTLI)) {
       do {
-        if (isAllocationFn(I, GetTLI))
+        if (isAllocationFn(Inst, GetTLI))
           break;
-        Instruction *J = dyn_cast<Instruction>(I->getOperand(0));
+        Instruction *J = dyn_cast<Instruction>(Inst->getOperand(0));
         if (!J)
           break;
-        I->eraseFromParent();
-        I = J;
+        Inst->eraseFromParent();
+        Inst = J;
       } while (true);
-      I->eraseFromParent();
+      Inst->eraseFromParent();
       Changed = true;
     }
   }
@@ -269,8 +264,9 @@ CleanupPointerRootUsers(GlobalVariable *GV,
 /// We just marked GV constant.  Loop over all users of the global, cleaning up
 /// the obvious ones.  This is largely just a quick scan over the use list to
 /// clean up the easy and obvious cruft.  This returns true if it made a change.
-static bool CleanupConstantGlobalUsers(GlobalVariable *GV,
-                                       const DataLayout &DL) {
+static bool cleanupConstantGlobalUsers(
+    GlobalVariable *GV, const DataLayout &DL,
+    function_ref<TargetLibraryInfo &(Function &)> GetTLI) {
   Constant *Init = GV->getInitializer();
   SmallVector<User *, 8> WorkList(GV->users());
   SmallPtrSet<User *, 8> Visited;
@@ -872,10 +868,10 @@ static bool OptimizeAwayTrappingUsesOfLoads(
   // nor is the global.
   if (AllNonStoreUsesGone) {
     if (isLeakCheckerRoot(GV)) {
-      Changed |= CleanupPointerRootUsers(GV, GetTLI);
+      Changed |= cleanupPointerRootUsers(GV, GetTLI);
     } else {
       Changed = true;
-      CleanupConstantGlobalUsers(GV, DL);
+      cleanupConstantGlobalUsers(GV, DL, GetTLI);
     }
     if (GV->use_empty()) {
       LLVM_DEBUG(dbgs() << "  *** GLOBAL NOW DEAD!\n");
@@ -1494,11 +1490,11 @@ processInternalGlobal(GlobalVariable *GV, const GlobalStatus &GS,
 
     if (isLeakCheckerRoot(GV)) {
       // Delete any constant stores to the global.
-      Changed = CleanupPointerRootUsers(GV, GetTLI);
+      Changed = cleanupPointerRootUsers(GV, GetTLI);
     } else {
       // Delete any stores we can find to the global.  We may not be able to
       // make it completely dead though.
-      Changed = CleanupConstantGlobalUsers(GV, DL);
+      Changed = cleanupConstantGlobalUsers(GV, DL, GetTLI);
     }
 
     // If the global is dead now, delete it.
@@ -1523,7 +1519,7 @@ processInternalGlobal(GlobalVariable *GV, const GlobalStatus &GS,
     }
 
     // Clean up any obviously simplifiable users now.
-    Changed |= CleanupConstantGlobalUsers(GV, DL);
+    Changed |= cleanupConstantGlobalUsers(GV, DL, GetTLI);
 
     // If the global is dead now, just nuke it.
     if (GV->use_empty()) {
@@ -1578,7 +1574,7 @@ processInternalGlobal(GlobalVariable *GV, const GlobalStatus &GS,
       }
 
       // Clean up any obviously simplifiable users now.
-      CleanupConstantGlobalUsers(GV, DL);
+      cleanupConstantGlobalUsers(GV, DL, GetTLI);
 
       if (GV->use_empty()) {
         LLVM_DEBUG(dbgs() << "   *** Substituting initializer allowed us to "
