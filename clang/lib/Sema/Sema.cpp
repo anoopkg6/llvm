@@ -208,6 +208,13 @@ public:
 } // end namespace sema
 } // end namespace clang
 
+void clang::injectASTMutatorIntoASTContext(ASTContext &Context,
+                                           EvalASTMutator *ASTMutator) {
+  Context.ASTMutator = ASTMutator;
+}
+
+SemaASTMutator::SemaASTMutator(Sema &SemaRef) : SemaRef(SemaRef) {}
+
 const unsigned Sema::MaxAlignmentExponent;
 const uint64_t Sema::MaximumAlignment;
 
@@ -221,7 +228,7 @@ Sema::Sema(Preprocessor &pp, ASTContext &ctxt, ASTConsumer &consumer,
       LateTemplateParser(nullptr), LateTemplateParserCleanup(nullptr),
       OpaqueParser(nullptr), CurContext(nullptr), ExternalSource(nullptr),
       StackHandler(Diags), CurScope(nullptr), Ident_super(nullptr),
-      AMDGPUPtr(std::make_unique<SemaAMDGPU>(*this)),
+      ASTMutator(*this), AMDGPUPtr(std::make_unique<SemaAMDGPU>(*this)),
       ARMPtr(std::make_unique<SemaARM>(*this)),
       AVRPtr(std::make_unique<SemaAVR>(*this)),
       BPFPtr(std::make_unique<SemaBPF>(*this)),
@@ -298,6 +305,11 @@ Sema::Sema(Preprocessor &pp, ASTContext &ctxt, ASTConsumer &consumer,
   SemaPPCallbackHandler->set(*this);
 
   CurFPFeatures.setFPEvalMethod(PP.getCurrentFPEvalMethod());
+
+  /// Initialize ASTMutator within ASTContext.
+  /// This is very intentionally not a part of public interface
+  /// of ASTContext.
+  injectASTMutatorIntoASTContext(Context, getASTMutator());
 }
 
 // Anchor Sema's type info to this TU.
@@ -2797,4 +2809,11 @@ Attr *Sema::CreateAnnotationAttr(const ParsedAttr &AL) {
   }
 
   return CreateAnnotationAttr(AL, Str, Args);
+}
+
+void SemaASTMutator::InstantiateFunctionDefinition(
+    SourceLocation PointOfInstantiation, FunctionDecl *Function, bool Recursive,
+    bool DefinitionRequired, bool AtEndOfTU) {
+  SemaRef.InstantiateFunctionDefinition(
+      PointOfInstantiation, Function, Recursive, DefinitionRequired, AtEndOfTU);
 }

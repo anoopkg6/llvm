@@ -1034,6 +1034,7 @@ namespace {
     }
 
     ASTContext &getASTContext() const override { return Ctx; }
+    EvalASTMutator *getASTMutator() const { return Ctx.getASTMutator(); }
 
     void setEvaluatingDecl(APValue::LValueBase Base, APValue &Value,
                            EvaluatingDeclKind EDK = EvaluatingDeclKind::Ctor) {
@@ -8328,6 +8329,13 @@ public:
 
     const FunctionDecl *Definition = nullptr;
     Stmt *Body = FD->getBody(Definition);
+    if (Info.Ctx.getLangOpts().CPlusPlus26 && Info.getASTMutator() &&
+        !Definition && FD->getTemplateInstantiationPattern()) {
+      Info.getASTMutator()->InstantiateFunctionDefinition(
+          E->getExprLoc(), const_cast<FunctionDecl *>(FD),
+          /*Recursive=*/true, /*DefinitionRequired=*/true, /*AtEndOfTU=*/false);
+      Body = FD->getBody(Definition);
+    }
 
     if (!CheckConstexprFunction(Info, E->getExprLoc(), FD, Definition, Body) ||
         !HandleFunctionCall(E->getExprLoc(), Definition, This, E, Args, Call,

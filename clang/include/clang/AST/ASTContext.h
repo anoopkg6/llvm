@@ -183,6 +183,17 @@ struct TypeInfoChars {
   }
 };
 
+// Interface that allows constant evaluator to mutate AST.
+// Sema is the only entity that can implement this.
+struct EvalASTMutator {
+  virtual ~EvalASTMutator() = default;
+
+  virtual void
+  InstantiateFunctionDefinition(SourceLocation PointOfInstantiation,
+                                FunctionDecl *Function, bool Recursive,
+                                bool DefinitionRequired, bool AtEndOfTU) = 0;
+};
+
 /// Holds long-lived AST nodes (such as types and decls) that can be
 /// referred to throughout the semantic analysis of a file.
 class ASTContext : public RefCountedBase<ASTContext> {
@@ -672,7 +683,16 @@ private:
   /// Keeps track of the deallocated DeclListNodes for future reuse.
   DeclListNode *ListNodeFreeList = nullptr;
 
+  /// Implementation of the interface that Sema provides during its
+  /// construction.
+  EvalASTMutator *ASTMutator = nullptr;
+
 public:
+  /// Returns an object that is capable of modifying AST,
+  /// or nullptr if it's not available. The latter happens when
+  /// Sema is not available.
+  EvalASTMutator *getASTMutator() const { return ASTMutator; }
+
   IdentifierTable &Idents;
   SelectorTable &Selectors;
   Builtin::Context &BuiltinInfo;
@@ -3528,6 +3548,11 @@ private:
   std::unique_ptr<VTableContextBase> VTContext;
 
   void ReleaseDeclContextMaps();
+
+  /// This is a function that is implemented in the Sema layer,
+  /// that needs friendship to initialize ASTMutator without this capability
+  /// being available in the public interface of ASTContext.
+  friend void injectASTMutatorIntoASTContext(ASTContext &, EvalASTMutator *);
 
 public:
   enum PragmaSectionFlag : unsigned {
