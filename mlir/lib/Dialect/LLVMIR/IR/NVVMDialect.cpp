@@ -108,6 +108,22 @@ LogicalResult CpAsyncOp::verify() {
   return success();
 }
 
+LogicalResult CpAsyncBulkTensorPrefetchOp::verify() {
+  if (getCoordinates().empty() || getCoordinates().size() > 5)
+    return emitError("expects coordinates between 1 to 5 dimension");
+
+  // Check for im2col mode
+  if (!getIm2colOffsets().empty()) {
+    if (getCoordinates().size() < 3)
+      return emitError(
+          "to use im2col mode, the tensor has to be at least 3-dimensional");
+    if (getCoordinates().size() != (getIm2colOffsets().size() + 2))
+      return emitError(
+          "im2col offsets must be 2 less than number of coordinates");
+  }
+  return success();
+}
+
 // Given the element type of an operand and whether or not it is an accumulator,
 // this function returns the PTX type (`NVVM::MMATypes`) that corresponds to the
 // operand's element type.
@@ -1053,6 +1069,30 @@ LogicalResult NVVM::BarrierOp::verify() {
     return emitOpError(
         "barrier id is missing, it should be set between 0 to 15");
   return success();
+}
+
+llvm::Intrinsic::ID CpAsyncBulkTensorPrefetchOp::getIntrinsicID(int tensorDims,
+                                                                bool isIm2Col) {
+  switch (tensorDims) {
+  case 1:
+    return llvm::Intrinsic::nvvm_cp_async_bulk_tensor_prefetch_tile_1d;
+  case 2:
+    return llvm::Intrinsic::nvvm_cp_async_bulk_tensor_prefetch_tile_2d;
+  case 3:
+    return isIm2Col
+               ? llvm::Intrinsic::nvvm_cp_async_bulk_tensor_prefetch_im2col_3d
+               : llvm::Intrinsic::nvvm_cp_async_bulk_tensor_prefetch_tile_3d;
+  case 4:
+    return isIm2Col
+               ? llvm::Intrinsic::nvvm_cp_async_bulk_tensor_prefetch_im2col_4d
+               : llvm::Intrinsic::nvvm_cp_async_bulk_tensor_prefetch_tile_4d;
+  case 5:
+    return isIm2Col
+               ? llvm::Intrinsic::nvvm_cp_async_bulk_tensor_prefetch_im2col_5d
+               : llvm::Intrinsic::nvvm_cp_async_bulk_tensor_prefetch_tile_5d;
+  default:
+    llvm_unreachable("Invalid TensorDim in CpAsyncBulkTensorPrefetchOp.");
+  }
 }
 
 //===----------------------------------------------------------------------===//
