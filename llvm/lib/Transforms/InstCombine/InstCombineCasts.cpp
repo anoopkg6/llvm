@@ -1949,6 +1949,32 @@ Instruction *InstCombinerImpl::visitFPExt(CastInst &FPExt) {
       return CastInst::Create(FPCast->getOpcode(), FPCast->getOperand(0), Ty);
   }
 
+  // fpext (fptrunc(x)) -> x, if the fast math flags allow it
+  Instruction *SrcInstr;
+  if (match(Src, m_FPTrunc(m_Instruction(SrcInstr)))) {
+    // Whether this transformation is possible depends both on the flags of the
+    // value that is truncated, and the flags on the instructions that use the
+    // fpext.
+    FastMathFlags SrcFlags = SrcInstr->getFastMathFlags();
+    FastMathFlags DstFlags = FastMathFlags::getFast();
+    for (User *U : FPExt.users())
+      if (auto *UInstr = dyn_cast<Instruction>(U))
+        DstFlags &= UInstr->getFastMathFlags();
+    // Trunc can introduce inf and change the encoding of a nan, so the
+    // destination must have the nnan and ninf flags to indicate that we don't
+    // need to care about that. We are also removing a rounding step, and that
+    // requires both the source and destination to allow contraction.
+    if (DstFlags.noNaNs() && DstFlags.noInfs() && SrcFlags.allowContract() &&
+        DstFlags.allowContract()) {
+      // We do need a single cast if the source and destination types don't
+      // match.
+      if (SrcInstr->getType() != Ty)
+        return CastInst::CreateFPCast(SrcInstr, Ty);
+      else
+        return replaceInstUsesWith(FPExt, SrcInstr);
+    }
+  }
+
   return commonCastTransforms(FPExt);
 }
 

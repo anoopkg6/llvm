@@ -448,3 +448,95 @@ define bfloat @bf16_frem(bfloat %x) {
   %t3 = fptrunc float %t2 to bfloat
   ret bfloat %t3
 }
+
+define double @fptrunc_fpextend_nofast(double %x, double %y, double %z) {
+; CHECK-LABEL: @fptrunc_fpextend_nofast(
+; CHECK-NEXT:    [[ADD1:%.*]] = fadd double [[X:%.*]], [[Y:%.*]]
+; CHECK-NEXT:    [[TRUNC:%.*]] = fptrunc double [[ADD1]] to float
+; CHECK-NEXT:    [[EXT:%.*]] = fpext float [[TRUNC]] to double
+; CHECK-NEXT:    [[ADD2:%.*]] = fadd double [[Z:%.*]], [[EXT]]
+; CHECK-NEXT:    ret double [[ADD2]]
+;
+  %add1 = fadd double %x, %y
+  %trunc = fptrunc double %add1 to float
+  %ext = fpext float %trunc to double
+  %add2 = fadd double %ext, %z
+  ret double %add2
+}
+
+define double @fptrunc_fpextend_fast(double %x, double %y, double %z) {
+; CHECK-LABEL: @fptrunc_fpextend_fast(
+; CHECK-NEXT:    [[ADD1:%.*]] = fadd contract double [[X:%.*]], [[Y:%.*]]
+; CHECK-NEXT:    [[ADD2:%.*]] = fadd nnan ninf contract double [[ADD1]], [[Z:%.*]]
+; CHECK-NEXT:    ret double [[ADD2]]
+;
+  %add1 = fadd contract double %x, %y
+  %trunc = fptrunc double %add1 to float
+  %ext = fpext float %trunc to double
+  %add2 = fadd nnan ninf contract double %ext, %z
+  ret double %add2
+}
+
+define float @fptrunc_fpextend_result_smaller(double %x, double %y, float %z) {
+; CHECK-LABEL: @fptrunc_fpextend_result_smaller(
+; CHECK-NEXT:    [[ADD1:%.*]] = fadd contract double [[X:%.*]], [[Y:%.*]]
+; CHECK-NEXT:    [[EXT:%.*]] = fptrunc double [[ADD1]] to float
+; CHECK-NEXT:    [[ADD2:%.*]] = fadd nnan ninf contract float [[Z:%.*]], [[EXT]]
+; CHECK-NEXT:    ret float [[ADD2]]
+;
+  %add1 = fadd contract double %x, %y
+  %trunc = fptrunc double %add1 to half
+  %ext = fpext half %trunc to float
+  %add2 = fadd nnan ninf contract float %ext, %z
+  ret float %add2
+}
+
+define double @fptrunc_fpextend_result_larger(float %x, float %y, double %z) {
+; CHECK-LABEL: @fptrunc_fpextend_result_larger(
+; CHECK-NEXT:    [[ADD1:%.*]] = fadd contract float [[X:%.*]], [[Y:%.*]]
+; CHECK-NEXT:    [[EXT:%.*]] = fpext float [[ADD1]] to double
+; CHECK-NEXT:    [[ADD2:%.*]] = fadd nnan ninf contract double [[Z:%.*]], [[EXT]]
+; CHECK-NEXT:    ret double [[ADD2]]
+;
+  %add1 = fadd contract float %x, %y
+  %trunc = fptrunc float %add1 to half
+  %ext = fpext half %trunc to double
+  %add2 = fadd nnan ninf contract double %ext, %z
+  ret double %add2
+}
+
+define double @fptrunc_fpextend_multiple_use(double %x, double %y, double %a, double %b) {
+; CHECK-LABEL: @fptrunc_fpextend_multiple_use(
+; CHECK-NEXT:    [[ADD1:%.*]] = fadd contract double [[X:%.*]], [[Y:%.*]]
+; CHECK-NEXT:    [[ADD2:%.*]] = fadd nnan ninf contract double [[ADD1]], [[A:%.*]]
+; CHECK-NEXT:    [[ADD3:%.*]] = fadd nnan ninf contract double [[ADD1]], [[B:%.*]]
+; CHECK-NEXT:    [[MUL:%.*]] = fmul double [[ADD2]], [[ADD3]]
+; CHECK-NEXT:    ret double [[MUL]]
+;
+  %add1 = fadd contract double %x, %y
+  %trunc = fptrunc double %add1 to float
+  %ext = fpext float %trunc to double
+  %add2 = fadd nnan ninf contract double %ext, %a
+  %add3 = fadd nnan ninf contract double %ext, %b
+  %mul = fmul double %add2, %add3
+  ret double %mul
+}
+
+define double @fptrunc_fpextend_multiple_use_flag_mismatch(double %x, double %y, double %a, double %b) {
+; CHECK-LABEL: @fptrunc_fpextend_multiple_use_flag_mismatch(
+; CHECK-NEXT:    [[ADD1:%.*]] = fadd contract double [[X:%.*]], [[Y:%.*]]
+; CHECK-NEXT:    [[TRUNC:%.*]] = fptrunc double [[ADD1]] to float
+; CHECK-NEXT:    [[EXT:%.*]] = fpext float [[TRUNC]] to double
+; CHECK-NEXT:    [[ADD2:%.*]] = fadd nnan ninf contract double [[A:%.*]], [[EXT]]
+; CHECK-NEXT:    [[ADD3:%.*]] = fadd nnan ninf double [[B:%.*]], [[EXT]]
+; CHECK-NEXT:    [[MUL:%.*]] = fmul double [[ADD2]], [[ADD3]]
+; CHECK-NEXT:    ret double [[MUL]]
+;
+  %add1 = fadd contract double %x, %y
+  %trunc = fptrunc double %add1 to float
+  %ext = fpext float %trunc to double
+  %add2 = fadd nnan ninf contract double %ext, %a
+  %add3 = fadd nnan ninf double %ext, %b
+  %mul = fmul double %add2, %add3
+  ret double %mul
+}
