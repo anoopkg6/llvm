@@ -1342,6 +1342,10 @@ bool TargetTransformInfo::preferEpilogueVectorization() const {
   return TTIImpl->preferEpilogueVectorization();
 }
 
+bool TargetTransformInfo::enableCSAVectorization() const {
+  return TTIImpl->enableCSAVectorization();
+}
+
 TargetTransformInfo::VPLegalization
 TargetTransformInfo::getVPLegalizationStrategy(const VPIntrinsic &VPI) const {
   return TTIImpl->getVPLegalizationStrategy(VPI);
