@@ -6444,7 +6444,8 @@ const ToolChain &Driver::getToolChain(const ArgList &Args,
       TC = std::make_unique<toolchains::NVPTXToolChain>(*this, Target, Args);
       break;
     case llvm::Triple::AMDHSA:
-      TC = std::make_unique<toolchains::ROCMToolChain>(*this, Target, Args);
+      TC = std::make_unique<toolchains::ROCMToolChain>(*this, Target, Args,
+                                                       Target.isOSWindows());
       break;
     case llvm::Triple::AMDPAL:
     case llvm::Triple::Mesa3D:
