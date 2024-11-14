@@ -3198,19 +3198,27 @@ static void GenerateHeaderSearchArgs(const HeaderSearchOptions &Opts,
   auto It = Opts.UserEntries.begin();
   auto End = Opts.UserEntries.end();
 
-  // Add -I... and -F... options in order.
-  for (; It < End && Matches(*It, {frontend::Angled}, std::nullopt, true);
+  // Add the -I..., -F..., and -iexternal options in order.
+  for (; It < End && Matches(*It, {frontend::Angled, frontend::External},
+                             std::nullopt, true);
        ++It) {
     OptSpecifier Opt = [It, Matches]() {
       if (Matches(*It, frontend::Angled, true, true))
         return OPT_F;
       if (Matches(*It, frontend::Angled, false, true))
         return OPT_I;
+      if (Matches(*It, frontend::External, false, true))
+        return OPT_iexternal;
       llvm_unreachable("Unexpected HeaderSearchOptions::Entry.");
     }();
 
     GenerateArg(Consumer, Opt, It->Path);
-  };
+  }
+
+  // Add the paths for the -iexternal-env= and -iexternal-after options in
+  // order.
+  for (; It < End && Matches(*It, {frontend::ExternalAfter}, false, true); ++It)
+    GenerateArg(Consumer, OPT_iexternal_after, It->Path);
 
   // Note: some paths that came from "[-iprefix=xx] -iwithprefixbefore=yy" may
   // have already been generated as "-I[xx]yy". If that's the case, their
@@ -3320,7 +3328,6 @@ static bool ParseHeaderSearchArgs(HeaderSearchOptions &Opts, ArgList &Args,
         llvm::CachedHashString(MacroDef.split('=').first));
   }
 
-  // Add -I... and -F... options in order.
   bool IsSysrootSpecified =
       Args.hasArg(OPT__sysroot_EQ) || Args.hasArg(OPT_isysroot);
 
@@ -3339,11 +3346,20 @@ static bool ParseHeaderSearchArgs(HeaderSearchOptions &Opts, ArgList &Args,
     return A->getValue();
   };
 
-  for (const auto *A : Args.filtered(OPT_I, OPT_F)) {
+  // Add the -I..., -F..., and -iexternal options in order.
+  for (const auto *A : Args.filtered(OPT_I, OPT_F, OPT_iexternal)) {
+    frontend::IncludeDirGroup Group = frontend::Angled;
+    if (A->getOption().matches(OPT_iexternal))
+      Group = frontend::External;
     bool IsFramework = A->getOption().matches(OPT_F);
-    Opts.AddPath(PrefixHeaderPath(A, IsFramework), frontend::Angled,
-                 IsFramework, /*IgnoreSysroot=*/true);
+    Opts.AddPath(PrefixHeaderPath(A, IsFramework), Group, IsFramework,
+                 /*IgnoreSysroot=*/true);
   }
+
+  // Add the -iexternal-env= and -iexternal-after options in order.
+  for (const auto *A : Args.filtered(OPT_iexternal_after))
+    Opts.AddPath(A->getValue(), frontend::ExternalAfter,
+                 /*IsFramework=*/false, /*IgnoreSysRoot=*/true);
 
   // Add -iprefix/-iwithprefix/-iwithprefixbefore options.
   StringRef Prefix = ""; // FIXME: This isn't the correct default prefix.
