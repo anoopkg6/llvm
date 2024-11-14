@@ -85,10 +85,26 @@ void SubstrToStartsWithCheck::check(const MatchFinder::MatchResult &Result) {
 
   const auto *Str = Result.Nodes.getNodeAs<Expr>("str");
   const auto *Literal = Result.Nodes.getNodeAs<StringLiteral>("literal");
-  
+  const auto *Length = Result.Nodes.getNodeAs<Expr>("length");
+
+
   if (!Str || !Literal)
     return;
 
+// Check if Length is an integer literal and compare with string length
+  if (const auto *LengthInt = dyn_cast<IntegerLiteral>(Length)) {
+    unsigned LitLength = Literal->getLength();
+    unsigned SubstrLength = LengthInt->getValue().getZExtValue();
+    
+    // Only proceed if the lengths match
+    if (SubstrLength != LitLength) {
+      return;
+    }
+  } else {
+    // If length isn't a constant, skip the transformation
+    return;
+  }
+  
   // Get the string expression
   std::string StrText = Lexer::getSourceText(
       CharSourceRange::getTokenRange(Str->getSourceRange()),
