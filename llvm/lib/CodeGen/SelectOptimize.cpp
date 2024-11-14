@@ -144,11 +144,20 @@ public:
 
       // An Or(zext(i1 X), Y) can also be treated like a select, with condition
       // C and values Y|1 and Y.
-      Value *X;
-      if (PatternMatch::match(
-              I, m_c_Or(m_OneUse(m_ZExt(m_Value(X))), m_Value())) &&
-          X->getType()->isIntegerTy(1))
-        return SelectLike(I);
+      switch (I->getOpcode()) {
+      case Instruction::Add:
+      case Instruction::Or:
+      case Instruction::Sub: {
+        Value *X;
+        if ((PatternMatch::match(I->getOperand(0),
+                                 m_OneUse(m_ZExtOrSExt(m_Value(X)))) ||
+             PatternMatch::match(I->getOperand(1),
+                                 m_OneUse(m_ZExtOrSExt(m_Value(X))))) &&
+            X->getType()->isIntegerTy(1))
+          return SelectLike(I);
+        break;
+      }
+      }
 
       return SelectLike(nullptr);
     }
@@ -178,10 +187,10 @@ public:
       if (auto *BO = dyn_cast<BinaryOperator>(I)) {
         Value *X;
         if (PatternMatch::match(BO->getOperand(0),
-                                m_OneUse(m_ZExt(m_Value(X)))))
+                                m_OneUse(m_ZExtOrSExt(m_Value(X)))))
           return X;
         if (PatternMatch::match(BO->getOperand(1),
-                                m_OneUse(m_ZExt(m_Value(X)))))
+                                m_OneUse(m_ZExtOrSExt(m_Value(X)))))
           return X;
       }
 
@@ -228,10 +237,10 @@ public:
       if (auto *BO = dyn_cast<BinaryOperator>(I)) {
         Value *X;
         if (PatternMatch::match(BO->getOperand(0),
-                                m_OneUse(m_ZExt(m_Value(X)))))
+                                m_OneUse(m_ZExtOrSExt(m_Value(X)))))
           return BO->getOperand(1);
         if (PatternMatch::match(BO->getOperand(1),
-                                m_OneUse(m_ZExt(m_Value(X)))))
+                                m_OneUse(m_ZExtOrSExt(m_Value(X)))))
           return BO->getOperand(0);
       }
 
@@ -249,19 +258,22 @@ public:
                                          : Scaled64::getZero();
         }
 
-      // Or case - add the cost of an extra Or to the cost of the False case.
-      if (isa<BinaryOperator>(I))
-        if (auto I = dyn_cast<Instruction>(getFalseValue())) {
+      // BinaryOp case - add the cost of an extra BinOp to the cost of the False
+      // case.
+      if (isa<BinaryOperator>(I)) {
+        if (auto OpI = dyn_cast<Instruction>(getFalseValue())) {
           auto It = InstCostMap.find(I);
           if (It != InstCostMap.end()) {
             InstructionCost OrCost = TTI->getArithmeticInstrCost(
-                Instruction::Or, I->getType(), TargetTransformInfo::TCK_Latency,
+                I->getOpcode(), OpI->getType(),
+                TargetTransformInfo::TCK_Latency,
                 {TargetTransformInfo::OK_AnyValue,
                  TargetTransformInfo::OP_None},
                 {TTI::OK_UniformConstantValue, TTI::OP_PowerOf2});
             return It->second.NonPredCost + Scaled64::get(*OrCost.getValue());
           }
         }
+      }
 
       return Scaled64::getZero();
     }
@@ -547,12 +559,20 @@ getTrueOrFalseValue(SelectOptimizeImpl::SelectLike SI, bool isTrue,
       V = (!isTrue ? DefSI->getTrueValue() : DefSI->getFalseValue());
   }
 
-  if (isa<BinaryOperator>(SI.getI())) {
-    assert(SI.getI()->getOpcode() == Instruction::Or &&
-           "Only currently handling Or instructions.");
+  if (auto *BinOp = dyn_cast<BinaryOperator>(SI.getI())) {
+    assert((BinOp->getOpcode() == Instruction::Add ||
+            BinOp->getOpcode() == Instruction::Or ||
+            BinOp->getOpcode() == Instruction::Sub) &&
+           "Only currently handling Add, Or and Sub instructions.");
     V = SI.getFalseValue();
-    if (isTrue)
-      V = IB.CreateOr(V, ConstantInt::get(V->getType(), 1));
+    if (isTrue) {
+      bool HasSExt =
+          (BinOp->getOperand(0) == V && isa<SExtInst>(BinOp->getOperand(1))) ||
+          (BinOp->getOperand(1) == V && isa<SExtInst>(BinOp->getOperand(0)));
+      Constant *CI = HasSExt ? ConstantInt::get(V->getType(), -1)
+                             : ConstantInt::get(V->getType(), 1);
+      V = IB.CreateBinOp(BinOp->getOpcode(), V, CI);
+    }
   }
 
   assert(V && "Failed to get select true/false value");
