@@ -300,6 +300,16 @@ static void setCUDAKernelCallingConvention(CanQualType &FTy, CodeGenModule &CGM,
   }
 }
 
+static void setOCLKernelStubCallingConvention(CanQualType &FTy,
+                                              CodeGenModule &CGM,
+                                              const FunctionDecl *FD) {
+  if (FD->hasAttr<OpenCLKernelAttr>()) {
+    const FunctionType *FT = FTy->getAs<FunctionType>();
+    CGM.getTargetCodeGenInfo().setOCLKernelStubCallingConvention(FT);
+    FTy = FT->getCanonicalTypeUnqualified();
+  }
+}
+
 /// Arrange the argument and result information for a declaration or
 /// definition of the given C++ non-static member function.  The
 /// member function must be an ordinary function, i.e. not a
@@ -460,15 +470,19 @@ CodeGenTypes::arrangeCXXConstructorCall(const CallArgList &args,
 /// Arrange the argument and result information for the declaration or
 /// definition of the given function.
 const CGFunctionInfo &
-CodeGenTypes::arrangeFunctionDeclaration(const FunctionDecl *FD) {
+CodeGenTypes::arrangeFunctionDeclaration(const FunctionDecl *FD,
+                                         CanQualType *FTy_ptr /* = nullptr*/) {
   if (const CXXMethodDecl *MD = dyn_cast<CXXMethodDecl>(FD))
     if (MD->isImplicitObjectMemberFunction())
       return arrangeCXXMethodDeclaration(MD);
 
-  CanQualType FTy = FD->getType()->getCanonicalTypeUnqualified();
+  CanQualType FTy = FTy_ptr == nullptr
+                        ? FD->getType()->getCanonicalTypeUnqualified()
+                        : *FTy_ptr;
 
   assert(isa<FunctionType>(FTy));
-  setCUDAKernelCallingConvention(FTy, CGM, FD);
+  if (!FD->getLangOpts().OpenCL)
+    setCUDAKernelCallingConvention(FTy, CGM, FD);
 
   // When declaring a function without a prototype, always use a
   // non-variadic type.
@@ -548,7 +562,12 @@ CodeGenTypes::arrangeGlobalDeclaration(GlobalDecl GD) {
       isa<CXXDestructorDecl>(GD.getDecl()))
     return arrangeCXXStructorDeclaration(GD);
 
-  return arrangeFunctionDeclaration(FD);
+  CanQualType FTy = FD->getType()->getCanonicalTypeUnqualified();
+  if (FD->hasAttr<OpenCLKernelAttr>() &&
+      GD.getKernelReferenceKind() == KernelReferenceKind::Stub) {
+    setOCLKernelStubCallingConvention(FTy, CGM, FD);
+  }
+  return arrangeFunctionDeclaration(FD, &FTy);
 }
 
 /// Arrange a thunk that takes 'this' as the first parameter followed by

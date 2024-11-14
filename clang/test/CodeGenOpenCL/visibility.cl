@@ -94,19 +94,19 @@ void use() {
     ext_func_default();
 }
 
-// FVIS-DEFAULT: declare amdgpu_kernel void @ext_kern()
+// FVIS-DEFAULT: declare void @__clang_ocl_kern_imp_ext_kern()
 // FVIS-PROTECTED: declare protected amdgpu_kernel void @ext_kern()
 // FVIS-HIDDEN: declare protected amdgpu_kernel void @ext_kern()
 
-// FVIS-DEFAULT: declare protected amdgpu_kernel void @ext_kern_hidden()
+// FVIS-DEFAULT: declare protected void @__clang_ocl_kern_imp_ext_kern_hidden()
 // FVIS-PROTECTED: declare protected amdgpu_kernel void @ext_kern_hidden()
 // FVIS-HIDDEN: declare protected amdgpu_kernel void @ext_kern_hidden()
 
-// FVIS-DEFAULT: declare protected amdgpu_kernel void @ext_kern_protected()
+// FVIS-DEFAULT: declare protected void @__clang_ocl_kern_imp_ext_kern_protected()
 // FVIS-PROTECTED: declare protected amdgpu_kernel void @ext_kern_protected()
 // FVIS-HIDDEN: declare protected amdgpu_kernel void @ext_kern_protected()
 
-// FVIS-DEFAULT: declare amdgpu_kernel void @ext_kern_default()
+// FVIS-DEFAULT: declare void @__clang_ocl_kern_imp_ext_kern_default()
 // FVIS-PROTECTED: declare amdgpu_kernel void @ext_kern_default()
 // FVIS-HIDDEN: declare amdgpu_kernel void @ext_kern_default()
 

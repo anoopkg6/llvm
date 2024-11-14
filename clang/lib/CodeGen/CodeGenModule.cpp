@@ -1888,6 +1888,9 @@ static std::string getMangledNameImpl(CodeGenModule &CGM, GlobalDecl GD,
     } else if (FD && FD->hasAttr<CUDAGlobalAttr>() &&
                GD.getKernelReferenceKind() == KernelReferenceKind::Stub) {
       Out << "__device_stub__" << II->getName();
+    } else if (FD && FD->hasAttr<OpenCLKernelAttr>() &&
+               GD.getKernelReferenceKind() == KernelReferenceKind::Stub) {
+      Out << "__clang_ocl_kern_imp_" << II->getName();
     } else {
       Out << II->getName();
     }
@@ -3284,7 +3287,13 @@ void CodeGenModule::EmitDeferred() {
       continue;
 
     // Otherwise, emit the definition and move on to the next one.
-    EmitGlobalDefinition(D, GV);
+    // Do not emit definition for a device version of OpenCL kernel that does
+    // not have a body.
+    if (!(isa<FunctionDecl>(D.getDecl()) &&
+          (cast<FunctionDecl>(D.getDecl()))->hasAttr<OpenCLKernelAttr>() &&
+          D.getKernelReferenceKind() == KernelReferenceKind::Stub &&
+          !((cast<FunctionDecl>(D.getDecl()))->doesThisDeclarationHaveABody())))
+      EmitGlobalDefinition(D, GV);
 
     // If we found out that we need to emit more decls, do that recursively.
     // This has the advantage that the decls are emitted in a DFS and related
@@ -3842,6 +3851,10 @@ void CodeGenModule::EmitGlobal(GlobalDecl GD) {
 
   // Ignore declarations, they will be emitted on their first use.
   if (const auto *FD = dyn_cast<FunctionDecl>(Global)) {
+
+    if (FD->hasAttr<OpenCLKernelAttr>())
+      addDeferredDeclToEmit(GlobalDecl(FD, KernelReferenceKind::Stub));
+
     // Update deferred annotations with the latest declaration if the function
     // function was already used or defined.
     if (FD->hasAttr<AnnotateAttr>()) {

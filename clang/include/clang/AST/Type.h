@@ -4668,6 +4668,11 @@ public:
   CallingConv getCallConv() const { return getExtInfo().getCC(); }
   ExtInfo getExtInfo() const { return ExtInfo(FunctionTypeBits.ExtInfo); }
 
+  void setCC(unsigned cc) {
+    FunctionTypeBits.ExtInfo =
+        (FunctionTypeBits.ExtInfo & ~ExtInfo::CallConvMask) | cc;
+  }
+
   static_assert((~Qualifiers::FastMask & Qualifiers::CVRMask) == 0,
                 "Const, volatile and restrict are assumed to be a subset of "
                 "the fast qualifiers.");
