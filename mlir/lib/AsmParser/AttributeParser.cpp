@@ -21,8 +21,10 @@
 #include "mlir/IR/DialectImplementation.h"
 #include "mlir/IR/DialectResourceBlobManager.h"
 #include "mlir/IR/IntegerSet.h"
+#include "llvm/ADT/APFloat.h"
 #include "llvm/ADT/StringExtras.h"
 #include "llvm/Support/Endian.h"
+#include <cmath>
 #include <optional>
 
 using namespace mlir;
@@ -121,6 +123,8 @@ Attribute Parser::parseAttribute(Type type) {
 
   // Parse floating point and integer attributes.
   case Token::floatliteral:
+  case Token::kw_inf:
+  case Token::kw_nan:
     return parseFloatAttr(type, /*isNegative=*/false);
   case Token::integer:
     return parseDecOrHexAttr(type, /*isNegative=*/false);
@@ -128,7 +132,8 @@ Attribute Parser::parseAttribute(Type type) {
     consumeToken(Token::minus);
     if (getToken().is(Token::integer))
       return parseDecOrHexAttr(type, /*isNegative=*/true);
-    if (getToken().is(Token::floatliteral))
+    if (getToken().is(Token::floatliteral) || getToken().is(Token::kw_inf) ||
+        getToken().is(Token::kw_nan))
       return parseFloatAttr(type, /*isNegative=*/true);
 
     return (emitWrongTokenError(
@@ -342,10 +347,8 @@ ParseResult Parser::parseAttributeDict(NamedAttrList &attributes) {
 
 /// Parse a float attribute.
 Attribute Parser::parseFloatAttr(Type type, bool isNegative) {
-  auto val = getToken().getFloatingPointValue();
-  if (!val)
-    return (emitError("floating point value too large for attribute"), nullptr);
-  consumeToken(Token::floatliteral);
+  const Token tok = getToken();
+  consumeToken();
   if (!type) {
     // Default to F64 when no type is specified.
     if (!consumeIf(Token::colon))
@@ -353,10 +356,16 @@ Attribute Parser::parseFloatAttr(Type type, bool isNegative) {
     else if (!(type = parseType()))
       return nullptr;
   }
-  if (!isa<FloatType>(type))
+  auto floatType = dyn_cast<FloatType>(type);
+  if (!floatType)
     return (emitError("floating point value not valid for specified type"),
             nullptr);
-  return FloatAttr::get(type, isNegative ? -*val : *val);
+  auto emitErrorAtTok = [&]() { return emitError(tok.getLoc()); };
+  FailureOr<APFloat> result = parseFloatFromLiteral(
+      emitErrorAtTok, tok, isNegative, floatType.getFloatSemantics());
+  if (failed(result))
+    return Attribute();
+  return FloatAttr::get(floatType, *result);
 }
 
 /// Construct an APint from a parsed value, a known attribute type and
@@ -623,7 +632,7 @@ TensorLiteralParser::getIntAttrElements(SMLoc loc, Type eltTy,
     }
 
     // Check to see if floating point values were parsed.
-    if (token.is(Token::floatliteral)) {
+    if (token.isAny(Token::floatliteral, Token::kw_inf, Token::kw_nan)) {
       return p.emitError(tokenLoc)
              << "expected integer elements, but parsed floating-point";
     }
@@ -731,6 +740,8 @@ ParseResult TensorLiteralParser::parseElement() {
   // Parse a boolean element.
   case Token::kw_true:
   case Token::kw_false:
+  case Token::kw_inf:
+  case Token::kw_nan:
   case Token::floatliteral:
   case Token::integer:
     storage.emplace_back(/*isNegative=*/false, p.getToken());
@@ -740,7 +751,8 @@ ParseResult TensorLiteralParser::parseElement() {
   // Parse a signed integer or a negative floating-point element.
   case Token::minus:
     p.consumeToken(Token::minus);
-    if (!p.getToken().isAny(Token::floatliteral, Token::integer))
+    if (!p.getToken().isAny(Token::floatliteral, Token::kw_inf, Token::kw_nan,
+                            Token::integer))
       return p.emitError("expected integer or floating point literal");
     storage.emplace_back(/*isNegative=*/true, p.getToken());
     p.consumeToken();

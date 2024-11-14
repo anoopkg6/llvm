@@ -103,11 +103,36 @@ FailureOr<APFloat>
 detail::parseFloatFromLiteral(function_ref<InFlightDiagnostic()> emitError,
                               const Token &tok, bool isNegative,
                               const llvm::fltSemantics &semantics) {
+  // Check for inf keyword.
+  if (tok.is(Token::kw_inf)) {
+    if (!APFloat::semanticsHasInf(semantics)) {
+      emitError() << "floating point type does not support infinity";
+      return failure();
+    }
+    return APFloat::getInf(semantics, isNegative);
+  }
+
+  // Check for NaN keyword.
+  if (tok.is(Token::kw_nan)) {
+    if (!APFloat::semanticsHasNan(semantics)) {
+      emitError() << "floating point type does not support NaN";
+      return failure();
+    }
+    return APFloat::getNaN(semantics, isNegative);
+  }
+
   // Check for a floating point value.
   if (tok.is(Token::floatliteral)) {
     auto val = tok.getFloatingPointValue();
-    if (!val)
-      return emitError() << "floating point value too large";
+    if (!val) {
+      emitError() << "floating point value too large";
+      return failure();
+    }
+    if (std::fpclassify(*val) == FP_ZERO &&
+        !APFloat::semanticsHasZero(semantics)) {
+      emitError() << "floating point type does not support zero";
+      return failure();
+    }
 
     APFloat result(isNegative ? -*val : *val);
     bool unused;
