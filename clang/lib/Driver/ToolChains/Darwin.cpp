@@ -428,15 +428,14 @@ void darwin::Linker::AddLinkArgs(Compilation &C, const ArgList &Args,
   Args.AddAllArgs(CmdArgs, options::OPT_sub__library);
   Args.AddAllArgs(CmdArgs, options::OPT_sub__umbrella);
 
-  // Give --sysroot= preference, over the Apple specific behavior to also use
-  // --isysroot as the syslibroot.
-  StringRef sysroot = C.getSysRoot();
-  if (sysroot != "") {
-    CmdArgs.push_back("-syslibroot");
-    CmdArgs.push_back(C.getArgs().MakeArgString(sysroot));
-  } else if (const Arg *A = Args.getLastArg(options::OPT_isysroot)) {
+  // Prioritise -isysroot to ensure that the libraries we link to are taken
+  // from the same SDK that our headers come from.
+  if (const Arg *A = Args.getLastArg(options::OPT_isysroot)) {
     CmdArgs.push_back("-syslibroot");
     CmdArgs.push_back(A->getValue());
+  } else if (StringRef sysroot = C.getSysRoot(); sysroot != "") {
+    CmdArgs.push_back("-syslibroot");
+    CmdArgs.push_back(C.getArgs().MakeArgString(sysroot));
   }
 
   Args.AddLastArg(CmdArgs, options::OPT_twolevel__namespace);
