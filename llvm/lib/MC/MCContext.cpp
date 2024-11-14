@@ -59,6 +59,10 @@
 
 using namespace llvm;
 
+cl::opt<bool> ForceDWARFWindowsPathSeps ("force-dwarf-windows-path-seps",
+   cl::desc("Use Windows path separators when building DWARF linetables"),
+   cl::Hidden);
+
 static void defaultDiagHandler(const SMDiagnostic &SMD, bool, const SourceMgr &,
                                std::vector<const MDNode *> &) {
   SMD.print(nullptr, errs());
@@ -76,6 +80,9 @@ MCContext::MCContext(const Triple &TheTriple, const MCAsmInfo *mai,
       AutoReset(DoAutoReset), TargetOptions(TargetOpts) {
   SaveTempLabels = TargetOptions && TargetOptions->MCSaveTempLabels;
   SecureLogFile = TargetOptions ? TargetOptions->AsSecureLogFile : "";
+
+  if (ForceDWARFWindowsPathSeps || TheTriple.isPS())
+    PathStyle = llvm::sys::path::Style::windows;
 
   if (SrcMgr && SrcMgr->getNumBuffers())
     MainFileName = std::string(SrcMgr->getMemoryBuffer(SrcMgr->getMainFileID())
@@ -970,12 +977,12 @@ void MCContext::setGenDwarfRootFile(StringRef InputFileName, StringRef Buffer) {
   if (FileNameBuf.empty() || FileNameBuf == "-")
     FileNameBuf = "<stdin>";
   if (!getMainFileName().empty() && FileNameBuf != getMainFileName()) {
-    llvm::sys::path::remove_filename(FileNameBuf);
-    llvm::sys::path::append(FileNameBuf, getMainFileName());
+    llvm::sys::path::remove_filename(FileNameBuf, PathStyle);
+    llvm::sys::path::append(FileNameBuf, PathStyle, getMainFileName());
   }
   StringRef FileName = FileNameBuf;
   if (FileName.consume_front(getCompilationDir()))
-    if (llvm::sys::path::is_separator(FileName.front()))
+    if (llvm::sys::path::is_separator(FileName.front(), PathStyle))
       FileName = FileName.drop_front();
   assert(!FileName.empty());
   setMCLineTableRootFile(
