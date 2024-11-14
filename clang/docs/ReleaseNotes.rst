@@ -533,6 +533,8 @@ Improvements to Clang's diagnostics
 
 - Improved diagnostic message for ``__builtin_bit_cast`` size mismatch (#GH115870).
 
+- Clang now diagnoses ``-Wunused-member-function`` with a specific message for constructors.
+
 Improvements to Clang's time-trace
 ----------------------------------
 
