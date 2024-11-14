@@ -1178,17 +1178,21 @@ namespace cwg590 { // cwg590: yes
   template<typename T> typename A<T>::B::C A<T>::B::C::f(A<T>::B::C) {}
 }
 
-namespace cwg591 { // cwg591: no
+namespace cwg591 { // cwg591: yes
   template<typename T> struct A {
     typedef int M;
     struct B {
       typedef void M;
       struct C;
+      struct D;
     };
   };
 
   template<typename T> struct A<T>::B::C : A<T> {
-    // FIXME: Should find member of non-dependent base class A<T>.
+    M m;
+  };
+
+  template<typename T> struct A<T>::B::D : A<T*> {
     M m;
     // expected-error@-1 {{field has incomplete type 'M' (aka 'void'}}
   };
