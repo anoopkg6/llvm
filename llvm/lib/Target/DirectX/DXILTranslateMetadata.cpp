@@ -25,6 +25,7 @@
 #include "llvm/IR/Module.h"
 #include "llvm/InitializePasses.h"
 #include "llvm/Pass.h"
+#include "llvm/Support/Error.h"
 #include "llvm/Support/ErrorHandling.h"
 #include "llvm/Support/VersionTuple.h"
 #include "llvm/TargetParser/Triple.h"
@@ -286,11 +287,6 @@ static MDTuple *emitTopLevelLibraryNode(Module &M, MDNode *RMD,
   MDTuple *Properties = nullptr;
   if (ShaderFlags != 0) {
     SmallVector<Metadata *> MDVals;
-    // FIXME: ShaderFlagsAnalysis pass needs to collect and provide
-    // ShaderFlags for each entry function. Currently, ShaderFlags value
-    // provided by ShaderFlagsAnalysis pass is created by walking *all* the
-    // function instructions of the module. Is it is correct to use this value
-    // for metadata of the empty library entry?
     MDVals.append(
         getTagValueAsMetadata(EntryPropsTag::ShaderFlags, ShaderFlags, Ctx));
     Properties = MDNode::get(Ctx, MDVals);
@@ -302,7 +298,7 @@ static MDTuple *emitTopLevelLibraryNode(Module &M, MDNode *RMD,
 
 static void translateMetadata(Module &M, const DXILResourceMap &DRM,
                               const Resources &MDResources,
-                              const ComputedShaderFlags &ShaderFlags,
+                              const DXILModuleShaderFlagsInfo &ShaderFlags,
                               const ModuleMetadataInfo &MMDI) {
   LLVMContext &Ctx = M.getContext();
   IRBuilder<> IRB(Ctx);
@@ -318,22 +314,38 @@ static void translateMetadata(Module &M, const DXILResourceMap &DRM,
   // See https://github.com/llvm/llvm-project/issues/57928
   MDTuple *Signatures = nullptr;
 
-  if (MMDI.ShaderProfile == Triple::EnvironmentType::Library)
+  if (MMDI.ShaderProfile == Triple::EnvironmentType::Library) {
+    // Create a consolidated shader flag mask of all functions in the library
+    // to be used as shader flags mask value associated with top-level library
+    // entry metadata.
+    uint64_t ConsolidatedMask = ShaderFlags.getModuleFlags();
+    for (const auto &FunFlags : ShaderFlags.getFunctionFlags()) {
+      ConsolidatedMask |= FunFlags.second;
+    }
     EntryFnMDNodes.emplace_back(
-        emitTopLevelLibraryNode(M, ResourceMD, ShaderFlags));
-  else if (MMDI.EntryPropertyVec.size() > 1) {
+        emitTopLevelLibraryNode(M, ResourceMD, ConsolidatedMask));
+  } else if (MMDI.EntryPropertyVec.size() > 1) {
     M.getContext().diagnose(DiagnosticInfoTranslateMD(
         M, "Non-library shader: One and only one entry expected"));
   }
 
   for (const EntryProperties &EntryProp : MMDI.EntryPropertyVec) {
-    // FIXME: ShaderFlagsAnalysis pass needs to collect and provide
-    // ShaderFlags for each entry function. For now, assume shader flags value
-    // of entry functions being compiled for lib_* shader profile viz.,
-    // EntryPro.Entry is 0.
-    uint64_t EntryShaderFlags =
-        (MMDI.ShaderProfile == Triple::EnvironmentType::Library) ? 0
-                                                                 : ShaderFlags;
+    Expected<const ComputedShaderFlags &> ECSF =
+        ShaderFlags.getShaderFlagsMask(EntryProp.Entry);
+    if (Error E = ECSF.takeError()) {
+      M.getContext().diagnose(
+          DiagnosticInfoTranslateMD(M, toString(std::move(E))));
+    }
+
+    // If ShaderProfile is Library, mask is already consolidated in the
+    // top-level library node. Hence it is not emitted.
+    uint64_t EntryShaderFlags = 0;
+    if (MMDI.ShaderProfile != Triple::EnvironmentType::Library) {
+      // TODO: Create a consolidated shader flag mask of all the entry
+      // functions and its callees. The following is correct only if
+      // EntryProp.Entry has no call instructions.
+      EntryShaderFlags = *ECSF | ShaderFlags.getModuleFlags();
+    }
     if (MMDI.ShaderProfile != Triple::EnvironmentType::Library) {
       if (EntryProp.ShaderStage != MMDI.ShaderProfile) {
         M.getContext().diagnose(DiagnosticInfoTranslateMD(
@@ -361,7 +373,7 @@ PreservedAnalyses DXILTranslateMetadata::run(Module &M,
                                              ModuleAnalysisManager &MAM) {
   const DXILResourceMap &DRM = MAM.getResult<DXILResourceAnalysis>(M);
   const dxil::Resources &MDResources = MAM.getResult<DXILResourceMDAnalysis>(M);
-  const ComputedShaderFlags &ShaderFlags =
+  const DXILModuleShaderFlagsInfo &ShaderFlags =
       MAM.getResult<ShaderFlagsAnalysis>(M);
   const dxil::ModuleMetadataInfo MMDI = MAM.getResult<DXILMetadataAnalysis>(M);
 
@@ -393,7 +405,7 @@ public:
         getAnalysis<DXILResourceWrapperPass>().getResourceMap();
     const dxil::Resources &MDResources =
         getAnalysis<DXILResourceMDWrapper>().getDXILResource();
-    const ComputedShaderFlags &ShaderFlags =
+    const DXILModuleShaderFlagsInfo &ShaderFlags =
         getAnalysis<ShaderFlagsAnalysisWrapper>().getShaderFlags();
     dxil::ModuleMetadataInfo MMDI =
         getAnalysis<DXILMetadataAnalysisWrapperPass>().getModuleMetadata();
