@@ -221,3 +221,16 @@ void testRedundantDependentNTTPCasting() {
   // CHECK-MESSAGES: :[[@LINE-4]]:25: note: source type originates from referencing this non-type template parameter
   // CHECK-FIXES: {{^}}  T a = V;
 }
+
+enum E1 : char {};
+enum class E2 : char {};
+
+void testEnum(E1 e1, E2 e2){
+  char a = static_cast<char>(e1);
+  // CHECK-MESSAGES-ALIASES: :[[@LINE-1]]:12: warning: redundant explicit casting to the same type 'char' as the sub-expression, remove this casting [readability-redundant-casting]
+  // CHECK-MESSAGES-ALIASES: :[[@LINE-3]]:18: note: source type originates from referencing this parameter
+  // CHECK-FIXES-ALIASES: {{^}}  char a = e1;
+
+  char b = static_cast<char>(e2);
+  E1 e = static_cast<E1>('0');
+}
