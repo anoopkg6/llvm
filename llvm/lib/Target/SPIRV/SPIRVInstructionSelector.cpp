@@ -257,6 +257,9 @@ private:
   bool selectSpvThreadId(Register ResVReg, const SPIRVType *ResType,
                          MachineInstr &I) const;
 
+  bool selectWaveActiveAnyTrue(Register ResVReg, const SPIRVType *ResType,
+                               MachineInstr &I) const;
+
   bool selectWaveActiveCountBits(Register ResVReg, const SPIRVType *ResType,
                                  MachineInstr &I) const;
 
@@ -1949,6 +1952,22 @@ bool SPIRVInstructionSelector::selectSign(Register ResVReg,
   return Result;
 }
 
+bool SPIRVInstructionSelector::selectWaveActiveAnyTrue(Register ResVReg,
+                                                       const SPIRVType *ResType,
+                                                       MachineInstr &I) const {
+  assert(I.getNumOperands() == 3);
+  assert(I.getOperand(2).isReg());
+
+  MachineBasicBlock &BB = *I.getParent();
+  SPIRVType *IntTy = GR.getOrCreateSPIRVIntegerType(32, I, TII);
+
+  return BuildMI(BB, I, I.getDebugLoc(), TII.get(SPIRV::OpGroupNonUniformAny))
+      .addDef(ResVReg)
+      .addUse(GR.getSPIRVTypeID(ResType))
+      .addUse(GR.getOrCreateConstInt(SPIRV::Scope::Subgroup, I, IntTy, TII))
+      .addUse(I.getOperand(2).getReg());
+}
+
 bool SPIRVInstructionSelector::selectWaveActiveCountBits(
     Register ResVReg, const SPIRVType *ResType, MachineInstr &I) const {
   assert(I.getNumOperands() == 3);
@@ -1995,7 +2014,7 @@ bool SPIRVInstructionSelector::selectWaveReadLaneAt(Register ResVReg,
                  TII.get(SPIRV::OpGroupNonUniformShuffle))
       .addDef(ResVReg)
       .addUse(GR.getSPIRVTypeID(ResType))
-      .addUse(GR.getOrCreateConstInt(3, I, IntTy, TII))
+      .addUse(GR.getOrCreateConstInt(SPIRV::Scope::Subgroup, I, IntTy, TII))
       .addUse(I.getOperand(2).getReg())
       .addUse(I.getOperand(3).getReg());
 }
@@ -2834,6 +2853,8 @@ bool SPIRVInstructionSelector::selectIntrinsic(Register ResVReg,
         .addUse(GR.getSPIRVTypeID(ResType))
         .addUse(GR.getOrCreateConstInt(3, I, IntTy, TII));
   }
+  case Intrinsic::spv_wave_activeanytrue:
+    return selectWaveActiveAnyTrue(ResVReg, ResType, I);
   case Intrinsic::spv_wave_readlane:
     return selectWaveReadLaneAt(ResVReg, ResType, I);
   case Intrinsic::spv_step:
