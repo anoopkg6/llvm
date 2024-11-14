@@ -48,11 +48,22 @@ std::optional<AArch64::ArchInfo> AArch64::ArchInfo::findBySubArch(StringRef SubA
   return {};
 }
 
+std::optional<AArch64::FMVInfo>
+lookupFMVByID(llvm::AArch64::ArchExtKind ExtID) {
+  for (const auto &I : llvm::AArch64::getFMVInfo())
+    if (I.ID && *I.ID == ExtID)
+      return I;
+  return {};
+}
+
 uint64_t AArch64::getCpuSupportsMask(ArrayRef<StringRef> FeatureStrs) {
   uint64_t FeaturesMask = 0;
   for (const StringRef &FeatureStr : FeatureStrs) {
-    if (auto Ext = parseFMVExtension(FeatureStr))
-      FeaturesMask |= (1ULL << Ext->Bit);
+    if (auto FMVExt = parseFMVExtension(FeatureStr))
+      FeaturesMask |= (1ULL << FMVExt->Bit);
+    else if (auto ArchExt = targetFeatureToExtension(FeatureStr))
+      if (auto FMVExt = lookupFMVByID(ArchExt->ID))
+        FeaturesMask |= (1ULL << FMVExt->Bit);
   }
   return FeaturesMask;
 }

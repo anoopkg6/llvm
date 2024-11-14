@@ -88,6 +88,8 @@ public:
   unsigned getInlineCallPenalty(const Function *F, const CallBase &Call,
                                 unsigned DefaultCallPenalty) const;
 
+  uint64_t getFeatureMask(Function &F) const;
+
   /// \name Scalar TTI Implementations
   /// @{
 
