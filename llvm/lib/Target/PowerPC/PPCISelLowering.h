@@ -1491,6 +1491,9 @@ namespace llvm {
     /// through to determine the optimal load/store instruction format.
     unsigned computeMOFlags(const SDNode *Parent, SDValue N,
                             SelectionDAG &DAG) const;
+
+    bool isDesirableToCommuteWithShift(const SDNode *N,
+                                       CombineLevel Level) const override;
   }; // end class PPCTargetLowering
 
   namespace PPC {
