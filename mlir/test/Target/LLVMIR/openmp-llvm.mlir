@@ -3003,6 +3003,17 @@ module attributes {omp.is_target_device = true} {
 
 // -----
 
+llvm.func @omp_task_untied() {
+  // The third argument is 0: which signifies the united task
+  // CHECK: {{.*}} = call ptr @__kmpc_omp_task_alloc(ptr @1, i32 %{{.*}}, i32 0, i64 40, i64 0, ptr @{{.*}})
+  omp.task untied {
+    omp.terminator
+  }
+  llvm.return
+}
+
+// -----
+
 llvm.func external @foo_before() -> ()
 llvm.func external @foo() -> ()
 llvm.func external @foo_after() -> ()
