@@ -898,7 +898,8 @@ static TargetTypeInfo getTargetTypeInfo(const TargetExtType *Ty) {
                  RISCV::RVVBitsPerBlock / 8) *
         Ty->getIntParameter(0);
     return TargetTypeInfo(
-        ScalableVectorType::get(Type::getInt8Ty(C), TotalNumElts));
+        ScalableVectorType::get(Type::getInt8Ty(C), TotalNumElts),
+        TargetExtType::HasZeroInit);
   }
 
   // DirectX resources
