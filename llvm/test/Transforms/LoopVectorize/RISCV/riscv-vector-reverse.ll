@@ -61,7 +61,7 @@ define void @vector_reverse_i64(ptr nocapture noundef writeonly %A, ptr nocaptur
 ; CHECK-NEXT:  ir-bb<for.body.preheader>:
 ; CHECK-NEXT:    IR %0 = zext i32 %n to i64
 ; CHECK-NEXT:    EMIT vp<[[TC]]> = EXPAND SCEV (zext i32 %n to i64)
-; CHECK-NEXT:  No successors
+; CHECK-NEXT:  Successor(s): vector.ph
 ; CHECK-EMPTY:
 ; CHECK-NEXT:  vector.ph:
 ; CHECK-NEXT:  Successor(s): vector loop
@@ -91,9 +91,6 @@ define void @vector_reverse_i64(ptr nocapture noundef writeonly %A, ptr nocaptur
 ; CHECK-NEXT:    EMIT branch-on-cond vp<[[CMP]]>
 ; CHECK-NEXT:  Successor(s): ir-bb<for.cond.cleanup.loopexit>, scalar.ph
 ; CHECK-EMPTY:
-; CHECK-NEXT:  ir-bb<for.cond.cleanup.loopexit>:
-; CHECK-NEXT:  No successors
-; CHECK-EMPTY:
 ; CHECK-NEXT:  scalar.ph:
 ; CHECK-NEXT:  Successor(s): ir-bb<for.body>
 ; CHECK-EMPTY:
@@ -101,6 +98,9 @@ define void @vector_reverse_i64(ptr nocapture noundef writeonly %A, ptr nocaptur
 ; CHECK-NEXT:    IR   %indvars.iv = phi i64 [ %0, %for.body.preheader ], [ %indvars.iv.next, %for.body ]
 ; CHECK-NEXT:    IR   %i.0.in8 = phi i32 [ %n, %for.body.preheader ], [ %i.0, %for.body ]
 ; CHECK:         IR   %indvars.iv.next = add nsw i64 %indvars.iv, -1
+; CHECK-NEXT:  No successors
+; CHECK-EMPTY:
+; CHECK-NEXT:  ir-bb<for.cond.cleanup.loopexit>:
 ; CHECK-NEXT:  No successors
 ; CHECK-NEXT:  }
 ; CHECK-NEXT:  LV: Found an estimated cost of 0 for VF vscale x 4 For instruction: %indvars.iv = phi i64 [ %0, %for.body.preheader ], [ %indvars.iv.next, %for.body ]
@@ -142,59 +142,8 @@ define void @vector_reverse_i64(ptr nocapture noundef writeonly %A, ptr nocaptur
 ; CHECK-NEXT:  LV: Interleaving is not beneficial.
 ; CHECK-NEXT:  LV: Found a vectorizable loop (vscale x 4) in <stdin>
 ; CHECK-NEXT:  LEV: Epilogue vectorization is not profitable for this loop
-; CHECK-NEXT:  Executing best plan with VF=vscale x 4, UF=1
+; CHECK:       Executing best plan with VF=vscale x 4, UF=1
 ; CHECK-NEXT:  VPlan 'Final VPlan for VF={vscale x 4},UF={1}' {
-; CHECK-NEXT:  Live-in vp<[[VF:%.+]]> = VF
-; CHECK-NEXT:  Live-in vp<[[VFxUF:%.+]]> = VF * UF
-; CHECK-NEXT:  Live-in vp<[[VEC_TC:%.+]]> = vector-trip-count
-; CHECK-NEXT:  vp<[[TC:%.+]]> = original trip-count
-; CHECK-EMPTY:
-; CHECK-NEXT:  ir-bb<for.body.preheader>:
-; CHECK-NEXT:    IR %0 = zext i32 %n to i64
-; CHECK-NEXT:    EMIT vp<[[TC]]> = EXPAND SCEV (zext i32 %n to i64)
-; CHECK-NEXT:  No successors
-; CHECK-EMPTY:
-; CHECK-NEXT:  vector.ph:
-; CHECK-NEXT:  Successor(s): vector loop
-; CHECK-EMPTY:
-; CHECK-NEXT:  <x1> vector loop: {
-; CHECK-NEXT:    vector.body:
-; CHECK-NEXT:      EMIT vp<[[CAN_IV:%.+]]> = CANONICAL-INDUCTION
-; CHECK-NEXT:      vp<[[DEV_IV:%.+]]> = DERIVED-IV ir<%n> + vp<[[CAN_IV]]> * ir<-1>
-; CHECK-NEXT:      vp<[[STEPS:%.+]]> = SCALAR-STEPS vp<[[DEV_IV]]>, ir<-1>
-; CHECK-NEXT:      CLONE ir<%i.0> = add nsw vp<[[STEPS]]>, ir<-1>
-; CHECK-NEXT:      CLONE ir<%idxprom> = zext ir<%i.0>
-; CHECK-NEXT:      CLONE ir<%arrayidx> = getelementptr inbounds ir<%B>, ir<%idxprom>
-; CHECK-NEXT:      vp<[[VEC_PTR:%.+]]> = reverse-vector-pointer inbounds ir<%arrayidx>, vp<[[VF]]>
-; CHECK-NEXT:      WIDEN ir<%13> = load vp<[[VEC_PTR]]>
-; CHECK-NEXT:      WIDEN ir<%add9> = add ir<%13>, ir<1>
-; CHECK-NEXT:      CLONE ir<%arrayidx3> = getelementptr inbounds ir<%A>, ir<%idxprom>
-; CHECK-NEXT:      vp<[[VEC_PTR2:%.+]]> = reverse-vector-pointer inbounds ir<%arrayidx3>, vp<[[VF]]>
-; CHECK-NEXT:      WIDEN store vp<[[VEC_PTR2]]>, ir<%add9>
-; CHECK-NEXT:      EMIT vp<[[CAN_IV_NEXT:%.+]]> = add nuw vp<[[CAN_IV]]>, vp<[[VFxUF]]>
-; CHECK-NEXT:      EMIT branch-on-count vp<[[CAN_IV_NEXT]]>, vp<[[VEC_TC]]>
-; CHECK-NEXT:    No successors
-; CHECK-NEXT:  }
-; CHECK-NEXT:  Successor(s): middle.block
-; CHECK-EMPTY:
-; CHECK-NEXT:  middle.block:
-; CHECK-NEXT:    EMIT vp<[[CMP:%.+]]> = icmp eq vp<[[TC]]>, vp<[[VEC_TC]]>
-; CHECK-NEXT:    EMIT branch-on-cond vp<[[CMP]]>
-; CHECK-NEXT:  Successor(s): ir-bb<for.cond.cleanup.loopexit>, scalar.ph
-; CHECK-EMPTY:
-; CHECK-NEXT:  ir-bb<for.cond.cleanup.loopexit>:
-; CHECK-NEXT:  No successors
-; CHECK-EMPTY:
-; CHECK-NEXT:  scalar.ph:
-; CHECK-NEXT:  Successor(s): ir-bb<for.body>
-; CHECK-EMPTY:
-; CHECK-NEXT:  ir-bb<for.body>:
-; CHECK-NEXT:    IR   %indvars.iv = phi i64 [ %0, %for.body.preheader ], [ %indvars.iv.next, %for.body ]
-; CHECK-NEXT:    IR   %i.0.in8 = phi i32 [ %n, %for.body.preheader ], [ %i.0, %for.body ]
-; CHECK:         IR   %indvars.iv.next = add nsw i64 %indvars.iv, -1
-; CHECK-NEXT:  No successors
-; CHECK-NEXT:  }
-; CHECK:  LV: Loop does not require scalar epilogue
 ;
 entry:
   %cmp7 = icmp sgt i32 %n, 0
@@ -275,7 +224,7 @@ define void @vector_reverse_f32(ptr nocapture noundef writeonly %A, ptr nocaptur
 ; CHECK-NEXT:  ir-bb<for.body.preheader>:
 ; CHECK-NEXT:    IR %0 = zext i32 %n to i64
 ; CHECK-NEXT:    EMIT vp<[[TC]]> = EXPAND SCEV (zext i32 %n to i64)
-; CHECK-NEXT:  No successors
+; CHECK-NEXT:  Successor(s): vector.ph
 ; CHECK-EMPTY:
 ; CHECK-NEXT:  vector.ph:
 ; CHECK-NEXT:  Successor(s): vector loop
@@ -305,9 +254,6 @@ define void @vector_reverse_f32(ptr nocapture noundef writeonly %A, ptr nocaptur
 ; CHECK-NEXT:    EMIT branch-on-cond vp<[[CMP]]>
 ; CHECK-NEXT:  Successor(s): ir-bb<for.cond.cleanup.loopexit>, scalar.ph
 ; CHECK-EMPTY:
-; CHECK-NEXT:  ir-bb<for.cond.cleanup.loopexit>:
-; CHECK-NEXT:  No successors
-; CHECK-EMPTY:
 ; CHECK-NEXT:  scalar.ph:
 ; CHECK-NEXT:  Successor(s): ir-bb<for.body>
 ; CHECK-EMPTY:
@@ -315,6 +261,9 @@ define void @vector_reverse_f32(ptr nocapture noundef writeonly %A, ptr nocaptur
 ; CHECK-NEXT:    IR   %indvars.iv = phi i64 [ %0, %for.body.preheader ], [ %indvars.iv.next, %for.body ]
 ; CHECK-NEXT:    IR   %i.0.in8 = phi i32 [ %n, %for.body.preheader ], [ %i.0, %for.body ]
 ; CHECK:         IR   %indvars.iv.next = add nsw i64 %indvars.iv, -1
+; CHECK-NEXT:  No successors
+; CHECK-EMPTY:
+; CHECK-NEXT:  ir-bb<for.cond.cleanup.loopexit>:
 ; CHECK-NEXT:  No successors
 ; CHECK-NEXT:  }
 ; CHECK-NEXT:  LV: Found an estimated cost of 0 for VF vscale x 4 For instruction: %indvars.iv = phi i64 [ %0, %for.body.preheader ], [ %indvars.iv.next, %for.body ]
@@ -356,59 +305,7 @@ define void @vector_reverse_f32(ptr nocapture noundef writeonly %A, ptr nocaptur
 ; CHECK-NEXT:  LV: Interleaving is not beneficial.
 ; CHECK-NEXT:  LV: Found a vectorizable loop (vscale x 4) in <stdin>
 ; CHECK-NEXT:  LEV: Epilogue vectorization is not profitable for this loop
-; CHECK-NEXT:  Executing best plan with VF=vscale x 4, UF=1
-; CHECK-NEXT:  VPlan 'Final VPlan for VF={vscale x 4},UF={1}' {
-; CHECK-NEXT:  Live-in vp<[[VF:%.+]]> = VF
-; CHECK-NEXT:  Live-in vp<[[VFxUF:%.+]]> = VF * UF
-; CHECK-NEXT:  Live-in vp<[[VEC_TC:%.+]]> = vector-trip-count
-; CHECK-NEXT:  vp<[[TC:%.+]]> = original trip-count
-; CHECK-EMPTY:
-; CHECK-NEXT:  ir-bb<for.body.preheader>:
-; CHECK-NEXT:    IR %0 = zext i32 %n to i64
-; CHECK-NEXT:    EMIT vp<[[TC]]> = EXPAND SCEV (zext i32 %n to i64)
-; CHECK-NEXT:  No successors
-; CHECK-EMPTY:
-; CHECK-NEXT:  vector.ph:
-; CHECK-NEXT:  Successor(s): vector loop
-; CHECK-EMPTY:
-; CHECK-NEXT:  <x1> vector loop: {
-; CHECK-NEXT:    vector.body:
-; CHECK-NEXT:      EMIT vp<[[CAN_IV:%.+]]> = CANONICAL-INDUCTION
-; CHECK-NEXT:      vp<[[DEV_IV:%.+]]> = DERIVED-IV ir<%n> + vp<[[CAN_IV]]> * ir<-1>
-; CHECK-NEXT:      vp<[[STEPS:%.+]]> = SCALAR-STEPS vp<[[DEV_IV]]>, ir<-1>
-; CHECK-NEXT:      CLONE ir<%i.0> = add nsw vp<[[STEPS]]>, ir<-1>
-; CHECK-NEXT:      CLONE ir<%idxprom> = zext ir<%i.0>
-; CHECK-NEXT:      CLONE ir<%arrayidx> = getelementptr inbounds ir<%B>, ir<%idxprom>
-; CHECK-NEXT:      vp<[[VEC_PTR:%.+]]> = reverse-vector-pointer inbounds ir<%arrayidx>, vp<[[VF]]>
-; CHECK-NEXT:      WIDEN ir<%13> = load vp<[[VEC_PTR]]>
-; CHECK-NEXT:      WIDEN ir<%conv1> = fadd ir<%13>, ir<1.000000e+00>
-; CHECK-NEXT:      CLONE ir<%arrayidx3> = getelementptr inbounds ir<%A>, ir<%idxprom>
-; CHECK-NEXT:      vp<[[VEC_PTR:%.+]]> = reverse-vector-pointer inbounds ir<%arrayidx3>, vp<[[VF]]>
-; CHECK-NEXT:      WIDEN store vp<[[VEC_PTR]]>, ir<%conv1>
-; CHECK-NEXT:      EMIT vp<[[CAN_IV_NEXT:%.+]]> = add nuw vp<[[CAN_IV]]>, vp<[[VFxUF]]>
-; CHECK-NEXT:      EMIT branch-on-count vp<[[CAN_IV_NEXT]]>, vp<[[VEC_TC]]>
-; CHECK-NEXT:    No successors
-; CHECK-NEXT:  }
-; CHECK-NEXT:  Successor(s): middle.block
-; CHECK-EMPTY:
-; CHECK-NEXT:  middle.block:
-; CHECK-NEXT:    EMIT vp<[[CMP:%.+]]> = icmp eq vp<[[TC]]>, vp<[[VEC_TC]]>
-; CHECK-NEXT:    EMIT branch-on-cond vp<[[CMP]]>
-; CHECK-NEXT:  Successor(s): ir-bb<for.cond.cleanup.loopexit>, scalar.ph
-; CHECK-EMPTY:
-; CHECK-NEXT:  ir-bb<for.cond.cleanup.loopexit>:
-; CHECK-NEXT:  No successors
-; CHECK-EMPTY:
-; CHECK-NEXT:  scalar.ph:
-; CHECK-NEXT:  Successor(s): ir-bb<for.body>
-; CHECK-EMPTY:
-; CHECK-NEXT:  ir-bb<for.body>:
-; CHECK-NEXT:    IR   %indvars.iv = phi i64 [ %0, %for.body.preheader ], [ %indvars.iv.next, %for.body ]
-; CHECK-NEXT:    IR   %i.0.in8 = phi i32 [ %n, %for.body.preheader ], [ %i.0, %for.body ]
-; CHECK:         IR   %indvars.iv.next = add nsw i64 %indvars.iv, -1
-; CHECK-NEXT:  No successors
-; CHECK-NEXT:  }
-; CHECK:  LV: Loop does not require scalar epilogue
+; CHECK:       Executing best plan with VF=vscale x 4, UF=1
 ;
 entry:
   %cmp7 = icmp sgt i32 %n, 0
