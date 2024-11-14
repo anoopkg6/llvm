@@ -398,18 +398,12 @@ private:
   template <class _InputIterator, class _Sentinel>
   _LIBCPP_HIDE_FROM_ABI _LIBCPP_CONSTEXPR_SINCE_CXX20 void
   __init_with_sentinel(_InputIterator __first, _Sentinel __last) {
-#if _LIBCPP_HAS_EXCEPTIONS
-    try {
-#endif // _LIBCPP_HAS_EXCEPTIONS
-      for (; __first != __last; ++__first)
-        push_back(*__first);
-#if _LIBCPP_HAS_EXCEPTIONS
-    } catch (...) {
-      if (__begin_ != nullptr)
-        __storage_traits::deallocate(__alloc(), __begin_, __cap());
-      throw;
-    }
-#endif // _LIBCPP_HAS_EXCEPTIONS
+    auto __guard = std::__make_exception_guard(__destroy_vector(*this));
+
+    for (; __first != __last; ++__first)
+      push_back(*__first);
+
+    __guard.__complete();
   }
 
   template <class _Iterator, class _Sentinel>
