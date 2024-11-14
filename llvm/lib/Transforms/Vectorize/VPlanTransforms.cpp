@@ -1465,10 +1465,24 @@ static void transformRecipestoEVLRecipes(VPlan &Plan, VPValue &EVL) {
               })
               .Case<VPWidenRecipe>([&](VPWidenRecipe *W) -> VPRecipeBase * {
                 unsigned Opcode = W->getOpcode();
+                // TODO: Support other opcodes
                 if (!Instruction::isBinaryOp(Opcode) &&
                     !Instruction::isUnaryOp(Opcode))
                   return nullptr;
-                return new VPWidenEVLRecipe(*W, EVL);
+
+                auto *I = cast<Instruction>(W->getUnderlyingInstr());
+                Intrinsic::ID VPID = VPIntrinsic::getForOpcode(Opcode);
+                SmallVector<VPValue *> Ops(W->operands());
+                assert(VPIntrinsic::getMaskParamPos(VPID) &&
+                       VPIntrinsic::getVectorLengthParamPos(VPID) &&
+                       "Expected VP intrinsic");
+                VPValue *Mask = Plan.getOrAddLiveIn(ConstantInt::getTrue(
+                    IntegerType::getInt1Ty(I->getContext())));
+                Ops.push_back(Mask);
+                Ops.push_back(&EVL);
+                return new VPWidenIntrinsicRecipe(*I, VPID, Ops,
+                                                  TypeInfo.inferScalarType(W),
+                                                  W->getDebugLoc());
               })
               .Case<VPReductionRecipe>([&](VPReductionRecipe *Red) {
                 VPValue *NewMask = GetNewMask(Red->getCondOp());
