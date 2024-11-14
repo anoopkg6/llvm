@@ -109,6 +109,7 @@ Printable printBlockFreq(const MachineBlockFrequencyInfo &MBFI,
 Printable printBlockFreq(const MachineBlockFrequencyInfo &MBFI,
                          const MachineBasicBlock &MBB);
 
+class MachineBlockFrequencyInfoWrapperPass;
 class MachineBlockFrequencyAnalysis
     : public AnalysisInfoMixin<MachineBlockFrequencyAnalysis> {
   friend AnalysisInfoMixin<MachineBlockFrequencyAnalysis>;
@@ -116,6 +117,7 @@ class MachineBlockFrequencyAnalysis
 
 public:
   using Result = MachineBlockFrequencyInfo;
+  using LegacyWrapper = MachineBlockFrequencyInfoWrapperPass;
 
   Result run(MachineFunction &MF, MachineFunctionAnalysisManager &MFAM);
 };
@@ -151,6 +153,9 @@ public:
   MachineBlockFrequencyInfo &getMBFI() { return MBFI; }
 
   const MachineBlockFrequencyInfo &getMBFI() const { return MBFI; }
+
+  MachineBlockFrequencyInfo &getResult() { return MBFI; }
+  const MachineBlockFrequencyInfo &getResult() const { return MBFI; }
 };
 } // end namespace llvm
 

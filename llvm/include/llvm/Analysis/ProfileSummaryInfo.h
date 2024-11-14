@@ -360,6 +360,9 @@ public:
   ProfileSummaryInfo &getPSI() { return *PSI; }
   const ProfileSummaryInfo &getPSI() const { return *PSI; }
 
+  ProfileSummaryInfo &getResult() { return *PSI; }
+  const ProfileSummaryInfo &getResult() const { return *PSI; }
+
   bool doInitialization(Module &M) override;
   bool doFinalization(Module &M) override;
   void getAnalysisUsage(AnalysisUsage &AU) const override {
@@ -372,6 +375,7 @@ class ProfileSummaryAnalysis
     : public AnalysisInfoMixin<ProfileSummaryAnalysis> {
 public:
   typedef ProfileSummaryInfo Result;
+  using LegacyWrapper = ProfileSummaryInfoWrapperPass;
 
   Result run(Module &M, ModuleAnalysisManager &);
 

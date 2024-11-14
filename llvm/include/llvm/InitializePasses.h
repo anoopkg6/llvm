@@ -209,7 +209,7 @@ void initializeMachinePostDominatorTreeWrapperPassPass(PassRegistry &);
 void initializeMachineRegionInfoPassPass(PassRegistry &);
 void initializeMachineSanitizerBinaryMetadataPass(PassRegistry &);
 void initializeMachineSchedulerPass(PassRegistry &);
-void initializeMachineSinkingPass(PassRegistry &);
+void initializeMachineSinkingLegacyPass(PassRegistry &);
 void initializeMachineTraceMetricsWrapperPassPass(PassRegistry &);
 void initializeMachineUniformityInfoPrinterPassPass(PassRegistry &);
 void initializeMachineUniformityAnalysisPassPass(PassRegistry &);

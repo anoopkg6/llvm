@@ -899,6 +899,7 @@ bool isNotVisibleOnUnwind(const Value *Object,
 /// loads.
 bool isWritableObject(const Value *Object, bool &ExplicitlyDereferenceableOnly);
 
+class AAResultsWrapperPass;
 /// A manager for alias analyses.
 ///
 /// This class can have analyses registered with it and when run, it will run
@@ -919,6 +920,7 @@ bool isWritableObject(const Value *Object, bool &ExplicitlyDereferenceableOnly);
 class AAManager : public AnalysisInfoMixin<AAManager> {
 public:
   using Result = AAResults;
+  using LegacyWrapper = AAResultsWrapperPass;
 
   /// Register a specific AA result.
   template <typename AnalysisT> void registerFunctionAnalysis() {
@@ -974,6 +976,9 @@ public:
 
   AAResults &getAAResults() { return *AAR; }
   const AAResults &getAAResults() const { return *AAR; }
+
+  AAResults &getResult() { return *AAR; }
+  const AAResults &getResult() const { return *AAR; }
 
   bool runOnFunction(Function &F) override;
 

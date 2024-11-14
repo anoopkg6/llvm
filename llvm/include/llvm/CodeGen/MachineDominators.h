@@ -267,6 +267,7 @@ public:
   }
 };
 
+class MachineDominatorTreeWrapperPass;
 /// \brief Analysis pass which computes a \c MachineDominatorTree.
 class MachineDominatorTreeAnalysis
     : public AnalysisInfoMixin<MachineDominatorTreeAnalysis> {
@@ -276,6 +277,7 @@ class MachineDominatorTreeAnalysis
 
 public:
   using Result = MachineDominatorTree;
+  using LegacyWrapper = MachineDominatorTreeWrapperPass;
 
   Result run(MachineFunction &MF, MachineFunctionAnalysisManager &);
 };
@@ -305,6 +307,9 @@ public:
 
   MachineDominatorTree &getDomTree() { return *DT; }
   const MachineDominatorTree &getDomTree() const { return *DT; }
+
+  MachineDominatorTree &getResult() { return *DT; }
+  const MachineDominatorTree &getResult() const { return *DT; }
 
   bool runOnMachineFunction(MachineFunction &MF) override;
 

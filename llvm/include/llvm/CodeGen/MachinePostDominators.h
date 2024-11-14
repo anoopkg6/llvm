@@ -64,6 +64,8 @@ public:
   findNearestCommonDominator(ArrayRef<MachineBasicBlock *> Blocks) const;
 };
 
+class MachinePostDominatorTreeWrapperPass;
+
 class MachinePostDominatorTreeAnalysis
     : public AnalysisInfoMixin<MachinePostDominatorTreeAnalysis> {
   friend AnalysisInfoMixin<MachinePostDominatorTreeAnalysis>;
@@ -72,6 +74,7 @@ class MachinePostDominatorTreeAnalysis
 
 public:
   using Result = MachinePostDominatorTree;
+  using LegacyWrapper = MachinePostDominatorTreeWrapperPass;
 
   Result run(MachineFunction &MF, MachineFunctionAnalysisManager &MFAM);
 };
@@ -97,6 +100,9 @@ public:
 
   MachinePostDominatorTree &getPostDomTree() { return *PDT; }
   const MachinePostDominatorTree &getPostDomTree() const { return *PDT; }
+
+  MachinePostDominatorTree &getResult() { return *PDT; }
+  const MachinePostDominatorTree &getResult() const { return *PDT; }
 
   bool runOnMachineFunction(MachineFunction &MF) override;
   void getAnalysisUsage(AnalysisUsage &AU) const override;

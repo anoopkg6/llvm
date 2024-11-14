@@ -37,6 +37,9 @@ public:
   MachineCycleInfo &getCycleInfo() { return CI; }
   const MachineCycleInfo &getCycleInfo() const { return CI; }
 
+  MachineCycleInfo &getResult() { return CI; }
+  const MachineCycleInfo &getResult() const { return CI; }
+
   bool runOnMachineFunction(MachineFunction &F) override;
   void getAnalysisUsage(AnalysisUsage &AU) const override;
   void releaseMemory() override;
@@ -53,6 +56,7 @@ class MachineCycleAnalysis : public AnalysisInfoMixin<MachineCycleAnalysis> {
 
 public:
   using Result = MachineCycleInfo;
+  using LegacyWrapper = MachineCycleInfoWrapperPass;
 
   Result run(MachineFunction &MF, MachineFunctionAnalysisManager &MFAM);
 };

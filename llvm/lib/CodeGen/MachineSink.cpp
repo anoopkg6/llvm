@@ -15,6 +15,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+#include "llvm/CodeGen/MachineSink.h"
 #include "llvm/ADT/DenseSet.h"
 #include "llvm/ADT/DepthFirstIterator.h"
 #include "llvm/ADT/MapVector.h"
@@ -36,6 +37,7 @@
 #include "llvm/CodeGen/MachineInstr.h"
 #include "llvm/CodeGen/MachineLoopInfo.h"
 #include "llvm/CodeGen/MachineOperand.h"
+#include "llvm/CodeGen/MachinePassManager.h"
 #include "llvm/CodeGen/MachinePostDominators.h"
 #include "llvm/CodeGen/MachineRegisterInfo.h"
 #include "llvm/CodeGen/MachineSizeOpts.h"
@@ -45,6 +47,7 @@
 #include "llvm/CodeGen/TargetPassConfig.h"
 #include "llvm/CodeGen/TargetRegisterInfo.h"
 #include "llvm/CodeGen/TargetSubtargetInfo.h"
+#include "llvm/IR/Analysis.h"
 #include "llvm/IR/BasicBlock.h"
 #include "llvm/IR/DebugInfoMetadata.h"
 #include "llvm/IR/LLVMContext.h"
@@ -114,7 +117,7 @@ STATISTIC(NumPostRACopySink, "Number of copies sunk after RA");
 
 namespace {
 
-class MachineSinking : public MachineFunctionPass {
+class MachineSinking {
   const TargetSubtargetInfo *STI = nullptr;
   const TargetInstrInfo *TII = nullptr;
   const TargetRegisterInfo *TRI = nullptr;
@@ -127,6 +130,7 @@ class MachineSinking : public MachineFunctionPass {
   const MachineBranchProbabilityInfo *MBPI = nullptr;
   AliasAnalysis *AA = nullptr;
   RegisterClassInfo RegClassInfo;
+  MFAnalysisGetter &AG;
 
   // Remember which edges have been considered for breaking.
   SmallSet<std::pair<MachineBasicBlock *, MachineBasicBlock *>, 8>
@@ -182,30 +186,12 @@ class MachineSinking : public MachineFunctionPass {
   bool EnableSinkAndFold;
 
 public:
-  static char ID; // Pass identification
+  MachineSinking(MFAnalysisGetter &&AG, bool EnableSinkAndFold)
+      : AG(AG), EnableSinkAndFold(EnableSinkAndFold) {}
 
-  MachineSinking() : MachineFunctionPass(ID) {
-    initializeMachineSinkingPass(*PassRegistry::getPassRegistry());
-  }
+  bool run(MachineFunction &MF);
 
-  bool runOnMachineFunction(MachineFunction &MF) override;
-
-  void getAnalysisUsage(AnalysisUsage &AU) const override {
-    MachineFunctionPass::getAnalysisUsage(AU);
-    AU.addRequired<AAResultsWrapperPass>();
-    AU.addRequired<MachineDominatorTreeWrapperPass>();
-    AU.addRequired<MachinePostDominatorTreeWrapperPass>();
-    AU.addRequired<MachineCycleInfoWrapperPass>();
-    AU.addRequired<MachineBranchProbabilityInfoWrapperPass>();
-    AU.addPreserved<MachineCycleInfoWrapperPass>();
-    AU.addPreserved<MachineLoopInfoWrapperPass>();
-    AU.addRequired<ProfileSummaryInfoWrapperPass>();
-    if (UseBlockFreqInfo)
-      AU.addRequired<MachineBlockFrequencyInfoWrapperPass>();
-    AU.addRequired<TargetPassConfig>();
-  }
-
-  void releaseMemory() override {
+  void releaseMemory() {
     CEBCandidates.clear();
     CEMergeCandidates.clear();
   }
@@ -277,21 +263,47 @@ private:
                                        const MachineBasicBlock &MBB);
 };
 
+class MachineSinkingLegacy : public MachineFunctionPass {
+public:
+  static char ID;
+
+  MachineSinkingLegacy() : MachineFunctionPass(ID) {
+    initializeMachineSinkingLegacyPass(*PassRegistry::getPassRegistry());
+  }
+
+  bool runOnMachineFunction(MachineFunction &MF) override;
+
+  void getAnalysisUsage(AnalysisUsage &AU) const override {
+    MachineFunctionPass::getAnalysisUsage(AU);
+    AU.addRequired<AAResultsWrapperPass>();
+    AU.addRequired<MachineDominatorTreeWrapperPass>();
+    AU.addRequired<MachinePostDominatorTreeWrapperPass>();
+    AU.addRequired<MachineCycleInfoWrapperPass>();
+    AU.addRequired<MachineBranchProbabilityInfoWrapperPass>();
+    AU.addPreserved<MachineCycleInfoWrapperPass>();
+    AU.addPreserved<MachineLoopInfoWrapperPass>();
+    AU.addRequired<ProfileSummaryInfoWrapperPass>();
+    if (UseBlockFreqInfo)
+      AU.addRequired<MachineBlockFrequencyInfoWrapperPass>();
+    AU.addRequired<TargetPassConfig>();
+  }
+};
+
 } // end anonymous namespace
 
-char MachineSinking::ID = 0;
+char MachineSinkingLegacy::ID = 0;
 
-char &llvm::MachineSinkingID = MachineSinking::ID;
+char &llvm::MachineSinkingLegacyID = MachineSinkingLegacy::ID;
 
-INITIALIZE_PASS_BEGIN(MachineSinking, DEBUG_TYPE, "Machine code sinking", false,
+INITIALIZE_PASS_BEGIN(MachineSinkingLegacy, DEBUG_TYPE, "Machine code sinking", false,
                       false)
 INITIALIZE_PASS_DEPENDENCY(ProfileSummaryInfoWrapperPass)
 INITIALIZE_PASS_DEPENDENCY(MachineBranchProbabilityInfoWrapperPass)
 INITIALIZE_PASS_DEPENDENCY(MachineDominatorTreeWrapperPass)
 INITIALIZE_PASS_DEPENDENCY(MachineCycleInfoWrapperPass)
 INITIALIZE_PASS_DEPENDENCY(AAResultsWrapperPass)
-INITIALIZE_PASS_END(MachineSinking, DEBUG_TYPE, "Machine code sinking", false,
-                    false)
+INITIALIZE_PASS_END(MachineSinkingLegacy, DEBUG_TYPE, "Machine code sinking",
+                    false, false)
 
 /// Return true if a target defined block prologue instruction interferes
 /// with a sink candidate.
@@ -711,28 +723,55 @@ void MachineSinking::FindCycleSinkCandidates(
   }
 }
 
-bool MachineSinking::runOnMachineFunction(MachineFunction &MF) {
+PreservedAnalyses
+MachineSinkingPass::run(MachineFunction &MF,
+                        MachineFunctionAnalysisManager &MFAM) {
+  MachineSinking Impl(MFAnalysisGetter(&MFAM), EnableSinkAndFold);
+  bool Changed = Impl.run(MF);
+  if (!Changed)
+    return PreservedAnalyses::all();
+  auto PA = getMachineFunctionPassPreservedAnalyses();
+  PA.preserve<MachineCycleAnalysis>();
+  PA.preserve<MachineLoopAnalysis>();
+  return PA;
+}
+
+void MachineSinkingPass::printPipeline(
+    raw_ostream &OS, function_ref<StringRef(StringRef)> MapClassName2PassName) {
+  OS << "machine-sink";
+  if (EnableSinkAndFold)
+    OS << "<enable-sink-fold>";
+}
+
+bool MachineSinkingLegacy::runOnMachineFunction(MachineFunction &MF) {
   if (skipFunction(MF.getFunction()))
     return false;
 
+  TargetPassConfig *PassConfig = &getAnalysis<TargetPassConfig>();
+  bool EnableSinkAndFold = PassConfig->getEnableSinkAndFold();
+
+  MachineSinking Impl(MFAnalysisGetter(this), EnableSinkAndFold);
+  return Impl.run(MF);
+}
+
+bool MachineSinking::run(MachineFunction &MF) {
   LLVM_DEBUG(dbgs() << "******** Machine Sinking ********\n");
 
   STI = &MF.getSubtarget();
   TII = STI->getInstrInfo();
   TRI = STI->getRegisterInfo();
   MRI = &MF.getRegInfo();
-  DT = &getAnalysis<MachineDominatorTreeWrapperPass>().getDomTree();
-  PDT = &getAnalysis<MachinePostDominatorTreeWrapperPass>().getPostDomTree();
-  CI = &getAnalysis<MachineCycleInfoWrapperPass>().getCycleInfo();
-  PSI = &getAnalysis<ProfileSummaryInfoWrapperPass>().getPSI();
-  MBFI = UseBlockFreqInfo
-             ? &getAnalysis<MachineBlockFrequencyInfoWrapperPass>().getMBFI()
-             : nullptr;
-  MBPI = &getAnalysis<MachineBranchProbabilityInfoWrapperPass>().getMBPI();
-  AA = &getAnalysis<AAResultsWrapperPass>().getAAResults();
+
+  DT = AG.getAnalysis<MachineDominatorTreeAnalysis>(MF);
+  PDT = AG.getAnalysis<MachinePostDominatorTreeAnalysis>(MF);
+  CI = AG.getAnalysis<MachineCycleAnalysis>(MF);
+  PSI = AG.getAnalysis<ProfileSummaryAnalysis>(MF);
+  MBFI = UseBlockFreqInfo ? AG.getAnalysis<MachineBlockFrequencyAnalysis>(MF)
+                          : nullptr;
+  MBPI = AG.getAnalysis<MachineBranchProbabilityAnalysis>(MF);
+  AA = AG.getAnalysis<AAManager>(MF);
+
   RegClassInfo.runOnMachineFunction(MF);
-  TargetPassConfig *PassConfig = &getAnalysis<TargetPassConfig>();
-  EnableSinkAndFold = PassConfig->getEnableSinkAndFold();
 
   bool EverMadeChange = false;
 
@@ -748,7 +787,8 @@ bool MachineSinking::runOnMachineFunction(MachineFunction &MF) {
 
     // If we have anything we marked as toSplit, split it now.
     for (const auto &Pair : ToSplit) {
-      auto NewSucc = Pair.first->SplitCriticalEdge(Pair.second, *this);
+      auto NewSucc = Pair.first->SplitCriticalEdge(
+          Pair.second, AG.getLegacyPass(), AG.getMFAM(), nullptr);
       if (NewSucc != nullptr) {
         LLVM_DEBUG(dbgs() << " *** Splitting critical edge: "
                           << printMBBReference(*Pair.first) << " -- "
@@ -807,6 +847,7 @@ bool MachineSinking::runOnMachineFunction(MachineFunction &MF) {
     MRI->clearKillFlags(I);
   RegsToClearKillFlags.clear();
 
+  releaseMemory();
   return EverMadeChange;
 }
 
