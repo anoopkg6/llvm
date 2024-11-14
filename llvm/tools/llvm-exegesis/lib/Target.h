@@ -86,6 +86,11 @@ public:
                 ArrayRef<const char *> ValidationCounters,
                 const pid_t ProcessID = 0) const;
 
+  // Find register by name, NoRegister if not found.
+  virtual MCRegister findRegisterByName(const StringRef RegName) const {
+    return MCRegister::NoRegister;
+  }
+
   // Targets can use this to add target-specific passes in assembleToStream();
   virtual void addTargetSpecificPasses(PassManagerBase &PM) const {}
 
@@ -237,6 +242,9 @@ public:
     return make_error<Failure>(
         "targets with target-specific operands should implement this");
   }
+
+  // Process instructions that used reserved registers.
+  virtual void processInstructionReservedRegs(InstructionTemplate &IT) const {}
 
   // Returns true if this instruction is supported as a back-to-back
   // instructions.
