@@ -43,6 +43,7 @@
 #include "llvm/Transforms/Utils/BasicBlockUtils.h"
 #include "llvm/Transforms/Utils/LoopUtils.h"
 #include <cassert>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -110,6 +111,7 @@ static bool populateDependencyMatrix(CharMatrix &DepMatrix, unsigned Level,
                     << " Loads and Stores to analyze\n");
 
   ValueVector::iterator I, IE, J, JE;
+  std::unordered_set<std::string> UniqueDepEntries;
 
   for (I = MemInstr.begin(), IE = MemInstr.end(); I != IE; ++I) {
     for (J = I, JE = MemInstr.end(); J != JE; ++J) {
@@ -156,7 +158,13 @@ static bool populateDependencyMatrix(CharMatrix &DepMatrix, unsigned Level,
           Dep.push_back('I');
         }
 
-        DepMatrix.push_back(Dep);
+        // Make sure we only add unique entries to the dependency matrix.
+        std::string Hash = std::string(Dep.begin(), Dep.end());
+        if (UniqueDepEntries.find(Hash) == UniqueDepEntries.end()) {
+          UniqueDepEntries.insert(Hash);
+          DepMatrix.push_back(Dep);
+        }
+
         if (DepMatrix.size() > MaxMemInstrCount) {
           LLVM_DEBUG(dbgs() << "Cannot handle more than " << MaxMemInstrCount
                             << " dependencies inside loop\n");
