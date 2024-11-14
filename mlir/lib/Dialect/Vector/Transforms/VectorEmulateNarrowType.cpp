@@ -33,6 +33,7 @@
 #include "mlir/Transforms/DialectConversion.h"
 #include "llvm/ADT/SmallVector.h"
 #include "llvm/Support/Debug.h"
+#include "llvm/Support/LogicalResult.h"
 #include "llvm/Support/MathExtras.h"
 #include "llvm/Support/raw_ostream.h"
 #include <cstdint>
@@ -157,13 +158,10 @@ static FailureOr<Operation *> getCompressedMaskOp(OpBuilder &rewriter,
 /// Extracts 1-D subvector from a 1-D vector. It is a wrapper function for
 /// emitting `vector.extract_strided_slice`.
 static Value staticallyExtractSubvector(OpBuilder &rewriter, Location loc,
-                                        VectorType extractType, Value source,
-                                        int64_t frontOffset,
+                                        Value source, int64_t frontOffset,
                                         int64_t subvecSize) {
   auto vectorType = cast<VectorType>(source.getType());
-  assert((vectorType.getRank() == 1 && extractType.getRank() == 1) &&
-         "expected 1-D source and destination types");
-  (void)vectorType;
+  assert(vectorType.getRank() == 1 && "expected 1-D source types");
   assert(frontOffset + subvecSize <= vectorType.getNumElements() &&
          "subvector out of bounds");
 
@@ -174,9 +172,12 @@ static Value staticallyExtractSubvector(OpBuilder &rewriter, Location loc,
   auto offsets = rewriter.getI64ArrayAttr({frontOffset});
   auto sizes = rewriter.getI64ArrayAttr({subvecSize});
   auto strides = rewriter.getI64ArrayAttr({1});
+
+  auto resultVectorType =
+      VectorType::get({subvecSize}, vectorType.getElementType());
   return rewriter
-      .create<vector::ExtractStridedSliceOp>(loc, extractType, source, offsets,
-                                             sizes, strides)
+      .create<vector::ExtractStridedSliceOp>(loc, resultVectorType, source,
+                                             offsets, sizes, strides)
       ->getResult(0);
 }
 
@@ -185,12 +186,10 @@ static Value staticallyExtractSubvector(OpBuilder &rewriter, Location loc,
 /// `vector.insert_strided_slice`.
 static Value staticallyInsertSubvector(OpBuilder &rewriter, Location loc,
                                        Value src, Value dest, int64_t offset) {
-  auto srcType = cast<VectorType>(src.getType());
-  auto destType = cast<VectorType>(dest.getType());
+  [[maybe_unused]] auto srcType = cast<VectorType>(src.getType());
+  [[maybe_unused]] auto destType = cast<VectorType>(dest.getType());
   assert(srcType.getRank() == 1 && destType.getRank() == 1 &&
          "expected source and dest to be vector type");
-  (void)srcType;
-  (void)destType;
   auto offsets = rewriter.getI64ArrayAttr({offset});
   auto strides = rewriter.getI64ArrayAttr({1});
   return rewriter.create<vector::InsertStridedSliceOp>(loc, dest.getType(), src,
@@ -257,6 +256,63 @@ emulatedVectorLoad(OpBuilder &rewriter, Location loc, Value base,
       newLoad);
 }
 
+static void nonAtomicStore(ConversionPatternRewriter &rewriter, Location loc,
+                           Value memref, Value index, Value value) {
+  auto originType = dyn_cast<VectorType>(value.getType());
+  auto memrefElemType = dyn_cast<MemRefType>(memref.getType()).getElementType();
+  auto scale = memrefElemType.getIntOrFloatBitWidth() /
+               originType.getElementType().getIntOrFloatBitWidth();
+  auto storeType =
+      VectorType::get({originType.getNumElements() / scale}, memrefElemType);
+  auto bitCast = rewriter.create<vector::BitCastOp>(loc, storeType, value);
+  rewriter.create<vector::StoreOp>(loc, bitCast.getResult(), memref, index);
+}
+
+/// atomically store a subbyte-sized value to memory, with a mask.
+static Value atomicStore(OpBuilder &rewriter, Location loc,
+                         Value emulatedMemref, Value emulatedIndex,
+                         TypedValue<VectorType> value, Value mask,
+                         int64_t scale) {
+  auto atomicOp = rewriter.create<memref::GenericAtomicRMWOp>(
+      loc, emulatedMemref, ValueRange{emulatedIndex});
+  OpBuilder builder =
+      OpBuilder::atBlockEnd(atomicOp.getBody(), rewriter.getListener());
+  Value origValue = atomicOp.getCurrentValue();
+
+  // i8 -> vector type <1xi8> then <1xi8> -> <scale x i.>
+  auto oneVectorType = VectorType::get({1}, origValue.getType());
+  auto fromElem = builder.create<vector::FromElementsOp>(loc, oneVectorType,
+                                                         ValueRange{origValue});
+  auto vectorBitCast =
+      builder.create<vector::BitCastOp>(loc, value.getType(), fromElem);
+
+  auto select =
+      builder.create<arith::SelectOp>(loc, mask, value, vectorBitCast);
+  auto bitcast2 = builder.create<vector::BitCastOp>(loc, oneVectorType, select);
+  auto extract = builder.create<vector::ExtractOp>(loc, bitcast2, 0);
+  builder.create<memref::AtomicYieldOp>(loc, extract.getResult());
+  return atomicOp;
+}
+
+// Extract a slice of a vector, and insert it into a byte vector.
+static Value extractSliceIntoByte(ConversionPatternRewriter &rewriter,
+                                  Location loc, TypedValue<VectorType> vector,
+                                  int64_t sliceOffset, int64_t sliceNumElements,
+                                  int64_t byteOffset) {
+  auto vectorElementType = vector.getType().getElementType();
+  assert(8 % vectorElementType.getIntOrFloatBitWidth() == 0 &&
+         "vector element must be a valid sub-byte type");
+  auto scale = 8 / vectorElementType.getIntOrFloatBitWidth();
+  auto emptyByteVector = rewriter.create<arith::ConstantOp>(
+      loc, VectorType::get({scale}, vectorElementType),
+      rewriter.getZeroAttr(VectorType::get({scale}, vectorElementType)));
+  auto extracted = staticallyExtractSubvector(rewriter, loc, vector,
+                                              sliceOffset, sliceNumElements);
+  auto inserted = staticallyInsertSubvector(rewriter, loc, extracted,
+                                            emptyByteVector, byteOffset);
+  return inserted;
+}
+
 namespace {
 
 //===----------------------------------------------------------------------===//
@@ -277,7 +333,8 @@ struct ConvertVectorStore final : OpConversionPattern<vector::StoreOp> {
 
     auto loc = op.getLoc();
     auto convertedType = cast<MemRefType>(adaptor.getBase().getType());
-    Type oldElementType = op.getValueToStore().getType().getElementType();
+    auto valueToStore = op.getValueToStore();
+    Type oldElementType = valueToStore.getType().getElementType();
     Type newElementType = convertedType.getElementType();
     int srcBits = oldElementType.getIntOrFloatBitWidth();
     int dstBits = newElementType.getIntOrFloatBitWidth();
@@ -301,15 +358,15 @@ struct ConvertVectorStore final : OpConversionPattern<vector::StoreOp> {
     // vector.store %bitcast, %alloc[%linear_index] : memref<16xi8>,
     // vector<4xi8>
 
-    auto origElements = op.getValueToStore().getType().getNumElements();
-    if (origElements % scale != 0)
-      return failure();
+    auto origElements = valueToStore.getType().getNumElements();
+    bool isUnalignedEmulation = origElements % scale != 0;
 
     auto stridedMetadata =
         rewriter.create<memref::ExtractStridedMetadataOp>(loc, op.getBase());
 
     OpFoldResult linearizedIndices;
-    std::tie(std::ignore, linearizedIndices) =
+    memref::LinearizedMemRefInfo linearizedInfo;
+    std::tie(linearizedInfo, linearizedIndices) =
         memref::getLinearizedMemRefOffsetAndSize(
             rewriter, loc, srcBits, dstBits,
             stridedMetadata.getConstifiedMixedOffset(),
@@ -317,14 +374,108 @@ struct ConvertVectorStore final : OpConversionPattern<vector::StoreOp> {
             stridedMetadata.getConstifiedMixedStrides(),
             getAsOpFoldResult(adaptor.getIndices()));
 
-    auto numElements = origElements / scale;
-    auto bitCast = rewriter.create<vector::BitCastOp>(
-        loc, VectorType::get(numElements, newElementType),
-        op.getValueToStore());
+    auto foldedIntraVectorOffset =
+        isUnalignedEmulation
+            ? getConstantIntValue(linearizedInfo.intraDataOffset)
+            : 0;
 
-    rewriter.replaceOpWithNewOp<vector::StoreOp>(
-        op, bitCast.getResult(), adaptor.getBase(),
-        getValueOrCreateConstantIndexOp(rewriter, loc, linearizedIndices));
+    if (!foldedIntraVectorOffset) {
+      // unimplemented case for dynamic front padding size
+      return failure();
+    }
+
+    // conditions when atomic stores and all that are not needed:
+    // 1. The source vector size is multiple of byte size
+    // 2. The address of the store is byte aligned
+    if (!isUnalignedEmulation && *foldedIntraVectorOffset == 0) {
+      auto numElements = origElements / scale;
+      auto bitCast = rewriter.create<vector::BitCastOp>(
+          loc, VectorType::get(numElements, newElementType),
+          op.getValueToStore());
+      rewriter.replaceOpWithNewOp<vector::StoreOp>(
+          op, bitCast.getResult(), adaptor.getBase(),
+          getValueOrCreateConstantIndexOp(rewriter, loc, linearizedIndices));
+      return llvm::success();
+    }
+
+    Value emulatedMemref = adaptor.getBase();
+    // the index into the target memref we are storing to
+    Value currentDestIndex =
+        getValueOrCreateConstantIndexOp(rewriter, loc, linearizedIndices);
+    auto constantOne = rewriter.create<arith::ConstantIndexOp>(loc, 1);
+    auto atomicMaskType = VectorType::get({scale}, rewriter.getI1Type());
+    // the index into the source vector we are currently processing
+    auto currentSourceIndex = 0;
+
+    // 1. atomic store for the first byte
+    auto frontAtomicStoreElem = (scale - *foldedIntraVectorOffset) % scale;
+    if (frontAtomicStoreElem != 0) {
+      auto frontMaskValues = llvm::SmallVector<bool>(scale, false);
+      if (*foldedIntraVectorOffset + origElements < scale) {
+        std::fill_n(frontMaskValues.begin() + *foldedIntraVectorOffset,
+                    origElements, true);
+        frontAtomicStoreElem = origElements;
+      } else {
+        std::fill_n(frontMaskValues.end() - frontAtomicStoreElem,
+                    *foldedIntraVectorOffset, true);
+      }
+      auto frontMask = rewriter.create<arith::ConstantOp>(
+          loc, DenseElementsAttr::get(atomicMaskType, frontMaskValues));
+
+      currentSourceIndex = scale - (*foldedIntraVectorOffset);
+      auto value = extractSliceIntoByte(
+          rewriter, loc, cast<TypedValue<VectorType>>(valueToStore), 0,
+          frontAtomicStoreElem, *foldedIntraVectorOffset);
+
+      atomicStore(rewriter, loc, emulatedMemref, currentDestIndex,
+                  cast<TypedValue<VectorType>>(value), frontMask.getResult(),
+                  scale);
+
+      currentDestIndex = rewriter.create<arith::AddIOp>(
+          loc, rewriter.getIndexType(), currentDestIndex, constantOne);
+    }
+
+    if (currentSourceIndex >= origElements) {
+      rewriter.eraseOp(op);
+      return success();
+    }
+
+    // 2. non-atomic store
+    int64_t nonAtomicStoreSize = (origElements - currentSourceIndex) / scale;
+    int64_t numNonAtomicElements = nonAtomicStoreSize * scale;
+    if (nonAtomicStoreSize != 0) {
+      auto nonAtomicStorePart = staticallyExtractSubvector(
+          rewriter, loc, cast<TypedValue<VectorType>>(valueToStore),
+          currentSourceIndex, numNonAtomicElements);
+
+      nonAtomicStore(rewriter, loc, emulatedMemref, currentDestIndex,
+                     nonAtomicStorePart);
+
+      currentSourceIndex += numNonAtomicElements;
+      currentDestIndex = rewriter.create<arith::AddIOp>(
+          loc, rewriter.getIndexType(), currentDestIndex,
+          rewriter.create<arith::ConstantIndexOp>(loc, nonAtomicStoreSize));
+    }
+
+    // 3. atomic store for the last byte
+    auto remainingElements = origElements - currentSourceIndex;
+    if (remainingElements != 0) {
+      auto atomicStorePart = extractSliceIntoByte(
+          rewriter, loc, cast<TypedValue<VectorType>>(valueToStore),
+          currentSourceIndex, remainingElements, 0);
+
+      // back mask
+      auto maskValues = llvm::SmallVector<bool>(scale, 0);
+      std::fill_n(maskValues.begin(), remainingElements, 1);
+      auto backMask = rewriter.create<arith::ConstantOp>(
+          loc, DenseElementsAttr::get(atomicMaskType, maskValues));
+
+      atomicStore(rewriter, loc, emulatedMemref, currentDestIndex,
+                  cast<TypedValue<VectorType>>(atomicStorePart),
+                  backMask.getResult(), scale);
+    }
+
+    rewriter.eraseOp(op);
     return success();
   }
 };
@@ -532,9 +683,8 @@ struct ConvertVectorLoad final : OpConversionPattern<vector::LoadOp> {
           rewriter, loc, dyn_cast<TypedValue<VectorType>>(result), resultVector,
           linearizedInfo.intraDataOffset, origElements);
     } else if (isUnalignedEmulation) {
-      result =
-          staticallyExtractSubvector(rewriter, loc, op.getType(), result,
-                                     *foldedIntraVectorOffset, origElements);
+      result = staticallyExtractSubvector(
+          rewriter, loc, result, *foldedIntraVectorOffset, origElements);
     }
     rewriter.replaceOp(op, result);
     return success();
@@ -693,9 +843,8 @@ struct ConvertVectorMaskedLoad final
           rewriter, loc, dyn_cast<TypedValue<VectorType>>(result),
           op.getPassThru(), linearizedInfo.intraDataOffset, origElements);
     } else if (isUnalignedEmulation) {
-      result =
-          staticallyExtractSubvector(rewriter, loc, op.getType(), result,
-                                     *foldedIntraVectorOffset, origElements);
+      result = staticallyExtractSubvector(
+          rewriter, loc, result, *foldedIntraVectorOffset, origElements);
     }
     rewriter.replaceOp(op, result);
 
@@ -778,9 +927,8 @@ struct ConvertVectorTransferRead final
                                            linearizedInfo.intraDataOffset,
                                            origElements);
     } else if (isUnalignedEmulation) {
-      result =
-          staticallyExtractSubvector(rewriter, loc, op.getType(), result,
-                                     *foldedIntraVectorOffset, origElements);
+      result = staticallyExtractSubvector(
+          rewriter, loc, result, *foldedIntraVectorOffset, origElements);
     }
     rewriter.replaceOp(op, result);
 
