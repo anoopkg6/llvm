@@ -74,6 +74,55 @@ func.func @vector_cst_maskedload_i2(%passthru: vector<5xi2>) -> vector<3x5xi2> {
 
 // -----
 
+// This tests the correctness of generating compressed mask with `vector.create_mask` and a dynamic input.
+// Specifically, the program masked loads a vector<5xi2> from `vector<3x5xi2>[1, 0]`, with an unknown mask generator `m`.
+// After emulation transformation, it masked loads 2 bytes from linearized index `vector<4xi8>[1]`, with a new compressed mask
+// given by `ceildiv(m + 1, 4)`.
+func.func @check_unaligned_create_mask_dynamic_i2(%m : index, %passthru: vector<5xi2>) -> vector<5xi2> {
+    %0 = memref.alloc() : memref<3x5xi2>
+    %c0 = arith.constant 0 : index
+    %c1 = arith.constant 1 : index
+    %mask = vector.create_mask %m : vector<5xi1>
+    %1 = vector.maskedload %0[%c1, %c0], %mask, %passthru :
+      memref<3x5xi2>, vector<5xi1>, vector<5xi2> into vector<5xi2>
+    return %1 : vector<5xi2>
+}
+
+// CHECK-DAG: #[[MAP:.+]] = affine_map<()[s0] -> ((s0 + 1) ceildiv 4)>
+// CHECK: func @check_unaligned_create_mask_dynamic_i2(
+// CHECK-SAME:     %[[MASK:.+]]: index, %[[PASSTHRU:.+]]: vector<5xi2>)
+// CHECK: %[[ALLOC:.+]] = memref.alloc() : memref<4xi8>
+// CHECK: %[[COMP_MASK:.+]] = affine.apply #map()[%[[MASK]]]
+// CHECK: vector.create_mask %[[COMP_MASK]] : vector<2xi1>
+// CHECK: %[[C1:.+]] = arith.constant 1 : index
+// CHECK: vector.maskedload %[[ALLOC]][%[[C1]]]
+
+// -----
+
+// This tests the correctness of generated compressed mask with `vector.create_mask`, and a static input.
+// Quite the same as the previous test, but the mask generator is a static value.
+// In this case, the desired slice `vector<7xi2>` spans over 3 bytes.
+func.func @check_unaligned_create_mask_static_i2(%passthru: vector<7xi2>) -> vector<7xi2> {
+    %0 = memref.alloc() : memref<3x7xi2>
+    %c0 = arith.constant 0 : index
+    %c1 = arith.constant 1 : index
+    %c3 = arith.constant 3 : index
+    %mask = vector.create_mask %c3 : vector<7xi1>
+    %1 = vector.maskedload %0[%c1, %c0], %mask, %passthru :
+      memref<3x7xi2>, vector<7xi1>, vector<7xi2> into vector<7xi2>
+    return %1 : vector<7xi2>
+}
+
+// CHECK: func @check_unaligned_create_mask_static_i2(
+// CHECK-SAME:     %[[PASSTHRU:[a-zA-Z0-9]+]]: vector<7xi2>)
+// CHECK: %[[ALLOC:.+]] = memref.alloc() : memref<6xi8>
+// CHECK: %[[C2:.+]] = arith.constant 2 : index
+// CHECK: %[[COMP_MASK:.+]] = vector.create_mask %[[C2]] : vector<3xi1>
+// CHECK: %[[C1:.+]] = arith.constant 1 : index
+// CHECK: %4 = vector.maskedload %[[ALLOC]][%[[C1]]], %[[COMP_MASK]]
+
+// -----
+
 func.func @vector_load_i2_dynamic_indexing(%idx1: index, %idx2: index) -> vector<3xi2> {
   %0 = memref.alloc() : memref<3x3xi2>
   %cst = arith.constant dense<0> : vector<3x3xi2>
