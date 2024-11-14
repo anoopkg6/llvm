@@ -259,7 +259,11 @@ public:
   }
 
   void emitMachine(StringRef CPU) override {
-    OS << "\t.machine " << CPU << '\n';
+    const Triple &TT = Streamer.getContext().getTargetTriple();
+    if (TT.isOSBinFormatXCOFF())
+      OS << "\t.machine\t" << '\"' << CPU << '\"' << '\n';
+    else
+      OS << "\t.machine " << CPU << '\n';
   }
 
   void emitAbiVersion(int AbiVersion) override {
@@ -423,7 +427,8 @@ public:
   }
 
   void emitMachine(StringRef CPU) override {
-    llvm_unreachable("Machine pseudo-ops are invalid for XCOFF.");
+    MCXCOFFStreamer &XCOFFStreamer = static_cast<MCXCOFFStreamer &>(Streamer);
+    XCOFFStreamer.getAssembler().getWriter().setCPU(CPU);
   }
 
   void emitAbiVersion(int AbiVersion) override {
