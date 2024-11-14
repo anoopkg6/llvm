@@ -69,6 +69,9 @@ Improvements and New Features
 - The ``_LIBCPP_ABI_BOUNDED_ITERATORS_IN_STD_ARRAY`` ABI configuration was added, which allows storing valid bounds
   in ``std::array::iterator`` and detecting OOB accesses when the appropriate hardening mode is enabled.
 
+- The input iterator overload of `assign(_InputIterator, _InputIterator)` in `std::vector<_Tp, _Allocator>` has been 
+  optimized, resulting in a performance improvement of up to 3.7x.
+
 Deprecations and Removals
 -------------------------
 
