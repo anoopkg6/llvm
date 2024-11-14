@@ -322,7 +322,9 @@ foreach( t ${LIBCLC_TARGETS_TO_BUILD} )
 
     if ( ARCH STREQUAL spirv OR ARCH STREQUAL spirv64 )
       set( build_flags -O0 -finline-hint-functions -DCLC_SPIRV )
-      set( opt_flags )
+      set( clc_opt_flags )
+      # Inline CLC functions into OpenCL builtins
+      set( opencl_opt_flags "--passes=always-inline" )
       set( spvflags --spirv-max-version=1.1 )
       set( MACRO_ARCH SPIRV32 )
       if( ARCH STREQUAL spirv64 )
@@ -330,14 +332,16 @@ foreach( t ${LIBCLC_TARGETS_TO_BUILD} )
       endif()
     elseif( ARCH STREQUAL clspv OR ARCH STREQUAL clspv64 )
       set( build_flags "-Wno-unknown-assumption" -DCLC_CLSPV )
-      set( opt_flags -O3 )
+      set( clc_opt_flags -O3 )
+      set( opencl_opt_flags -O3 )
       set( MACRO_ARCH CLSPV32 )
       if( ARCH STREQUAL clspv64 )
         set( MACRO_ARCH CLSPV64 )
       endif()
     else()
       set( build_flags )
-      set( opt_flags -O3 )
+      set( clc_opt_flags -O3 )
+      set( opencl_opt_flags -O3 )
       set( MACRO_ARCH ${ARCH} )
     endif()
 
@@ -347,7 +351,6 @@ foreach( t ${LIBCLC_TARGETS_TO_BUILD} )
     string( TOUPPER "CLC_${MACRO_ARCH}" CLC_TARGET_DEFINE )
 
     list( APPEND build_flags
-      -D__CLC_INTERNAL
       -D${CLC_TARGET_DEFINE}
       # All libclc builtin libraries see CLC headers
       -I${CMAKE_CURRENT_SOURCE_DIR}/clc/include
@@ -359,13 +362,21 @@ foreach( t ${LIBCLC_TARGETS_TO_BUILD} )
       list( APPEND build_flags -mcpu=${cpu} )
     endif()
 
+    set( clc_build_flags ${build_flags} -DCLC_INTERNAL )
+
+    # clspv and spir-v targets remap some CLC functions to OpenCL builtins.
+    # Automatically provide those declarations to the compiler for CLC builtins.
+    if ( ARCH STREQUAL spirv OR ARCH STREQUAL spirv64 OR ARCH STREQUAL clspv OR ARCH STREQUAL clspv64 )
+      list( APPEND clc_build_flags -Xclang -fdeclare-opencl-builtins )
+    endif()
+
     add_libclc_builtin_set(
       CLC_INTERNAL
       ARCH ${ARCH}
       ARCH_SUFFIX clc-${arch_suffix}
       TRIPLE ${clang_triple}
-      COMPILE_FLAGS ${build_flags}
-      OPT_FLAGS ${opt_flags}
+      COMPILE_FLAGS ${clc_build_flags}
+      OPT_FLAGS ${clc_opt_flags}
       LIB_FILES ${clc_lib_files}
     )
 
@@ -378,7 +389,7 @@ foreach( t ${LIBCLC_TARGETS_TO_BUILD} )
       ARCH_SUFFIX ${arch_suffix}
       TRIPLE ${clang_triple}
       COMPILE_FLAGS ${build_flags}
-      OPT_FLAGS ${opt_flags}
+      OPT_FLAGS ${opencl_opt_flags}
       LIB_FILES ${opencl_lib_files}
       GEN_FILES ${opencl_gen_files}
       ALIASES ${${d}_aliases}

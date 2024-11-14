@@ -305,20 +305,6 @@ function(add_libclc_builtin_set)
 
   set( builtins_link_lib $<TARGET_PROPERTY:${builtins_link_lib_tgt},TARGET_FILE> )
 
-  if( ARG_ARCH STREQUAL spirv OR ARG_ARCH STREQUAL spirv64 )
-    set( spv_suffix ${ARG_ARCH_SUFFIX}.spv )
-    add_custom_command( OUTPUT ${spv_suffix}
-      COMMAND ${llvm-spirv_exe} ${spvflags} -o ${spv_suffix} ${builtins_link_lib}
-      DEPENDS ${llvm-spirv_target} ${builtins_link_lib} ${builtins_link_lib_tgt}
-    )
-    add_custom_target( "prepare-${spv_suffix}" ALL DEPENDS "${spv_suffix}" )
-    set_target_properties( "prepare-${spv_suffix}" PROPERTIES FOLDER "libclc/Device IR/Prepare" )
-    install( FILES ${CMAKE_CURRENT_BINARY_DIR}/${spv_suffix}
-       DESTINATION "${CMAKE_INSTALL_DATADIR}/clc" )
-
-    return()
-  endif()
-
   set( builtins_opt_lib_tgt builtins.opt.${ARG_ARCH_SUFFIX} )
 
   # Add opt target
@@ -336,6 +322,20 @@ function(add_libclc_builtin_set)
   )
 
   set( builtins_opt_lib $<TARGET_PROPERTY:${builtins_opt_lib_tgt},TARGET_FILE> )
+
+  if( ARG_ARCH STREQUAL spirv OR ARG_ARCH STREQUAL spirv64 )
+    set( spv_suffix ${ARG_ARCH_SUFFIX}.spv )
+    add_custom_command( OUTPUT ${spv_suffix}
+      COMMAND ${llvm-spirv_exe} ${spvflags} -o ${spv_suffix} ${builtins_opt_lib}
+      DEPENDS ${llvm-spirv_target} ${builtins_opt_lib} ${builtins_opt_lib_tgt}
+    )
+    add_custom_target( "prepare-${spv_suffix}" ALL DEPENDS "${spv_suffix}" )
+    set_target_properties( "prepare-${spv_suffix}" PROPERTIES FOLDER "libclc/Device IR/Prepare" )
+    install( FILES ${CMAKE_CURRENT_BINARY_DIR}/${spv_suffix}
+       DESTINATION "${CMAKE_INSTALL_DATADIR}/clc" )
+
+    return()
+  endif()
 
   # Add prepare target
   set( obj_suffix ${ARG_ARCH_SUFFIX}.bc )
