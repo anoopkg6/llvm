@@ -50,4 +50,16 @@ def FunctionFilteringPass : Pass<"omp-function-filtering"> {
   ];
 }
 
+def GenericLoopConversionPass
+    : Pass<"omp-generic-loop-conversion", "mlir::func::FuncOp"> {
+  let summary = "Converts OpenMP generic `loop` direcitve to semantically "
+                "equivalent OpenMP ops";
+  let description = [{
+     Rewrites `loop` ops to their semantically equivalent nest of ops. The
+     rewrite depends on the nesting/combination structure of the `loop` op
+     within its surrounding context as well as its `bind` clause value.
+  }];
+  let dependentDialects = ["mlir::omp::OpenMPDialect"];
+}
+
 #endif //FORTRAN_OPTIMIZER_OPENMP_PASSES
