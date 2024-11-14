@@ -461,6 +461,14 @@ public:
   }
 
   // 2.15.3 Data-Sharing Attribute Clauses
+  bool Pre(const parser::OmpClause::Inclusive &x) {
+    ResolveOmpObjectList(x.v, Symbol::Flag::OmpInclusiveScan);
+    return false;
+  }
+  bool Pre(const parser::OmpClause::Exclusive &x) {
+    ResolveOmpObjectList(x.v, Symbol::Flag::OmpExclusiveScan);
+    return false;
+  }
   void Post(const parser::OmpDefaultClause &);
   bool Pre(const parser::OmpClause::Shared &x) {
     ResolveOmpObjectList(x.v, Symbol::Flag::OmpShared);
@@ -695,8 +703,9 @@ private:
       Symbol::Flag::OmpUseDevicePtr, Symbol::Flag::OmpUseDeviceAddr,
       Symbol::Flag::OmpIsDevicePtr, Symbol::Flag::OmpHasDeviceAddr};
 
-  Symbol::Flags ompFlagsRequireMark{
-      Symbol::Flag::OmpThreadprivate, Symbol::Flag::OmpDeclareTarget};
+  Symbol::Flags ompFlagsRequireMark{Symbol::Flag::OmpThreadprivate,
+      Symbol::Flag::OmpDeclareTarget, Symbol::Flag::OmpExclusiveScan,
+      Symbol::Flag::OmpInclusiveScan};
 
   Symbol::Flags dataCopyingAttributeFlags{
       Symbol::Flag::OmpCopyIn, Symbol::Flag::OmpCopyPrivate};
@@ -1629,6 +1638,7 @@ bool OmpAttributeVisitor::Pre(
   switch (standaloneDir.v) {
   case llvm::omp::Directive::OMPD_barrier:
   case llvm::omp::Directive::OMPD_ordered:
+  case llvm::omp::Directive::OMPD_scan:
   case llvm::omp::Directive::OMPD_target_enter_data:
   case llvm::omp::Directive::OMPD_target_exit_data:
   case llvm::omp::Directive::OMPD_target_update:

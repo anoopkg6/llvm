@@ -20,6 +20,8 @@
 #include "flang/Semantics/openmp-directive-sets.h"
 #include "flang/Semantics/semantics.h"
 #include "llvm/Frontend/OpenMP/OMPConstants.h"
+#include <optional>
+#include <stack>
 
 using OmpClauseSet =
     Fortran::common::EnumSet<llvm::omp::Clause, llvm::omp::Clause_enumSize>;
@@ -70,6 +72,43 @@ public:
         ) {
   }
   using llvmOmpClause = const llvm::omp::Clause;
+  using ReductionModifier = parser::OmpReductionClause::ReductionModifier;
+  using Symbol = Fortran::semantics::Symbol;
+  class ScanReductionInfo {
+    std::set<Symbol *> usedInScan;
+    std::map<Symbol *, ReductionModifier> reductionMod;
+
+  public:
+    void mapSymbolsToReductionModifiers(
+        const parser::OmpObjectList &x, const ReductionModifier &modifier) {
+      for (const auto &ompObject : x.v) {
+        if (const auto *name{parser::Unwrap<parser::Name>(ompObject)}) {
+          if (const auto &symbol{name->symbol}) {
+            reductionMod[symbol] = modifier;
+          }
+        }
+      }
+    }
+
+    void markSymbolAsUsedInScanConstruct(Symbol *sym) {
+      usedInScan.insert(sym);
+    }
+
+    bool findSymbolInScanConstruct(Symbol *sym) {
+      if (usedInScan.find(sym) != usedInScan.end()) {
+        return true;
+      }
+      return false;
+    }
+
+    std::optional<ReductionModifier> findReductionModifier(Symbol *sym) {
+      if (reductionMod.find(sym) != reductionMod.end()) {
+        return reductionMod[sym];
+      }
+      return std::nullopt;
+    }
+  };
+  std::stack<class ScanReductionInfo> scanReductionInfoStack;
 
   void Enter(const parser::OpenMPConstruct &);
   void Leave(const parser::OpenMPConstruct &);
@@ -229,10 +268,11 @@ private:
   bool CheckIntrinsicOperator(
       const parser::DefinedOperator::IntrinsicOperator &);
   void CheckReductionTypeList(const parser::OmpClause::Reduction &);
-  void CheckReductionModifier(const parser::OmpClause::Reduction &);
+  void CheckReductionModifier(const ReductionModifier &);
   void CheckMasterNesting(const parser::OpenMPBlockConstruct &x);
   void ChecksOnOrderedAsBlock();
   void CheckBarrierNesting(const parser::OpenMPSimpleStandaloneConstruct &x);
+  void CheckScan(const parser::OpenMPSimpleStandaloneConstruct &x);
   void ChecksOnOrderedAsStandalone();
   void CheckOrderedDependClause(std::optional<std::int64_t> orderedValue);
   void CheckReductionArraySection(const parser::OmpObjectList &ompObjectList);
@@ -249,6 +289,7 @@ private:
       const parser::OmpObjectList &ompObjectList);
   void CheckPredefinedAllocatorRestriction(
       const parser::CharBlock &source, const parser::Name &name);
+  void CheckAndMarkSymbolsUsedInScan(const parser::OmpObjectList &x);
   bool isPredefinedAllocator{false};
 
   void CheckAllowedRequiresClause(llvmOmpClause clause);
