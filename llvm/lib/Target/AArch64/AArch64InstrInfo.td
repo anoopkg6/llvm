@@ -7006,24 +7006,18 @@ defm : DUPWithTruncPats<v16i8,  v4i16, v8i16, i32, DUPv16i8lane, VecIndex_x2>;
 defm : DUPWithTruncPats<v16i8,  v2i32, v4i32, i32, DUPv16i8lane, VecIndex_x4>;
 defm : DUPWithTruncPats<v8i16,  v2i32, v4i32, i32, DUPv8i16lane, VecIndex_x2>;
 
-multiclass DUPWithTrunci64Pats<ValueType ResVT, Instruction DUP,
-                               SDNodeXForm IdxXFORM> {
-  def : Pat<(ResVT (AArch64dup (i32 (trunc (extractelt (v2i64 V128:$Rn),
-                                                         imm:$idx))))),
-            (DUP V128:$Rn, (IdxXFORM imm:$idx))>;
+class DUPWithTrunci64Pat<ValueType ResVT, Instruction DUP,
+                         SDNodeXForm IdxXFORM>
+  : Pat<(ResVT (AArch64dup (i32 (extractelt (v4i32 V128:$Rn), imm:$idx)))),
+        (DUP V128:$Rn, (IdxXFORM imm:$idx))>;
 
-  def : Pat<(ResVT (AArch64dup (i32 (trunc (extractelt (v1i64 V64:$Rn),
-                                                       imm:$idx))))),
-            (DUP (SUBREG_TO_REG (i64 0), V64:$Rn, dsub), (IdxXFORM imm:$idx))>;
-}
+def : DUPWithTrunci64Pat<v8i8,  DUPv8i8lane,   VecIndex_x4>;
+def : DUPWithTrunci64Pat<v4i16, DUPv4i16lane,  VecIndex_x2>;
+def : DUPWithTrunci64Pat<v2i32, DUPv2i32lane,  NOOP_SDNodeXForm>;
 
-defm : DUPWithTrunci64Pats<v8i8,  DUPv8i8lane,   VecIndex_x8>;
-defm : DUPWithTrunci64Pats<v4i16, DUPv4i16lane,  VecIndex_x4>;
-defm : DUPWithTrunci64Pats<v2i32, DUPv2i32lane,  VecIndex_x2>;
-
-defm : DUPWithTrunci64Pats<v16i8, DUPv16i8lane, VecIndex_x8>;
-defm : DUPWithTrunci64Pats<v8i16, DUPv8i16lane, VecIndex_x4>;
-defm : DUPWithTrunci64Pats<v4i32, DUPv4i32lane, VecIndex_x2>;
+def : DUPWithTrunci64Pat<v16i8, DUPv16i8lane, VecIndex_x4>;
+def : DUPWithTrunci64Pat<v8i16, DUPv8i16lane, VecIndex_x2>;
+def : DUPWithTrunci64Pat<v4i32, DUPv4i32lane, NOOP_SDNodeXForm>;
 
 // SMOV and UMOV definitions, with some extra patterns for convenience
 defm SMOV : SMov;
