@@ -8,13 +8,14 @@
 
 // <algorithm>
 
-// template<RandomAccessIterator Iter>
-//   requires ShuffleIterator<Iter>
-//         && LessThanComparable<Iter::value_type>
-//   void
-//   stable_sort(Iter first, Iter last);
+// template <class RandomAccessIterator>
+//     constexpr void               // constexpr in C++26
+//     stable_sort(RandomAccessIterator first, RandomAccessIterator last);
+
+// ADDITIONAL_COMPILE_FLAGS(has-fconstexpr-steps): -fconstexpr-steps=20000000
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <iterator>
 #include <random>
@@ -22,8 +23,6 @@
 
 #include "count_new.h"
 #include "test_macros.h"
-
-std::mt19937 randomness;
 
 template <class RI>
 void
@@ -80,13 +79,16 @@ test_sort_()
     }
 }
 
+template <int N, int M>
+TEST_CONSTEXPR_CXX26
 void
-test_larger_sorts(int N, int M)
+test_larger_sorts()
 {
-    assert(N != 0);
-    assert(M != 0);
+    static_assert(N != 0, "");
+    static_assert(M != 0, "");
     // create array length N filled with M different numbers
-    int* array = new int[N];
+    std::array<int, N> array_;
+    int* array = array_.data();
     int x = 0;
     for (int i = 0; i < N; ++i)
     {
@@ -98,9 +100,15 @@ test_larger_sorts(int N, int M)
     std::stable_sort(array, array+N);
     assert(std::is_sorted(array, array+N));
     // test random pattern
-    std::shuffle(array, array+N, randomness);
-    std::stable_sort(array, array+N);
-    assert(std::is_sorted(array, array+N));
+#if TEST_STD_VER >= 26
+    if !consteval // random-number generators not constexpr-friendly
+#endif
+    {
+        static std::mt19937 randomness;
+        std::shuffle(array, array+N, randomness);
+        std::stable_sort(array, array+N);
+        assert(std::is_sorted(array, array+N));
+    }
     // test sorted pattern
     std::stable_sort(array, array+N);
     assert(std::is_sorted(array, array+N));
@@ -117,53 +125,74 @@ test_larger_sorts(int N, int M)
     std::swap_ranges(array, array+N/2, array+N/2);
     std::stable_sort(array, array+N);
     assert(std::is_sorted(array, array+N));
-    delete [] array;
 }
 
+template <int N>
+TEST_CONSTEXPR_CXX26
 void
-test_larger_sorts(int N)
+test_larger_sorts()
 {
-    test_larger_sorts(N, 1);
-    test_larger_sorts(N, 2);
-    test_larger_sorts(N, 3);
-    test_larger_sorts(N, N/2-1);
-    test_larger_sorts(N, N/2);
-    test_larger_sorts(N, N/2+1);
-    test_larger_sorts(N, N-2);
-    test_larger_sorts(N, N-1);
-    test_larger_sorts(N, N);
+    test_larger_sorts<N, 1>();
+    test_larger_sorts<N, 2>();
+    test_larger_sorts<N, 3>();
+    test_larger_sorts<N, N/2-1>();
+    test_larger_sorts<N, N/2>();
+    test_larger_sorts<N, N/2+1>();
+    test_larger_sorts<N, N-2>();
+    test_larger_sorts<N, N-1>();
+    test_larger_sorts<N, N>();
 }
 
-int main(int, char**)
+TEST_CONSTEXPR_CXX26 void test()
 {
     // test null range
     int d = 0;
     std::stable_sort(&d, &d);
+  
     // exhaustively test all possibilities up to length 8
-    test_sort_<1>();
-    test_sort_<2>();
-    test_sort_<3>();
-    test_sort_<4>();
-    test_sort_<5>();
-    test_sort_<6>();
-    test_sort_<7>();
-    test_sort_<8>();
-
-    test_larger_sorts(256);
-    test_larger_sorts(257);
-    test_larger_sorts(499);
-    test_larger_sorts(500);
-    test_larger_sorts(997);
-    test_larger_sorts(1000);
-    test_larger_sorts(1009);
+#if TEST_STD_VER >= 26
+    if !consteval
+#endif
+    {
+        test_sort_<1>();
+        test_sort_<2>();
+        test_sort_<3>();
+        test_sort_<4>();
+        test_sort_<5>();
+        test_sort_<6>();
+        test_sort_<7>();
+        test_sort_<8>();
+    }
+  
+    test_larger_sorts<256>();
+    test_larger_sorts<257>();
+    test_larger_sorts<499>();
+    test_larger_sorts<500>();
+#if TEST_STD_VER >= 26
+    if !consteval // only runtime tests bc. error: "constexpr evaluation hit maximum step limit"
+#endif
+    {
+        test_larger_sorts<997>();
+        test_larger_sorts<1000>();
+        test_larger_sorts<1009>();
+    }
 
 #if !defined(TEST_HAS_NO_EXCEPTIONS)
+#if TEST_STD_VER >= 26
+    if !consteval
+#endif
     { // check that the algorithm works without memory
         std::vector<int> vec(150, 3);
         getGlobalMemCounter()->throw_after = 0;
         std::stable_sort(vec.begin(), vec.end());
     }
 #endif // !defined(TEST_HAS_NO_EXCEPTIONS)
+}
 
-  return 0;
+int main(int, char**) {
+    test();
+#if TEST_STD_VER >= 26
+    static_assert((test(), true));
+#endif
+    return 0;
 }
