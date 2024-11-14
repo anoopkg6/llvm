@@ -83,6 +83,55 @@ UseStartsEndsWithCheck::UseStartsEndsWithCheck(StringRef Name,
 void UseStartsEndsWithCheck::registerMatchers(MatchFinder *Finder) {
   const auto ZeroLiteral = integerLiteral(equals(0));
 
+  // Match the substring call
+  const auto SubstrCall = cxxMemberCallExpr(
+      callee(cxxMethodDecl(hasName("substr"))),
+      hasArgument(0, ZeroLiteral),
+      hasArgument(1, expr().bind("length")),
+      on(expr().bind("str")))
+      .bind("substr_fun");
+
+  // Match string literals
+  const auto Literal = stringLiteral().bind("literal");
+  
+  // Helper for matching comparison operators
+  auto AddSubstrMatcher = [&](auto Matcher) {
+      Finder->addMatcher(
+          traverse(TK_IgnoreUnlessSpelledInSource, std::move(Matcher)), this);
+  };
+
+  // Match str.substr(0,n) == "literal"
+  AddSubstrMatcher(
+      binaryOperation(
+          hasOperatorName("=="),
+          hasLHS(SubstrCall),
+          hasRHS(Literal))
+          .bind("positiveComparison"));
+
+  // Also match "literal" == str.substr(0,n)
+  AddSubstrMatcher(
+      binaryOperation(
+          hasOperatorName("=="),
+          hasLHS(Literal),
+          hasRHS(SubstrCall))
+          .bind("positiveComparison"));
+
+  // Match str.substr(0,n) != "literal" 
+  AddSubstrMatcher(
+      binaryOperation(
+          hasOperatorName("!="),
+          hasLHS(SubstrCall),
+          hasRHS(Literal))
+          .bind("negativeComparison"));
+
+  // Also match "literal" != str.substr(0,n)
+  AddSubstrMatcher(
+      binaryOperation(
+          hasOperatorName("!="),
+          hasLHS(Literal),
+          hasRHS(SubstrCall))
+          .bind("negativeComparison"));
+
   const auto ClassTypeWithMethod = [](const StringRef MethodBoundName,
                                       const auto... Methods) {
     return cxxRecordDecl(anyOf(
@@ -173,7 +222,80 @@ void UseStartsEndsWithCheck::registerMatchers(MatchFinder *Finder) {
       this);
 }
 
+void UseStartsEndsWithCheck::handleSubstrMatch(const MatchFinder::MatchResult &Result) {
+  const auto *SubstrCall = Result.Nodes.getNodeAs<CXXMemberCallExpr>("substr_fun");
+  const auto *PositiveComparison = Result.Nodes.getNodeAs<Expr>("positiveComparison");
+  const auto *NegativeComparison = Result.Nodes.getNodeAs<Expr>("negativeComparison");
+  
+  if (!SubstrCall || (!PositiveComparison && !NegativeComparison))
+    return;
+
+  bool Negated = NegativeComparison != nullptr;
+  const auto *Comparison = Negated ? NegativeComparison : PositiveComparison;
+  
+  if (SubstrCall->getBeginLoc().isMacroID())
+    return;
+
+  const auto *Str = Result.Nodes.getNodeAs<Expr>("str");
+  const auto *Literal = Result.Nodes.getNodeAs<StringLiteral>("literal");
+  const auto *Length = Result.Nodes.getNodeAs<Expr>("length");
+
+  if (!Str || !Literal || !Length)
+    return;
+
+  // Check if Length is an integer literal and compare with string length
+  if (const auto *LengthInt = dyn_cast<IntegerLiteral>(Length)) {
+    unsigned LitLength = Literal->getLength();
+    unsigned SubstrLength = LengthInt->getValue().getZExtValue();
+    
+    // Only proceed if the lengths match
+    if (SubstrLength != LitLength) {
+      return;
+    }
+  } else {
+    return;  // Non-constant length
+  }
+
+  // Get the string expression
+  std::string StrText = Lexer::getSourceText(
+      CharSourceRange::getTokenRange(Str->getSourceRange()),
+      *Result.SourceManager, getLangOpts()).str();
+
+  // Get the literal text
+  std::string LiteralText = Lexer::getSourceText(
+      CharSourceRange::getTokenRange(Literal->getSourceRange()),
+      *Result.SourceManager, getLangOpts()).str();
+
+  // Build the replacement
+  std::string ReplacementText = (Negated ? "!" : "") + StrText + ".starts_with(" + 
+                              LiteralText + ")";
+
+  auto Diag = diag(SubstrCall->getExprLoc(),
+                  "use starts_with() instead of substr(0, n) comparison");
+
+  Diag << FixItHint::CreateReplacement(
+      CharSourceRange::getTokenRange(Comparison->getSourceRange()),
+      ReplacementText);
+}
+
 void UseStartsEndsWithCheck::check(const MatchFinder::MatchResult &Result) {
+  // Try substr pattern first
+  const auto *SubstrCall = Result.Nodes.getNodeAs<CXXMemberCallExpr>("substr_fun");
+  if (SubstrCall) {
+    const auto *PositiveComparison = Result.Nodes.getNodeAs<Expr>("positiveComparison");
+    const auto *NegativeComparison = Result.Nodes.getNodeAs<Expr>("negativeComparison");
+    
+    if (PositiveComparison || NegativeComparison) {
+      handleSubstrMatch(Result);
+      return;
+    }
+  }
+
+  // Then try find/compare patterns
+  handleFindCompareMatch(Result);
+}
+
+void UseStartsEndsWithCheck::handleFindCompareMatch(const MatchFinder::MatchResult &Result) {
   const auto *ComparisonExpr = Result.Nodes.getNodeAs<BinaryOperator>("expr");
   const auto *FindExpr = Result.Nodes.getNodeAs<CXXMemberCallExpr>("find_expr");
   const auto *FindFun = Result.Nodes.getNodeAs<CXXMethodDecl>("find_fun");

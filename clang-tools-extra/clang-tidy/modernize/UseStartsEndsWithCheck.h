@@ -31,6 +31,10 @@ public:
   std::optional<TraversalKind> getCheckTraversalKind() const override {
     return TK_IgnoreUnlessSpelledInSource;
   }
+private:
+  void handleSubstrMatch(const ast_matchers::MatchFinder::MatchResult &Result);
+  void handleFindCompareMatch(const ast_matchers::MatchFinder::MatchResult &Result);
+  
 };
 
 } // namespace clang::tidy::modernize
