@@ -9,6 +9,7 @@ using namespace clang::ast_matchers;
 namespace clang::tidy::modernize {
 
 void SubstrToStartsWithCheck::registerMatchers(MatchFinder *Finder) {
+    // Match the substring call
     const auto SubstrCall = cxxMemberCallExpr(
       callee(cxxMethodDecl(hasName("substr"))),
       hasArgument(0, integerLiteral(equals(0))),
@@ -16,27 +17,46 @@ void SubstrToStartsWithCheck::registerMatchers(MatchFinder *Finder) {
       on(expr().bind("str")))
       .bind("call");
 
-  // Helper for matching comparison operators
-  auto AddSimpleMatcher = [&](auto Matcher) {
-    Finder->addMatcher(
-        traverse(TK_IgnoreUnlessSpelledInSource, std::move(Matcher)), this);
-  };
+    // Match string literals on the right side
+    const auto StringLiteral = stringLiteral().bind("literal");
+    
+    // Helper for matching comparison operators
+    auto AddSimpleMatcher = [&](auto Matcher) {
+        Finder->addMatcher(
+            traverse(TK_IgnoreUnlessSpelledInSource, std::move(Matcher)), this);
+    };
 
-  // Match str.substr(0,n) == "literal"
-  AddSimpleMatcher(
-      binaryOperation(
-          hasOperatorName("=="),
-          hasEitherOperand(SubstrCall),
-          hasEitherOperand(expr().bind("comparison")))
-          .bind("positiveComparison"));
+    // Match str.substr(0,n) == "literal"
+    AddSimpleMatcher(
+        binaryOperation(
+            hasOperatorName("=="),
+            hasLHS(SubstrCall),
+            hasRHS(StringLiteral))
+            .bind("positiveComparison"));
 
-  // Match str.substr(0,n) != "literal"
-  AddSimpleMatcher(
-      binaryOperation(
-          hasOperatorName("!="),
-          hasEitherOperand(SubstrCall),
-          hasEitherOperand(expr().bind("comparison")))
-          .bind("negativeComparison"));
+    // Also match "literal" == str.substr(0,n)
+    AddSimpleMatcher(
+        binaryOperation(
+            hasOperatorName("=="),
+            hasLHS(StringLiteral),
+            hasRHS(SubstrCall))
+            .bind("positiveComparison"));
+
+    // Match str.substr(0,n) != "literal" 
+    AddSimpleMatcher(
+        binaryOperation(
+            hasOperatorName("!="),
+            hasLHS(SubstrCall),
+            hasRHS(StringLiteral))
+            .bind("negativeComparison"));
+
+    // Also match "literal" != str.substr(0,n)
+    AddSimpleMatcher(
+        binaryOperation(
+            hasOperatorName("!="),
+            hasLHS(StringLiteral),
+            hasRHS(SubstrCall))
+            .bind("negativeComparison"));
 }
 
 std::string SubstrToStartsWithCheck::getExprStr(const Expr *E,
@@ -60,34 +80,35 @@ void SubstrToStartsWithCheck::check(const MatchFinder::MatchResult &Result) {
   bool Negated = NegativeComparison != nullptr;
   const auto *Comparison = Negated ? NegativeComparison : PositiveComparison;
   
-  // Skip if in macro
   if (Call->getBeginLoc().isMacroID())
     return;
 
   const auto *Str = Result.Nodes.getNodeAs<Expr>("str");
-  const auto *CompareExpr = Result.Nodes.getNodeAs<Expr>("comparison");
+  const auto *Literal = Result.Nodes.getNodeAs<StringLiteral>("literal");
   
-  if (!Str || !CompareExpr)
+  if (!Str || !Literal)
     return;
 
-  // Emit the diagnostic
-  auto Diag = diag(Call->getExprLoc(), 
+  // Get the string expression
+  std::string StrText = Lexer::getSourceText(
+      CharSourceRange::getTokenRange(Str->getSourceRange()),
+      *Result.SourceManager, getLangOpts()).str();
+
+  // Get the literal text
+  std::string LiteralText = Lexer::getSourceText(
+      CharSourceRange::getTokenRange(Literal->getSourceRange()),
+      *Result.SourceManager, getLangOpts()).str();
+
+  // Build the replacement
+  std::string ReplacementText = (Negated ? "!" : "") + StrText + ".starts_with(" + 
+                               LiteralText + ")";
+
+  auto Diag = diag(Call->getExprLoc(),
                    "use starts_with() instead of substr(0, n) comparison");
 
-  // Build the replacement text
-  std::string ReplacementStr = 
-      (Negated ? "!" : "") +
-      Lexer::getSourceText(CharSourceRange::getTokenRange(Str->getSourceRange()),
-                          *Result.SourceManager, getLangOpts()).str() +
-      ".starts_with(" +
-      Lexer::getSourceText(CharSourceRange::getTokenRange(CompareExpr->getSourceRange()),
-                          *Result.SourceManager, getLangOpts()).str() +
-      ")";
-
-  // Create the fix-it
   Diag << FixItHint::CreateReplacement(
       CharSourceRange::getTokenRange(Comparison->getSourceRange()),
-      ReplacementStr);
+      ReplacementText);
 }
 
 } // namespace clang::tidy::modernize
